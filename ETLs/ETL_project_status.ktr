@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>ETL_deliverables_full_data</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL with a whole deliverables information</extended_description>
+    <name>ETL_project_status</name>
+    <description>Initial ETL for project status sheet</description>
+    <extended_description>ETL with a whole project status information</extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
@@ -560,13 +560,13 @@
   </connection>
   <order>
     <hop>
-      <from>Load_deliverables</from>
-      <to>Sheet_Deliverables</to>
+      <from>Load_Projects</from>
+      <to>Sheet_ProjectSubmision</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_deliverables</name>
+    <name>Load_Projects</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -577,20 +577,40 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select  gu.acronym as 'CGIAR_entity' ,
-concat(ph.`name`,ph.year) as 'Phase',
-ifnull(pi.project_id,'Not Aplicable') as PRY_ID,
-if(pi.project_id is null,'Not Aplicable', concat('P',pi.project_id)) as PRY_composeID,
-ifnull(pi.title,'Not Aplicable') PRY_title,
-di.deliverable_id as 'DLV_ID',
-concat('D',di.deliverable_id) as 'DLV_composeID',
-di.title as 'DLV_Title',
-di.description as 'DLV_Description', 
-ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) as 'DLV_year',
-dtParent.name  as 'DLV_Category', 
-ifnull(dt.name,'Not Defined') as 'DLV_subCategory',
-(
-		CASE di. STATUS
+    <sql>SELECT gu.acronym CRP, concat('P',p.id) 'project id',
+CONCAT(
+		'https://marlo.cgiar.org/projects/',
+		gu.acronym,
+		'/description.do?edit=true&amp;projectID=',
+		p.id,
+		'&amp;phaseID=',
+		ph.id
+	)
+	 AS 'Project link',
+	(
+		CASE
+		WHEN ISNULL(pi.title) THEN
+			"&lt;Not Defined>"
+		ELSE
+			pi.title
+		END
+	) AS 'Project Title',
+	(CASE
+		WHEN pi.administrative = 1 THEN
+			"&lt;Not Applicable>"
+		ELSE
+			if(fp.program_type = 1,fp.acronym,'')
+		END
+	) Flagships,
+(CASE
+		WHEN pi.administrative = 1 THEN
+			"&lt;Not Applicable>"
+		ELSE
+			if(fp.program_type = 2,fp.acronym,'')
+		END
+	) Regions,
+	(
+		CASE pi. STATUS
 		WHEN 2 THEN
 			"On-going"
 		WHEN 3 THEN
@@ -599,108 +619,206 @@ ifnull(dt.name,'Not Defined') as 'DLV_subCategory',
 			"Extended"
 		WHEN 5 THEN
 			"Cancelled"
+		END
+	) AS "Status",
+	(
+		CASE
+		WHEN li.crp_program IS NOT NULL
+		OR li.institution_id IS NULL THEN
+			 li.`name`
+		WHEN i.id IS NOT NULL THEN
+			 i.`name`
+		ELSE
+			""
+		END
+	) AS "Management Liaison",
+	(
+		CASE
+		WHEN li.crp_program IS NOT NULL
+		OR li.institution_id IS NULL THEN
+			li.acronym
+		WHEN i.id IS NOT NULL THEN
+			i.acronym
 		ELSE
 			"&lt;Not Defined>"
 		END
-	) AS "DLV_Status"
-,kout.key_output as 'DLV_keyOutput',
-ifnull(geo.`name`,'Not Defined')   as 'DLV_geographicScope',
-ifnull(loc.`name`,'Not Defined')  as 'DLV_location',
-ifnull(ccm.`name`,'Not Defined') 'DLV_CrossCuttingDimension',
-ifnull(ccml.powb_name,'Not Defined') as 'DLV_CrossCuttingScore',
-if(p.id is null,'Not applicable',ifnull(ins.name,'Not Defined')) as 'DLV_partnerName',
-if(p.id is null,'Not applicable',if(usr.id is null,'Not Defined',concat(usr.first_name,' ', usr.last_name)))  as 'DLV_partnerPerson',
-if(dis.is_open_access=1,'Yes', 'No') as 'DLV_isOpenAcces',
-get_deliverable_metadata (di.deliverable_id,di.id_phase,'dc.title') as 'DLV_disseminatedTitle',
-get_deliverable_metadata (di.deliverable_id,di.id_phase,'Date') as 'DLV_disseminatedDate',
-di.license as 'DLV_licence',
-pmet.journal as 'DLV_Journal',
-fs.funding_source_id as 'FS_ID',
-concat('FS',fs.funding_source_id) as 'FS_composeID',
-fs.title as 'FS_title',
-ifnull(fst.`name`,'Not Defined') as 'FS_type'
-,concat(li.acronym,'-', li.name) Management_liason
-,CASE
-		WHEN pi.administrative = 1 THEN
-			"Not Applicable"
-		WHEN pi.no_regional = 1 THEN
-			"No regional programmatic focus"
-		else 
-			ifnull(reg.reg_name,'Not Defined')
-END reg_name
-,if(pi.administrative = 1,'Not Applicable',if(prg_acronym is null,'Not Defined', concat(prg_acronym,'-',prg.prg_name))) prg_name
-,if(pi.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) CoA_id
-,if(pi.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) CoA_DESC
-,region.name loc_region
-,if(dis.already_disseminated=0,'No','Yes')  already_disseminated
-,dis.dissemination_channel 
-,dis.dissemination_URL
-,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.doi') as 'DOI'
-,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.handle') as 'Handle'
-,pmet.journal
-,if (pmet.isi_publication=1,'Yes','No') isi_publication
-,coa.identifier
-,if(d.id_phase=di.id_phase,'New','Planned') DLV_planned
-,if(ss.missing_fields is null or ss.missing_fields ='','Complete','With missing fields') is_complete
-,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',di.deliverable_id,'&amp;edit=true&amp;phaseID=',ph.id) Link
+	) AS "Management Liaison acronym",
+	CONCAT(
+		u.first_name,
+		", ",
+		u.last_name,
+		"&lt;",
+		u.email,
+		">"
+	) AS "Management Liaison Contact Person",
+(
+		CASE
+		WHEN COUNT(i2.id)=0 THEN
+			"&lt;Not Defined>"
+		WHEN GROUP_CONCAT(DISTINCT  i2.acronym) IS NOT NULL AND GROUP_CONCAT(DISTINCT  i2.acronym)!="" THEN
+			GROUP_CONCAT(DISTINCT  i2.acronym, "-", i2.`name`)
+		ELSE
+			GROUP_CONCAT(DISTINCT  i2.`name`)
+		END
+	) AS "Lead Institution",
+ GROUP_CONCAT(DISTINCT
+		u2.first_name,
+		", ",
+		u2.last_name,
+		"&lt;",
+		u2.email,
+		">"
+	) AS "Project Leader",
+	(
+		CASE
+		WHEN s.id IS NULL THEN
+			"Not Submitted"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			"Submitted"
+		ELSE
+			"Returned"
+		END
+	) AS "Submission_status",
+	(
+		CASE
+		WHEN s.id IS NULL THEN
+			"&lt;Not Defined>"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			CONCAT(
+				"Submitted on ",
+				s.date_time
+			)
+		ELSE
+			CONCAT(
+				"Unsubmitted on ",
+				s.date_time
+			)
+		END
+	) AS "Submission Date",
+	(
+		CASE
+		WHEN ISNULL(
+			s.modification_justification
+		)
+		OR s.modification_justification = "" THEN
+			"&lt;Not Defined>"
+		ELSE
+			s.modification_justification
+		END
+	) AS "Submission Justification",
+	(
+		CASE
+		WHEN ISNULL(s.unsubmit_justification)
+		OR s.unsubmit_justification = "" THEN
+			"&lt;Not Defined>"
+		ELSE
+			s.unsubmit_justification
+		END
+	) AS "Unsubmission Justification",
+
+
+-- select distinct
+sec.id section_id
+,sec.section_name
+,CASE 
+when 
+group_concat(distinct sec.missing_fields) is not null and group_concat(distinct missing_fields)!="" 
+then "Incomplete"
+else 
+"Complete" 
+end AS "Section status"
+
+,CASE 
+when section_name ='deliverableList' then concat('D',di.deliverable_id)
+when section_name ='studies' then concat('OI',pesi.project_expected_study_id)
+when section_name ='innovationsList' then concat('IN',inni.project_innovation_id)
+when section_name ='policies' then concat('PO',poli.project_policy_id)
+when section_name ='contributionsCrpList' then concat('''',outc.composed_id)
+ELSE 'ALL'
+end as indicator_ID
+,CASE 
+when section_name ='deliverableList' then concat('D',sec.deliverable_id)
+when section_name ='studies' then concat('OI',sec.project_expected_id)
+when section_name ='innovationsList' then concat('IN',sec.project_innovation_id)
+when section_name ='policies' then concat('PO',sec.project_policy_id)
+when section_name ='contributionsCrpList' then concat('''',sec.project_outcome_id)
+ELSE 'ALL'
+end as indicator_ID_2
+,group_concat(distinct sec.missing_fields) AS "missing fields"
+,if(pi.is_evaluated=1 ,'Yes','No') is_evaluated
 ,sysdate() updated_date
-#,'##############################',di.*
--- select count(*) 
-FROM  deliverables d
-JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
-JOIN phases ph on ph.id = di.id_phase
-JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+,concat(ph.name,ph.year) Phase
+,ph.name phase_name
+,ph.year phase_year
+-- ;select p.id, pi.title
+FROM
+	projects p
+INNER JOIN projects_info pi ON pi.project_id = p.id
+INNER JOIN phases ph ON ph.id = pi.id_phase
+INNER JOIN global_units gu ON gu.id = ph.global_unit_id and gu.is_active
+LEFT join project_focuses pfp on pfp.project_id = pi.project_id and pfp.id_phase = pi.id_phase and pfp.is_active
+LEFT join crp_programs fp on fp.id = pfp.program_id and fp.is_active and fp.global_unit_id = gu.id
+LEFT JOIN liaison_institutions li ON li.id = pi.liaison_institution_id AND li.is_active
+LEFT JOIN liaison_users lu ON lu.id = pi.liaison_user_id AND lu.is_active
+LEFT JOIN institutions i ON i.id = li.institution_id
+LEFT JOIN users u ON u.id = lu.user_id
+LEFT JOIN project_partners pp ON pp.project_id = p.id AND pp.is_active AND pp.id_phase =ph.id
+LEFT JOIN project_partner_persons ppp ON pp.id = ppp.project_partner_id AND ppp.is_active AND ppp.contact_type="PL"
+LEFT JOIN project_partners pp2 ON pp2.id = ppp.project_partner_id and pp2.is_active
+LEFT JOIN institutions i2 ON i2.id = pp2.institution_id
+LEFT JOIN users u2 ON u2.id = ppp.user_id AND u2.is_active
+LEFT JOIN submissions s ON s.id = (
+	SELECT
+		MAX(sq.id) sq
+	FROM
+		submissions sq
+	WHERE
+		sq.project_id = p.id
+	AND sq.cycle = ph.description
+	AND sq.`year` = ph.`year`
+)
+LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
 
-JOIN cgiar_cross_cutting_markers ccm 
-LEFT JOIN deliverable_cross_cutting_markers dccm on dccm.deliverable_id = di.deliverable_id and dccm.id_phase = di.id_phase and dccm.cgiar_cross_cutting_marker_id = ccm.id
-LEFT JOIN rep_ind_gender_youth_focus_levels ccml on ccml.id = dccm.rep_ind_gender_youth_focus_level_id
+left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) >= ph.year
 
-LEFT JOIN projects p ON p.id = d.project_id AND p.is_active
-LEFT JOIN projects_info pi ON p.id = pi.project_id and pi.id_phase = ph.id 
+left join project_expected_studies pes on pes.id= sec.project_expected_id and pes.is_active
+left join project_expected_study_info pesi on pesi.project_expected_study_id= pes.id and pesi.id_phase = ph.id and pesi.year >= ph.year
 
-left join liaison_institutions li on li.id = pi.liaison_institution_id
-#Regions
-left join 
-	(select prgr.id, pfr.project_id, pfr.program_id, prgr.name reg_name, prgr.acronym, prgr.global_unit_id, pfr.id_phase 
-	from project_focuses pfr #on pfr.project_id = pr.id and pfr.id_phase = ph.id and pfr.is_active
-	join crp_programs prgr on prgr.id = pfr.program_id and  prgr.program_type =2 #and prgr.global_unit_id =gu.id and
-	where pfr.is_active ) reg on reg.project_id = pi.project_id and  reg.global_unit_id =gu.id and reg.id_phase = ph.id
-#Programs/flagships
-left join
-	(select  prgp.id, pfp.project_id, pfp.program_id prg_id, pfp.id_phase,prgp.name prg_name, prgp.acronym prg_acronym, prgp.global_unit_id, ca.id area_id,ca.name area_name, ca.acronym area_acronym   
-	from project_focuses pfp #on pfp.project_id = pr.id and pfp.id_phase = ph.id and pfp.is_active
-	join crp_programs prgp on prgp.id = pfp.program_id and prgp.program_type =1 #and prgp.global_unit_id =gu.id
-	left join center_areas ca on ca.id = prgp.area_id and ca.is_active 
-	where pfp.is_active )prg on prg.project_id = pi.project_id and prg.id_phase = ph.id and prg.global_unit_id =gu.id
-LEFT JOIN section_statuses ss ON ss.deliverable_id = di.deliverable_id and ss.`year` = ph.year and ss.cycle = ph.description
-LEFT JOIN deliverable_types dt ON dt.id = di.type_id
-LEFT JOIN deliverable_types dtParent ON dtParent.id = dt.parent_id
-LEFT JOIN crp_cluster_key_outputs kout on kout.id = di.key_output_id 
-left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id and coa.id_phase = di.id_phase
-LEFT JOIN deliverable_geographic_scopes dgeo on dgeo.deliverable_id = di.deliverable_id and dgeo.id_phase = di.id_phase
-LEFT JOIN rep_ind_geographic_scopes geo on geo.id = dgeo.rep_ind_geographic_scope_id
-LEFT JOIN deliverable_locations dloc on dloc.deliverable_id = di.deliverable_id and dloc.id_phase = di.id_phase
-LEFT JOIN loc_elements loc on loc.id = dloc.loc_element_id
-LEFT JOIN deliverable_geographic_regions dreg on dreg.deliverable_id = di.deliverable_id and dreg.id_phase = di.id_phase
-LEFT JOIN loc_elements region on region.id = dreg.loc_element_id
-LEFT JOIN deliverable_user_partnerships par on par.deliverable_id = di.deliverable_id and par.id_phase=di.id_phase and par.is_active
-LEFT JOIN institutions ins on ins.id = par.institution_id 
-LEFT JOIN deliverable_user_partnership_persons  ppp on ppp.user_partnership_id =par.id and ppp.is_active
-LEFT JOIN users usr on usr.id = ppp.user_id and usr.is_active
-LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = di.deliverable_id and dis.id_phase = di.id_phase
-LEFT JOIN deliverable_publications_metada pmet on pmet.deliverable_id=di.deliverable_id and pmet.id_phase=di.id_phase 
-LEFT JOIN deliverable_funding_sources dfs on dfs.deliverable_id = di.deliverable_id and dfs.id_phase = di.id_phase and dfs.is_active
-LEFT JOIN funding_sources_info fs on dfs.funding_source_id = fs.funding_source_id  and fs.id_phase = dfs.id_phase
-LEFT JOIN budget_types fst on fst.id=fs.type
-WHERE d.is_active
---and ph.year =2019
-and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year),di.`year`) 
---and ph.name='AR'
--- and p.id = 270
--- and gu.acronym in ('CCAFS')
--- and di.deliverable_id in (940,941,949,393,658,644,117,176,177,178,5721,8445,8678,11549,11558,12529,13,16,22,802,803,804,805,806,807,1096,5707,8603,12764,12765,12943,12944,5692,8487,8496,8498,8502,8676,8788,12835,12839,12841,12846,12850,12855,12913,736,781,785,786,1376,397,603,1183,1185,1192,1193,8819,8828,11410,11417,11421,11423,11426,11583,11584,11586,11596,11600,11602,11617,12100,260,265,269,11850,12065,12605,12666,12793,477,479,480,481,491,492,1400,2069,5323,5342,5343,5344,5347,5348,5349,5354,5357,5359,5360,5981,5983,5985,8359,8361,8867,8870,8879,711,718,721,1842,1987,5637,5642,8647,11889,12192,12193,505,508,5857,5859,754,798,800,148,187,366,368,772,5250,5307,5375,12432,12434,12435,12436,12438,12439,12441,12497,12498,313,5378,5717,12158,12160,12289,12290,12291,12927,12928,12929,12930,1020,1234,1239,2203,2236,2237,11891,11897,12010,12027,12041,12120,12122,12133,12140,12163,12166,318,2137,2149,5668,5669,5670,11320,11321,12183,12367,12368,763,2795,5907,8815,8817,12159,552,1159,1163,1164,1168,1169,1171,1172,1173,1174,8714,8754,8760,8764,12538,12939,441,1028,1029,2134,5333,5931,8295,8517,12000,12001,12859,12860,12863,12866,12867,12868,12869,12870,12871,12872,12873,12874,12875,12876,12877,12878,12879,12880,12884,12890,12891,12906,12907,930,1177,1958,2015,5355,5385,5676,5677,5678,8532,9152,11826,12057,12102,12130,12131,12135,12141,12142,12143,12177,12180,12181,12187,12188,12189,12239,12240,12242,12243,12784,12785,12789,12790,12791,12794,12795,12796,12797,12798,12800,120,170,171,188,193,195,1146,1207,8604,8605,8606,8620,8621,11828,11829,11830,11831,11832,11833,11902,11928,12030,12032,12033,12049,12053,12055,12056,12058,157,236,237,5450,8438,11565,11574,11657,383,387,1137,770,819,2269,1489,1490,1949,4994,5004,5005,5240,9157,9158,9159,9161,9162,9163,9164,9165,9166,9167,9168,9169,9170,9171,9172,9173,9174,9175,9176,11393,11405,11406,11407,11448,11449,11450,11453,11501,11503,11506,11822,12109,12184,12194,12195,12196,12199,12433,12437,2037,8514,1879,1880,1906,1960,11631,11634,11730,11731,12205,12247,2208,2211,2212,2226,2229,2230,11629,1862,1937,1939,1940,1941,2151,2257,2259,5416,12494,12915,2218,2222,1914,1917,5085,5201,5578,5580,11899,11900,11909,11911,11913,11954,11956,11959,11960,11962,11968,12207,12236,12238,12241,12249,12722,12723,2109,5602,5606,5607,5608,5609,5610,11678,11680,11681,11682,11683,11684,11685,11689,11690,11691,11692,11693,11695,11699,11725,11726,2159,2160,2161,4960,4961,4964,4965,4968,5212,5213,5214,5218,5219,5366,5372,5379,12346,12349,12352,12397,12398,12399,12792,5045,5046,5097,5098,8081,8216,11345,11352,11356,11381,11385,11414,11415,11416,11422,11424,11425,11431,11443,11675,11771,11811,11892,11893,11894,11895,11896,12007,12008,12009,12012,12190,12191,12380,12381,12382,12383,12384,12385,12567,12572,12573,5402,5405,5406,5407,5412,5413,5414,5415,5418,5461,5462,5526,9177,11435,11440,11441,11772,11789,11854,11855,11856,12015,12017,12387,12431,12761,2084,2085,5150,5211,5217,5254,5256,5265,5321,5435,5460,11432,11433,11663,12235,12237,12277,12278,12294,12295,12297,12299,12301,12302,12340,12353,12396,12469,12528,12553,12680,12682,12686,12705,12708,12717,12896,2190,2191,2192,2196,2201,5057,5058,5065,7478,8061,11950,11952,11985,11986,11988,11990,12168,12169,12170,12171,12341,12342,12343,12345,12348,12350,12459,12486,12925,1967,2049,2051,2092,2094,2266,3281,4957,4963,4967,4977,4979,4980,4981,8205,8578,8595,11510,11511,11514,11518,11522,11525,11526,11527,11529,11532,11533,11534,11535,11537,11538,11539,11559,11563,11564,11569,11570,11572,11573,11575,11576,11577,11578,11579,11580,11581,11582,12254,12468,12523,12524,12525,12526,12779,2074,2104,2123,2126,5419,5420,5423,5467,8367,8401,11733,11734,11739,11742,11743,11754,11757,11758,11762,11763,11813,11814,11815,12067,12144,12164,12749,12750,1908,1909,1910,5362,5365,5368,5614,5615,8777,11627,11628,11635,12112,12116,12117,12123,12124,12125,12126,12128,12575,12576,12577,12578,12581,12582,12583,12584,12585,12586,12587,12673,12674,4956,5638,5639,5643,5652,9074,5575,5595,5596,12139,5641,5645,5646,5647,5252,5266,5324,5326,5327,5330,5331,5599,5679,5680,11530,12021,12025,12026,6012,6015,12354,12355,12356,12357,12359,12360,12362,12363,12365,12366,11991,11992,11993,11994,11995,11996,12081,12083,12174,12176,12351,2265,12221,4053,4054,4055,8537,5729,5730,5070,5071,5475,5484,5486,5489,5490,5493,5496,11437,11438,11641,11645,12028,12029,12031,12489,5350,11999,12002,12011,5320,5760,11947,12248,12604,5376,5456,5457,5458,5392,5877,9957,9959,9960,9961,12244,11343,11350,11351,11354,11355,11357,11358,12488,12361);
--- and di.deliverable_id=5249
-;</sql>
+left join project_innovations inn on inn.id= sec.project_innovation_id and inn.is_active
+left join project_innovation_info inni on inni.project_innovation_id =inn.id and inni.id_phase = ph.id and inni.`year` >= ph.`year`
+
+left join project_policies pol on pol.id= sec.project_policy_id and pol.is_active
+left join project_policy_info poli on poli.project_policy_id = pol.id and poli.id_phase = ph.id and poli.`year` >= ph.year
+
+left join project_outcomes pout on pout.id = sec.project_outcome_id and pout.is_active
+left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_active
+
+WHERE p.is_active
+AND ph.year >= 2019	
+and ph.name in ('AR','POWB')
+-- and di.deliverable_id =5602
+--  and ph.id = 131
+-- and ph.global_unit_id=1  
+-- and p.id = 1593
+-- and section_id =87852
+-- and concat(ph.name,ph.year)='AR2019'
+-- and ph.id = 101
+and ph.year between year(pi.start_date) and year(pi.end_date)
+-- and section_name='contributionsCrpList'
+GROUP BY
+	-- p.id,fp.program_type,fp.acronym,ph.id,sec.id,sec.section_name,sec.deliverable_id,sec.project_expected_id,sec.project_innovation_id,sec.project_policy_id,sec.project_outcome_id
+	p.id,pi.title,pi.administrative,pi.status,pi.is_evaluated,
+  li.crp_program,li.institution_id,li.name,li.acronym,
+	u.first_name,u.last_name,u.email,
+	s.id,
+  fp.program_type,fp.acronym,
+  ph.id,
+  sec.id,sec.section_name,sec.deliverable_id,sec.project_expected_id,sec.project_innovation_id,sec.project_policy_id,sec.project_outcome_id
+  -- order by ph.id
+;
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -711,11 +829,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>CGIAR_entity</name>
+        <name>CRP</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>CGIAR_entity</comments>
+        <origin>Load_Projects</origin>
+        <comments>CRP</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -734,57 +852,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>Phase</name>
-        <length>65546</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>Phase</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>PRY_ID</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>PRY_ID</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>PRY_composeID</name>
+        <name>project id</name>
         <length>21</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>PRY_composeID</comments>
+        <origin>Load_Projects</origin>
+        <comments>project id</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -803,57 +875,34 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>PRY_title</name>
+        <name>Project link</name>
+        <length>168</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Project link</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Project Title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>PRY_title</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_ID</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_ID</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_composeID</name>
-        <length>21</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_composeID</comments>
+        <origin>Load_Projects</origin>
+        <comments>Project Title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -872,11 +921,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_Title</name>
-        <length>21845</length>
+        <name>Flagships</name>
+        <length>50</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_Title</comments>
+        <origin>Load_Projects</origin>
+        <comments>Flagships</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -895,11 +944,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_Description</name>
-        <length>21845</length>
+        <name>Regions</name>
+        <length>50</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_Description</comments>
+        <origin>Load_Projects</origin>
+        <comments>Regions</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -916,36 +965,13 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Integer</type>
+        <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_year</name>
+        <name>Status</name>
         <length>9</length>
-        <precision>0</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_year</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_Category</name>
-        <length>255</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_Category</comments>
+        <origin>Load_Projects</origin>
+        <comments>Status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -964,11 +990,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_subCategory</name>
-        <length>255</length>
+        <name>Management Liaison</name>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_subCategory</comments>
+        <origin>Load_Projects</origin>
+        <comments>Management Liaison</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -987,11 +1013,103 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_Status</name>
+        <name>Management Liaison acronym</name>
+        <length>255</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Management Liaison acronym</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Management Liaison Contact Person</name>
+        <length>769</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Management Liaison Contact Person</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Lead Institution</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Lead Institution</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Project Leader</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Project Leader</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Submission_status</name>
         <length>13</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_Status</comments>
+        <origin>Load_Projects</origin>
+        <comments>Submission_status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1010,11 +1128,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_keyOutput</name>
-        <length>21845</length>
+        <name>Submission Date</name>
+        <length>34</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_keyOutput</comments>
+        <origin>Load_Projects</origin>
+        <comments>Submission Date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1033,241 +1151,34 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>DLV_geographicScope</name>
+        <name>Submission Justification</name>
+        <length>16777215</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Submission Justification</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Unsubmission Justification</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_geographicScope</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_location</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_location</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_CrossCuttingDimension</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_CrossCuttingDimension</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_CrossCuttingScore</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_CrossCuttingScore</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_partnerName</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_partnerName</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_partnerPerson</name>
-        <length>511</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_partnerPerson</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_isOpenAcces</name>
-        <length>3</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_isOpenAcces</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_disseminatedTitle</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_disseminatedTitle</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_disseminatedDate</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_disseminatedDate</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_licence</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_licence</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_Journal</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_Journal</comments>
+        <origin>Load_Projects</origin>
+        <comments>Unsubmission Justification</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1286,11 +1197,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>FS_ID</name>
+        <name>section_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_deliverables</origin>
-        <comments>FS_ID</comments>
+        <origin>Load_Projects</origin>
+        <comments>section_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1309,57 +1220,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>FS_composeID</name>
-        <length>22</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>FS_composeID</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>FS_title</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>FS_title</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>FS_type</name>
+        <name>section_name</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>FS_type</comments>
+        <origin>Load_Projects</origin>
+        <comments>section_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1378,11 +1243,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>Management_liason</name>
-        <length>511</length>
+        <name>Section status</name>
+        <length>10</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>Management_liason</comments>
+        <origin>Load_Projects</origin>
+        <comments>Section status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1401,11 +1266,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>reg_name</name>
-        <length>65535</length>
+        <name>indicator_ID</name>
+        <length>22</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>reg_name</comments>
+        <origin>Load_Projects</origin>
+        <comments>indicator_ID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1424,11 +1289,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>prg_name</name>
-        <length>65586</length>
+        <name>indicator_ID_2</name>
+        <length>22</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>prg_name</comments>
+        <origin>Load_Projects</origin>
+        <comments>indicator_ID_2</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1447,11 +1312,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>CoA_id</name>
-        <length>20</length>
+        <name>missing fields</name>
+        <length>4096</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>CoA_id</comments>
+        <origin>Load_Projects</origin>
+        <comments>missing fields</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1470,287 +1335,11 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>CoA_DESC</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>CoA_DESC</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>loc_region</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>loc_region</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>already_disseminated</name>
+        <name>is_evaluated</name>
         <length>3</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>already_disseminated</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>dissemination_channel</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>dissemination_channel</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>dissemination_URL</name>
-        <length>600</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>dissemination_URL</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DOI</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DOI</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Handle</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>Handle</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>journal</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>journal</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>isi_publication</name>
-        <length>3</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>isi_publication</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>identifier</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>identifier</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DLV_planned</name>
-        <length>7</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>DLV_planned</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>is_complete</name>
-        <length>19</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>is_complete</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Link</name>
-        <length>172</length>
-        <precision>-1</precision>
-        <origin>Load_deliverables</origin>
-        <comments>Link</comments>
+        <origin>Load_Projects</origin>
+        <comments>is_evaluated</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1772,9 +1361,78 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
         <name>updated_date</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_Projects</origin>
         <comments>updated_date</comments>
         <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Phase</name>
+        <length>65546</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>Phase</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>phase_name</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>phase_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>phase_year</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Load_Projects</origin>
+        <comments>phase_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1805,7 +1463,7 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
     </GUI>
   </step>
   <step>
-    <name>Sheet_Deliverables</name>
+    <name>Sheet_ProjectSubmision</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1816,8 +1474,8 @@ and ph.year BETWEEN di.`year`  and ifnull(if(di.new_expected_year=-1,null,di.new
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>marlobi</schema>
-    <table>bi_deliverables_full_data</table>
+    <schema/>
+    <table>marlo_project_submission</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
