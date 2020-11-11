@@ -1,3 +1,4 @@
+drop table if EXISTS bi_deliverables_full_data;
 create table `bi_deliverables_full_data` (
   `CGIAR_entity` varchar(50) character set utf8 collate utf8_general_ci not null,
   `Phase` longtext character set latin1 collate latin1_swedish_ci not null,

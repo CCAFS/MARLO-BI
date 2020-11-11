@@ -383,7 +383,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
+      <xloc>448</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -395,8 +395,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
-      <yloc>352</yloc>
+      <xloc>48</xloc>
+      <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -433,18 +433,18 @@
         <parameter>
           <name>P_LOG_MESSAGE</name>
           <stream_name/>
-          <value>End automatic MARLO BI ETL process from ${ORI_DB} to ${DES_DB}</value>
+          <value>End Project status</value>
         </parameter>
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>ETL</value>
+          <value>Project status</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
+      <xloc>160</xloc>
       <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
@@ -483,8 +483,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
-      <yloc>128</yloc>
+      <xloc>592</xloc>
+      <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -522,7 +522,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
+      <xloc>288</xloc>
       <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
@@ -575,6 +575,104 @@
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
+    <entry>
+      <name>save_to_log Outcome end</name>
+      <description/>
+      <type>TRANS</type>
+      <attributes/>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>P_LOG_MESSAGE</name>
+          <stream_name/>
+          <value>End milestones transformation</value>
+        </parameter>
+        <parameter>
+          <name>P_LOG_PROCESS</name>
+          <stream_name/>
+          <value>Milestones</value>
+        </parameter>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>592</xloc>
+      <yloc>48</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>save_to_log deliverables</name>
+      <description/>
+      <type>TRANS</type>
+      <attributes/>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>P_LOG_MESSAGE</name>
+          <stream_name/>
+          <value>End deliverable process</value>
+        </parameter>
+        <parameter>
+          <name>P_LOG_PROCESS</name>
+          <stream_name/>
+          <value>Deliverables</value>
+        </parameter>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>448</xloc>
+      <yloc>208</yloc>
+      <attributes_kjc/>
+    </entry>
   </entries>
   <hops>
     <hop>
@@ -589,24 +687,6 @@
     <hop>
       <from>save_to_log ETL END</from>
       <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ETL_milestones</from>
-      <to>ETL_deliverables</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ETL_deliverables</from>
-      <to>ETL_project_status</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -634,6 +714,42 @@
     <hop>
       <from>save_to_log ETL START</from>
       <to>ETL_milestones</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ETL_milestones</from>
+      <to>save_to_log Outcome end</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>save_to_log Outcome end</from>
+      <to>ETL_deliverables</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ETL_deliverables</from>
+      <to>save_to_log deliverables</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>save_to_log deliverables</from>
+      <to>ETL_project_status</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

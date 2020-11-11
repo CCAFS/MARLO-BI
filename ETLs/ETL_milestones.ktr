@@ -444,7 +444,7 @@
     <database>${DES_DBNAME}</database>
     <port>3306</port>
     <username>${DES_USR}</username>
-    <password>Encrypted 2be98afc86ae4b58daa0bfc208cc2e19b</password>
+    <password>${DES_PSW}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -593,7 +593,8 @@ ifnull(gender.powb_name,'Not defined') Gender,
 ifnull(youth.powb_name,'Not defined') Youth,
 ifnull(capdev.powb_name,'Not defined') CapDev,
 ifnull(climate.powb_name,'Not defined') Climate,
-concat(ph.id,'_',cm.composed_id) pk
+concat(ph.id,'_',cm.composed_id) pk,
+sysdate() updated_date
 from crp_milestones cm
 join crp_program_outcomes cpo on cm.crp_program_outcome_id = cpo.id and cpo.is_active
 left join srf_target_units otu on otu.id = cpo.target_unit_id and otu.is_active
@@ -614,9 +615,6 @@ left join powb_ind_milestone_risks pifr on cm.powb_ind_milestone_risk_id = pifr.
 where cm.is_active 
 and ph.`name` in ('POWB','AR') 
 and ph.`year` >=2017
--- and ifnull(cm.extended_year,cm.year) = p.year
--- and cpo.composed_id = '16-84'
--- and cm.title = 'da'
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -631,7 +629,7 @@ and ph.`year` >=2017
         <name>ID Phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>ID Phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -654,7 +652,7 @@ and ph.`year` >=2017
         <name>Phase name</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Phase name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -677,7 +675,7 @@ and ph.`year` >=2017
         <name>Phase year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Phase year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -700,7 +698,7 @@ and ph.`year` >=2017
         <name>CRP</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>CRP</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -723,7 +721,7 @@ and ph.`year` >=2017
         <name>CRP name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>CRP name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -746,7 +744,7 @@ and ph.`year` >=2017
         <name>FP</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>FP</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -769,7 +767,7 @@ and ph.`year` >=2017
         <name>FPName</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>FPName</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -792,7 +790,7 @@ and ph.`year` >=2017
         <name>Outcome ID</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Outcome ID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -815,7 +813,7 @@ and ph.`year` >=2017
         <name>Outcome</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Outcome</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -838,7 +836,7 @@ and ph.`year` >=2017
         <name>Outcome Target Year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Outcome Target Year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -861,7 +859,7 @@ and ph.`year` >=2017
         <name>Outcome Target Unit</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Outcome Target Unit</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -884,7 +882,7 @@ and ph.`year` >=2017
         <name>Outcome Target Value</name>
         <length>20</length>
         <precision>2</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Outcome Target Value</comments>
         <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -907,7 +905,7 @@ and ph.`year` >=2017
         <name>sub-ido code</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>sub-ido code</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -930,7 +928,7 @@ and ph.`year` >=2017
         <name>Sub-ido description</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Sub-ido description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -953,7 +951,7 @@ and ph.`year` >=2017
         <name>sub-ido is primary</name>
         <length>4</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>sub-ido is primary</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -976,7 +974,7 @@ and ph.`year` >=2017
         <name>is_primary</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>is_primary</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -999,7 +997,7 @@ and ph.`year` >=2017
         <name>Milestone ID</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone ID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1022,7 +1020,7 @@ and ph.`year` >=2017
         <name>Milestone</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1045,7 +1043,7 @@ and ph.`year` >=2017
         <name>Milestone Year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone Year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1068,7 +1066,7 @@ and ph.`year` >=2017
         <name>Milestone extended year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone extended year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1091,7 +1089,7 @@ and ph.`year` >=2017
         <name>Milestone Target Unit</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone Target Unit</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1114,7 +1112,7 @@ and ph.`year` >=2017
         <name>Milestone Target Value</name>
         <length>20</length>
         <precision>2</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone Target Value</comments>
         <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1137,7 +1135,7 @@ and ph.`year` >=2017
         <name>Milestone Status</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Milestone Status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1160,7 +1158,7 @@ and ph.`year` >=2017
         <name>Level of Change</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Level of Change</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1183,7 +1181,7 @@ and ph.`year` >=2017
         <name>Assessment Risk</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Assessment Risk</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1206,7 +1204,7 @@ and ph.`year` >=2017
         <name>Main Risk</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Main Risk</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1229,7 +1227,7 @@ and ph.`year` >=2017
         <name>Mean of Verification</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Mean of Verification</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1252,7 +1250,7 @@ and ph.`year` >=2017
         <name>Gender</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Gender</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1275,7 +1273,7 @@ and ph.`year` >=2017
         <name>Youth</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Youth</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1298,7 +1296,7 @@ and ph.`year` >=2017
         <name>CapDev</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>CapDev</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1321,7 +1319,7 @@ and ph.`year` >=2017
         <name>Climate</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>Climate</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1344,8 +1342,31 @@ and ph.`year` >=2017
         <name>pk</name>
         <length>41</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load_milestones</origin>
         <comments>pk</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>updated_date</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>Load_milestones</origin>
+        <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1371,7 +1392,7 @@ and ph.`year` >=2017
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
+      <xloc>64</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1388,7 +1409,7 @@ and ph.`year` >=2017
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>marlobi</schema>
+    <schema>marloBI</schema>
     <table>bi_milestones</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
@@ -1415,7 +1436,7 @@ and ph.`year` >=2017
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
+      <xloc>256</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>

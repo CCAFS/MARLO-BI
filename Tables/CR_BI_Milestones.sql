@@ -1,3 +1,4 @@
+drop table if EXISTS bi_milestones;
 create table `bi_milestones` (
   `ID Phase` bigint(20) not null default '0',
   `Phase name` text character set latin1 not null,
@@ -30,5 +31,6 @@ create table `bi_milestones` (
   `Youth` longtext not null,
   `CapDev` longtext not null,
   `Climate` longtext not null,
-  `pk` varchar(41) default null
+  `pk` varchar(41) default null,
+   updated_date DATETIME
 ) engine=innodb default charset=utf8;

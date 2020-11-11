@@ -444,7 +444,7 @@
     <database>${DES_DBNAME}</database>
     <port>3306</port>
     <username>${DES_USR}</username>
-    <password>Encrypted 2be98afc86ae4b58daa0bfc208cc2e19b</password>
+    <password>${DES_PSW}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
