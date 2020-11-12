@@ -513,7 +513,7 @@
     <sql>SELECT id , global_unit_id, name, year 
 FROM phases
 where visible -- solo los visibles en la aplicacion
-and id in (101,116) --  prueba solo global unit 1 y phase AR 2019, POWB 2020
+and global_unit_id = 1 -- solo CCAFS
 order by year, id
 ;</sql>
     <limit>0</limit>
