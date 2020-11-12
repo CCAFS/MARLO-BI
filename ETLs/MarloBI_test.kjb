@@ -388,43 +388,6 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>send_each_dlv_phase</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/MarloBI_send_each_deliverable_phase.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>Y</params_from_previous>
-      <exec_per_row>Y</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>544</xloc>
-      <yloc>64</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>Success</name>
       <description/>
       <type>SUCCESS</type>
@@ -432,7 +395,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
+      <xloc>544</xloc>
       <yloc>64</yloc>
       <attributes_kjc/>
     </entry>
@@ -470,12 +433,12 @@
         <parameter>
           <name>P_LOG_MESSAGE</name>
           <stream_name/>
-          <value>Start marloBI Deliverables process trom ${ORI_DB} to ${DES_DB}</value>
+          <value>Test job from ${ORI_DB} to ${DES_DB}</value>
         </parameter>
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>DELIVERABLES</value>
+          <value>Test job</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
@@ -497,24 +460,6 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>get_dlv_variables</from>
-      <to>send_each_dlv_phase</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>send_each_dlv_phase</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>var ini MarloBI</from>
       <to>save_to_log ETL START</to>
       <from_nr>0</from_nr>
@@ -526,6 +471,15 @@
     <hop>
       <from>save_to_log ETL START</from>
       <to>get_dlv_variables</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>get_dlv_variables</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
