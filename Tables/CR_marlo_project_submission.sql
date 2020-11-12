@@ -1,3 +1,4 @@
+drop table if EXISTS marlo_project_submission;
 create table `marlo_project_submission` (
   `CRP` varchar(50) not null,
   `project id` varchar(21) character set utf8mb4 collate utf8mb4_0900_ai_ci not null default '',

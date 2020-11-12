@@ -694,7 +694,6 @@ LEFT JOIN deliverable_funding_sources dfs on dfs.deliverable_id = di.deliverable
 LEFT JOIN funding_sources_info fs on dfs.funding_source_id = fs.funding_source_id  and fs.id_phase = dfs.id_phase
 LEFT JOIN budget_types fst on fst.id=fs.type
 WHERE d.is_active
-and ph.year = ${V_DLV_YEAR}
 and ph.id = ${V_DLV_PHASE_ID}
 </sql>
     <limit>0</limit>
