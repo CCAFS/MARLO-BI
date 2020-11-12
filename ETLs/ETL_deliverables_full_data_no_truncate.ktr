@@ -1834,7 +1834,7 @@ and ph.id = ${V_DLV_PHASE_ID}
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>marlobi</schema>
+    <schema>marloBI</schema>
     <table>bi_deliverables_full_data</table>
     <commit>1000</commit>
     <truncate>N</truncate>
