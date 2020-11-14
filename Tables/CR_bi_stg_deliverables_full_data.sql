@@ -1,4 +1,7 @@
+drop table if EXISTS bi_stg_deliverables_full_data;
+
 CREATE TABLE `bi_stg_deliverables_full_data` (
+  `id_phase` bigint NOT NULL,
   `CGIAR_entity` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `Phase` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `PRY_ID` varchar(20) NOT NULL DEFAULT '',
@@ -47,4 +50,4 @@ CREATE TABLE `bi_stg_deliverables_full_data` (
   -- `Included_AR` varchar(10) DEFAULT NULL,
   `Link` varchar(172) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

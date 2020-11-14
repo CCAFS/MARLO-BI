@@ -582,7 +582,7 @@ create a join for the definitive sheet.</extended_description>
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select  gu.acronym as 'CGIAR_entity' ,
+    <sql>select  ph.id id_phase, gu.acronym as 'CGIAR_entity' ,
 concat(ph.`name`,ph.year) as 'Phase',
 ifnull(pi.project_id,'Not Aplicable') as PRY_ID,
 if(pi.project_id is null,'Not Aplicable', concat('P',pi.project_id)) as PRY_composeID,
