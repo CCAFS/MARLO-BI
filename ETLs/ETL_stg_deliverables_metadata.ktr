@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>save_to_log</name>
-    <description/>
-    <extended_description/>
+    <name>ETL_stg_deliverables_metadata</name>
+    <description>Initial ETL for deliverables sheet</description>
+    <extended_description>ETL with deliverables_metadata information to a staging table
+</extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>P_LOG_MESSAGE</name>
-        <default_value/>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>P_LOG_PROCESS</name>
-        <default_value/>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -438,9 +429,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2018/10/23 11:35:10.504</created_date>
+    <created_date>2017/11/14 08:51:05.283</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2018/10/23 11:35:10.504</modified_date>
+    <modified_date>2017/11/14 08:51:05.283</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -452,7 +443,7 @@
     <type>MYSQL</type>
     <access>Native</access>
     <database>${DES_DBNAME}</database>
-    <port>${DES_PORT}</port>
+    <port>3306</port>
     <username>${DES_USR}</username>
     <password>${DES_PSW}</password>
     <servername/>
@@ -485,7 +476,62 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>${DES_PORT}</attribute>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>ORI_DB</name>
+    <server>${ORI_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${ORI_DBNAME}</database>
+    <port>3306</port>
+    <username>${ORI_USR}</username>
+    <password>${ORI_PSW}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -515,13 +561,18 @@
   </connection>
   <order>
     <hop>
-      <from>get Date</from>
-      <to>write data</to>
+      <from>Load_deliverables_metadata</from>
+      <to>Row denormaliser</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Row denormaliser</from>
+      <to>stg_deliverables_metadata</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>get Date</name>
+    <name>Load_deliverables_metadata</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -531,15 +582,145 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT sysdate() sysdate,'${P_LOG_PROCESS}' process, '${P_LOG_MESSAGE}' message;</sql>
+    <connection>ORI_DB</connection>
+    <sql>select di.id_phase, di.deliverable_id, dmde2.element_id, dmde2.econded_name, max(dmde.element_value) max_element_value
+FROM   deliverables_info di 
+JOIN phases ph on ph.id = di.id_phase
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+JOIN (select dmde1.id_phase, dmde1.deliverable_id, dmde1.element_id, mde1.econded_name, max(dmde1.id) max_id
+       from deliverable_metadata_elements dmde1
+        JOIN metadata_elements mde1 on dmde1.element_id = mde1.id  
+     	and mde1.econded_name in ('dc.title', 'dc.date','marlo.doi','marlo.handle' )
+        group by dmde1.id_phase, dmde1.deliverable_id, mde1.econded_name
+       ) dmde2 on dmde2.id_phase = di.id_phase and dmde2.deliverable_id = di.deliverable_id 
+join deliverable_metadata_elements dmde on dmde2.deliverable_id = dmde.deliverable_id AND dmde2.id_phase = dmde.id_phase and dmde2.element_id = dmde.element_id
+and di.is_active
+and di.id_phase = 11
+group by di.id_phase, di.deliverable_id, dmde2.element_id, dmde2.econded_name
+order by di.id_phase, di.deliverable_id, dmde2.econded_name ;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_deliverables_metadata</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>deliverable_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_deliverables_metadata</origin>
+        <comments>deliverable_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>element_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_deliverables_metadata</origin>
+        <comments>element_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>econded_name</name>
+        <length>100</length>
+        <precision>-1</precision>
+        <origin>Load_deliverables_metadata</origin>
+        <comments>econded_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>max_element_value</name>
+        <length>5592405</length>
+        <precision>-1</precision>
+        <origin>Load_deliverables_metadata</origin>
+        <comments>max_element_value</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -549,13 +730,105 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
+      <xloc>80</xloc>
+      <yloc>48</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Row denormaliser</name>
+    <type>Denormaliser</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <key_field>econded_name</key_field>
+    <group>
+      <field>
+        <name>id_phase</name>
+      </field>
+      <field>
+        <name>deliverable_id</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <field_name>max_element_value</field_name>
+        <key_value>dc.date</key_value>
+        <target_name>date</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>5592405</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>-</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>max_element_value</field_name>
+        <key_value>dc.title</key_value>
+        <target_name>title</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>5592405</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>-</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>max_element_value</field_name>
+        <key_value>marlo.doi</key_value>
+        <target_name>doi</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>5592405</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>-</target_aggregation_type>
+      </field>
+      <field>
+        <field_name>max_element_value</field_name>
+        <key_value>marlo.handle</key_value>
+        <target_name>handle</target_name>
+        <target_type>String</target_type>
+        <target_format/>
+        <target_length>5592405</target_length>
+        <target_precision>-1</target_precision>
+        <target_decimal_symbol/>
+        <target_grouping_symbol/>
+        <target_currency_symbol/>
+        <target_null_string/>
+        <target_aggregation_type>-</target_aggregation_type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>352</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>write data</name>
+    <name>stg_deliverables_metadata</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -567,12 +840,12 @@
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>process_log</table>
+    <table>bi_stg_deliverables_metadata</table>
     <commit>1000</commit>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
+    <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -583,6 +856,30 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
+      <field>
+        <column_name>DOI</column_name>
+        <stream_name>doi</stream_name>
+      </field>
+      <field>
+        <column_name>Handle</column_name>
+        <stream_name>handle</stream_name>
+      </field>
+      <field>
+        <column_name>DLV_disseminatedTitle</column_name>
+        <stream_name>title</stream_name>
+      </field>
+      <field>
+        <column_name>DLV_disseminatedDate</column_name>
+        <stream_name>date</stream_name>
+      </field>
+      <field>
+        <column_name>id_phase</column_name>
+        <stream_name>id_phase</stream_name>
+      </field>
+      <field>
+        <column_name>DLV_ID</column_name>
+        <stream_name>deliverable_id</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -593,8 +890,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>64</yloc>
+      <xloc>672</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
