@@ -693,10 +693,10 @@
         <name>start_year</name>
         <type>Integer</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>4</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -704,10 +704,10 @@
         <name>end_year</name>
         <type>Integer</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>4</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -715,10 +715,32 @@
         <name>so_name</name>
         <type>String</type>
         <format/>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>50</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>phase_name</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>50</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+      </field>
+      <field>
+        <name>phase_year</name>
+        <type>Integer</type>
+        <format/>
         <currency/>
         <decimal/>
         <group/>
-        <length>-1</length>
+        <length>4</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -884,6 +906,18 @@
       <field>
         <field_name>so_name</field_name>
         <variable_name>SO_NAME</variable_name>
+        <variable_type>JVM</variable_type>
+        <default_value/>
+      </field>
+      <field>
+        <field_name>phase_name</field_name>
+        <variable_name>V_PHASE_NAME</variable_name>
+        <variable_type>JVM</variable_type>
+        <default_value/>
+      </field>
+      <field>
+        <field_name>phase_year</field_name>
+        <variable_name>V_PHASE_YEAR</variable_name>
         <variable_type>JVM</variable_type>
         <default_value/>
       </field>

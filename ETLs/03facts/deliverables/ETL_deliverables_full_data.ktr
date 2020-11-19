@@ -503,70 +503,15 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>ORI_DB</name>
-    <server>${ORI_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${ORI_DBNAME}</database>
-    <port>3306</port>
-    <username>${ORI_USR}</username>
-    <password>${ORI_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>Load_deliverables</from>
+      <from>Load_stg_deliverables</from>
       <to>Sheet_Deliverables</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_deliverables</name>
+    <name>Load_stg_deliverables</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -576,127 +521,58 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select  gu.acronym as 'CGIAR_entity' ,
-concat(ph.`name`,ph.year) as 'Phase',
-ifnull(pi.project_id,'Not Aplicable') as PRY_ID,
-if(pi.project_id is null,'Not Aplicable', concat('P',pi.project_id)) as PRY_composeID,
-ifnull(pi.title,'Not Aplicable') PRY_title,
-di.deliverable_id as 'DLV_ID',
-concat('D',di.deliverable_id) as 'DLV_composeID',
-di.title as 'DLV_Title',
-di.description as 'DLV_Description', 
-ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) as 'DLV_year',
-dtParent.name  as 'DLV_Category', 
-ifnull(dt.name,'Not Defined') as 'DLV_subCategory',
-(
-		CASE di. STATUS
-		WHEN 2 THEN
-			"On-going"
-		WHEN 3 THEN
-			"Complete"
-		WHEN 4 THEN
-			"Extended"
-		WHEN 5 THEN
-			"Cancelled"
-		ELSE
-			"&lt;Not Defined>"
-		END
-	) AS "DLV_Status"
-,kout.key_output as 'DLV_keyOutput',
-ifnull(geo.`name`,'Not Defined')   as 'DLV_geographicScope',
-ifnull(loc.`name`,'Not Defined')  as 'DLV_location',
-ifnull(ccm.`name`,'Not Defined') 'DLV_CrossCuttingDimension',
-ifnull(ccml.powb_name,'Not Defined') as 'DLV_CrossCuttingScore',
-if(p.id is null,'Not applicable',ifnull(ins.name,'Not Defined')) as 'DLV_partnerName',
-if(p.id is null,'Not applicable',if(usr.id is null,'Not Defined',concat(usr.first_name,' ', usr.last_name)))  as 'DLV_partnerPerson',
-if(dis.is_open_access=1,'Yes', 'No') as 'DLV_isOpenAcces',
-get_deliverable_metadata (di.deliverable_id,di.id_phase,'dc.title') as 'DLV_disseminatedTitle',
-get_deliverable_metadata (di.deliverable_id,di.id_phase,'Date') as 'DLV_disseminatedDate',
-di.license as 'DLV_licence',
-pmet.journal as 'DLV_Journal',
-fs.funding_source_id as 'FS_ID',
-concat('FS',fs.funding_source_id) as 'FS_composeID',
-fs.title as 'FS_title',
-ifnull(fst.`name`,'Not Defined') as 'FS_type'
-,concat(li.acronym,'-', li.name) Management_liason
-,CASE
-		WHEN pi.administrative = 1 THEN
-			"Not Applicable"
-		WHEN pi.no_regional = 1 THEN
-			"No regional programmatic focus"
-		else 
-			ifnull(reg.reg_name,'Not Defined')
-END reg_name
-,if(pi.administrative = 1,'Not Applicable',if(prg_acronym is null,'Not Defined', concat(prg_acronym,'-',prg.prg_name))) prg_name
-,if(pi.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) CoA_id
-,if(pi.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) CoA_DESC
-,region.name loc_region
-,if(dis.already_disseminated=0,'No','Yes')  already_disseminated
-,dis.dissemination_channel 
-,dis.dissemination_URL
-,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.doi') as 'DOI'
-,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.handle') as 'Handle'
-,pmet.journal
-,if (pmet.isi_publication=1,'Yes','No') isi_publication
-,coa.identifier
-,if(d.id_phase=di.id_phase,'New','Planned') DLV_planned
-,if(ss.missing_fields is null or ss.missing_fields ='','Complete','With missing fields') is_complete
-,if(is_deliverable_excluded(di.deliverable_id,di.id_phase) = 0,'Yes','No') Included_AR 
-,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',di.deliverable_id,'&amp;edit=true&amp;phaseID=',ph.id) Link
-,sysdate() updated_date
-
--- select count(*) 
-FROM  deliverables d
-JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
-JOIN phases ph on ph.id = di.id_phase
-JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
-
-JOIN cgiar_cross_cutting_markers ccm 
-LEFT JOIN deliverable_cross_cutting_markers dccm on dccm.deliverable_id = di.deliverable_id and dccm.id_phase = di.id_phase and dccm.cgiar_cross_cutting_marker_id = ccm.id
-LEFT JOIN rep_ind_gender_youth_focus_levels ccml on ccml.id = dccm.rep_ind_gender_youth_focus_level_id
-
-LEFT JOIN projects p ON p.id = d.project_id AND p.is_active
-LEFT JOIN projects_info pi ON p.id = pi.project_id and pi.id_phase = ph.id 
-
-left join liaison_institutions li on li.id = pi.liaison_institution_id
--- Regions
-left join 
-	(select prgr.id, pfr.project_id, pfr.program_id, prgr.name reg_name, prgr.acronym, prgr.global_unit_id, pfr.id_phase 
-	from project_focuses pfr #on pfr.project_id = pr.id and pfr.id_phase = ph.id and pfr.is_active
-	join crp_programs prgr on prgr.id = pfr.program_id and  prgr.program_type =2 #and prgr.global_unit_id =gu.id and
-	where pfr.is_active ) reg on reg.project_id = pi.project_id and  reg.global_unit_id =gu.id and reg.id_phase = ph.id
--- Programs/flagships
-left join
-	(select  prgp.id, pfp.project_id, pfp.program_id prg_id, pfp.id_phase,prgp.name prg_name, prgp.acronym prg_acronym, prgp.global_unit_id, ca.id area_id,ca.name area_name, ca.acronym area_acronym   
-	from project_focuses pfp #on pfp.project_id = pr.id and pfp.id_phase = ph.id and pfp.is_active
-	join crp_programs prgp on prgp.id = pfp.program_id and prgp.program_type =1 #and prgp.global_unit_id =gu.id
-	left join center_areas ca on ca.id = prgp.area_id and ca.is_active 
-	where pfp.is_active )prg on prg.project_id = pi.project_id and prg.id_phase = ph.id and prg.global_unit_id =gu.id
-LEFT JOIN section_statuses ss ON ss.deliverable_id = di.deliverable_id and ss.`year` = ph.year and ss.cycle = ph.description
-LEFT JOIN deliverable_types dt ON dt.id = di.type_id
-LEFT JOIN deliverable_types dtParent ON dtParent.id = dt.parent_id
-LEFT JOIN crp_cluster_key_outputs kout on kout.id = di.key_output_id 
-left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id and coa.id_phase = di.id_phase
-LEFT JOIN deliverable_geographic_scopes dgeo on dgeo.deliverable_id = di.deliverable_id and dgeo.id_phase = di.id_phase
-LEFT JOIN rep_ind_geographic_scopes geo on geo.id = dgeo.rep_ind_geographic_scope_id
-LEFT JOIN deliverable_locations dloc on dloc.deliverable_id = di.deliverable_id and dloc.id_phase = di.id_phase
-LEFT JOIN loc_elements loc on loc.id = dloc.loc_element_id
-LEFT JOIN deliverable_geographic_regions dreg on dreg.deliverable_id = di.deliverable_id and dreg.id_phase = di.id_phase
-LEFT JOIN loc_elements region on region.id = dreg.loc_element_id
-LEFT JOIN deliverable_user_partnerships par on par.deliverable_id = di.deliverable_id and par.id_phase=di.id_phase and par.is_active
-LEFT JOIN institutions ins on ins.id = par.institution_id 
-LEFT JOIN deliverable_user_partnership_persons  ppp on ppp.user_partnership_id =par.id and ppp.is_active
-LEFT JOIN users usr on usr.id = ppp.user_id and usr.is_active
-LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = di.deliverable_id and dis.id_phase = di.id_phase
-LEFT JOIN deliverable_publications_metada pmet on pmet.deliverable_id=di.deliverable_id and pmet.id_phase=di.id_phase 
-LEFT JOIN deliverable_funding_sources dfs on dfs.deliverable_id = di.deliverable_id and dfs.id_phase = di.id_phase and dfs.is_active
-LEFT JOIN funding_sources_info fs on dfs.funding_source_id = fs.funding_source_id  and fs.id_phase = dfs.id_phase
-LEFT JOIN budget_types fst on fst.id=fs.type
-WHERE d.is_active
--- and ph.year =2021
--- and d.id =11
-and ph.year >=2018</sql>
+    <connection>DES_DB</connection>
+    <sql>SELECT dfd.`CGIAR_entity`,
+    dfd.`Phase`,
+    dfd.`PRY_ID`,
+    dfd.`PRY_composeID`,
+    dfd.`PRY_title`,
+    dfd.`DLV_ID`,
+    dfd.`DLV_composeID`,
+    dfd.`DLV_Title`,
+    dfd.`DLV_Description`,
+    dfd.`DLV_year`,
+    dfd.`DLV_Category`,
+    dfd.`DLV_subCategory`,
+    dfd.`DLV_Status`,
+    dfd.`DLV_keyOutput`,
+    dfd.`DLV_geographicScope`,
+    dfd.`DLV_location`,
+    dfd.`DLV_CrossCuttingDimension`,
+    dfd.`DLV_CrossCuttingScore`,
+    dfd.`DLV_partnerName`,
+    dfd.`DLV_partnerPerson`,
+    dfd.`DLV_isOpenAcces`,
+    dmd.DLV_disseminatedTitle,
+    dmd.DLV_disseminatedDate,
+    dfd.`DLV_licence`,
+    dfd.`DLV_Journal`,
+    dfd.`FS_ID`,
+    dfd.`FS_composeID`,
+    dfd.`FS_title`,
+    dfd.`FS_type`,
+    dfd.`Management_liason`,
+    dfd.`reg_name`,
+    dfd.`prg_name`,
+    dfd.`CoA_id`,
+    dfd.`CoA_DESC`,
+    dfd.`loc_region`,
+    dfd.`already_disseminated`,
+    dfd.`dissemination_channel`,
+    dfd.`dissemination_URL`,
+    dmd.DOI,
+    dmd.`Handle`,
+    dfd.`journal`,
+    dfd.`isi_publication`,
+    dfd.`identifier`,
+    dfd.`DLV_planned`,
+    dfd.`is_complete`,
+    dii.`Included_AR`,
+    dfd.`Link`,
+    dfd.`updated_date`
+FROM bi_stg_deliverables_full_data dfd 
+left join bi_stg_deliverables_metadata dmd on dfd.id_phase = dmd.id_phase and dfd.DLV_ID = dmd.DLV_ID
+join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.DLV_ID = dii.DLV_ID;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -710,7 +586,7 @@ and ph.year >=2018</sql>
         <name>CGIAR_entity</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>CGIAR_entity</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -731,9 +607,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Phase</name>
-        <length>65546</length>
+        <length>2147483647</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>Phase</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -756,7 +632,7 @@ and ph.year >=2018</sql>
         <name>PRY_ID</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>PRY_ID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -779,7 +655,7 @@ and ph.year >=2018</sql>
         <name>PRY_composeID</name>
         <length>21</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>PRY_composeID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -800,9 +676,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>PRY_title</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>PRY_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -825,7 +701,7 @@ and ph.year >=2018</sql>
         <name>DLV_ID</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_ID</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -848,7 +724,7 @@ and ph.year >=2018</sql>
         <name>DLV_composeID</name>
         <length>21</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_composeID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -871,7 +747,7 @@ and ph.year >=2018</sql>
         <name>DLV_Title</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_Title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -894,7 +770,7 @@ and ph.year >=2018</sql>
         <name>DLV_Description</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_Description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -917,7 +793,7 @@ and ph.year >=2018</sql>
         <name>DLV_year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -940,7 +816,7 @@ and ph.year >=2018</sql>
         <name>DLV_Category</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_Category</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -963,7 +839,7 @@ and ph.year >=2018</sql>
         <name>DLV_subCategory</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_subCategory</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -986,7 +862,7 @@ and ph.year >=2018</sql>
         <name>DLV_Status</name>
         <length>13</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_Status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1009,7 +885,7 @@ and ph.year >=2018</sql>
         <name>DLV_keyOutput</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_keyOutput</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1030,9 +906,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_geographicScope</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_geographicScope</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1053,9 +929,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_location</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_location</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1076,9 +952,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_CrossCuttingDimension</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_CrossCuttingDimension</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1099,9 +975,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_CrossCuttingScore</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_CrossCuttingScore</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1122,9 +998,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_partnerName</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_partnerName</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1147,7 +1023,7 @@ and ph.year >=2018</sql>
         <name>DLV_partnerPerson</name>
         <length>511</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_partnerPerson</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1170,7 +1046,7 @@ and ph.year >=2018</sql>
         <name>DLV_isOpenAcces</name>
         <length>3</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_isOpenAcces</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1191,9 +1067,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_disseminatedTitle</name>
-        <length>21845</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_disseminatedTitle</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1214,9 +1090,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DLV_disseminatedDate</name>
-        <length>21845</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_disseminatedDate</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1239,7 +1115,7 @@ and ph.year >=2018</sql>
         <name>DLV_licence</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_licence</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1262,7 +1138,7 @@ and ph.year >=2018</sql>
         <name>DLV_Journal</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_Journal</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1285,7 +1161,7 @@ and ph.year >=2018</sql>
         <name>FS_ID</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>FS_ID</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1308,7 +1184,7 @@ and ph.year >=2018</sql>
         <name>FS_composeID</name>
         <length>22</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>FS_composeID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1331,7 +1207,7 @@ and ph.year >=2018</sql>
         <name>FS_title</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>FS_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1354,7 +1230,7 @@ and ph.year >=2018</sql>
         <name>FS_type</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>FS_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1377,7 +1253,7 @@ and ph.year >=2018</sql>
         <name>Management_liason</name>
         <length>511</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>Management_liason</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1398,9 +1274,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>reg_name</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>reg_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1421,9 +1297,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>prg_name</name>
-        <length>65586</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>prg_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1446,7 +1322,7 @@ and ph.year >=2018</sql>
         <name>CoA_id</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>CoA_id</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1467,9 +1343,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>CoA_DESC</name>
-        <length>65535</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>CoA_DESC</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1492,7 +1368,7 @@ and ph.year >=2018</sql>
         <name>loc_region</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>loc_region</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1515,7 +1391,7 @@ and ph.year >=2018</sql>
         <name>already_disseminated</name>
         <length>3</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>already_disseminated</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1538,7 +1414,7 @@ and ph.year >=2018</sql>
         <name>dissemination_channel</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>dissemination_channel</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1561,7 +1437,7 @@ and ph.year >=2018</sql>
         <name>dissemination_URL</name>
         <length>600</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>dissemination_URL</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1582,9 +1458,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>DOI</name>
-        <length>21845</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DOI</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1605,9 +1481,9 @@ and ph.year >=2018</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Handle</name>
-        <length>21845</length>
+        <length>715827882</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>Handle</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1630,7 +1506,7 @@ and ph.year >=2018</sql>
         <name>journal</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>journal</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1653,7 +1529,7 @@ and ph.year >=2018</sql>
         <name>isi_publication</name>
         <length>3</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>isi_publication</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1676,7 +1552,7 @@ and ph.year >=2018</sql>
         <name>identifier</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>identifier</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1699,7 +1575,7 @@ and ph.year >=2018</sql>
         <name>DLV_planned</name>
         <length>7</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>DLV_planned</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1722,8 +1598,31 @@ and ph.year >=2018</sql>
         <name>is_complete</name>
         <length>19</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>is_complete</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>Included_AR</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>Load_stg_deliverables</origin>
+        <comments>Included_AR</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1745,7 +1644,7 @@ and ph.year >=2018</sql>
         <name>Link</name>
         <length>172</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>Link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1768,7 +1667,7 @@ and ph.year >=2018</sql>
         <name>updated_date</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>Load_deliverables</origin>
+        <origin>Load_stg_deliverables</origin>
         <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1814,7 +1713,7 @@ and ph.year >=2018</sql>
     <connection>DES_DB</connection>
     <schema>marlobi</schema>
     <table>bi_deliverables_full_data</table>
-    <commit>1000</commit>
+    <commit>10000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>

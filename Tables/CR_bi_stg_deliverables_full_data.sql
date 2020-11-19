@@ -1,5 +1,4 @@
 drop table if EXISTS bi_stg_deliverables_full_data;
-
 CREATE TABLE `bi_stg_deliverables_full_data` (
   `id_phase` bigint NOT NULL,
   `CGIAR_entity` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -49,5 +48,6 @@ CREATE TABLE `bi_stg_deliverables_full_data` (
   `is_complete` varchar(19) NOT NULL DEFAULT '',
   -- `Included_AR` varchar(10) DEFAULT NULL,
   `Link` varchar(172) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `updated_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+   KEY `idx_stg_deliverables_full_data_01` (`id_phase`, `DLV_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

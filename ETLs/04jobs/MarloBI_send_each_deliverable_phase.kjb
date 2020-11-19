@@ -294,7 +294,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ETL_set_DLV_variables.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../05misc/ETL_set_DLV_variables.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -349,13 +349,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>ETL_deliverables_full_data_no_truncate</name>
+      <name>ETL_stg_deliverables_no_truncate</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ETL_deliverables_full_data_no_truncate.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../02stages/deliverables/ETL_stg_deliverables_full_data.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -383,7 +383,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>464</xloc>
+      <xloc>448</xloc>
       <yloc>32</yloc>
       <attributes_kjc/>
     </entry>
@@ -395,7 +395,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>832</xloc>
+      <xloc>656</xloc>
       <yloc>32</yloc>
       <attributes_kjc/>
     </entry>
@@ -412,7 +412,7 @@
     </hop>
     <hop>
       <from>set_dlv_variables</from>
-      <to>ETL_deliverables_full_data_no_truncate</to>
+      <to>ETL_stg_deliverables_no_truncate</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -420,7 +420,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>ETL_deliverables_full_data_no_truncate</from>
+      <from>ETL_stg_deliverables_no_truncate</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
