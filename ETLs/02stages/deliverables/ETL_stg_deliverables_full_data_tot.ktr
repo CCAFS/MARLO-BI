@@ -1733,7 +1733,7 @@ and ph.year = ${V_PHASE_YEAR}
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>48</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1777,7 +1777,7 @@ and ph.year = ${V_PHASE_YEAR}
     </remotesteps>
     <GUI>
       <xloc>304</xloc>
-      <yloc>48</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

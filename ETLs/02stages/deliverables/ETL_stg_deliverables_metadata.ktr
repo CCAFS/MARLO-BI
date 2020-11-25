@@ -598,7 +598,7 @@ and di.is_active
 and ph.name = '${V_PHASE_NAME}'
 and ph.year = ${V_PHASE_YEAR}
 group by di.id_phase, di.deliverable_id, dmde2.econded_name
-order by di.id_phase, di.deliverable_id, dmde2.econded_name ;</sql>
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -801,7 +801,7 @@ order by di.id_phase, di.deliverable_id, dmde2.econded_name ;</sql>
     </remotesteps>
     <GUI>
       <xloc>352</xloc>
-      <yloc>64</yloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

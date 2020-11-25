@@ -294,7 +294,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/var_ini_MarloBI.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../config/var_ini_MarloBI.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -355,7 +355,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ETL_milestones.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../03facts/milestones/ETL_milestones.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -396,7 +396,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>48</xloc>
-      <yloc>208</yloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -406,7 +406,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -444,8 +444,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>160</xloc>
-      <yloc>208</yloc>
+      <xloc>480</xloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -455,7 +455,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ETL_project_status.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../03facts/projects/ETL_project_status.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -483,8 +483,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>288</xloc>
-      <yloc>208</yloc>
+      <xloc>592</xloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -494,7 +494,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -543,7 +543,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -592,7 +592,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -630,8 +630,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
-      <yloc>208</yloc>
+      <xloc>192</xloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -667,8 +667,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>592</xloc>
-      <yloc>208</yloc>
+      <xloc>336</xloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -681,24 +681,6 @@
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
-    </hop>
-    <hop>
-      <from>save_to_log ETL END</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ETL_project_status</from>
-      <to>save_to_log ETL END</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>init_variables</from>
@@ -728,8 +710,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>save_to_log deliverables</from>
-      <to>ETL_project_status</to>
+      <from>ETL_deliverables_namephase</from>
+      <to>save_to_log deliverables</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -738,6 +720,24 @@
     </hop>
     <hop>
       <from>save_to_log Outcome end</from>
+      <to>ETL_project_status</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ETL_project_status</from>
+      <to>save_to_log ETL END</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>save_to_log ETL END</from>
       <to>ETL_deliverables_namephase</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -746,8 +746,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>ETL_deliverables_namephase</from>
-      <to>save_to_log deliverables</to>
+      <from>save_to_log deliverables</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

@@ -34,3 +34,37 @@ create table `bi_milestones` (
   `pk` varchar(41) default null,
    updated_date DATETIME
 ) engine=innodb default charset=utf8;
+
+drop table if EXISTS bi_projects;
+CREATE TABLE `bi_projects` (
+  `ID Phase` bigint(20) NOT NULL DEFAULT '0',
+  `Phase name` text CHARACTER SET latin1 NOT NULL,
+  `Phase year` int(11) NOT NULL,
+  `CRP` varchar(50) NOT NULL,
+  `CRP name` text NOT NULL,
+  `Project ID` varchar(21) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `Project Link` varchar(177) DEFAULT NULL,
+  `Project Title` text,
+  `Flagship` varchar(50),
+  `Outcome ID` varchar(20) DEFAULT NULL,
+  `Outcome expected value` double(22,2) DEFAULT NULL,
+  `Outcome expected unit` longtext,
+  -- `Outcome reported value` double(22,2) DEFAULT NULL,
+  -- `Outcome reported unit` longtext,
+  `Milestone ID` varchar(20) DEFAULT NULL,
+  `Milestone expected value` decimal(10,2) DEFAULT NULL,
+  `Milestone expected unit` longtext,
+  `Milestone reported value` decimal(10,2) DEFAULT NULL,
+  -- `Milestone reported unit` longtext,
+  `Contribution Narrative` text,
+  `Outcome Comunication` text,
+  `Milestone expected narrative` longtext,
+  `Milestone achieved narrative` longtext,
+  `Next user` longtext,
+  `Next user knowledge expected` longtext,
+  `Next user Strategies` longtext,
+  `Next user knowledge progress` longtext,
+  `Next user Strategies Progress` longtext,
+  `pk` varchar(41) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
