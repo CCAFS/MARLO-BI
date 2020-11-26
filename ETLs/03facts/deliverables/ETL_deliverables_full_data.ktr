@@ -1711,7 +1711,7 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>marlobi</schema>
+    <schema>${DES_DBNAME}</schema>
     <table>bi_deliverables_full_data</table>
     <commit>10000</commit>
     <truncate>Y</truncate>
