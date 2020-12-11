@@ -1474,7 +1474,7 @@ GROUP BY
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema/>
+    <schema>${DES_DBNAME}</schema>
     <table>marlo_project_submission</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
