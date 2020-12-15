@@ -798,6 +798,7 @@ left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_act
 WHERE p.is_active
 AND ph.year >= 2019	
 and ph.name in ('AR','POWB')
+and ph.id = 116 
 and ph.global_unit_id=1  
 and ph.year between year(pi.start_date) and year(pi.end_date)
 GROUP BY
@@ -1450,7 +1451,7 @@ GROUP BY
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
+      <xloc>112</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
