@@ -798,15 +798,8 @@ left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_act
 WHERE p.is_active
 AND ph.year >= 2019	
 and ph.name in ('AR','POWB')
--- and di.deliverable_id =5602
---  and ph.id = 131
--- and ph.global_unit_id=1  
--- and p.id = 1593
--- and section_id =87852
--- and concat(ph.name,ph.year)='AR2019'
--- and ph.id = 101
+and ph.global_unit_id=1  
 and ph.year between year(pi.start_date) and year(pi.end_date)
--- and section_name='contributionsCrpList'
 GROUP BY
 	-- p.id,fp.program_type,fp.acronym,ph.id,sec.id,sec.section_name,sec.deliverable_id,sec.project_expected_id,sec.project_innovation_id,sec.project_policy_id,sec.project_outcome_id
 	p.id,pi.title,pi.administrative,pi.status,pi.is_evaluated,
