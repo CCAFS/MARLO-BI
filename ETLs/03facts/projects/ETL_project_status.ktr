@@ -796,7 +796,7 @@ left join project_outcomes pout on pout.id = sec.project_outcome_id and pout.is_
 left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_active
 
 WHERE p.is_active
-AND ph.year = 2020	
+AND ph.year in (2020,2021)
 and ph.name in ('AR','POWB')
 and ph.year between year(pi.start_date) and year(pi.end_date)
 GROUP BY
