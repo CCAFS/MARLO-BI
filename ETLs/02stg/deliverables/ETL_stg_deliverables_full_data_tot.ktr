@@ -648,7 +648,7 @@ END reg_name
 ,if(d.id_phase=di.id_phase,'New','Planned') DLV_planned
 ,if(ss.missing_fields is null or ss.missing_fields ='','Complete','With missing fields') is_complete
 -- ,if(is_deliverable_excluded(di.deliverable_id,di.id_phase) = 0,'Yes','No') Included_AR 
-,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',di.deliverable_id,'&amp;edit=true&amp;phaseID=',ph.id) Link
+,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',di.deliverable_id,'&amp;edit=true&amp;phaseID=',cph.current_phase) Link
 ,sysdate() updated_date
 
 -- select count(*) 
@@ -656,6 +656,11 @@ FROM  deliverables d
 JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
 JOIN phases ph on ph.id = di.id_phase
 JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+--  CC current phase 20210106
+JOIN (select cp.global_unit_id,cp.parameter_id, convert(cp.value, UNSIGNED INTEGER)  current_phase 
+from parameters p
+join custom_parameters cp on p.id = cp.parameter_id and p.key="current_phase") cph ON ph.global_unit_id = cph.global_unit_id
+--
 
 JOIN cgiar_cross_cutting_markers ccm 
 LEFT JOIN deliverable_cross_cutting_markers dccm on dccm.deliverable_id = di.deliverable_id and dccm.id_phase = di.id_phase and dccm.cgiar_cross_cutting_marker_id = ccm.id
@@ -1732,7 +1737,7 @@ and ph.year = ${V_PHASE_YEAR}
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>64</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>

@@ -1695,7 +1695,7 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>48</yloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1738,8 +1738,8 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
-      <yloc>48</yloc>
+      <xloc>512</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
