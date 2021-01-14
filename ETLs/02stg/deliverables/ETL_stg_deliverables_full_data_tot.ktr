@@ -637,8 +637,10 @@ END reg_name
 ,if(pi.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) CoA_id
 ,if(pi.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) CoA_DESC
 ,region.name loc_region
-,if(dis.already_disseminated=0,'No','Yes')  already_disseminated
-,dis.dissemination_channel 
+,if(ifnull(dis.already_disseminated ,0 ) =0,'No','Yes')  already_disseminated
+-- 20210114 CC null treatment on dissemination channel according to already_disseminated
+,if(ifnull(dis.already_disseminated, 0) =0,'Not Applicable', 
+    if(ifnull(dis.dissemination_channel, '-1') = '-1', 'Not Defined', dis.dissemination_channel)) dissemination_channel
 ,dis.dissemination_URL
 -- ,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.doi') as 'DOI'
 -- ,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.handle') as 'Handle'
@@ -650,18 +652,20 @@ END reg_name
 -- ,if(is_deliverable_excluded(di.deliverable_id,di.id_phase) = 0,'Yes','No') Included_AR 
 ,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',di.deliverable_id,'&amp;edit=true&amp;phaseID=',cph.current_phase) Link
 ,sysdate() updated_date
+-- 202010114 CC Add adopted license column
+, if(di.adopted_license=1, 'Yes', 'No') adopted_license
 
--- select count(*) 
 FROM  deliverables d
 JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
 JOIN phases ph on ph.id = di.id_phase
 JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
---  CC current phase 20210106
+-- 20210106 CC current phase 20210106
 JOIN (select cp.global_unit_id,cp.parameter_id, convert(cp.value, UNSIGNED INTEGER)  current_phase 
 from parameters p
 join custom_parameters cp on p.id = cp.parameter_id and p.key="current_phase") cph ON ph.global_unit_id = cph.global_unit_id
---
-
+-- 20210114 CC add join with table bi_phase_by_cubes to define the phase
+join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+-- 
 JOIN cgiar_cross_cutting_markers ccm 
 LEFT JOIN deliverable_cross_cutting_markers dccm on dccm.deliverable_id = di.deliverable_id and dccm.id_phase = di.id_phase and dccm.cgiar_cross_cutting_marker_id = ccm.id
 LEFT JOIN rep_ind_gender_youth_focus_levels ccml on ccml.id = dccm.rep_ind_gender_youth_focus_level_id
@@ -704,10 +708,10 @@ LEFT JOIN deliverable_funding_sources dfs on dfs.deliverable_id = di.deliverable
 LEFT JOIN funding_sources_info fs on dfs.funding_source_id = fs.funding_source_id  and fs.id_phase = dfs.id_phase
 LEFT JOIN budget_types fst on fst.id=fs.type
 WHERE d.is_active
-and ph.name = '${V_PHASE_NAME}'
-and ph.year = ${V_PHASE_YEAR}
-
-</sql>
+and ph.name = pbc.phase_name
+and ph.year = pbc.phase_year
+-- and ph.global_unit_id = 1
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1685,7 +1689,7 @@ and ph.year = ${V_PHASE_YEAR}
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Link</name>
-        <length>172</length>
+        <length>173</length>
         <precision>-1</precision>
         <origin>Load_deliverables</origin>
         <comments>Link</comments>
@@ -1712,6 +1716,29 @@ and ph.year = ${V_PHASE_YEAR}
         <precision>-1</precision>
         <origin>Load_deliverables</origin>
         <comments>updated_date</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>adopted_license</name>
+        <length>3</length>
+        <precision>-1</precision>
+        <origin>Load_deliverables</origin>
+        <comments>adopted_license</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

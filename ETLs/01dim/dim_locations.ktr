@@ -600,51 +600,39 @@
     <fields>
       <field>
         <name>country_id</name>
-        <rename/>
       </field>
       <field>
         <name>country_name</name>
-        <rename/>
       </field>
       <field>
         <name>iso_alpha_2</name>
-        <rename/>
       </field>
       <field>
         <name>iso_numeric</name>
-        <rename/>
       </field>
       <field>
         <name>reg_wb_id</name>
-        <rename/>
       </field>
       <field>
         <name>reg_wb_name</name>
-        <rename/>
       </field>
       <field>
         <name>reg_un_id</name>
-        <rename/>
       </field>
       <field>
         <name>reg_un_name</name>
-        <rename/>
       </field>
       <field>
         <name>reg_iati_id</name>
-        <rename/>
       </field>
       <field>
         <name>reg_iati_name</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>loc_geo_scope</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -718,20 +706,25 @@
     <connection>ORI_DB</connection>
     <sql>-- Countries with the 2 region
 select le.id country_id, le.name country_name, le.iso_alpha_2,le.iso_numeric,par.id reg_wb_id,par.name reg_wb_name, par.iso_numeric reg_un_id,par.name reg_un_name,
-re.iati_id reg_iati_id,re.iati_name reg_iati_name, le.id, "Country" loc_geo_scope
+re.iati_id reg_iati_id, ifnull(re.iati_name, 'NA') reg_iati_name, le.id, "Country" loc_geo_scope
 from loc_elements le 
 join loc_elements par on par.id = le.parent_id
 join rep_ind_regions re on par.rep_ind_regions_id = re.id
-where le.is_active  
-and le.element_type_id = 2
+where 
+-- le.is_active  
+-- and 
+le.element_type_id = 2
 UNION ALL
 -- UN-iati Region 
 select concat('un_',reg.id) country_id , 'Regional' country_name, '' iso_alpha_2,'' iso_numeric, '' reg_wb_id, '' reg_wb_name,reg.iso_numeric  reg_un_id,reg.name reg_un_name,
-re.iati_id reg_iati_id, re.iati_name reg_iati_name, reg.id, "Regional" loc_geo_scope
-from loc_elements reg
-join rep_ind_regions re on reg.rep_ind_regions_id = re.id
-where reg.is_active
-and reg.element_type_id = 1
+re.iati_id reg_iati_id, ifnull(re.iati_name, 'NA') reg_iati_name, reg.id, "Regional" loc_geo_scope
+from loc_elements reg 
+left join rep_ind_regions re on reg.rep_ind_regions_id = re.id
+where 
+-- no se puede retirar los inactivos porque todavia existen en registros base como funding source locations
+-- reg.is_active
+-- and 
+reg.element_type_id = 1
 union all
 -- World scope
 select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'GL' reg_wb_id, 'Global' reg_wb_name,'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global'reg_iati_name, 0 id, "Global" loc_geo_scope

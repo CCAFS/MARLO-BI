@@ -8,7 +8,7 @@ create table dim_fs_intersect_group_institutions
 institution_acr_name_group text,
 institution_name_group text,
 acronym_group text,
-ids_group varchar(100) NOT NULL default 0,
+ids_group varchar(200) NOT NULL default 0,
 PRIMARY KEY (`pk_id_fs_intersect_group_inst`),
 KEY `idx_id_fs_intersect_group_inst_tk` (`pk_id_fs_intersect_group_inst`) USING BTREE,
 KEY `idx_id_group_fs_intersect_group_inst` (`ids_group`) USING BTREE

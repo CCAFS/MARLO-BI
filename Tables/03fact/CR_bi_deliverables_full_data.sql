@@ -47,5 +47,6 @@ create table `bi_deliverables_full_data` (
   `is_complete` varchar(19) not null default '',
   `Included_AR` varchar(10) default null,
   `Link` varchar(172) character set utf8 collate utf8_general_ci default null,
-  `updated_date` datetime not null default '0000-00-00 00:00:00'
+  `updated_date` datetime not null default '0000-00-00 00:00:00',
+  `adopted_license` varchar(3) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

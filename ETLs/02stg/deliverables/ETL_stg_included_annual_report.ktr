@@ -581,10 +581,11 @@
 from deliverables d
 join deliverables_info di on d.id = di.deliverable_id
 join phases ph on di.id_phase = ph.id
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
 and  d.is_active
 and di.is_active
-and ph.name = '${V_PHASE_NAME}'
-and ph.year = ${V_PHASE_YEAR}
+and ph.name = pbc.phase_name
+and ph.year = pbc.phase_year
 
 </sql>
     <limit>0</limit>
@@ -729,7 +730,7 @@ and ph.year = ${V_PHASE_YEAR}
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
+      <xloc>480</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
