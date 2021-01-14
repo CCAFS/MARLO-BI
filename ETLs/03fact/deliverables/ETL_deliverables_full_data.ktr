@@ -569,7 +569,8 @@
     dfd.`is_complete`,
     dii.`Included_AR`,
     dfd.`Link`,
-    dfd.`updated_date`
+    dfd.`updated_date`,
+	dfd.`adopted_license`
 FROM bi_stg_deliverables_full_data dfd 
 left join bi_stg_deliverables_metadata dmd on dfd.id_phase = dmd.id_phase and dfd.DLV_ID = dmd.DLV_ID
 join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.DLV_ID = dii.DLV_ID;</sql>
@@ -1669,6 +1670,29 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
         <precision>-1</precision>
         <origin>Load_stg_deliverables</origin>
         <comments>updated_date</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>adopted_license</name>
+        <length>3</length>
+        <precision>-1</precision>
+        <origin>Load_stg_deliverables</origin>
+        <comments>adopted_license</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
