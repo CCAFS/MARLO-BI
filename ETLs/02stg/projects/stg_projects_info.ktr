@@ -789,33 +789,47 @@
     <fields>
       <field>
         <name>id</name>
+        <rename/>
       </field>
       <field>
         <name>title</name>
+        <rename/>
       </field>
       <field>
         <name>project_id</name>
+        <rename/>
       </field>
       <field>
         <name>id_phase</name>
+        <rename/>
       </field>
       <field>
         <name>start_date</name>
+        <rename/>
       </field>
       <field>
         <name>end_date</name>
+        <rename/>
       </field>
       <field>
         <name>type</name>
+        <rename/>
       </field>
       <field>
         <name>status</name>
+        <rename/>
       </field>
       <field>
         <name>pid_name</name>
+        <rename/>
       </field>
       <field>
         <name>project_link</name>
+        <rename/>
+      </field>
+      <field>
+        <name>composed_title</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -929,7 +943,7 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select pin.id, pin.title, pin.project_id, pin.id_phase, pin.start_date, pin.end_date, pin.type, pin.status, concat("P",pin.project_id) pid_name,
+    <sql>select pin.id, pin.title, pin.project_id, pin.id_phase, pin.start_date, pin.end_date, pin.type, pin.status, concat("P",pin.project_id) pid_name, concat("P",pin.project_id, ' - ',pin.title) composed_title,
 -- concat("https://marlo.cgiar.org/projects/",trim(gu.acronym),"/description.do?projectID=",pin.project_id,"&amp;edit=true&amp;phaseID=", pin.id_phase) project_link_no,
 "https://marlo.cgiar.org/projects/" project_link1,
 "/description.do?projectID=" project_link2,
@@ -938,7 +952,8 @@ gu.acronym,
 ph.global_unit_id
 from projects p
 join projects_info pin on p.id = pin.project_id and p.is_active and pin.is_active
-join phases ph on pin.id_phase = ph.id and ph.name = '${V_PHASE_NAME}' and ph.year = ${V_PHASE_YEAR}
+join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
+join phases ph on pin.id_phase = ph.id and ph.name = pbc.phase_name and ph.year = pbc.phase_year
 join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in (1,3)</sql>
     <limit>0</limit>
     <lookup/>
@@ -1139,6 +1154,29 @@ join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in 
         <precision>-1</precision>
         <origin>input_projects_info</origin>
         <comments>pid_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>composed_title</name>
+        <length>65559</length>
+        <precision>-1</precision>
+        <origin>input_projects_info</origin>
+        <comments>composed_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

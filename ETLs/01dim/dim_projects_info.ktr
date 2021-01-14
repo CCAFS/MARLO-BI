@@ -568,6 +568,10 @@
         <name>project_link</name>
         <rename/>
       </field>
+      <field>
+        <name>composed_title</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
@@ -699,6 +703,11 @@
         <lookup>project_link</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>composed_title</name>
+        <lookup>composed_title</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_projects_info</name>
         <rename/>
@@ -752,6 +761,7 @@
 , id_phase
 , pid_name
 , project_link
+, composed_title
 FROM marloBI.stg_projects_info
 </sql>
     <limit>0</limit>
@@ -930,6 +940,52 @@ FROM marloBI.stg_projects_info
         <precision>-1</precision>
         <origin>input_stg_projects_info</origin>
         <comments>pid_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>project_link</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_stg_projects_info</origin>
+        <comments>project_link</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>composed_title</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_stg_projects_info</origin>
+        <comments>composed_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

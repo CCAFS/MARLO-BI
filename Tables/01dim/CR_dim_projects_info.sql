@@ -15,6 +15,7 @@ CREATE TABLE marloBI.dim_projects_info
 , `id_phase` bigint(20) DEFAULT NULL
 , `pid_name` varchar(20)
 , `project_link` text
+, `composed_title` text
 , PRIMARY KEY (`pk_id_projects_info`),
   KEY `idx_dim_projects_info_lookup` (`project_id`, `id_phase`) ,
   KEY `idx_dim_projects_info_tk` (`pk_id_projects_info`) 
