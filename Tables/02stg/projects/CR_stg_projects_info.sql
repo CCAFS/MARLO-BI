@@ -12,5 +12,5 @@ CREATE TABLE `stg_projects_info` (
   `id_phase` bigint(20) DEFAULT NULL,
   `pid_name` varchar(20),
   `project_link` text,
-  `prj_composed_name` text
+  `composed_title` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
