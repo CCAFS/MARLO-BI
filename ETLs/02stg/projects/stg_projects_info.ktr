@@ -789,47 +789,36 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>title</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>start_date</name>
-        <rename/>
       </field>
       <field>
         <name>end_date</name>
-        <rename/>
       </field>
       <field>
         <name>type</name>
-        <rename/>
       </field>
       <field>
         <name>status</name>
-        <rename/>
       </field>
       <field>
         <name>pid_name</name>
-        <rename/>
       </field>
       <field>
         <name>project_link</name>
-        <rename/>
       </field>
       <field>
         <name>composed_title</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -952,8 +941,7 @@ gu.acronym,
 ph.global_unit_id
 from projects p
 join projects_info pin on p.id = pin.project_id and p.is_active and pin.is_active
-join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
-join phases ph on pin.id_phase = ph.id and ph.name = pbc.phase_name and ph.year = pbc.phase_year
+join phases ph on pin.id_phase = ph.id and ph.name = '${V_PHASE_NAME}' and ph.year = ${V_PHASE_YEAR}
 join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in (1,3)</sql>
     <limit>0</limit>
     <lookup/>
