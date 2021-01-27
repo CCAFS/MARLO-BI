@@ -649,7 +649,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Sort_stg_fs_info</step1>
     <step2>Sort_br_fs_group_locations</step2>
     <keys_1>
@@ -685,7 +685,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>INNER</join_type>
+    <join_type>LEFT OUTER</join_type>
     <step1>Merge join</step1>
     <step2>Sort_br_fs_group_institutions</step2>
     <keys_1>
