@@ -505,7 +505,7 @@
       <server>cluster5out.us.messagelabs.com</server>
       <port>25</port>
       <destination>c.castiblanco@cgiar.org</destination>
-      <destinationCc>m.almanzar@cgiar.org</destinationCc>
+      <destinationCc>m.r.almanzar@cgiar.org</destinationCc>
       <destinationBCc/>
       <replyto>c.castiblanco@cgiar.org</replyto>
       <replytoname>MARLO BI</replytoname>
@@ -514,7 +514,9 @@
       <contact_person/>
       <contact_phone/>
       <comment>Error executing ETL_project_status.
-Please see the attached Files.</comment>
+Please see the attached Files.
+${Internal.Job.Name}
+${LOG_PATH}</comment>
       <include_files>Y</include_files>
       <zip_files>N</zip_files>
       <zip_name/>
@@ -533,8 +535,6 @@ Please see the attached Files.</comment>
       <replyToAddresses/>
       <filetypes>
         <filetype>LOG</filetype>
-        <filetype>ERRORLINE</filetype>
-        <filetype>ERROR</filetype>
       </filetypes>
       <embeddedimages>
       </embeddedimages>
