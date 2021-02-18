@@ -600,39 +600,43 @@
     <fields>
       <field>
         <name>country_id</name>
+        <rename/>
       </field>
       <field>
         <name>country_name</name>
+        <rename/>
       </field>
       <field>
         <name>iso_alpha_2</name>
+        <rename/>
       </field>
       <field>
         <name>iso_numeric</name>
-      </field>
-      <field>
-        <name>reg_wb_id</name>
-      </field>
-      <field>
-        <name>reg_wb_name</name>
+        <rename/>
       </field>
       <field>
         <name>reg_un_id</name>
+        <rename/>
       </field>
       <field>
         <name>reg_un_name</name>
+        <rename/>
       </field>
       <field>
         <name>reg_iati_id</name>
+        <rename/>
       </field>
       <field>
         <name>reg_iati_name</name>
+        <rename/>
       </field>
       <field>
         <name>id</name>
+        <rename/>
       </field>
       <field>
-        <name>loc_geo_scope</name>
+        <name>loc_element_type</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -705,31 +709,27 @@
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>-- Countries with the 2 region
-select le.id country_id, le.name country_name, le.iso_alpha_2,le.iso_numeric,par.id reg_wb_id,par.name reg_wb_name, par.iso_numeric reg_un_id,par.name reg_un_name,
-re.iati_id reg_iati_id, ifnull(re.iati_name, 'NA') reg_iati_name, le.id, "Country" loc_geo_scope
+select le.id country_id, le.name country_name, le.iso_alpha_2,le.iso_numeric, 
+par.iso_numeric reg_un_id, par.name reg_un_name, re.iati_id reg_iati_id,re.iati_name reg_iati_name, le.id id,
+'Country location' loc_element_type
 from loc_elements le 
 join loc_elements par on par.id = le.parent_id
 join rep_ind_regions re on par.rep_ind_regions_id = re.id
-where 
--- le.is_active  
--- and 
-le.element_type_id = 2
+where le.is_active  
+and le.element_type_id = 2
 UNION ALL
 -- UN-iati Region 
-select concat('un_',reg.id) country_id , 'Regional' country_name, '' iso_alpha_2,'' iso_numeric, '' reg_wb_id, '' reg_wb_name,reg.iso_numeric  reg_un_id,reg.name reg_un_name,
-re.iati_id reg_iati_id, ifnull(re.iati_name, 'NA') reg_iati_name, reg.id, "Regional" loc_geo_scope
-from loc_elements reg 
-left join rep_ind_regions re on reg.rep_ind_regions_id = re.id
-where 
--- no se puede retirar los inactivos porque todavia existen en registros base como funding source locations
--- reg.is_active
--- and 
-reg.element_type_id = 1
+select reg.id country_id , 'Regional' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 
+reg.iso_numeric  reg_un_id,reg.name reg_un_name, re.iati_id reg_iati_id, re.iati_name reg_iati_name, reg.id id,
+'Region location' loc_element_type
+from loc_elements reg
+join rep_ind_regions re on reg.rep_ind_regions_id = re.id
+where reg.is_active
+and reg.element_type_id = 1
 union all
 -- World scope
-select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'GL' reg_wb_id, 'Global' reg_wb_name,'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global'reg_iati_name, 0 id, "Global" loc_geo_scope
-;
-</sql>
+select  0 country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global'reg_iati_name, 0 id,  'Global location' loc_element_type
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -738,14 +738,14 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>country_id</name>
-        <length>23</length>
-        <precision>-1</precision>
+        <length>15</length>
+        <precision>0</precision>
         <origin>Table input</origin>
         <comments>country_id</comments>
-        <conversion_Mask/>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -814,52 +814,6 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
         <precision>-1</precision>
         <origin>Table input</origin>
         <comments>iso_numeric</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>reg_wb_id</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>reg_wb_id</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>reg_wb_name</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>reg_wb_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -993,11 +947,11 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>loc_geo_scope</name>
-        <length>8</length>
+        <name>loc_element_type</name>
+        <length>16</length>
         <precision>-1</precision>
         <origin>Table input</origin>
-        <comments>loc_geo_scope</comments>
+        <comments>loc_element_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1023,8 +977,8 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
       </output>
     </remotesteps>
     <GUI>
-      <xloc>93</xloc>
-      <yloc>189</yloc>
+      <xloc>80</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1070,16 +1024,6 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
         <update>Update</update>
       </field>
       <field>
-        <name>reg_wb_id</name>
-        <lookup>reg_wb_id</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>reg_wb_name</name>
-        <lookup>reg_wb_name</lookup>
-        <update>Update</update>
-      </field>
-      <field>
         <name>reg_un_id</name>
         <lookup>reg_un_id</lookup>
         <update>Update</update>
@@ -1105,8 +1049,8 @@ select  'WORLD' country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_nu
         <update>Update</update>
       </field>
       <field>
-        <name>loc_geo_scope</name>
-        <lookup>loc_geo_scope</lookup>
+        <name>loc_element_type</name>
+        <lookup>loc_element_type</lookup>
         <update>Update</update>
       </field>
       <return>

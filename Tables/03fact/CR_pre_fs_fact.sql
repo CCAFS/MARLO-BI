@@ -1,21 +1,20 @@
 drop table if exists pre_fs_fact;
 
-CREATE TABLE pre_fs_fact
-(
-  `fk_id_crp` BIGINT
-, `fk_id_year` BIGINT
-, `fk_id_fs_info` BIGINT
-, `fk_id_direct_donor` BIGINT
-, `fk_id_donor` BIGINT
-, `fk_id_lead_center` BIGINT
-, `fk_id_intersect_group_inst` BIGINT
-, `fk_id_intersect_group_loc` BIGINT
-, `fk_id_agreement_status` BIGINT
-, `budget_amount` DECIMAL(20, 5)
-, `budget_amount_allocated` DECIMAL(20, 5)
-, `pending_budget_amount` DECIMAL(20, 5)
-, `has_budget` tinyint(1)
-, `has_budget_allocated` tinyint(1)
-, `updated_date` DATETIME
-) ENGINE=InnoDB CHARSET=utf8;
-;
+CREATE TABLE `pre_fs_fact` (
+  `fk_id_crp` bigint DEFAULT NULL,
+  `fk_id_year` bigint DEFAULT NULL,
+  `fk_id_fs_info` bigint DEFAULT NULL,
+  `fk_id_direct_donor` bigint DEFAULT NULL,
+  `fk_id_donor` bigint DEFAULT NULL,
+  `fk_id_lead_center` bigint DEFAULT NULL,
+  `fk_id_intersect_group_inst` bigint DEFAULT NULL,
+  `fk_id_intersect_group_loc` bigint DEFAULT NULL,
+  `fk_id_intersect_group_geo` bigint DEFAULT NULL,
+  `fk_id_agreement_status` bigint DEFAULT NULL,
+  `budget_amount` decimal(20,5) DEFAULT NULL,
+  `budget_amount_allocated` decimal(20,5) DEFAULT NULL,
+  `pending_budget_amount` decimal(20,5) DEFAULT NULL,
+  `has_budget` tinyint(1) DEFAULT NULL,
+  `has_budget_allocated` tinyint(1) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

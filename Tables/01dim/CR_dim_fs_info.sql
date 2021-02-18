@@ -1,6 +1,6 @@
-drop table if exists dim_fs_info;
+drop table if exists `dim_fs_info`;
 
-create table dim_fs_info
+create table `dim_fs_info`
 (
  `pk_id_fs_info` bigint(20) NOT NULL,
   `version` int(11) DEFAULT NULL,
@@ -24,8 +24,8 @@ create table dim_fs_info
   `grant_amount` DECIMAL(20, 5),
   `fs_link` text,
    PRIMARY KEY (`pk_id_fs_info`),
-  KEY `idx_dim_locations_lookup` (`funding_source_id`,`id_phase`) USING BTREE,
-  KEY `idx_dim_locations_lookup2` (`id`) USING BTREE,
-  KEY `idx_dim_locations_tk` (`pk_id_fs_info`) USING BTREE
+  KEY `idx_dim_fs_info_lookup` (`funding_source_id`,`id_phase`) USING BTREE,
+  KEY `idx_dim_fs_info_lookup2` (`id`) USING BTREE,
+  KEY `idx_dim_fs_info_tk` (`pk_id_fs_info`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

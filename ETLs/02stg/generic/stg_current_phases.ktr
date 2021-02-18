@@ -597,12 +597,27 @@ actually used as open phase to the CRP</extended_description>
     <fields>
       <field>
         <name>global_unit_id</name>
+        <rename/>
       </field>
       <field>
         <name>parameter_id</name>
+        <rename/>
       </field>
       <field>
         <name>current_phase</name>
+        <rename/>
+      </field>
+      <field>
+        <name>phase_description</name>
+        <rename/>
+      </field>
+      <field>
+        <name>phase_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>phase_year</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -632,9 +647,11 @@ actually used as open phase to the CRP</extended_description>
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select cp.global_unit_id,cp.parameter_id, convert(cp.value, UNSIGNED INTEGER)  current_phase 
+    <sql>select cp.global_unit_id,cp.parameter_id, convert(cp.value, UNSIGNED INTEGER)  current_phase , ph.description phase_description, ph.name phase_name, ph.year phase_year
 from parameters p
-join custom_parameters cp on p.id = cp.parameter_id and p.key="current_phase";
+join custom_parameters cp on p.id = cp.parameter_id and p.key="current_phase"
+join phases ph on ph.id = cp.value
+;
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -700,6 +717,75 @@ join custom_parameters cp on p.id = cp.parameter_id and p.key="current_phase";
         <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>phase_description</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_fs_current_phase</origin>
+        <comments>phase_description</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>phase_name</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>input_fs_current_phase</origin>
+        <comments>phase_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>phase_year</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>input_fs_current_phase</origin>
+        <comments>phase_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>

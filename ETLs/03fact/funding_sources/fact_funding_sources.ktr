@@ -541,15 +541,15 @@
         <rename/>
       </field>
       <field>
-        <name>fk_id_direct_donor</name>
+        <name>fk_id_inst_direct_donor</name>
         <rename/>
       </field>
       <field>
-        <name>fk_id_donor</name>
+        <name>fk_id_inst_orig_donor</name>
         <rename/>
       </field>
       <field>
-        <name>fk_id_lead_center</name>
+        <name>fk_id_inst_lead_center</name>
         <rename/>
       </field>
       <field>
@@ -558,6 +558,10 @@
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
         <rename/>
       </field>
       <field>
@@ -573,7 +577,7 @@
         <rename/>
       </field>
       <field>
-        <name>pending_budget_amount</name>
+        <name>pending_budget_amount_allocated</name>
         <rename/>
       </field>
       <field>
@@ -599,7 +603,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>384</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -622,7 +626,7 @@
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
+    <specify_fields>N</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -633,66 +637,6 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
-      <field>
-        <column_name>fk_id_crp</column_name>
-        <stream_name>fk_id_crp</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_year</column_name>
-        <stream_name>fk_id_year</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_fs_info</column_name>
-        <stream_name>fk_id_fs_info</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_inst_direct_donor</column_name>
-        <stream_name>fk_id_direct_donor</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_inst_orig_donor</column_name>
-        <stream_name>fk_id_donor</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_inst_lead_center</column_name>
-        <stream_name>fk_id_lead_center</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_intersect_group_inst</column_name>
-        <stream_name>fk_id_intersect_group_inst</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_intersect_group_loc</column_name>
-        <stream_name>fk_id_intersect_group_loc</stream_name>
-      </field>
-      <field>
-        <column_name>budget_amount</column_name>
-        <stream_name>budget_amount</stream_name>
-      </field>
-      <field>
-        <column_name>budget_amount_allocated</column_name>
-        <stream_name>budget_amount_allocated</stream_name>
-      </field>
-      <field>
-        <column_name>pending_budget_amount_allocated</column_name>
-        <stream_name>pending_budget_amount</stream_name>
-      </field>
-      <field>
-        <column_name>has_budget</column_name>
-        <stream_name>has_budget</stream_name>
-      </field>
-      <field>
-        <column_name>has_budget_allocated</column_name>
-        <stream_name>has_budget_allocated</stream_name>
-      </field>
-      <field>
-        <column_name>fk_id_agreement_status</column_name>
-        <stream_name>fk_id_agreement_status</stream_name>
-      </field>
-      <field>
-        <column_name>updated_date</column_name>
-        <stream_name>updated_date</stream_name>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -724,15 +668,16 @@
   fk_id_crp
 , fk_id_year
 , fk_id_fs_info
-, fk_id_direct_donor
-, fk_id_donor
-, fk_id_lead_center
+, fk_id_direct_donor fk_id_inst_orig_donor
+, fk_id_donor fk_id_inst_direct_donor
+, fk_id_lead_center fk_id_inst_lead_center
 , fk_id_intersect_group_inst
 , fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
 , fk_id_agreement_status
 , budget_amount
 , budget_amount_allocated
-, pending_budget_amount
+, pending_budget_amount pending_budget_amount_allocated
 , has_budget
 , has_budget_allocated
 , updated_date
@@ -817,11 +762,11 @@ FROM marloBI.pre_fs_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_direct_donor</name>
+        <name>fk_id_inst_orig_donor</name>
         <length>15</length>
         <precision>0</precision>
         <origin>input_pre_fs_fact</origin>
-        <comments>fk_id_direct_donor</comments>
+        <comments>fk_id_inst_orig_donor</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -840,11 +785,11 @@ FROM marloBI.pre_fs_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_donor</name>
+        <name>fk_id_inst_direct_donor</name>
         <length>15</length>
         <precision>0</precision>
         <origin>input_pre_fs_fact</origin>
-        <comments>fk_id_donor</comments>
+        <comments>fk_id_inst_direct_donor</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -863,11 +808,11 @@ FROM marloBI.pre_fs_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_lead_center</name>
+        <name>fk_id_inst_lead_center</name>
         <length>15</length>
         <precision>0</precision>
         <origin>input_pre_fs_fact</origin>
-        <comments>fk_id_lead_center</comments>
+        <comments>fk_id_inst_lead_center</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -914,6 +859,29 @@ FROM marloBI.pre_fs_fact
         <precision>0</precision>
         <origin>input_pre_fs_fact</origin>
         <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_pre_fs_fact</origin>
+        <comments>fk_id_intersect_group_geo</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1001,11 +969,11 @@ FROM marloBI.pre_fs_fact
       <value-meta>
         <type>BigNumber</type>
         <storagetype>normal</storagetype>
-        <name>pending_budget_amount</name>
+        <name>pending_budget_amount_allocated</name>
         <length>20</length>
         <precision>5</precision>
         <origin>input_pre_fs_fact</origin>
-        <comments>pending_budget_amount</comments>
+        <comments>pending_budget_amount_allocated</comments>
         <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol/>
@@ -1052,6 +1020,29 @@ FROM marloBI.pre_fs_fact
         <precision>-1</precision>
         <origin>input_pre_fs_fact</origin>
         <comments>has_budget_allocated</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>updated_date</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>input_pre_fs_fact</origin>
+        <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

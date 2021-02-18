@@ -1032,8 +1032,9 @@ join funding_sources_info fsi on fs.id = fsi.funding_source_id
 and  fs.is_active
 and  fsi.is_active
 join phases ph on ph.id = fsi.id_phase
-and  ph.name = '${V_PHASE_NAME}'
-and  ph.YEAR = ${V_PHASE_YEAR}
+join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+and  ph.name = pbc.phase_name -- '${V_PHASE_NAME}'
+and  ph.YEAR = pbc.phase_year -- ${V_PHASE_YEAR}
 join global_units gu on gu.id = ph.global_unit_id
 and  gu.global_unit_type_id in (1,3) 
 join funding_source_budgets fsb on fsi.funding_source_id = fsb.funding_source_id and fsi.id_phase = fsb.id_phase
@@ -1045,14 +1046,15 @@ left join (select pb.year prj_year, pb.id_phase, pb.funding_source_id, sum(pb.am
       join projects_info pin on pj.id = pin.project_id
       join project_budgets pb on pin.project_id = pb.project_id
       join phases ph1 on pin.id_phase = ph1.id
+	  join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
       and pin.id_phase = pb.id_phase
       and pj.is_active
       and pin.is_active
       and pb.is_active
  	  -- 20210125 CC workaround para problema con el dato de year
 	  and pb.year between 2004 and 2030  
-	  and  ph1.name = '${V_PHASE_NAME}'
-	  and  ph1.year = ${V_PHASE_YEAR}
+	  and  ph1.name = pbc.phase_name -- '${V_PHASE_NAME}'
+	  and  ph1.YEAR = pbc.phase_year -- ${V_PHASE_YEAR}
       group by pb.year, pb.id_phase, pb.funding_source_id 
       ) prj_fs on fsb.id_phase = prj_fs.id_phase and fsb.year = prj_fs.prj_year and fsb.funding_source_id = prj_fs.funding_source_id
 ;

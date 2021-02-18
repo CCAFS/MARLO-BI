@@ -686,7 +686,7 @@
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_geo_scopes</name>
+        <name>pk_id_geo_scope</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
