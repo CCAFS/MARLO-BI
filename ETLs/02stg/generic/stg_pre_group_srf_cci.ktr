@@ -586,6 +586,21 @@
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>stg_cci_policy</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>stg_pre_group_srf_cci</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Select values</name>
@@ -601,79 +616,60 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -788,7 +784,7 @@ group_concat(distinct if(sc.type = 'SLO' , concat(sc.ido_description), null)
 	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.ido_id asc separator '; ') slo_ido_description_group,
 --
 group_concat(distinct if(sc.is_primary, concat("{Primary} ",sc.sido_description),sc.sido_description)
-	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id, sc.sido_id asc separator '; ') slo_cci_sido_description_group,
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') slo_cci_sido_description_group,
 
 group_concat(distinct if(sc.type = 'CCI' , if(sc.is_primary, concat("{Primary} ",sc.sido_description),sc.sido_description), null)
 	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') cci_sido_description_group,
@@ -811,40 +807,39 @@ group_concat(distinct concat(sc.slo_cci_composed_id, ";", sc.sido_id,";", sc.is_
                 --
 from
 (
-select ph.id id_phase,pes.id ent_id , sido.id sido_id, cci.id slo_cci_id, 'CCI' type, ifnull(pess.is_primary,0) is_primary, concat('c', cci.id) slo_cci_composed_id,
-sido.description sido_description, sido.smo_code sido_smo_code,
-cci.name slo_cci_title, cci.smo_code slo_cci_smo_code,
-ido.description ido_description, ido.smo_code ido_smo_code, ido.id ido_id
+select  ph.id id_phase, pes.id ent_id, srfcci.sub_ido_id sido_id, srfcci.slo_cci_id, srfcci.slo_cci_type type, 
+ifnull(pess.is_primary,0) is_primary, 
+srfcci.slo_cci_composed_id,
+srfcci.sub_ido_description sido_description, srfcci.sub_ido_smo_code sido_smo_code,
+srfcci.slo_cci_title, srfcci.slo_cci_smo_code,
+srfcci.ido_description, srfcci.ido_smo_code, srfcci.ido_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
-INNER JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
-inner join srf_sub_idos sido on sido.id = pess.sub_ido_id
-inner join srf_idos ido on ido.id =sido.ido_id 
-inner join srf_cross_cutting_issues cci on cci.id = ido.cross_cutting_issue 
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
-where ido.is_cross_cutting
-AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
-AND ph. NAME = pbc.phase_name
-and pes.is_active
-and pesi.study_type_id = 1
-and pesi.title is not null
-union all 
-select  ph.id id_phase, pes.id ,sido.id sido_id, slo_id,'SLO' type, ifnull(pess.is_primary,0) is_primary, concat('s', slo_id) slo_cci_composed_id,
-sido.description sido_description, sido.smo_code sido_smo_code,
-slo.title slo_cci_title, slo.smo_code slo_cci_smo_code,
-ido.description ido_description, ido.smo_code ido_smo_code, ido.id ido_id
-from project_expected_studies pes 
-INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
-inner join phases ph on ph.id = pesi.id_phase
-INNER JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
-inner join srf_sub_idos sido on sido.id = pess.sub_ido_id
-inner join srf_idos ido on ido.id =sido.ido_id
-inner join srf_slo_idos sxi on sxi.ido_id = ido.id
-inner join srf_slos slo on slo.id = sxi.slo_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
-where !ido.is_cross_cutting
-AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
+left JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
+left  join (SELECT slo.id slo_cci_id,sido.smo_code slo_cci_smo_code, slo.title slo_cci_title,
+			ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
+			sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'SLO' slo_cci_type, concat('s',slo.id) slo_cci_composed_id
+			FROM srf_slos slo
+			inner join  srf_slo_idos sxi on slo.id = sxi.slo_id
+			inner join srf_idos ido on ido.id =sxi.ido_id
+			inner join srf_sub_idos sido on sido.ido_id = ido.id
+			where !ido.is_cross_cutting
+			union all
+			SELECT cci.id slo_cci_id,sido.smo_code slo_cci_smo_code, cci.name slo_cci_title,
+			ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
+			sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'CCI' slo_cci_type, concat('c',cci.id) slo_cci_composed_id
+			FROM srf_cross_cutting_issues cci
+			inner join srf_idos ido on ido.cross_cutting_issue =cci.id
+			inner join srf_sub_idos sido on sido.ido_id = ido.id
+			where ido.is_cross_cutting
+			union all
+			select -1 slo_cci_id, 'NP' slo_cci_smo_code, 'Not Provided' slo_cci_title,
+			'NP' ido_smo_code, -1 ido_id, 'Not Provided' ido_description,
+			'NP 'sub_ido_smo_code, -1 sub_ido_id, 'Not Provided' sub_ido_description, 'NP' slo_cci_type, 'n-1' slo_cci_composed_id
+			from dual) srfcci on srfcci.sub_ido_id = ifnull(pess.sub_ido_id, -1 )
+where ph. YEAR = pbc.phase_year -- between 2018 and 2019
 AND ph. NAME = pbc.phase_name
 and pes.is_active
 and pesi.study_type_id = 1
@@ -1350,7 +1345,727 @@ group by sc.id_phase, sc.ent_id;</sql>
     </remotesteps>
     <GUI>
       <xloc>816</xloc>
-      <yloc>64</yloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_cci_policy</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select sc.id_phase, sc.ent_id, 'policy' ent_type,
+group_concat(distinct concat(sc.slo_cci_title)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') slo_cci_title_group,
+group_concat(distinct concat(sc.slo_cci_smo_code)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') slo_cci_smo_code_group,
+
+--
+group_concat(distinct if(sc.type = 'CCI' , concat(sc.slo_cci_title), null)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') cci_title_group,
+group_concat(distinct if(sc.type = 'CCI' , concat(sc.slo_cci_smo_code), null)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') cci_smo_code_group,                
+--
+group_concat(distinct if(sc.type = 'SLO' , concat(sc.slo_cci_title), null)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') slo_title_group,
+group_concat(distinct if(sc.type = 'SLO' , concat(sc.slo_cci_smo_code), null)
+	 	 		order by sc.slo_cci_composed_id asc separator '; ') slo_smo_code_group,                
+--
+group_concat(distinct concat(sc.ido_description)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.ido_id asc separator '; ') slo_cci_ido_description_group,
+
+group_concat(distinct if(sc.type = 'CCI' , concat(sc.ido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.ido_id asc separator '; ') cci_ido_description_group,
+
+group_concat(distinct if(sc.type = 'SLO' , concat(sc.ido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.ido_id asc separator '; ') slo_ido_description_group,
+--
+group_concat(distinct if(sc.is_primary, concat("{Primary} ",sc.sido_description),sc.sido_description)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') slo_cci_sido_description_group,
+
+group_concat(distinct if(sc.type = 'CCI' , if(sc.is_primary, concat("{Primary} ",sc.sido_description),sc.sido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') cci_sido_description_group,
+
+group_concat(distinct if(sc.type = 'SLO' , if(sc.is_primary, concat("{Primary} ",sc.sido_description),sc.sido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc , sc.sido_id asc separator '; ') slo_sido_description_group,
+--
+group_concat(distinct concat(sc.sc.slo_cci_title, " / ", sc.ido_description, "/ ", if(sc.is_primary, "{Primary} ","") , sc.sido_description)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') slo_cci_ido_sido_description_group,
+
+group_concat(distinct if(sc.type = 'CCI' , concat(sc.sc.slo_cci_title, " / ", sc.ido_description, "/ ", if(sc.is_primary, "{Primary} ","") , sc.sido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator '; ') cci_ido_sido_description_group,
+
+group_concat(distinct if(sc.type = 'SLO' , concat(sc.sc.slo_cci_title, " / ", sc.ido_description, " / ", if(sc.is_primary, "{Primary} ","") , sc.sido_description), null)
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc  separator '; ') slo_ido_sido_description_group,
+
+-- 
+group_concat(distinct concat(sc.slo_cci_composed_id, ";", sc.sido_id,";", sc.is_primary) 
+	 	 		order by sc.is_primary desc, sc.slo_cci_composed_id asc, sc.sido_id asc separator ', ') ids_group
+                --
+from
+(
+select  ph.id id_phase, pol.id ent_id, pol.project_id, srfcci.sub_ido_id sido_id, srfcci.slo_cci_id, srfcci.slo_cci_type type, 
+ifnull(ppolis.is_primary,0) is_primary, 
+srfcci.slo_cci_composed_id,
+srfcci.sub_ido_description sido_description, srfcci.sub_ido_smo_code sido_smo_code,
+srfcci.slo_cci_title, srfcci.slo_cci_smo_code,
+srfcci.ido_description, srfcci.ido_smo_code, srfcci.ido_id
+from project_policies pol
+join project_policy_info poli on pol.id=poli.project_policy_id
+join phases ph on ph.id=poli.id_phase
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+left JOIN project_policy_sub_idos ppolis on ppolis.project_policy_id = poli.project_policy_id and ppolis.id_phase=poli.id_phase 
+left  join (SELECT slo.id slo_cci_id,sido.smo_code slo_cci_smo_code, slo.title slo_cci_title,
+			ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
+			sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'SLO' slo_cci_type, concat('s',slo.id) slo_cci_composed_id
+			FROM srf_slos slo
+			inner join  srf_slo_idos sxi on slo.id = sxi.slo_id
+			inner join srf_idos ido on ido.id =sxi.ido_id
+			inner join srf_sub_idos sido on sido.ido_id = ido.id
+			where !ido.is_cross_cutting
+			union all
+			SELECT cci.id slo_cci_id,sido.smo_code slo_cci_smo_code, cci.name slo_cci_title,
+			ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
+			sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'CCI' slo_cci_type, concat('c',cci.id) slo_cci_composed_id
+			FROM srf_cross_cutting_issues cci
+			inner join srf_idos ido on ido.cross_cutting_issue =cci.id
+			inner join srf_sub_idos sido on sido.ido_id = ido.id
+			where ido.is_cross_cutting
+			union all
+			select -1 slo_cci_id, 'NP' slo_cci_smo_code, 'Not Provided' slo_cci_title,
+			'NP' ido_smo_code, -1 ido_id, 'Not Provided' ido_description,
+			'NP 'sub_ido_smo_code, -1 sub_ido_id, 'Not Provided' sub_ido_description, 'NP' slo_cci_type, 'n-1' slo_cci_composed_id
+			from dual) srfcci on srfcci.sub_ido_id = ifnull(ppolis.sub_ido_id, -1 )
+where ph. YEAR = pbc.phase_year -- between 2018 and 2019
+AND ph. NAME = pbc.phase_name
+and pol.is_active
+) sc
+group by sc.id_phase, sc.ent_id;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>6</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_cci_title_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_cci_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_cci_smo_code_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_cci_smo_code_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cci_title_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>cci_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cci_smo_code_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>cci_smo_code_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_title_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_smo_code_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_smo_code_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_cci_ido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_cci_ido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cci_ido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>cci_ido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_ido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_ido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_cci_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_cci_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cci_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>cci_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_cci_ido_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_cci_ido_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>cci_ido_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>cci_ido_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>slo_ido_sido_description_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>slo_ido_sido_description_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>stg_cci_policy</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_cci_title_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_cci_smo_code_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cci_title_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cci_smo_code_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_title_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_smo_code_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_cci_ido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cci_ido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_ido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_cci_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cci_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_cci_ido_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cci_ido_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>slo_ido_sido_description_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -734,6 +734,9 @@
 , iati_name
 , definition
 FROM rep_ind_geographic_scopes
+union all
+select -1, 'Not Provided', null iati_name, 'Not Provided' definition
+from dual;
 </sql>
     <limit>0</limit>
     <lookup/>

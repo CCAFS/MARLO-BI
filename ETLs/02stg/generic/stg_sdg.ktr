@@ -589,59 +589,45 @@
     <fields>
       <field>
         <name>sdg_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_short_name</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_name</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_target_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_target_code</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_target_name</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicator_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicator_unsd_code</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicator_codes</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicator_name</name>
-        <rename/>
       </field>
       <field>
         <name>sub_ido_id</name>
-        <rename/>
       </field>
       <field>
         <name>sub_ido_code</name>
-        <rename/>
       </field>
       <field>
         <name>sub_ido_description</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_icon</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -739,6 +725,18 @@ join sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
 join sub_ido_sdg_target idoxsdg on idoxsdg.sdg_target_id =  sdgt.id
 join srf_sub_idos sido on sido.id = idoxsdg.sub_ido_id
 group by sido.id,sdgi.id
+union all
+select -1 sdg_id,'Not Provided' sdg_short_name, 'Not Provided' sdg_name,
+-1 sdg_target_id,'NP' sdg_target_code, 'Not Provided' sdg_target_name,
+-1 sdg_indicator_id, 'NP' sdg_indicator_unsd_code, 'NP' sdg_indicator_codes, 'Not Provided' sdg_indicator_name,
+-1 sub_ido_id,'NP' sub_ido_code,'Not Provided' sub_ido_description, null sdg_icon
+from dual
+union all
+select -2 sdg_id,'Not Applicable' sdg_short_name, 'Not Applicable' sdg_name,
+-2 sdg_target_id,'NAP' sdg_target_code, 'Not Applicable' sdg_target_name,
+-2 sdg_indicator_id, 'NAP' sdg_indicator_unsd_code, 'NAP' sdg_indicator_codes, 'Not Applicable' sdg_indicator_name,
+-2 sub_ido_id,'NAP' sub_ido_code,'Not Applicable' sub_ido_description, null sdg_icon
+from dual
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -820,7 +818,7 @@ group by sido.id,sdgi.id
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>sdg_target_id</name>
-        <length>9</length>
+        <length>15</length>
         <precision>0</precision>
         <origin>input_sdg</origin>
         <comments>sdg_target_id</comments>
@@ -889,7 +887,7 @@ group by sido.id,sdgi.id
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>sdg_indicator_id</name>
-        <length>9</length>
+        <length>15</length>
         <precision>0</precision>
         <origin>input_sdg</origin>
         <comments>sdg_indicator_id</comments>
@@ -1004,7 +1002,7 @@ group by sido.id,sdgi.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sub_ido_code</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>input_sdg</origin>
         <comments>sub_ido_code</comments>
@@ -1027,7 +1025,7 @@ group by sido.id,sdgi.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sub_ido_description</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>input_sdg</origin>
         <comments>sub_ido_description</comments>

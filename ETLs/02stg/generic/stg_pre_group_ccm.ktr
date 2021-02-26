@@ -515,7 +515,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>ccm_oics</from>
+      <from>stg_pre_ccm</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -622,7 +622,7 @@
     </GUI>
   </step>
   <step>
-    <name>ccm_oics</name>
+    <name>stg_pre_ccm</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>

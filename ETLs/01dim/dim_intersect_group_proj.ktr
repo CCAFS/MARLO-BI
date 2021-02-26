@@ -511,7 +511,7 @@ other tables
   </connection>
   <order>
     <hop>
-      <from>stg_intersect_group_milestones</from>
+      <from>stg_intersect_group_proj</from>
       <to>dim_intersect_group_proj</to>
       <enabled>Y</enabled>
     </hop>
@@ -604,7 +604,7 @@ other tables
     </GUI>
   </step>
   <step>
-    <name>stg_intersect_group_milestones</name>
+    <name>stg_intersect_group_proj</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -626,11 +626,11 @@ other tables
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>milestone_title_group</name>
+        <name>owner_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
         <origin>stg_intersect_group_milestones</origin>
-        <comments>milestone_title_group</comments>
+        <comments>owner_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -649,11 +649,103 @@ other tables
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>outcome_description_group</name>
+        <name>shared_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
         <origin>stg_intersect_group_milestones</origin>
-        <comments>outcome_description_group</comments>
+        <comments>shared_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>owner_composed_project_id_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_milestones</origin>
+        <comments>owner_composed_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_composed_project_id_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_milestones</origin>
+        <comments>shared_composed_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>project_title_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_milestones</origin>
+        <comments>project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>project_id_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_milestones</origin>
+        <comments>project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -673,7 +765,7 @@ other tables
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>200</length>
+        <length>400</length>
         <precision>-1</precision>
         <origin>stg_intersect_group_milestones</origin>
         <comments>ids_group</comments>

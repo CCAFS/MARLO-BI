@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>01_basic_dimensions_process</name>
+  <name>03_intersect_dimensions_process</name>
   <description/>
-  <extended_description>Job to create the basic dimensions
+  <extended_description>Job to create the intersect and br dimensions
 </extended_description>
   <job_version/>
   <job_status>0</job_status>
@@ -323,7 +323,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>224</xloc>
+      <xloc>176</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -345,7 +345,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>144</xloc>
+      <xloc>64</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -357,8 +357,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>464</xloc>
-      <yloc>256</yloc>
+      <xloc>576</xloc>
+      <yloc>368</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -406,7 +406,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
+      <xloc>416</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -456,17 +456,17 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>320</xloc>
-      <yloc>256</yloc>
+      <yloc>368</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_year</name>
+      <name>dim_intersect_locations</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_year_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_locations_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -492,18 +492,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>800</xloc>
+      <xloc>560</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_crp</name>
+      <name>dim_intersect_institutions</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_crp_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_institutions_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -529,118 +529,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>544</xloc>
-      <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_ext_partners</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_ext_partners_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>656</xloc>
-      <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_locations</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_locations_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>928</xloc>
-      <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_fs_agreement_statuses</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_fs_agreement_statuses_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>1088</xloc>
+      <xloc>768</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -679,18 +568,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>288</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_srf_cci</name>
+      <name>dim_intersect_geo_scopes</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_srf_cci_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_geo_scopes_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -716,18 +605,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1088</xloc>
-      <yloc>160</yloc>
+      <xloc>944</xloc>
+      <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_cross_cutting_markers</name>
+      <name>dim_intersect_sdg</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_ccm_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_sdg_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -753,18 +642,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>928</xloc>
+      <xloc>944</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_sdg</name>
+      <name>dim_intersect_srf_cci</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_sdg_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_srf_cci_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -790,18 +679,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>752</xloc>
+      <xloc>784</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_srf_targets</name>
+      <name>dim_intersect_ccm</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_srf_targets_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_ccm_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -827,18 +716,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>592</xloc>
+      <xloc>640</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_flagships</name>
+      <name>dim_intersect_srf_targets</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_flagships_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_srf_targets_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -864,18 +753,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
+      <xloc>464</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_stg_maturities</name>
+      <name>dim_intersect_flagships</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_stg_maturities_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_flagships_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -903,6 +792,43 @@
       <nr>0</nr>
       <xloc>320</xloc>
       <yloc>160</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>dim_intersect_proj</name>
+      <description/>
+      <type>JOB</type>
+      <attributes/>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_intersect_proj_process.kjb</filename>
+      <jobname/>
+      <directory/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>320</xloc>
+      <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -926,35 +852,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>save_to_log ETL START</from>
-      <to>dim_crp</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_crp</from>
-      <to>dim_ext_partners</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_ext_partners</from>
-      <to>dim_year</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_year</from>
-      <to>dim_locations</to>
+      <from>dim_intersect_locations</from>
+      <to>dim_intersect_institutions</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -980,8 +879,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_locations</from>
-      <to>dim_fs_agreement_statuses</to>
+      <from>dim_intersect_institutions</from>
+      <to>dim_intersect_geo_scopes</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -989,8 +888,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_fs_agreement_statuses</from>
-      <to>dim_srf_cci</to>
+      <from>save_to_log ETL START</from>
+      <to>dim_intersect_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -998,8 +897,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_srf_cci</from>
-      <to>dim_cross_cutting_markers</to>
+      <from>dim_intersect_geo_scopes</from>
+      <to>dim_intersect_sdg</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1007,8 +906,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_cross_cutting_markers</from>
-      <to>dim_sdg</to>
+      <from>dim_intersect_sdg</from>
+      <to>dim_intersect_srf_cci</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1016,8 +915,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_sdg</from>
-      <to>dim_srf_targets</to>
+      <from>dim_intersect_srf_cci</from>
+      <to>dim_intersect_ccm</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1025,8 +924,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_srf_targets</from>
-      <to>dim_flagships</to>
+      <from>dim_intersect_ccm</from>
+      <to>dim_intersect_srf_targets</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1034,8 +933,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_flagships</from>
-      <to>dim_stg_maturities</to>
+      <from>dim_intersect_srf_targets</from>
+      <to>dim_intersect_flagships</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1043,7 +942,16 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_stg_maturities</from>
+      <from>dim_intersect_flagships</from>
+      <to>dim_intersect_proj</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>dim_intersect_proj</from>
       <to>save_to_log_ETL_END</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_srf_cci</name>
+    <name>dim_policies_owners</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -428,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2018/08/09 11:34:04.881</created_date>
+    <created_date>2019/07/23 11:09:04.136</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2018/08/09 11:34:04.881</modified_date>
+    <modified_date>2019/07/23 11:09:04.136</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -572,7 +572,7 @@
   </connection>
   <order>
     <hop>
-      <from>srf_cci</from>
+      <from>Input rep_ind_policy_types</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -583,131 +583,12 @@
     </hop>
     <hop>
       <from>Select values</from>
-      <to>dim_srf_cci</to>
+      <to>dim_policies_owners</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>slo_cci_id</name>
-      </field>
-      <field>
-        <name>slo_cci_smo_code</name>
-      </field>
-      <field>
-        <name>slo_cci_title</name>
-      </field>
-      <field>
-        <name>ido_smo_code</name>
-      </field>
-      <field>
-        <name>ido_id</name>
-      </field>
-      <field>
-        <name>ido_description</name>
-      </field>
-      <field>
-        <name>sub_ido_smo_code</name>
-      </field>
-      <field>
-        <name>sub_ido_id</name>
-      </field>
-      <field>
-        <name>sub_ido_description</name>
-      </field>
-      <field>
-        <name>slo_cci_type</name>
-      </field>
-      <field>
-        <name>slo_cci_composed_id</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>432</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>slo_cci_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ido_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ido_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>304</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_srf_cci</name>
+    <name>dim_policies_owners</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -718,18 +599,14 @@
       <schema_name/>
     </partitioning>
     <schema/>
-    <table>dim_srf_cci</table>
+    <table>dim_policies_owners</table>
     <connection>DES_DB</connection>
     <commit>100</commit>
     <update>Y</update>
     <fields>
       <key>
-        <name>slo_cci_composed_id</name>
-        <lookup>slo_cci_composed_id</lookup>
-      </key>
-      <key>
-        <name>sub_ido_id</name>
-        <lookup>sub_ido_id</lookup>
+        <name>id</name>
+        <lookup>id</lookup>
       </key>
       <date>
         <name/>
@@ -737,52 +614,12 @@
         <to>date_to</to>
       </date>
       <field>
-        <name>slo_cci_id</name>
-        <lookup>slo_cci_id</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>slo_cci_smo_code</name>
-        <lookup>slo_cci_smo_code</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>slo_cci_title</name>
-        <lookup>slo_cci_title</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>ido_smo_code</name>
-        <lookup>ido_smo_code</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>ido_id</name>
-        <lookup>ido_id</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>ido_description</name>
-        <lookup>ido_description</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>sub_ido_smo_code</name>
-        <lookup>sub_ido_smo_code</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>sub_ido_description</name>
-        <lookup>sub_ido_description</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>slo_cci_type</name>
-        <lookup>slo_cci_type</lookup>
+        <name>name</name>
+        <lookup>name</lookup>
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_srf_cci</name>
+        <name>pk_id_policy_owner</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -807,13 +644,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>176</yloc>
+      <xloc>560</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>srf_cci</name>
+    <name>Input rep_ind_policy_types</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -824,29 +661,7 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>SELECT slo.id slo_cci_id,sido.smo_code slo_cci_smo_code, slo.title slo_cci_title,
-ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
-sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'SLO' slo_cci_type, concat('s',slo.id) slo_cci_composed_id
-FROM srf_slos slo
-inner join  srf_slo_idos sxi on slo.id = sxi.slo_id
-inner join srf_idos ido on ido.id =sxi.ido_id
-inner join srf_sub_idos sido on sido.ido_id = ido.id
-where !ido.is_cross_cutting
-union all
-SELECT cci.id slo_cci_id,sido.smo_code slo_cci_smo_code, cci.name slo_cci_title,
-ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
-sido.smo_code sub_ido_smo_code, sido.id sub_ido_id,sido.description sub_ido_description, 'CCI' slo_cci_type, concat('c',cci.id) slo_cci_composed_id
-FROM srf_cross_cutting_issues cci
-inner join srf_idos ido on ido.cross_cutting_issue =cci.id
-inner join srf_sub_idos sido on sido.ido_id = ido.id
-where ido.is_cross_cutting
-union all
-select -1 slo_cci_id, 'NP' slo_cci_smo_code, 'Not Provided' slo_cci_title,
-'NP' ido_smo_code, -1 ido_id, 'Not Provided' ido_description,
-'NP 'sub_ido_smo_code, -1 sub_ido_id, 'Not Provided' sub_ido_description, 'NP' slo_cci_type, 'n-1' slo_cci_composed_id
-from dual;
-
-</sql>
+    <sql>select * from rep_ind_policy_types;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -857,11 +672,11 @@ from dual;
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>slo_cci_id</name>
+        <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>srf_cci</origin>
-        <comments>slo_cci_id</comments>
+        <origin>Owner</origin>
+        <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -880,218 +695,11 @@ from dual;
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>slo_cci_smo_code</name>
-        <length>65535</length>
+        <name>name</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>slo_cci_smo_code</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>slo_cci_title</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>slo_cci_title</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ido_smo_code</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>ido_smo_code</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>ido_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>srf_cci</origin>
-        <comments>ido_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ido_description</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>ido_description</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>sub_ido_smo_code</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>sub_ido_smo_code</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>sub_ido_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>srf_cci</origin>
-        <comments>sub_ido_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>sub_ido_description</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>sub_ido_description</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>slo_cci_type</name>
-        <length>3</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>slo_cci_type</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>slo_cci_composed_id</name>
-        <length>21</length>
-        <precision>-1</precision>
-        <origin>srf_cci</origin>
-        <comments>slo_cci_composed_id</comments>
+        <origin>Owner</origin>
+        <comments>name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1117,8 +725,92 @@ from dual;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
-      <yloc>176</yloc>
+      <xloc>149</xloc>
+      <yloc>202</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id</name>
+      </field>
+      <field>
+        <name>name</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>405</xloc>
+      <yloc>202</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>name</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>277</xloc>
+      <yloc>202</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

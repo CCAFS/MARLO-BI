@@ -574,6 +574,21 @@
       <to>stg_pre_group_sdg</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>input_policy_group_sdg</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>stg_pre_group_sdg</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Select values</name>
@@ -589,31 +604,24 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_short_name_group</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_target_group</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicators_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -626,8 +634,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>32</yloc>
+      <xloc>448</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -684,8 +692,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>32</yloc>
+      <xloc>320</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -702,27 +710,42 @@
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
+ifnull(
 group_concat(distinct ssdg.sdg_short_name
-	 	 		order by ssdg.sdg_id asc separator '; ') sdg_short_name_group,
-group_concat(distinct ssdg.sdg_target
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc separator '; ') sdg_target_group,
-group_concat(distinct ssdg.sdg_indicator
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc, ssdg.sdg_indicator_codes separator '; ') sdg_indicators_group,
-group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', ') ids_group                
+	 	 		order by ssdg.sdg_id asc separator '; '), 'Not Applicable') sdg_short_name_group,
+ifnull(group_concat(distinct ssdg.sdg_target
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc separator '; '), 'Not Applicable') sdg_target_group,
+ifnull(group_concat(distinct ssdg.sdg_indicator
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc, ssdg.sdg_indicator_codes separator '; '), 'Not Applicable') sdg_indicators_group,
+ifnull(group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', '), '-2;-2;-2') ids_group                
 from 
-(select ph.id id_phase, 'oicr' ent_type, pes.id ent_id, pess.sub_ido_id, sdgi.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id,
-sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, sdgi.sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
+(select ph.id id_phase, 'oicr' ent_type, pes.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
+dg.sdg_target sdg_target, 
+dg.sdg_target_id sdg_target_id,
+dg.sdg_target_code sdg_target_code, dg.sdg_short_name sdg_short_name, 
+dg.sdg_description sdg_description, dg.sdg_indicator sdg_indicator, 
+dg.sdg_indicator_codes, dg.sdg_indicator_id sdg_indicator_id
 FROM phases ph
 JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
 JOIN project_expected_studies pes ON pes.is_active
 JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id AND pesi.id_phase = ph.id
-JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
-JOIN sub_ido_sdg_target idoxsdg on idoxsdg.sub_ido_id =  pess.sub_ido_id
-JOIN sdg_targets sdgt on sdgt.id = idoxsdg.sdg_target_id
-JOIN sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
-JOIN sustainable_development_goals sdg on sdg.id = sdgt.sdg_id
 JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+left JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
+left JOIN
+( select sdgi.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
+	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
+	sdgi.sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
+from	sub_ido_sdg_target idoxsdg 
+ join sdg_targets sdgt on sdgt.id = idoxsdg.sdg_target_id
+ JOIN sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
+ JOIN sustainable_development_goals sdg on sdg.id = sdgt.sdg_id
+union all
+select -1 sdg_id, 'Not Provided' sdg_target, -1 sdg_target_id, -1 sub_ido_id, 
+'NP' sdg_target_code,  'Not Provided' sdg_short_name, 'Not Provided' sdg_description,
+'Not Provided' sdg_indicator, 'NP' sdg_indicator_codes, -1 sdg_indicator_id 
+from dual
+) dg on dg.sub_ido_id =  ifnull(pess.sub_ido_id, -1)
 where ph. NAME = pbc.phase_name
 AND ph. YEAR = pbc.phase_year
 -- AND ph.year between ${START_YEAR} and ${END_YEAR} 
@@ -744,7 +767,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -767,7 +790,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>ent_type</name>
         <length>4</length>
         <precision>-1</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -790,7 +813,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -813,7 +836,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>sdg_short_name_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>sdg_short_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -836,7 +859,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>sdg_target_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>sdg_target_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -859,7 +882,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>sdg_indicators_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>sdg_indicators_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -882,7 +905,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>ids_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>br_sdg</origin>
+        <origin>input_oicr_group_sdg</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -909,8 +932,8 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
-      <yloc>32</yloc>
+      <xloc>144</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -953,8 +976,360 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>32</yloc>
+      <xloc>624</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sdg_short_name_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sdg_target_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sdg_indicators_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>input_policy_group_sdg</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
+ifnull(
+group_concat(distinct ssdg.sdg_short_name
+	 	 		order by ssdg.sdg_id asc separator '; '), 'Not Applicable') sdg_short_name_group,
+ifnull(group_concat(distinct ssdg.sdg_target
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc separator '; '), 'Not Applicable') sdg_target_group,
+ifnull(group_concat(distinct ssdg.sdg_indicator
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc, ssdg.sdg_indicator_codes separator '; '), 'Not Applicable') sdg_indicators_group,
+ifnull(group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', '), '-2;-2;-2') ids_group                
+from 
+(select ph.id id_phase, 'policy' ent_type, pol.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
+dg.sdg_target sdg_target, 
+dg.sdg_target_id sdg_target_id,
+dg.sdg_target_code sdg_target_code, dg.sdg_short_name sdg_short_name, 
+dg.sdg_description sdg_description, dg.sdg_indicator sdg_indicator, 
+dg.sdg_indicator_codes, dg.sdg_indicator_id sdg_indicator_id
+FROM project_policies pol
+join project_policy_info poli on pol.id=poli.project_policy_id
+join phases ph on ph.id=poli.id_phase
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+jOIN bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+left JOIN project_policy_sub_idos ppolis on ppolis.project_policy_id = poli.project_policy_id and ppolis.id_phase=poli.id_phase 
+left JOIN
+( select sdgi.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
+	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
+	sdgi.sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
+from	sub_ido_sdg_target idoxsdg 
+ join sdg_targets sdgt on sdgt.id = idoxsdg.sdg_target_id
+ JOIN sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
+ JOIN sustainable_development_goals sdg on sdg.id = sdgt.sdg_id
+union all
+select -1 sdg_id, 'Not Provided' sdg_target, -1 sdg_target_id, -1 sub_ido_id, 
+'NP' sdg_target_code,  'Not Provided' sdg_short_name, 'Not Provided' sdg_description,
+'Not Provided' sdg_indicator, 'NP' sdg_indicator_codes, -1 sdg_indicator_id 
+from dual
+) dg on dg.sub_ido_id =  ifnull(ppolis.sub_ido_id, -1)
+where ph. NAME = pbc.phase_name
+AND ph. YEAR = pbc.phase_year
+-- AND ph.year between ${START_YEAR} and ${END_YEAR} 
+and pol.is_active
+) ssdg 
+group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>6</length>
+        <precision>-1</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_short_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>sdg_short_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_target_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>sdg_target_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_indicators_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>sdg_indicators_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input_policy_group_sdg</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
