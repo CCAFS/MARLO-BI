@@ -743,7 +743,7 @@ when section_name ='contributionsCrpList' then concat('''',sec.project_outcome_i
 ELSE 'ALL'
 end as indicator_ID_2
 ,group_concat(distinct sec.missing_fields) AS "missing fields"
-,if(pi.is_evaluated=1 ,'Yes','No') is_evaluated
+,if(gu.acronym = 'CCAFS' and IFNULL(pi.is_evaluated,0)= 0 ,'No','Yes') is_evaluated
 ,sysdate() updated_date
 ,concat(ph.name,ph.year) Phase
 ,ph.name phase_name
