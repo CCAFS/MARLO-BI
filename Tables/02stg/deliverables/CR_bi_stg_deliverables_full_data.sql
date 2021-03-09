@@ -50,5 +50,6 @@ CREATE TABLE `bi_stg_deliverables_full_data` (
   `Link` varchar(172) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `adopted_license` varchar(3) NOT NULL DEFAULT '',
+   `DLV_loc_iso_alpha_2` varchar(45),
    KEY `idx_stg_deliverables_full_data_01` (`id_phase`, `DLV_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

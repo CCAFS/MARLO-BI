@@ -611,6 +611,7 @@ ifnull(dt.name,'Not Defined') as 'DLV_subCategory',
 ,kout.key_output as 'DLV_keyOutput',
 ifnull(geo.`name`,'Not Defined')   as 'DLV_geographicScope',
 ifnull(loc.`name`,'Not Defined')  as 'DLV_location',
+ifnull(loc.`iso_alpha_2`,'Not Defined')  as 'DLV_loc_iso_alpha_2',
 ifnull(ccm.`name`,'Not Defined') 'DLV_CrossCuttingDimension',
 ifnull(ccml.powb_name,'Not Defined') as 'DLV_CrossCuttingScore',
 if(p.id is null,'Not applicable',ifnull(ins.name,'Not Defined')) as 'DLV_partnerName',
@@ -1808,7 +1809,7 @@ and ph.year = pbc.phase_year
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>464</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
