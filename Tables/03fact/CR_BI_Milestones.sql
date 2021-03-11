@@ -1,7 +1,7 @@
 drop table if EXISTS bi_milestones;
 create table `bi_milestones` (
   `ID Phase` bigint(20) not null default '0',
-  `Phase name` text character set latin1 not null,
+  `Phase name` text not null,
   `Phase year` int(11) not null,
   `CRP` varchar(50) not null,
   `CRP name` text not null,
@@ -14,7 +14,7 @@ create table `bi_milestones` (
   `Outcome Target Value` decimal(20,2) default null,
   `sub-ido code` text,
   `Sub-ido description` text,
-  `sub-ido is primary` varchar(4) character set utf8mb4 collate utf8mb4_0900_ai_ci default '',
+  `sub-ido is primary` varchar(4)  default '',
   `is_primary` tinyint(1) default '0',
   `Milestone ID` varchar(20) default null,
   `Milestone` text,
@@ -22,7 +22,7 @@ create table `bi_milestones` (
   `Milestone extended year` int(11) default null,
   `Milestone Target Unit` text,
   `Milestone Target Value` decimal(20,2) default null,
-  `Milestone Status` longtext character set latin1,
+  `Milestone Status` longtext,
   `Level of Change` longtext,
   `Assessment Risk` longtext,
   `Main Risk` text,
