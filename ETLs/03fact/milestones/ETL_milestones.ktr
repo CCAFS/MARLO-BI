@@ -605,11 +605,11 @@ join crp_program_outcomes cpo on cm.crp_program_outcome_id = cpo.id and cpo.is_a
 left join srf_target_units otu on otu.id = cpo.target_unit_id and otu.is_active
 left join srf_target_units mtu on mtu.id = cm.target_unit_id and mtu.is_active
 join crp_programs cp on cpo.crp_program_id = cp.id and cp.is_active
-join general_statuses gst on gst.id = cm.milestone_status 
 join phases ph on cpo.id_phase = ph.id
 join global_units gu on ph.global_unit_id = gu.id and cp.global_unit_id = gu.id and gu.is_active
+left join general_statuses gst on gst.id = cm.milestone_status 
 left join crp_outcome_sub_idos cosi on cosi.crp_program_outcome_id = cpo.id and cosi.is_active
-join srf_sub_idos ssi on cosi.srf_sub_ido_id = ssi.id and ssi.is_active
+left join srf_sub_idos ssi on cosi.srf_sub_ido_id = ssi.id and ssi.is_active
 left join powb_ind_following_milestones pifm on cm.powb_ind_following_milestone_id = pifm.id 
 left join rep_ind_gender_youth_focus_levels gender on cm.rep_ind_gender_focus_level_id = gender.id
 left join rep_ind_gender_youth_focus_levels youth on cm.rep_ind_youth_focus_level_id = youth.id
