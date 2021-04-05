@@ -600,43 +600,33 @@
     <fields>
       <field>
         <name>country_id</name>
-        <rename/>
       </field>
       <field>
         <name>country_name</name>
-        <rename/>
       </field>
       <field>
         <name>iso_alpha_2</name>
-        <rename/>
       </field>
       <field>
         <name>iso_numeric</name>
-        <rename/>
       </field>
       <field>
         <name>reg_un_id</name>
-        <rename/>
       </field>
       <field>
         <name>reg_un_name</name>
-        <rename/>
       </field>
       <field>
         <name>reg_iati_id</name>
-        <rename/>
       </field>
       <field>
         <name>reg_iati_name</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>loc_element_type</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -728,7 +718,10 @@ where reg.is_active
 and reg.element_type_id = 1
 union all
 -- World scope
-select  0 country_id , 'Global' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global'reg_iati_name, 0 id,  'Global location' loc_element_type
+select  0 country_id , 'WORLD' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'GL'  reg_un_id,'WORLD' reg_un_name,'GL' reg_iati_id, 'WORLD' reg_iati_name, 0 id,  'Global location' loc_element_type
+union all
+-- Not provided
+select  -1 country_id , 'Not Provided' country_name, 'NA' iso_alpha_2,'NA' iso_numeric, 'NP'  reg_un_id,'Not Provided' reg_un_name,'NP' reg_iati_id, 'Not Provided' reg_iati_name, -1 id,  'Not Provided' loc_element_type
 ;</sql>
     <limit>0</limit>
     <lookup/>

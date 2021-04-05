@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_br_group_institutions</name>
-    <description>PRE bridge group institutions</description>
+    <name>stg_pre_group_oicrs</name>
+    <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
@@ -428,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 08:51:05.283</created_date>
+    <created_date>2020/07/07 09:34:37.098</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 08:51:05.283</modified_date>
+    <modified_date>2020/07/07 09:34:37.098</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -503,40 +503,75 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>ORI_DB</name>
+    <server>${ORI_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${ORI_DBNAME}</database>
+    <port>3306</port>
+    <username>${ORI_USR}</username>
+    <password>${ORI_PSW}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
-      <from>dim_intersect_group_institutions</from>
-      <to>Split field to rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split field to rows</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
-      <to>Split fields</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split fields</from>
-      <to>Value mapper</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Value mapper</from>
+      <from>input oicrs group</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows</from>
-      <to>Select values 2</to>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>stg_br_group_institutions</to>
+      <from>Select values</from>
+      <to>stg_pre_group_oicrs</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -553,11 +588,23 @@
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_intersect_group_inst</name>
+        <name>id_phase</name>
         <rename/>
       </field>
       <field>
-        <name>institution_group</name>
+        <name>ent_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>oicr_title_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>oicr_compose_title_group</name>
         <rename/>
       </field>
       <field>
@@ -575,8 +622,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>256</yloc>
+      <xloc>320</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -600,15 +647,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>pk_id_intersect_group_inst</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>Y</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>institution_id</name>
+        <name>id_phase</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -616,7 +655,15 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>role_name</name>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -633,14 +680,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>912</xloc>
-      <yloc>256</yloc>
+      <xloc>176</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Split field to rows</name>
-    <type>SplitFieldToRows3</type>
+    <name>input oicrs group</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -649,58 +696,72 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <splitfield>ids_group</splitfield>
-    <delimiter>, </delimiter>
-    <newfield>institution_group</newfield>
-    <rownum>N</rownum>
-    <rownum_field/>
-    <resetrownumber>Y</resetrownumber>
-    <delimiter_is_regex>N</delimiter_is_regex>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>368</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_intersect_group_institutions</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT pk_id_intersect_group_inst
-, ids_group
-FROM dim_intersect_group_institutions
+    <connection>ORI_DB</connection>
+    <sql>select poli.id_phase,
+pol.id ent_id,
+'policy' ent_type,
+-- ifnull(poli.rep_ind_stage_process_id,3) rep_ind,
+ifnull(group_concat(pesi.title
+					order by pesi.project_expected_study_id asc separator ', '), if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 'Non Mandatory', 'Not Provided')) oicr_title_group,
+ifnull(group_concat(concat('(', pesi.year, ') ', 'ID', pesi.project_expected_study_id, ' - ', pesi.title)
+					order by pesi.project_expected_study_id asc separator ', '), if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 'Non Mandatory', 'Not Provided')) oicr_compose_title_group,                    
+ifnull(group_concat(concat(pesi.id_phase, ';', pesi.project_expected_study_id)
+        order by pesi.project_expected_study_id asc separator ', '),if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 0, '0;-1')) ids_group
+FROM project_policies pol
+join project_policy_info poli on pol.id=poli.project_policy_id
+join phases ph on poli.id_phase=ph.id
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+join bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+left join project_expected_study_policies poicr on poicr.project_policy_id = poli.project_policy_id and poicr.id_phase=poli.id_phase 
+left join project_expected_study_info pesi on pesi.project_expected_study_id = poicr.expected_id and pesi.id_phase = poicr.id_phase
+where ph.year = pbc.phase_year -- poli.`year`
+and ph.name = pbc.phase_name -- 'AR'
+-- and ph.`year` between ${START_YEAR} and ${END_YEAR}
+and pol.is_active
+-- and 
+-- and is_policy_excluded(poli.project_policy_id,poli.id_phase)=0
+group by pol.id, poli.id_phase
+-- , poli.rep_ind_stage_process_id
+;
 </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
+    <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>pk_id_intersect_group_inst</name>
+        <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>dim_fs_intersect_group_institutions 3</origin>
-        <comments>pk_id_intersect_group_inst</comments>
+        <origin>input oicrs group</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input oicrs group</origin>
+        <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -719,10 +780,79 @@ FROM dim_intersect_group_institutions
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>200</length>
+        <name>ent_type</name>
+        <length>6</length>
         <precision>-1</precision>
-        <origin>dim_fs_intersect_group_institutions 3</origin>
+        <origin>input oicrs group</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>oicr_title_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input oicrs group</origin>
+        <comments>oicr_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>oicr_compose_title_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input oicrs group</origin>
+        <comments>oicr_compose_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>input oicrs group</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -749,13 +879,13 @@ FROM dim_intersect_group_institutions
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
-      <yloc>256</yloc>
+      <xloc>80</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>stg_br_group_institutions</name>
+    <name>stg_pre_group_oicrs</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -766,8 +896,8 @@ FROM dim_intersect_group_institutions
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>stg_br_group_institutions</table>
+    <schema/>
+    <table>stg_pre_group_oicrs</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -793,150 +923,8 @@ FROM dim_intersect_group_institutions
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1232</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split fields</name>
-    <type>FieldSplitter</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <splitfield>institution_group</splitfield>
-    <delimiter>;</delimiter>
-    <enclosure/>
-    <fields>
-      <field>
-        <name>institution_id</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>Number</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <currency/>
-        <length>-1</length>
-        <precision>0</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>
-      <field>
-        <name>role_id</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>Integer</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <currency/>
-        <length>-1</length>
-        <precision>0</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>640</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Value mapper</name>
-    <type>ValueMapper</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <field_to_use>role_id</field_to_use>
-    <target_field>role_name</target_field>
-    <non_match_default>Contributor</non_match_default>
-    <fields>
-      <field>
-        <source_value>1</source_value>
-        <target_value>Contributor</target_value>
-      </field>
-      <field>
-        <source_value>2</source_value>
-        <target_value>Donor</target_value>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>800</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pk_id_intersect_group_inst</name>
-        <rename/>
-      </field>
-      <field>
-        <name>institution_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>role_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ids_group</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1072</xloc>
-      <yloc>256</yloc>
+      <xloc>592</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

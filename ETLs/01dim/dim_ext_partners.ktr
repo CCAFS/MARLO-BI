@@ -600,35 +600,27 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>name</name>
-        <rename/>
       </field>
       <field>
         <name>acronym</name>
-        <rename/>
       </field>
       <field>
         <name>website_link</name>
-        <rename/>
       </field>
       <field>
         <name>type</name>
-        <rename/>
       </field>
       <field>
         <name>headquarter</name>
-        <rename/>
       </field>
       <field>
         <name>hq_name</name>
-        <rename/>
       </field>
       <field>
         <name>compound_name</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -799,10 +791,13 @@ join institution_types ity on ity.id = ins.institution_type_id
 join institutions_locations il on il.institution_id = ins.id and il.is_headquater = 1
 join rep_ind_organization_types smo on smo.id = ity.rep_ind_organization_type_id
 join loc_elements loc on loc.id = il.loc_element_id 
-union ALL
-select ins.id, ins.name, ins.acronym, ins.website_link, null  type , null headquarter, null hq_name,
-concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
-from institutions_dashboard ins
+-- union ALL
+-- select ins.id, ins.name, ins.acronym, ins.website_link, null  type , null headquarter, null hq_name,
+-- concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
+-- from institutions_dashboard ins
+union all
+select -1, 'Not Provided', 'NP' acronym, null website_link, null type, null headquarter, null hq_name, 'NP - Not Provided' compound_name
+from dual
 ;</sql>
     <limit>0</limit>
     <lookup/>

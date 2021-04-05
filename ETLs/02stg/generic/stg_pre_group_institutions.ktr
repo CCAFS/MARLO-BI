@@ -562,7 +562,7 @@ for many to many relationship between intersect table and institutions
   </connection>
   <order>
     <hop>
-      <from>Load_institution_groups</from>
+      <from>Load_institution_fs_groups</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -571,9 +571,29 @@ for many to many relationship between intersect table and institutions
       <to>stg_pre_group_institutions</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Load_institution_oicr_groups</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>stg_pre_group_institutions</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Load_institution_policy_groups</from>
+      <to>Sort rows 2 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2 2</from>
+      <to>stg_pre_group_institutions</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
-    <name>Load_institution_groups</name>
+    <name>Load_institution_fs_groups</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -584,49 +604,26 @@ for many to many relationship between intersect table and institutions
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>(select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type,
+    <sql>-- grouping information about institutions (external partners) from funding_sources_institutions (many to many relationship is compressed in a field using group_concat)
+
+select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type,
 	group_concat(i.name 
 	 	 		 order by i.name asc separator ', ') institution_name_group, 
 	group_concat(ifnull(concat(nullif(trim(i.acronym),""), " - "), "") , i.name 
 				order by i.name asc separator ', ') institution_acr_name_group,
 	group_concat(nullif(trim(i.acronym),"")
 				order by i.name asc separator ', ') acronym_group, 
-	group_concat(fsi.institution_id
+	group_concat(concat(fsi.institution_id, ';', 1) -- The 1 is for institutions with contributor type, for now
 				order by i.name asc separator ', ') ids_group
-	from marloDB.funding_source_institutions fsi
-	inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
-	inner join phases ph on ph.id = fsi.id_phase 
-	inner join institutions i on i.id = fsi.institution_id
-	inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
-    where ph.name = pbc.phase_name and ph.year = pbc.phase_year
-	group by fsi.id_phase, fsi.funding_source_id
-	order by fsi.id_phase, fsi.funding_source_id, i.name
-    )
-union all 
-(select ph.id id_phase, pes.id, 'oicr' ent_type, 
-group_concat(ins.name 
-	 	 	order by ins.name asc 	 separator ', ') institution_name_group, 
-	group_concat(ifnull(concat(nullif(trim(ins.acronym),""), " - "), "") , ins.name 
-			order by ins.name asc separator ', ') institution_acr_name_group,
-                
-	group_concat(nullif(trim(ins.acronym),"")
-			order by ins.name asc separator ', ') acronym_group, 
-                
-	group_concat(ins.id
-				order by ins.name asc separator ', ') ids_group
-from project_expected_studies pes 
-INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
-INNER join phases ph on ph.id = pesi.id_phase
-INNER JOIN project_expected_study_institutions pesins ON pesins.expected_id = pes.id AND pesins.id_phase = ph.id 
-INNER JOIN institutions ins ON ins.id = pesins.institution_id
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
-where  ph.name = pbc.phase_name and ph.year = pbc.phase_year
-and pes.is_active
-and pesi.study_type_id = 1
-and pesi.title is not null
-group by ph.id, pes.id
-order by ph.id, pes.id, ins.name
-)
+from marloDB.funding_source_institutions fsi
+inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
+inner join phases ph on ph.id = fsi.id_phase 
+inner join institutions i on i.id = fsi.institution_id
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+where ph.name = pbc.phase_name and ph.year = pbc.phase_year
+group by fsi.id_phase, fsi.funding_source_id
+order by fsi.id_phase, fsi.funding_source_id, i.name
+
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -641,7 +638,7 @@ order by ph.id, pes.id, ins.name
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -664,7 +661,7 @@ order by ph.id, pes.id, ins.name
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -685,9 +682,9 @@ order by ph.id, pes.id, ins.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>2</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -710,7 +707,7 @@ order by ph.id, pes.id, ins.name
         <name>institution_name_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>institution_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -733,7 +730,7 @@ order by ph.id, pes.id, ins.name
         <name>institution_acr_name_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>institution_acr_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -756,7 +753,7 @@ order by ph.id, pes.id, ins.name
         <name>acronym_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>acronym_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -779,7 +776,7 @@ order by ph.id, pes.id, ins.name
         <name>ids_group</name>
         <length>4096</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_institution_fs_groups</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -807,7 +804,496 @@ order by ph.id, pes.id, ins.name
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>96</yloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Load_institution_oicr_groups</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select sg.id_phase, sg.ent_id, sg.ent_type, 
+ifnull(group_concat(sg.name 
+	 	 	order by sg.name asc 	 separator ', '), 'Not Provided') institution_name_group, 
+ifnull(group_concat(ifnull(concat(nullif(trim(sg.acronym),""), " - "), "") , sg.name 
+			order by sg.name asc separator ', '), 'NP - Not Provided') institution_acr_name_group,
+                
+ifnull(group_concat(nullif(trim(sg.acronym),"")
+			order by sg.name asc separator ', '), 'NP') acronym_group, 
+                
+ifnull(group_concat(concat(sg.institution_id,';', sg.institution_role) 
+				order by sg.name asc separator ', '), '-1;1') ids_group
+from 
+(
+select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 institution_role,  -- the 1 is for contributor role
+ins.name, ins.acronym, ins.id institution_id
+from project_expected_studies pes 
+INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
+INNER join phases ph on ph.id = pesi.id_phase
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+left JOIN project_expected_study_institutions pesins ON pesins.expected_id = pes.id AND pesins.id_phase = ph.id 
+left JOIN institutions ins ON ins.id = pesins.institution_id
+where  ph.name = pbc.phase_name and ph.year = pbc.phase_year
+and pes.is_active
+and pesi.study_type_id = 1
+and pesi.title is not null
+union
+select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 institution_role, -- the 1 is for contributor role
+ins.name, ins.acronym, ins.id institution_id
+from project_expected_studies pes 
+INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
+INNER join phases ph on ph.id = pesi.id_phase
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+left JOIN project_expected_study_centers pecen ON pecen.expected_id = pes.id AND pecen.id_phase = ph.id 
+left JOIN institutions ins ON ins.id = pecen.institution_id
+where  ph.name = pbc.phase_name and ph.year = pbc.phase_year
+and pes.is_active
+and pesi.study_type_id = 1
+and pesi.title is not null
+) sg
+group by sg.id_phase, sg.ent_id, sg.ent_type
+order by sg.id_phase, sg.ent_id, sg.name
+;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>4</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Load_institution_policy_groups</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select gs.id_phase, gs.ent_id, gs.ent_type, 
+ifnull(group_concat(gs.name
+					order by gs.name asc separator ', '), 'Not Provided') institution_name_group,
+                    
+ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.name 
+			order by gs.name asc separator ', '), 'NP - Not Provided') institution_acr_name_group,
+ifnull(group_concat(nullif(trim(gs.acronym),"")
+			order by gs.name asc separator ', '), 'NP') acronym_group, 
+ifnull(group_concat(concat(gs.institution_id, ';', gs.role_type)
+				order by gs.name asc separator ', '), '-1;1') ids_group
+from(
+	select pol.id ent_id,
+	'policy' ent_type,
+	poli.id_phase,
+	sins.institution_id,
+	ins.name,
+	ins.acronym,
+	1 role_type -- 1 es contributor
+	FROM project_policies pol
+	join project_policy_info poli on pol.id=poli.project_policy_id
+	join phases ph on poli.id_phase=ph.id
+	JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+	left join project_expected_study_policies poicr on poicr.project_policy_id = poli.project_policy_id and poicr.id_phase=poli.id_phase 
+	left join project_expected_study_institutions sins on sins.expected_id=poicr.expected_id and sins.id_phase = poicr.id_phase
+	left join institutions ins on ins.id = sins.institution_id
+	where 
+	-- ph.year = poli.`year`
+	-- and 
+	ph.year = pbc.phase_year
+	and ph.name = pbc.phase_name -- 'AR'
+	-- and ph.`year` between ${START_YEAR} and ${END_YEAR}
+	and pol.is_active
+	-- and 
+	-- and is_policy_excluded(poli.project_policy_id,poli.id_phase)=0
+	union
+	select pol.id ent_id,
+	'policy' ent_type,
+	poli.id_phase,
+	pcen.institution_id,
+	ins.name,
+	ins.acronym,
+	1 role_type -- 1 es contributor
+	FROM project_policies pol
+	join project_policy_info poli on pol.id=poli.project_policy_id
+	join phases ph on poli.id_phase=ph.id
+	JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+	left join project_policy_centers pcen on pcen.project_policy_id = poli.project_policy_id and pcen.id_phase = poli.id_phase
+	left join institutions ins on ins.id = pcen.institution_id
+	where ph.year =  pbc.phase_year -- poli.`year`
+	and ph.name = pbc.phase_name -- 'AR'
+	and pol.is_active
+	-- and 
+	-- and is_policy_excluded(poli.project_policy_id,poli.id_phase)=0
+) gs
+group by gs.id_phase, gs.ent_id, gs.ent_type
+;
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>4</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups 2</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -870,6 +1356,122 @@ order by ph.id, pes.id, ins.name
     </GUI>
   </step>
   <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>420</xloc>
+      <yloc>222</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>422</xloc>
+      <yloc>333</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>stg_pre_group_institutions</name>
     <type>TableOutput</type>
     <description/>
@@ -908,8 +1510,8 @@ order by ph.id, pes.id, ins.name
       </output>
     </remotesteps>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>96</yloc>
+      <xloc>736</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

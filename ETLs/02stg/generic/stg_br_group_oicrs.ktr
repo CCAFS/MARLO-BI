@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_br_group_institutions</name>
-    <description>PRE bridge group institutions</description>
+    <name>stg_br_group_oicrs</name>
+    <description>PRE bridge groupoicrs</description>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
@@ -505,41 +505,75 @@
   </connection>
   <order>
     <hop>
-      <from>dim_intersect_group_institutions</from>
-      <to>Split field to rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split field to rows</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Select values</from>
-      <to>Split fields</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Split fields</from>
-      <to>Value mapper</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Value mapper</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
-      <to>Select values 2</to>
+      <from>dim_intersect_group_oicrs</from>
+      <to>Split field to rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Select values 2</from>
-      <to>stg_br_group_institutions</to>
+      <to>Split fields</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split field to rows</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>If field value is null</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>If field value is null</from>
+      <to>stg_br_group_oicrs</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split fields</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>If field value is null</name>
+    <type>IfNull</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <replaceAllByValue>0</replaceAllByValue>
+    <replaceAllMask/>
+    <selectFields>N</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+      </valuetypes>
+    <fields>
+      </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1024</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Select values</name>
     <type>SelectValues</type>
@@ -553,15 +587,19 @@
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_intersect_group_inst</name>
-        <rename/>
-      </field>
-      <field>
-        <name>institution_group</name>
+        <name>pk_id_intersect_group_oicr</name>
         <rename/>
       </field>
       <field>
         <name>ids_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <rename/>
+      </field>
+      <field>
+        <name>oicr_id</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
@@ -575,7 +613,47 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
+      <xloc>800</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pk_id_intersect_group_oicr</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>oicrs_group</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -600,15 +678,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>pk_id_intersect_group_inst</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>Y</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>institution_id</name>
+        <name>pk_id_intersect_group_oicr</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -616,7 +686,23 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>role_name</name>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>oicr_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ids_group</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -651,7 +737,7 @@
     </partitioning>
     <splitfield>ids_group</splitfield>
     <delimiter>, </delimiter>
-    <newfield>institution_group</newfield>
+    <newfield>oicrs_group</newfield>
     <rownum>N</rownum>
     <rownum_field/>
     <resetrownumber>Y</resetrownumber>
@@ -665,13 +751,73 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>432</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>dim_intersect_group_institutions</name>
+    <name>Split fields</name>
+    <type>FieldSplitter</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>oicrs_group</splitfield>
+    <delimiter>;</delimiter>
+    <enclosure/>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>Number</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>0</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>
+      <field>
+        <name>oicr_id</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>Number</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>0</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_intersect_group_oicrs</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -682,10 +828,9 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT pk_id_intersect_group_inst
+    <sql>SELECT pk_id_intersect_group_oicr
 , ids_group
-FROM dim_intersect_group_institutions
-</sql>
+FROM dim_intersect_group_oicrs</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -696,11 +841,11 @@ FROM dim_intersect_group_institutions
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>pk_id_intersect_group_inst</name>
+        <name>pk_id_intersect_group_oicr</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>dim_fs_intersect_group_institutions 3</origin>
-        <comments>pk_id_intersect_group_inst</comments>
+        <origin>dim_intersect_group_milestones</origin>
+        <comments>pk_id_intersect_group_oicr</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -722,7 +867,7 @@ FROM dim_intersect_group_institutions
         <name>ids_group</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>dim_fs_intersect_group_institutions 3</origin>
+        <origin>dim_intersect_group_milestones</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -755,7 +900,7 @@ FROM dim_intersect_group_institutions
     </GUI>
   </step>
   <step>
-    <name>stg_br_group_institutions</name>
+    <name>stg_br_group_oicrs</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -767,7 +912,7 @@ FROM dim_intersect_group_institutions
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>stg_br_group_institutions</table>
+    <table>stg_br_group_oicrs</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -793,149 +938,7 @@ FROM dim_intersect_group_institutions
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1232</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split fields</name>
-    <type>FieldSplitter</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <splitfield>institution_group</splitfield>
-    <delimiter>;</delimiter>
-    <enclosure/>
-    <fields>
-      <field>
-        <name>institution_id</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>Number</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <currency/>
-        <length>-1</length>
-        <precision>0</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>
-      <field>
-        <name>role_id</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>Integer</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <currency/>
-        <length>-1</length>
-        <precision>0</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>640</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Value mapper</name>
-    <type>ValueMapper</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <field_to_use>role_id</field_to_use>
-    <target_field>role_name</target_field>
-    <non_match_default>Contributor</non_match_default>
-    <fields>
-      <field>
-        <source_value>1</source_value>
-        <target_value>Contributor</target_value>
-      </field>
-      <field>
-        <source_value>2</source_value>
-        <target_value>Donor</target_value>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>800</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>pk_id_intersect_group_inst</name>
-        <rename/>
-      </field>
-      <field>
-        <name>institution_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>role_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ids_group</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1072</xloc>
+      <xloc>1168</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>

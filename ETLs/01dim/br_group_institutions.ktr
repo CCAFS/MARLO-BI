@@ -545,6 +545,10 @@
         <name>fk_id_ext_partner</name>
         <rename/>
       </field>
+      <field>
+        <name>role_name</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
@@ -718,6 +722,7 @@
     <sql>SELECT distinct
   pk_id_intersect_group_inst
 , institution_id
+, role_name
 FROM marloBI.stg_br_group_institutions
 </sql>
     <limit>0</limit>

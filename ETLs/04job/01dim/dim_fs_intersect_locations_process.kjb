@@ -1244,8 +1244,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>stg_fs_locations</from>
-      <to>end_log stg_locations</to>
+      <from>end_log stg_locations</from>
+      <to>start log stg_pre_fs_group_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1253,8 +1253,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>end_log stg_locations</from>
-      <to>start log stg_pre_fs_group_locations</to>
+      <from>stg_fs_locations</from>
+      <to>end_log stg_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

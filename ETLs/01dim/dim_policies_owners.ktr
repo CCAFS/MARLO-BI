@@ -588,68 +588,6 @@
     </hop>
   </order>
   <step>
-    <name>dim_policies_owners</name>
-    <type>DimensionLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <schema/>
-    <table>dim_policies_owners</table>
-    <connection>DES_DB</connection>
-    <commit>100</commit>
-    <update>Y</update>
-    <fields>
-      <key>
-        <name>id</name>
-        <lookup>id</lookup>
-      </key>
-      <date>
-        <name/>
-        <from>date_from</from>
-        <to>date_to</to>
-      </date>
-      <field>
-        <name>name</name>
-        <lookup>name</lookup>
-        <update>Update</update>
-      </field>
-      <return>
-        <name>pk_id_policy_owner</name>
-        <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
-        <version>version</version>
-      </return>
-    </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>560</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Input rep_ind_policy_types</name>
     <type>TableInput</type>
     <description/>
@@ -661,7 +599,17 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select * from rep_ind_policy_types;</sql>
+    <sql>SELECT
+  id
+, name
+FROM marloDB.rep_ind_policy_types
+union all
+SELECT
+  -1 id
+, 'Not Provided ' name
+from dual;
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -675,7 +623,7 @@
         <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Owner</origin>
+        <origin>Input rep_ind_policy_types</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -696,9 +644,9 @@
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>name</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>Owner</origin>
+        <origin>Input rep_ind_policy_types</origin>
         <comments>name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -811,6 +759,68 @@
     <GUI>
       <xloc>277</xloc>
       <yloc>202</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_policies_owners</name>
+    <type>DimensionLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema/>
+    <table>dim_policies_owners</table>
+    <connection>DES_DB</connection>
+    <commit>100</commit>
+    <update>Y</update>
+    <fields>
+      <key>
+        <name>id</name>
+        <lookup>id</lookup>
+      </key>
+      <date>
+        <name/>
+        <from>date_from</from>
+        <to>date_to</to>
+      </date>
+      <field>
+        <name>name</name>
+        <lookup>name</lookup>
+        <update>Update</update>
+      </field>
+      <return>
+        <name>pk_id_policy_owner</name>
+        <rename/>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+        <version>version</version>
+      </return>
+    </fields>
+    <sequence/>
+    <min_year>1900</min_year>
+    <max_year>2199</max_year>
+    <cache_size>5000</cache_size>
+    <preload_cache>N</preload_cache>
+    <use_start_date_alternative>N</use_start_date_alternative>
+    <start_date_alternative>none</start_date_alternative>
+    <start_date_field_name/>
+    <useBatch>N</useBatch>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
