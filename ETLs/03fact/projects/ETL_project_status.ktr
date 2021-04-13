@@ -775,17 +775,17 @@ LEFT JOIN submissions s ON s.id = (
 	AND sq.`year` = ph.`year`
 )
 LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
-
-left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) >= ph.year
+-- only validate year = phase_year
+left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
 
 left join project_expected_studies pes on pes.id= sec.project_expected_id and pes.is_active
 left join project_expected_study_info pesi on pesi.project_expected_study_id= pes.id and pesi.id_phase = ph.id and pesi.year >= ph.year
 
 left join project_innovations inn on inn.id= sec.project_innovation_id and inn.is_active
 left join project_innovation_info inni on inni.project_innovation_id =inn.id and inni.id_phase = ph.id and inni.`year` >= ph.`year`
-
+-- only validate year = phase_year
 left join project_policies pol on pol.id= sec.project_policy_id and pol.is_active
-left join project_policy_info poli on poli.project_policy_id = pol.id and poli.id_phase = ph.id and poli.`year` >= ph.year
+left join project_policy_info poli on poli.project_policy_id = pol.id and poli.id_phase = ph.id and poli.`year` = ph.year 
 
 left join project_outcomes pout on pout.id = sec.project_outcome_id and pout.is_active
 left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_active
@@ -1443,8 +1443,8 @@ GROUP BY
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>48</yloc>
+      <xloc>96</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1487,8 +1487,8 @@ GROUP BY
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>48</yloc>
+      <xloc>480</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
