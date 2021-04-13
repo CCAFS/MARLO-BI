@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_pre_group_locations</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL for a pre stg table to create intersect and bridge tables
-for many to many relationship between intersect table and locations
+    <name>pre_summary_indicators_fact</name>
+    <description/>
+    <extended_description>Pre Fact table (staging) for all indicators
 
 </extended_description>
     <trans_version/>
@@ -431,9 +430,9 @@ for many to many relationship between intersect table and locations
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 08:51:05.283</created_date>
+    <created_date>2017/11/14 13:49:22.542</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 08:51:05.283</modified_date>
+    <modified_date>2017/11/14 13:49:22.542</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -506,95 +505,223 @@ for many to many relationship between intersect table and locations
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>ORI_DB</name>
-    <server>${ORI_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${ORI_DBNAME}</database>
-    <port>3306</port>
-    <username>${ORI_USR}</username>
-    <password>${ORI_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>Load_fs_location_groups</from>
-      <to>Sort rows</to>
+      <from>Select values</from>
+      <to>pre_summary_indicators_fact</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Load_oicr_location_groups</from>
-      <to>Sort rows 2</to>
+      <from>input_fact_oicrs</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
-      <to>stg_pre_group_locations</to>
+      <from>input_fact_policies</from>
+      <to>Select values 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2</from>
-      <to>stg_pre_group_locations</to>
+      <from>Select values 2</from>
+      <to>pre_summary_indicators_fact</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Load_policy_location_groups</from>
-      <to>Sort rows 2 2</to>
+      <from>input_fact_fs</from>
+      <to>Select values 2 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2 2</from>
-      <to>stg_pre_group_locations</to>
+      <from>Select values 2 2</from>
+      <to>pre_summary_indicators_fact</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_fs_location_groups</name>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+      </field>
+      <field>
+        <name>indicator_type</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+      </field>
+      <field>
+        <name>indicator_value</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+      </field>
+      <field>
+        <name>indicator_type</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+      </field>
+      <field>
+        <name>indicator_value</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+      </field>
+      <field>
+        <name>indicator_type</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+      </field>
+      <field>
+        <name>indicator_value</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>input_fact_fs</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -604,50 +731,29 @@ for many to many relationship between intersect table and locations
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select stg1.id_phase, stg1.funding_source_id ent_id, 'fs' ent_type, 
-group_concat(stg1.name 
-		     order by stg1.name separator ', ') location_name_group, 
-group_concat(stg1.iso_alpha_2
-			 order by stg1.name separator ', ') iso_alpha_2_group, 
-group_concat(stg1.loc_element_id
-             order by stg1.name) ids_group
-from
-(            
-select fsl.id_phase, fsl.funding_source_id, loc.name, 
-loc.iso_alpha_2, fsl.loc_element_id, 
-fsl.id 
-from funding_sources fs
-join funding_source_locations fsl on fs.id = fsl.funding_source_id 
-join loc_elements loc on loc.id = fsl.loc_element_id
-join phases ph on ph.id = fsl.id_phase
-join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
-where fs.is_active 
-and fsl.is_active
-and loc.is_active
-and ph.name =  pbc.phase_name --'${V_PHASE_NAME}'
-and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
--- and ph.name = 'POWB'
--- and ph.year = 2021
-group by fsl.id_phase, fsl.funding_source_id, loc.name
-Union all
--- Global
-select distinct  fsi.id_phase, fsi.funding_source_id, "Global" name, 
-null iso_alpha_2, -5 loc_element_id, 
--5 id
-from marloDB.funding_sources fs
-join marloDB.funding_sources_info fsi on fs.id = fsi.funding_source_id
-join marloDB.phases ph on ph.id = fsi.id_phase
-join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
-where fs.is_active 
-and fsi.is_active 
-and fsi.global
-and ph.name =  pbc.phase_name --'${V_PHASE_NAME}'
-and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
--- and ph.name = 'POWB'
--- and ph.year = 2021
-) stg1
-group by stg1.id_phase, stg1.funding_source_id ;</sql>
+    <connection>DES_DB</connection>
+    <sql>SELECT
+ fk_id_crp
+,  fk_id_year
+, fk_id_fs_info fk_indicator
+, 'funding source' indicator_type
+, 0 fk_id_intersect_group_milestone
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, 0 fk_id_intersect_group_ccm
+, sum(1) indicator_quantity
+, sum(budget_amount_allocated) indicator_value
+FROM marloBI.fact_fs
+group by   fk_id_crp
+, fk_id_year
+, fk_id_fs_info 
+, fk_id_intersect_group_milestone
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, fk_id_intersect_group_ccm
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -658,11 +764,11 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id_phase</name>
+        <name>fk_id_crp</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>id_phase</comments>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_crp</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -681,11 +787,34 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ent_id</name>
+        <name>fk_id_year</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>ent_id</comments>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_indicator</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_indicator</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -704,11 +833,11 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ent_type</name>
-        <length>2</length>
+        <name>indicator_type</name>
+        <length>14</length>
         <precision>-1</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>ent_type</comments>
+        <origin>input_fact_fs</origin>
+        <comments>indicator_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -725,14 +854,14 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>location_name_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>location_name_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_milestone</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -748,14 +877,14 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>iso_alpha_2_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>iso_alpha_2_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_inst</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_intersect_group_inst</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -771,16 +900,108 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_fs_location_groups</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_loc</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_intersect_group_geo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_ccm</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_quantity</name>
+        <length>23</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>indicator_quantity</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_value</name>
+        <length>22</length>
+        <precision>5</precision>
+        <origin>input_fact_fs</origin>
+        <comments>indicator_value</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>
@@ -803,13 +1024,13 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>96</yloc>
+      <xloc>80</xloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Load_oicr_location_groups</name>
+    <name>input_fact_oicrs</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -819,68 +1040,32 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select stg2.id_phase, stg2.id_oics ent_id, 'oicr' ent_type, 
-group_concat(stg2.name 
-		     order by stg2.name separator ', ') location_name_group, 
-group_concat(stg2.iso_alpha_2
-			 order by stg2.name separator ', ') iso_alpha_2_group, 
-group_concat(stg2.id_loc
-             order by stg2.name) ids_group
-from
-(
--- BRIDGE 
--- sub-national, national and multi-national 
-select  pesi.id_phase ,pes.id id_oics,le.id id_loc, le.name, le.iso_alpha_2 # pesi.rep_ind_geographic_scope_id,ph.global_unit_id, pes.*
-from project_expected_studies pes 
-INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
-INNER JOIN phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
--- LEFT JOIN projects_info prj ON prj.project_id = pes.project_id and pesi.id_phase = prj.id_phase 
-INNER JOIN project_expected_study_countries pesc ON pesc.expected_id = pes.id AND pesc.id_phase = ph.id
-LEFT JOIN loc_elements le ON le.id = pesc.loc_element_id AND le.is_active 
-left join project_expected_study_geographic_scopes sco on sco.expected_id=pesi.project_expected_study_id and sco.id_phase = pesi.id_phase
-where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id)in (3,4,5)
-and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
-and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
-and pes.is_active
-and pesi.study_type_id = 1
-and pesi.title is not null
--- and ph.global_unit_id =1
-UNION ALL
--- regional un IATI
-select  pesi.id_phase ,pes.id id_oics, reg.id_region id_loc, le.name, le.iso_alpha_2 #,pesi.*
-from project_expected_studies pes  
-INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
-INNER JOIN phases ph on ph.id = pesi.id_phase
-inner join project_expected_study_regions reg on reg.expected_id=pesi.project_expected_study_id and reg.id_phase = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
-left join project_expected_study_geographic_scopes sco on sco.expected_id=pesi.project_expected_study_id and sco.id_phase = pesi.id_phase
-LEFT JOIN loc_elements le ON le.id = reg.id_region AND le.is_active 
-where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) in (2)
-and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
-and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
-and pes.is_active
-and pesi.study_type_id = 1
-and pesi.title is not null
--- and ph.global_unit_id =1
-UNION ALL
--- Global scope
-select  pesi.id_phase ,pes.id id_oics, -5 id_loc, "Global" name, null iso_alpha_2  #,pesi.*
-from project_expected_studies pes 
-INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
-INNER JOIN phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
-left join project_expected_study_geographic_scopes sco on sco.expected_id=pesi.project_expected_study_id and sco.id_phase = pesi.id_phase
--- LEFT JOIN projects_info prj ON prj.project_id = pes.project_id and pesi.id_phase = prj.id_phase 
-where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) in (1)
-and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
-and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
-and pes.is_active
-and pesi.study_type_id = 1
-and pesi.title is not null
-) stg2
-group by stg2.id_phase, stg2.id_oics 
+    <connection>DES_DB</connection>
+    <sql>SELECT
+  fk_id_crp
+, fk_id_year
+, fk_id_oicr_info fk_indicator
+, 'oicr' indicator_type
+, fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, fk_id_intersect_group_ccm
+, sum(quantity) indicator_quantity
+, sum(0) indicator_value
+FROM marloBI.fact_oicrs
+group by   fk_id_crp
+, fk_id_year
+, fk_id_oicr_info 
+, fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, fk_id_intersect_group_ccm
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -892,11 +1077,11 @@ group by stg2.id_phase, stg2.id_oics
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id_phase</name>
+        <name>fk_id_crp</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>id_phase</comments>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_crp</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -915,11 +1100,34 @@ group by stg2.id_phase, stg2.id_oics
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ent_id</name>
+        <name>fk_id_year</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>ent_id</comments>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_indicator</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_indicator</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -938,11 +1146,11 @@ group by stg2.id_phase, stg2.id_oics
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ent_type</name>
+        <name>indicator_type</name>
         <length>4</length>
         <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>ent_type</comments>
+        <origin>input_fact_oicrs</origin>
+        <comments>indicator_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -959,14 +1167,14 @@ group by stg2.id_phase, stg2.id_oics
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>location_name_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>location_name_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_milestone</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -982,14 +1190,14 @@ group by stg2.id_phase, stg2.id_oics
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>iso_alpha_2_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>iso_alpha_2_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_inst</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_intersect_group_inst</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1005,16 +1213,108 @@ group by stg2.id_phase, stg2.id_oics
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_loc</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_intersect_group_geo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_ccm</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_quantity</name>
+        <length>41</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>indicator_quantity</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_value</name>
+        <length>23</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>indicator_value</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>
@@ -1037,13 +1337,13 @@ group by stg2.id_phase, stg2.id_oics
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>192</yloc>
+      <xloc>80</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Load_policy_location_groups</name>
+    <name>input_fact_policies</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1053,50 +1353,32 @@ group by stg2.id_phase, stg2.id_oics
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select  poli2.id_phase, poli2.project_policy_id ent_id, 'policy' ent_type, 
-group_concat(distinct locat.name 
-		     order by locat.name asc separator ', ') location_name_group, 
-group_concat(distinct locat.iso_alpha_2
-			 order by locat.name separator ', ') iso_alpha_2_group, 
-group_concat(distinct locat.id
-             order by locat.name asc) ids_group
-FROM project_policy_info poli2
-join (
-	select pol.id id_policy,
-	poli.id_phase,
-	case 
-	WHEN pgeo.rep_ind_geographic_scope_id  in (3,4,5) then ifnull(polc.id_country, -1)
-	WHEN pgeo.rep_ind_geographic_scope_id  in (2) then ifnull(polr.id_region, -1)
-	WHEN pgeo.rep_ind_geographic_scope_id  in (1) then 0
-	WHEN pgeo.rep_ind_geographic_scope_id is null then -1
-	else CONCAT('Error: ',pgeo.rep_ind_geographic_scope_id)
-	end location 
-	FROM project_policies pol
-	join project_policy_info poli on pol.id=poli.project_policy_id
-	join phases ph on poli.id_phase=ph.id
-	JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
-	join bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
-	left join project_policy_geographic_scopes pgeo on pgeo.project_policy_id = poli.project_policy_id and pgeo.id_phase=poli.id_phase
-	LEFT JOIN rep_ind_geographic_scopes rigs ON rigs.id = pgeo.rep_ind_geographic_scope_id
-	left join project_policy_countries polc on polc.project_policy_id = poli.project_policy_id and polc.id_phase=poli.id_phase
-	left join project_policy_regions polr on polr.project_policy_id = poli.project_policy_id and polr.id_phase=poli.id_phase
-	where  
-	ph.name = pbc.phase_name -- 'AR'
-	and ph.year = pbc.phase_year
-	and pol.is_active
-) polic on polic.id_policy = poli2.project_policy_id and polic.id_phase = poli2.id_phase
-join 
-( select loc.id, loc.name, loc.element_type_id, ifnull(loc.iso_alpha_2, 'NA') iso_alpha_2
-  from loc_elements loc 
-  where loc.is_active
-  union all
-  select -5,  'Global', 0, 'NA'
-  union all
-  select -1, 'Not Provided', 0, 'NA'
-  ) locat
-on polic.location = locat.id
-group by poli2.project_policy_id, poli2.id_phase
+    <connection>DES_DB</connection>
+    <sql>SELECT
+  fk_id_crp
+, fk_id_year
+, fk_id_policy_info fk_indicator
+, 'policy' indicator_type
+, fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, fk_id_intersect_group_ccm
+, sum(quantity) indicator_quantity
+, sum(0) indicator_value
+FROM marloBI.fact_policies
+group by   fk_id_crp
+, fk_id_year
+, fk_id_policy_info 
+, fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, fk_id_intersect_group_ccm
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -1108,11 +1390,11 @@ group by poli2.project_policy_id, poli2.id_phase
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id_phase</name>
+        <name>fk_id_crp</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>id_phase</comments>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_crp</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1131,11 +1413,34 @@ group by poli2.project_policy_id, poli2.id_phase
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ent_id</name>
+        <name>fk_id_year</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>ent_id</comments>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_indicator</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_indicator</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1154,11 +1459,11 @@ group by poli2.project_policy_id, poli2.id_phase
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ent_type</name>
+        <name>indicator_type</name>
         <length>6</length>
         <precision>-1</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>ent_type</comments>
+        <origin>input_fact_policies</origin>
+        <comments>indicator_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1175,14 +1480,14 @@ group by poli2.project_policy_id, poli2.id_phase
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>location_name_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>location_name_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_milestone</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1198,14 +1503,14 @@ group by poli2.project_policy_id, poli2.id_phase
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>iso_alpha_2_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>iso_alpha_2_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_inst</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_intersect_group_inst</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1221,16 +1526,108 @@ group by poli2.project_policy_id, poli2.id_phase
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>4096</length>
-        <precision>-1</precision>
-        <origin>Load_policy_location_groups</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
+        <name>fk_id_intersect_group_loc</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_intersect_group_geo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_ccm</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_quantity</name>
+        <length>41</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>indicator_quantity</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_value</name>
+        <length>23</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>indicator_value</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>
@@ -1253,187 +1650,13 @@ group by poli2.project_policy_id, poli2.id_phase
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>320</yloc>
+      <xloc>80</xloc>
+      <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>336</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>336</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>336</xloc>
-      <yloc>320</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>stg_pre_group_locations</name>
+    <name>pre_summary_indicators_fact</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1445,7 +1668,7 @@ group by poli2.project_policy_id, poli2.id_phase
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>stg_pre_group_locations</table>
+    <table>pre_summary_indicators_fact</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -1471,8 +1694,8 @@ group by poli2.project_policy_id, poli2.id_phase
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>208</yloc>
+      <xloc>704</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

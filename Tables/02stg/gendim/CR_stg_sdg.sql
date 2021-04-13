@@ -14,5 +14,5 @@ CREATE TABLE `stg_sdg` (
   `sub_ido_id` bigint(20) DEFAULT NULL,
   `sub_ido_code` text,
   `sub_ido_description` text,
-  `sdg_icon` varchar(100)
+  `sdg_icon` varchar(200)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

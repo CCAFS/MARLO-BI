@@ -589,27 +589,21 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>milestone_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>outcome_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -723,7 +717,25 @@ AND ph. NAME = pbc.phase_name
 and pes.is_active
 and pesi.study_type_id = 1
 and pesi.title is not null
-order by id_phase, ent_type, ent_id
+union all
+select poli.id_phase, poli.project_policy_id ent_id, 'policy' ent_type, 
+pmile.composed_id milestone_composed_id, 
+clean_html_tags(pmile.title) milestone_title, 
+poutc.composed_id outcome_composed_id, clean_html_tags(poutc.description) outcome_description,
+ifnull(ppmile.is_primary,0) is_primary
+from project_policies pol
+join project_policy_info poli on pol.id=poli.project_policy_id
+join phases ph on ph.id=poli.id_phase
+join policy_milestones ppmile on ppmile.policy_id = poli.project_policy_id and ppmile.id_phase = poli.id_phase
+join crp_milestones pmile on pmile.id = ppmile.crp_milestone_id
+join crp_program_outcomes poutc on poutc.id = pmile.crp_program_outcome_id and poutc.is_active
+join bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
+where ph.year = pbc.phase_year -- poli.`year`
+-- and is_policy_excluded(poli.project_policy_id,poli.id_phase)=0
+-- and ph.`year` between ${START_YEAR} and ${END_YEAR}
+-- and ph.`year` BETWEEN 2019 AND 2019
+and ph.name = pbc.phase_name -- 'AR'
+and pol.is_active
 ) mm
 group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
     <limit>0</limit>
@@ -783,7 +795,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>6</length>
         <precision>-1</precision>
         <origin>milestones</origin>
         <comments>ent_type</comments>

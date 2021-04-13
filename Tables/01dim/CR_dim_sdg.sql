@@ -15,7 +15,7 @@ CREATE TABLE `dim_sdg` (
   `sdg_indicator_unsd_code` varchar(45) DEFAULT NULL,
   `sdg_indicator_codes` varchar(45) DEFAULT NULL,
   `sdg_indicator_name` text,
-  `sdg_icon` varchar(100),
+  `sdg_icon` varchar(200),
   PRIMARY KEY (`pk_id_sdg`),
   KEY `idx_dim_sdg_lookup` (`sdg_id`, `sdg_target_id`, `sdg_indicator_id`) USING BTREE,
   KEY `idx_dim_sdg_tk` (`pk_id_sdg`) USING BTREE

@@ -589,27 +589,21 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_compose_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -706,7 +700,7 @@ ifnull(group_concat(pesi.title
 ifnull(group_concat(concat('(', pesi.year, ') ', 'ID', pesi.project_expected_study_id, ' - ', pesi.title)
 					order by pesi.project_expected_study_id asc separator ', '), if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 'Non Mandatory', 'Not Provided')) oicr_compose_title_group,                    
 ifnull(group_concat(concat(pesi.id_phase, ';', pesi.project_expected_study_id)
-        order by pesi.project_expected_study_id asc separator ', '),if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 0, '0;-1')) ids_group
+        order by pesi.project_expected_study_id asc separator ', '),if(ifnull(poli.rep_ind_stage_process_id,3) = 3, concat(poli.id_phase,';0'),concat(poli.id_phase,';-1'))) ids_group
 FROM project_policies pol
 join project_policy_info poli on pol.id=poli.project_policy_id
 join phases ph on poli.id_phase=ph.id

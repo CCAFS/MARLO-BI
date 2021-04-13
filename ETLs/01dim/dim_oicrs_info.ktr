@@ -583,10 +583,6 @@
     <update>Y</update>
     <fields>
       <key>
-        <name>id_phase</name>
-        <lookup>id_phase</lookup>
-      </key>
-      <key>
         <name>oicr_id</name>
         <lookup>oicr_id</lookup>
       </key>
@@ -618,6 +614,11 @@
       <field>
         <name>pdf</name>
         <lookup>pdf</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <lookup>id_phase</lookup>
         <update>Update</update>
       </field>
       <return>

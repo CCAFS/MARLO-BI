@@ -591,10 +591,6 @@
     <update>Y</update>
     <fields>
       <key>
-        <name>id_phase</name>
-        <lookup>id_phase</lookup>
-      </key>
-      <key>
         <name>milestone_composed_id</name>
         <lookup>milestone_composed_id</lookup>
       </key>
@@ -635,6 +631,11 @@
       <field>
         <name>outcome_target_year</name>
         <lookup>outcome_target_year</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <lookup>id_phase</lookup>
         <update>Update</update>
       </field>
       <return>

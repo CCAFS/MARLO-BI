@@ -613,6 +613,150 @@
     </hop>
   </order>
   <step>
+    <name>Concat fields</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <separator/>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name/>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>link_1</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>phase_description</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>link_2</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>phase_year</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+      <targetFieldName>oicr_link</targetFieldName>
+      <targetFieldLength>0</targetFieldLength>
+      <removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>592</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge join</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Sort rows</step1>
+    <step2>Sort input_stg_current_phases</step2>
+    <keys_1>
+      <key>global_unit_id</key>
+    </keys_1>
+    <keys_2>
+      <key>global_unit_id</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
@@ -626,55 +770,42 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_id</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_title</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_scope_comments</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_outcome_impact_statement</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>status</name>
-        <rename/>
       </field>
       <field>
         <name>rep_ind_stage_study_id</name>
-        <rename/>
       </field>
       <field>
         <name>year</name>
-        <rename/>
       </field>
       <field>
         <name>external_link</name>
-        <rename/>
       </field>
       <field>
         <name>is_public</name>
-        <rename/>
       </field>
       <field>
         <name>oicr_link</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -689,6 +820,48 @@
     <GUI>
       <xloc>800</xloc>
       <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort input_stg_current_phases</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>global_unit_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>311</xloc>
+      <yloc>275</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -735,6 +908,56 @@
     </GUI>
   </step>
   <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>oicr_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>input_oicrs</name>
     <type>TableInput</type>
     <description/>
@@ -771,7 +994,43 @@ where ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
 and pesi.title is not null
 and pes.is_active
-;</sql>
+and pesi.study_type_id = 1 -- solo oicrs
+union all
+-- OICR dimension row for not provided oicrs
+select 0 id_phase,
+-1 oicr_id , 
+-1 id,  
+'Not Provided' oicr_title,
+'Not Provided'  oicr_scope_comments, 
+'Not Provided'  oicr_outcome_impact_statement,
+1 global_unit_id,
+0 status,
+0 rep_ind_stage_study_id, 
+0 year,
+'Not Provided' external_link,
+1 is_public,
+''  link_1,
+'' link_2
+from dual
+union all
+-- OICR dimension row for not applicable oicrs
+select 0 id_phase,
+-2 oicr_id , 
+-2 id,  
+'Not Applicable' oicr_title,
+'Not Applicable' oicr_scope_comments, 
+'Not Applicable'  oicr_outcome_impact_statement,
+1 global_unit_id,
+0 status,
+0 rep_ind_stage_study_id, 
+0 year,
+'Not Applicable' external_link,
+1 is_public,
+''link_1,
+'' link_2
+from dual;
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -785,7 +1044,7 @@ and pes.is_active
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -808,7 +1067,7 @@ and pes.is_active
         <name>oicr_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>oicr_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -831,7 +1090,7 @@ and pes.is_active
         <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -852,9 +1111,9 @@ and pes.is_active
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>oicr_title</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>oicr_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -875,9 +1134,9 @@ and pes.is_active
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>oicr_scope_comments</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>oicr_scope_comments</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -898,9 +1157,9 @@ and pes.is_active
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>oicr_outcome_impact_statement</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>oicr_outcome_impact_statement</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -923,7 +1182,7 @@ and pes.is_active
         <name>global_unit_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>global_unit_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -946,7 +1205,7 @@ and pes.is_active
         <name>status</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>status</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -969,7 +1228,7 @@ and pes.is_active
         <name>rep_ind_stage_study_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>rep_ind_stage_study_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -990,9 +1249,9 @@ and pes.is_active
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>year</name>
-        <length>9</length>
+        <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1013,9 +1272,9 @@ and pes.is_active
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>external_link</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>external_link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1033,14 +1292,14 @@ and pes.is_active
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Boolean</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>is_public</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_oicrs</origin>
         <comments>is_public</comments>
-        <conversion_Mask/>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1061,7 +1320,7 @@ and pes.is_active
         <name>link_1</name>
         <length>135</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>link_1</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1084,7 +1343,7 @@ and pes.is_active
         <name>link_2</name>
         <length>6</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>input_oicrs</origin>
         <comments>link_2</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1112,50 +1371,6 @@ and pes.is_active
     </remotesteps>
     <GUI>
       <xloc>96</xloc>
-      <yloc>160</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>stg_oicrs_info</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>stg_oicrs_info</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1120</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1270,8 +1485,8 @@ FROM marloBI.stg_current_phases
     </GUI>
   </step>
   <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
+    <name>stg_oicrs_info</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1280,30 +1495,24 @@ FROM marloBI.stg_current_phases
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>stg_oicrs_info</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
     <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>oicr_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1314,194 +1523,8 @@ FROM marloBI.stg_current_phases
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
+      <xloc>1120</xloc>
       <yloc>160</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort input_stg_current_phases</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>global_unit_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>311</xloc>
-      <yloc>275</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Sort rows</step1>
-    <step2>Sort input_stg_current_phases</step2>
-    <keys_1>
-      <key>global_unit_id</key>
-    </keys_1>
-    <keys_2>
-      <key>global_unit_id</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Concat fields</name>
-    <type>ConcatFields</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator/>
-    <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name/>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>link_1</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>phase_description</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>link_2</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>phase_year</name>
-        <type>None</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-      <targetFieldName>oicr_link</targetFieldName>
-      <targetFieldLength>0</targetFieldLength>
-      <removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>592</xloc>
-      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -718,12 +718,13 @@
     <sql>select sdg.id sdg_id,sdg.short_name sdg_short_name,sdg.full_name sdg_name,
 sdgt.id sdg_target_id,sdgt.sdg_target_code,sdg_target sdg_target_name,
 sdgi.id sdg_indicator_id, sdgi.unsd_indicator_codes sdg_indicator_unsd_code,sdgi.sdg_indicator_codes, sdgi.sdg_indicator sdg_indicator_name,
-sido.id sub_ido_id,sido.smo_code sub_ido_code,sido.description sub_ido_description, sdg.icon sdg_icon
+sido.id sub_ido_id,sido.smo_code sub_ido_code,sido.description sub_ido_description, concat(bp.parameter_value,sdg.icon) sdg_icon
 from sustainable_development_goals sdg
 join sdg_targets sdgt on sdgt.sdg_id = sdg.id
 join sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
 join sub_ido_sdg_target idoxsdg on idoxsdg.sdg_target_id =  sdgt.id
 join srf_sub_idos sido on sido.id = idoxsdg.sub_ido_id
+join bi_parameters bp on bp.parameter_name = 'sdg_icon_url'
 group by sido.id,sdgi.id
 union all
 select -1 sdg_id,'Not Provided' sdg_short_name, 'Not Provided' sdg_name,
@@ -1048,7 +1049,7 @@ from dual
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sdg_icon</name>
-        <length>200</length>
+        <length>700</length>
         <precision>-1</precision>
         <origin>input_sdg</origin>
         <comments>sdg_icon</comments>

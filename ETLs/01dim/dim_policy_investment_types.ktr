@@ -577,15 +577,12 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>name</name>
-        <rename/>
       </field>
       <field>
         <name>definition</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -682,7 +679,7 @@
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_pol_inv_typ</name>
+        <name>pk_id_pol_inv_type</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>

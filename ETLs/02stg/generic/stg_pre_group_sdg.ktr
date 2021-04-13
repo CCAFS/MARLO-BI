@@ -640,6 +640,55 @@
     </GUI>
   </step>
   <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_phase</name>
+      </field>
+      <field>
+        <name>ent_type</name>
+      </field>
+      <field>
+        <name>ent_id</name>
+      </field>
+      <field>
+        <name>sdg_short_name_group</name>
+      </field>
+      <field>
+        <name>sdg_target_group</name>
+      </field>
+      <field>
+        <name>sdg_indicators_group</name>
+      </field>
+      <field>
+        <name>ids_group</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Sort rows</name>
     <type>SortRows</type>
     <description/>
@@ -698,6 +747,64 @@
     </GUI>
   </step>
   <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>input_oicr_group_sdg</name>
     <type>TableInput</type>
     <description/>
@@ -733,7 +840,7 @@ JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id
 JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
 left JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
 left JOIN
-( select sdgi.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
+( select sdg.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
 	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
 	sdgi.sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
 from	sub_ido_sdg_target idoxsdg 
@@ -938,164 +1045,6 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
     </GUI>
   </step>
   <step>
-    <name>stg_pre_group_sdg</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema/>
-    <table>stg_pre_group_sdg</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>624</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_short_name_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_target_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_indicators_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ids_group</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>320</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>input_policy_group_sdg</name>
     <type>TableInput</type>
     <description/>
@@ -1131,7 +1080,7 @@ JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
 jOIN bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
 left JOIN project_policy_sub_idos ppolis on ppolis.project_policy_id = poli.project_policy_id and ppolis.id_phase=poli.id_phase 
 left JOIN
-( select sdgi.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
+( select sdg.id sdg_id, sdgt.sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
 	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
 	sdgi.sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
 from	sub_ido_sdg_target idoxsdg 
@@ -1330,6 +1279,50 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
     <GUI>
       <xloc>160</xloc>
       <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_pre_group_sdg</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema/>
+    <table>stg_pre_group_sdg</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -1,3 +1,5 @@
+drop table if exists `bi_synthesis_status`;
+
 CREATE TABLE `bi_synthesis_status` (
   `crp` varchar(50) NOT NULL,
   `FP` varchar(255) DEFAULT NULL,

@@ -556,7 +556,7 @@
     <fields>
       <field>
         <name>fk_id_oicr_info</name>
-        <value>-1</value>
+        <value>0</value>
         <mask/>
         <set_empty_string>N</set_empty_string>
       </field>
@@ -593,7 +593,6 @@
       </field>
       <field>
         <name>fk_id_oicr_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -784,12 +783,6 @@
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>id_phase</name>
-        <field>id_phase</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
       <key>
         <name>oicr_id</name>
         <field>oicr_id</field>
