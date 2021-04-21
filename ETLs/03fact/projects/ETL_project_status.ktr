@@ -811,7 +811,8 @@ left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_act
 WHERE p.is_active
 -- AND ph.year in (2020,2021)
 -- and ph.name in ('AR','POWB')
-and p.id = 1594
+-- and p.id = 1594
+and gu.acronym = 'CCAFS'
 AND ph.year = 2020
 and ph.name ='AR'
 and ph.year between year(pi.start_date) and year(pi.end_date)
