@@ -794,7 +794,7 @@ LEFT JOIN submissions s ON s.id = (
 left join users subusr on subusr.id = s.user_id
 -- left join users unsubusr on unsubusr.id = s.unsubmit_user_id
 LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
-LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name'
+LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name' and scope = 'Project'
 
 -- only validate year = phase_year
 left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
