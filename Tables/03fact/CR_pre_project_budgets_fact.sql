@@ -6,6 +6,7 @@ CREATE TABLE `pre_project_budgets_fact` (
 , `fk_id_projects_info` BIGINT
 , `fk_id_fs_info` BIGINT
 , `fk_id_ext_partner` BIGINT
+, `fk_id_intersect_group_inst` bigint
 ,  `id` bigint(20) 
 ,  `project_id` bigint(20) NOT NULL
 ,  `year` int(4) NOT NULL

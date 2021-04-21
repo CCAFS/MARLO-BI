@@ -531,71 +531,54 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>oicrs_number</name>
-        <rename/>
       </field>
       <field>
         <name>policies_number</name>
-        <rename/>
       </field>
       <field>
         <name>innovations_number</name>
-        <rename/>
       </field>
       <field>
         <name>projects_number</name>
-        <rename/>
       </field>
       <field>
         <name>fs_number</name>
-        <rename/>
       </field>
       <field>
         <name>deliverables_number</name>
-        <rename/>
       </field>
       <field>
         <name>melia_number</name>
-        <rename/>
       </field>
       <field>
         <name>fs_budget</name>
-        <rename/>
       </field>
       <field>
         <name>fs_budget_allocated</name>
-        <rename/>
       </field>
       <field>
         <name>total_indicators_number</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -609,6 +592,50 @@
     </remotesteps>
     <GUI>
       <xloc>400</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>fact_summary_indicators</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>fact_summary_indicators</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
@@ -641,8 +668,8 @@
 , sum(if(indicator_type='deliverable', indicator_quantity,0)) deliverables_number
 , sum(if(indicator_type='melia', indicator_quantity,0)) melia_number
 , sum(if(indicator_type='funding source', indicator_value,0)) fs_budget  -- OJO que hay que traer el dato de budget del fs
-, sum(if(indicator_type='funding source', indicator_value,0)) fs_budget_allocated
-, sum(if(indicator_type='funding source', 0,indicator_quantity)) total_indicators_number
+, sum(if(indicator_type='pr budget', indicator_value,0)) fs_budget_allocated
+, sum(indicator_quantity) total_indicators_number
 FROM marloBI.pre_summary_indicators_fact
 group by  fk_id_crp
 , fk_id_year
@@ -1061,50 +1088,6 @@ group by  fk_id_crp
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>160</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>fact_summary_indicators</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>fact_summary_indicators</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>

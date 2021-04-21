@@ -606,12 +606,12 @@ for many to many relationship between intersect table and locations
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select stg1.id_phase, stg1.funding_source_id ent_id, 'fs' ent_type, 
-group_concat(stg1.name 
-		     order by stg1.name separator ', ') location_name_group, 
-group_concat(stg1.iso_alpha_2
-			 order by stg1.name separator ', ') iso_alpha_2_group, 
-group_concat(stg1.loc_element_id
-             order by stg1.name) ids_group
+ifnull(group_concat(stg1.name 
+		     order by stg1.name separator ', '), 'Not Provided') location_name_group, 
+ifnull(group_concat(stg1.iso_alpha_2
+			 order by stg1.name separator ', '),'NP') iso_alpha_2_group, 
+ifnull(group_concat(stg1.loc_element_id
+             order by stg1.name),'-1') ids_group
 from
 (            
 select fsl.id_phase, fsl.funding_source_id, loc.name, 
