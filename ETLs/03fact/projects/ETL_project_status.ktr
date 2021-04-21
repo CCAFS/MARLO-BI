@@ -692,8 +692,8 @@ CONCAT(
 		OR s.unsubmit IS NULL THEN
 			concat(subusr.first_name,' ',subusr.last_name)
 		ELSE
-			-- concat(unsubusr.first_name,' ',unsubusr.last_name)
- 			"&lt;Not Defined>"
+			concat(unsubusr.first_name,' ',unsubusr.last_name)
+ 			-- "&lt;Not Defined>"
 		END
   ) submitted_by, 
 	(
@@ -792,9 +792,9 @@ LEFT JOIN submissions s ON s.id = (
 	AND sq.`year` = ph.`year`
 )
 left join users subusr on subusr.id = s.user_id
--- left join users unsubusr on unsubusr.id = s.unsubmit_user_id
+left join users unsubusr on unsubusr.id = s.unsubmit_user_id
 LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
-LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name' and scope = 'Project'
+-- LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name' and scope = 'Project'
 
 -- only validate year = phase_year
 left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
@@ -1495,6 +1495,118 @@ GROUP BY
     </GUI>
   </step>
   <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>CRP</name>
+      </field>
+      <field>
+        <name>project id</name>
+      </field>
+      <field>
+        <name>Project link</name>
+      </field>
+      <field>
+        <name>Project Title</name>
+      </field>
+      <field>
+        <name>Flagships</name>
+      </field>
+      <field>
+        <name>Regions</name>
+      </field>
+      <field>
+        <name>Status</name>
+      </field>
+      <field>
+        <name>Management Liaison</name>
+      </field>
+      <field>
+        <name>Management Liaison acronym</name>
+      </field>
+      <field>
+        <name>Management Liaison Contact Person</name>
+      </field>
+      <field>
+        <name>Lead Institution</name>
+      </field>
+      <field>
+        <name>Project Leader</name>
+      </field>
+      <field>
+        <name>Submission_status</name>
+      </field>
+      <field>
+        <name>submitted_by</name>
+      </field>
+      <field>
+        <name>Submission Date</name>
+      </field>
+      <field>
+        <name>Submission Justification</name>
+      </field>
+      <field>
+        <name>Unsubmission Justification</name>
+      </field>
+      <field>
+        <name>section_id</name>
+      </field>
+      <field>
+        <name>section_name</name>
+      </field>
+      <field>
+        <name>Section status</name>
+      </field>
+      <field>
+        <name>indicator_ID</name>
+      </field>
+      <field>
+        <name>indicator_ID_2</name>
+      </field>
+      <field>
+        <name>missing fields</name>
+      </field>
+      <field>
+        <name>is_evaluated</name>
+      </field>
+      <field>
+        <name>updated_date</name>
+      </field>
+      <field>
+        <name>Phase</name>
+      </field>
+      <field>
+        <name>phase_name</name>
+      </field>
+      <field>
+        <name>phase_year</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Sheet_ProjectSubmision</name>
     <type>TableOutput</type>
     <description/>
@@ -1534,146 +1646,6 @@ GROUP BY
     </remotesteps>
     <GUI>
       <xloc>480</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>CRP</name>
-        <rename/>
-      </field>
-      <field>
-        <name>project id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Project link</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Project Title</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Flagships</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Regions</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Status</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Management Liaison</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Management Liaison acronym</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Management Liaison Contact Person</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Lead Institution</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Project Leader</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Submission_status</name>
-        <rename/>
-      </field>
-      <field>
-        <name>submitted_by</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Submission Date</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Submission Justification</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Unsubmission Justification</name>
-        <rename/>
-      </field>
-      <field>
-        <name>section_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>section_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Section status</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_ID</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_ID_2</name>
-        <rename/>
-      </field>
-      <field>
-        <name>missing fields</name>
-        <rename/>
-      </field>
-      <field>
-        <name>is_evaluated</name>
-        <rename/>
-      </field>
-      <field>
-        <name>updated_date</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Phase</name>
-        <rename/>
-      </field>
-      <field>
-        <name>phase_name</name>
-        <rename/>
-      </field>
-      <field>
-        <name>phase_year</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
