@@ -680,6 +680,16 @@ CONCAT(
 			"Returned"
 		END
 	) AS "Submission_status",
+	(	CASE
+		WHEN s.id IS NULL THEN
+			"&lt;Not Defined>"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			concat(subusr.first_name,' ',subusr.last_name)
+		ELSE
+			concat(unsubusr.first_name,' ',unsubusr.last_name)
+		END
+  ) submitted_by, 
 	(
 		CASE
 		WHEN s.id IS NULL THEN
@@ -718,7 +728,7 @@ CONCAT(
 		END
 	) AS "Unsubmission Justification",
 sec.id section_id
-,sec.section_name
+,ifnull(nsec.new_value,sec.section_name) section_name
 ,CASE 
 when 
 group_concat(distinct sec.missing_fields) is not null and group_concat(distinct missing_fields)!="" 
@@ -774,7 +784,11 @@ LEFT JOIN submissions s ON s.id = (
 	AND sq.cycle = ph.description
 	AND sq.`year` = ph.`year`
 )
+left join users subusr on subusr.id = s.user_id
+left join users unsubusr on unsubusr.id = s.unsubmit_user_id
 LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
+LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name'
+
 -- only validate year = phase_year
 left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
 
@@ -792,6 +806,7 @@ left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_act
 WHERE p.is_active
 -- AND ph.year in (2020,2021)
 -- and ph.name in ('AR','POWB')
+-- and p.id = 1594
 AND ph.year = 2020
 and ph.name ='AR'
 and ph.year between year(pi.start_date) and year(pi.end_date)
