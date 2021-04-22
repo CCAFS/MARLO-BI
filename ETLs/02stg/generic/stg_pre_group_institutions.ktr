@@ -616,17 +616,19 @@ for many to many relationship between intersect table and institutions
     <connection>ORI_DB</connection>
     <sql>-- grouping information about institutions (external partners) from funding_sources_institutions (many to many relationship is compressed in a field using group_concat)
 select gr.id_phase, gr.ent_id, gr.ent_type,
-	group_concat(distinct gr.name 
-	 	 		 order by gr.name asc separator ', ') institution_name_group, 
-	group_concat(distinct ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name 
-				order by gr.name asc separator ', ') institution_acr_name_group,
-	group_concat(distinct nullif(trim(gr.acronym),"")
-				order by gr.name asc separator ', ') acronym_group, 
-	group_concat(distinct concat(gr.institution_id, ';', gr.role_id) 
-				order by gr.name asc separator ', ') ids_group
+	ifnull(group_concat(distinct gr.name 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') institution_name_group, 
+	ifnull(group_concat(distinct ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name 
+				order by gr.name asc separator ', '), 'Not Provided') institution_acr_name_group,
+	ifnull(group_concat(distinct nullif(trim(gr.acronym),"")
+				order by gr.name asc separator ', '), 'NP') acronym_group, 
+	ifnull(group_concat(distinct concat(gr.institution_id, ';', gr.role_id) 
+				order by gr.name asc, gr.role_id asc separator ', '), '-1;1') ids_group,
+	ifnull(group_concat(distinct gr.role_name 
+				order by gr.role_name asc separator ', '), 'Not Provided') role_name_group
 from 
 (
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id -- 1 is for institutions with contributor role
+select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
 from marloDB.funding_source_institutions fsi
 inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
 inner join phases ph on ph.id = fsi.id_phase 
@@ -634,15 +636,19 @@ inner join institutions i on i.id = fsi.institution_id
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
 where ph.name = pbc.phase_name and ph.year = pbc.phase_year
 union all
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 2 role_id -- 1 is for institutions with donor role
+select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type,
+if(fsi.donor is null, dfund.name, i.name) name,
+if (fsi.donor is null, dfund.acronym, i.acronym) acronym,
+if (fsi.donor is null, dfund.id, i.id) institution_id, 2 role_id, 'Original Funder' role_name -- 2 is for institutions with Original Funder role
 from marloDB.funding_sources_info fsi
 inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
 inner join phases ph on ph.id = fsi.id_phase 
-inner join institutions i on i.id = fsi.donor
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+inner join institutions dfund on dfund.id = fsi.direct_donor 
+left join institutions i on i.id = fsi.donor
 where ph.name = pbc.phase_name and ph.year = pbc.phase_year
 union all
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 2 role_id
+select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 3 role_id, 'Direct Funder' role_name -- 3 is for institutions with Direct Funder
 from marloDB.funding_sources_info fsi
 inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
 inner join phases ph on ph.id = fsi.id_phase 
@@ -822,6 +828,29 @@ order by gr.id_phase, gr.ent_id, gr.name
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>role_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>role_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -859,10 +888,13 @@ ifnull(group_concat(nullif(trim(sg.acronym),"")
 			order by sg.name asc separator ', '), 'NP') acronym_group, 
                 
 ifnull(group_concat(concat(sg.institution_id,';', sg.role_id) 
-				order by sg.name asc separator ', '), '-1;1') ids_group
+				order by sg.name asc separator ', '), '-1;1') ids_group,
+
+ifnull(group_concat(distinct sg.role_name 
+				order by sg.name asc separator ', '), 'Not Provided') role_name_group
 from 
 (
-select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id,  -- the 1 is for contributor role
+select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id, 'Contributor' role_name,  -- the 1 is for contributor role
 ins.name, ins.acronym, ins.id institution_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
@@ -875,7 +907,7 @@ and pes.is_active
 and pesi.study_type_id = 1
 and pesi.title is not null
 union
-select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id, -- the 1 is for contributor role
+select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id, 'Contributor' role_name, -- the 1 is for contributor role
 ins.name, ins.acronym, ins.id institution_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
@@ -1059,6 +1091,29 @@ order by sg.id_phase, sg.ent_id, sg.name
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>role_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>role_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1095,7 +1150,9 @@ ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.
 ifnull(group_concat(nullif(trim(gs.acronym),"")
 			order by gs.name asc separator ', '), 'NP') acronym_group, 
 ifnull(group_concat(concat(gs.institution_id, ';', gs.role_id)
-				order by gs.name asc separator ', '), '-1;1') ids_group
+				order by gs.name asc separator ', '), '-1;1') ids_group,
+ifnull(group_concat(distinct gs.role_name 
+				order by gs.name asc separator ', '), 'Not Provided') role_name_group
 from(
 	select pol.id ent_id,
 	'policy' ent_type,
@@ -1103,7 +1160,8 @@ from(
 	sins.institution_id,
 	ins.name,
 	ins.acronym,
-	1 role_id -- 1 es contributor
+	1 role_id, -- 1 es contributor
+	'Contributor' role_name
 	FROM project_policies pol
 	join project_policy_info poli on pol.id=poli.project_policy_id
 	join phases ph on poli.id_phase=ph.id
@@ -1127,7 +1185,8 @@ from(
 	pcen.institution_id,
 	ins.name,
 	ins.acronym,
-	1 role_id -- 1 es contributor
+	1 role_id, -- 1 es contributor
+	'Contributor' role_name
 	FROM project_policies pol
 	join project_policy_info poli on pol.id=poli.project_policy_id
 	join phases ph on poli.id_phase=ph.id
@@ -1311,6 +1370,29 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>role_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>role_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1349,7 +1431,7 @@ ifnull(group_concat(nullif(trim(gs.acronym),"")
 ifnull(group_concat(concat(gs.institution_id, ';', gs.role_id)
 				order by gs.name asc separator ', '), '-1;1') ids_group
 from(
-	select distinct pb.id_phase, pb.id ent_id, 'prbudget' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id -- 1 is for institutions with contributor role
+	select distinct pb.id_phase, pb.id ent_id, 'prbudget' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
 from marloDB.project_budgets pb
 inner join funding_sources_info fsi on fsi.funding_source_id = pb.funding_source_id and fsi.id_phase = pb.id_phase and fsi.is_active
 inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
