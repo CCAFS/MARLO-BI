@@ -560,8 +560,13 @@
   </connection>
   <order>
     <hop>
-      <from>Load_Projects</from>
+      <from>Select values</from>
       <to>Sheet_ProjectSubmision</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Load_Projects</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -688,6 +693,7 @@ CONCAT(
 			concat(subusr.first_name,' ',subusr.last_name)
 		ELSE
 			concat(unsubusr.first_name,' ',unsubusr.last_name)
+ 			-- "&lt;Not Defined>"
 		END
   ) submitted_by, 
 	(
@@ -728,7 +734,8 @@ CONCAT(
 		END
 	) AS "Unsubmission Justification",
 sec.id section_id
-,ifnull(nsec.new_value,sec.section_name) section_name
+-- ,ifnull(nsec.new_value,sec.section_name) section_name
+,sec.section_name
 ,CASE 
 when 
 group_concat(distinct sec.missing_fields) is not null and group_concat(distinct missing_fields)!="" 
@@ -787,7 +794,7 @@ LEFT JOIN submissions s ON s.id = (
 left join users subusr on subusr.id = s.user_id
 left join users unsubusr on unsubusr.id = s.unsubmit_user_id
 LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
-LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name'
+-- LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name' and scope = 'Project'
 
 -- only validate year = phase_year
 left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
@@ -807,6 +814,7 @@ WHERE p.is_active
 -- AND ph.year in (2020,2021)
 -- and ph.name in ('AR','POWB')
 -- and p.id = 1594
+-- and gu.acronym = 'CCAFS'
 AND ph.year = 2020
 and ph.name ='AR'
 and ph.year between year(pi.start_date) and year(pi.end_date)
@@ -1111,6 +1119,29 @@ GROUP BY
         <precision>-1</precision>
         <origin>Load_Projects</origin>
         <comments>Submission_status</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>submitted_by</name>
+        <length>511</length>
+        <precision>-1</precision>
+        <origin>Load_Projects</origin>
+        <comments>submitted_by</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1459,6 +1490,118 @@ GROUP BY
     </remotesteps>
     <GUI>
       <xloc>96</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>CRP</name>
+      </field>
+      <field>
+        <name>project id</name>
+      </field>
+      <field>
+        <name>Project link</name>
+      </field>
+      <field>
+        <name>Project Title</name>
+      </field>
+      <field>
+        <name>Flagships</name>
+      </field>
+      <field>
+        <name>Regions</name>
+      </field>
+      <field>
+        <name>Status</name>
+      </field>
+      <field>
+        <name>Management Liaison</name>
+      </field>
+      <field>
+        <name>Management Liaison acronym</name>
+      </field>
+      <field>
+        <name>Management Liaison Contact Person</name>
+      </field>
+      <field>
+        <name>Lead Institution</name>
+      </field>
+      <field>
+        <name>Project Leader</name>
+      </field>
+      <field>
+        <name>Submission_status</name>
+      </field>
+      <field>
+        <name>submitted_by</name>
+      </field>
+      <field>
+        <name>Submission Date</name>
+      </field>
+      <field>
+        <name>Submission Justification</name>
+      </field>
+      <field>
+        <name>Unsubmission Justification</name>
+      </field>
+      <field>
+        <name>section_id</name>
+      </field>
+      <field>
+        <name>section_name</name>
+      </field>
+      <field>
+        <name>Section status</name>
+      </field>
+      <field>
+        <name>indicator_ID</name>
+      </field>
+      <field>
+        <name>indicator_ID_2</name>
+      </field>
+      <field>
+        <name>missing fields</name>
+      </field>
+      <field>
+        <name>is_evaluated</name>
+      </field>
+      <field>
+        <name>updated_date</name>
+      </field>
+      <field>
+        <name>Phase</name>
+      </field>
+      <field>
+        <name>phase_name</name>
+      </field>
+      <field>
+        <name>phase_year</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
