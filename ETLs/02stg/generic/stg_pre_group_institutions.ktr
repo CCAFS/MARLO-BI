@@ -625,7 +625,28 @@ select gr.id_phase, gr.ent_id, gr.ent_type,
 	ifnull(group_concat(distinct concat(gr.institution_id, ';', gr.role_id) 
 				order by gr.name asc, gr.role_id asc separator ', '), '-1;1') ids_group,
 	ifnull(group_concat(distinct gr.role_name 
-				order by gr.role_name asc separator ', '), 'Not Provided') role_name_group
+				order by gr.role_name asc separator ', '), 'Not Provided') role_name_group,
+--                 
+ifnull(group_concat( distinct if(gr.role_id = 1, gr.name, null) 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') partner_institution_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 1, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
+				order by gr.name asc separator ', '), 'Not Provided') partner_institution_acr_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 1, nullif(trim(gr.acronym),""), null)
+				order by gr.name asc separator ', '), 'NP')  partner_acronym_group,
+--                 
+ifnull(group_concat( distinct if(gr.role_id = 2, gr.name, null) 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') original_donor_institution_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 2, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
+				order by gr.name asc separator ', '), 'Not Provided') original_donor_institution_acr_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 2, nullif(trim(gr.acronym),""), null)
+				order by gr.name asc separator ', '), 'NP')  original_donor_acronym_group,
+--                 
+ifnull(group_concat( distinct if(gr.role_id = 3, gr.name, null) 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') direct_donor_institution_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 3, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
+				order by gr.name asc separator ', '), 'Not Provided') direct_donor_institution_acr_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 3, nullif(trim(gr.acronym),""), null)
+				order by gr.name asc separator ', '), 'NP')  direct_donor_acronym_group
 from 
 (
 select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
@@ -851,6 +872,213 @@ order by gr.id_phase, gr.ent_id, gr.name
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>partner_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>partner_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>partner_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>original_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>original_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>original_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>direct_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>direct_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_fs_groups</origin>
+        <comments>direct_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -888,10 +1116,25 @@ ifnull(group_concat(nullif(trim(sg.acronym),"")
 			order by sg.name asc separator ', '), 'NP') acronym_group, 
                 
 ifnull(group_concat(concat(sg.institution_id,';', sg.role_id) 
-				order by sg.name asc separator ', '), '-1;1') ids_group,
+				order by sg.name asc, sg.role_id asc separator ', '), '-1;1') ids_group,
 
 ifnull(group_concat(distinct sg.role_name 
-				order by sg.name asc separator ', '), 'Not Provided') role_name_group
+				order by sg.role_name asc separator ', '), 'Not Provided') role_name_group,
+--
+ifnull(group_concat(sg.name 
+	 	 	order by sg.name asc 	 separator ', '), 'Not Provided') partner_institution_name_group, 
+ifnull(group_concat(ifnull(concat(nullif(trim(sg.acronym),""), " - "), "") , sg.name 
+			order by sg.name asc separator ', '), 'NP - Not Provided') partner_institution_acr_name_group,
+                
+ifnull(group_concat(nullif(trim(sg.acronym),"")
+			order by sg.name asc separator ', '), 'NP') partner_acronym_group,
+--
+'Not Mandatory' original_donor_institution_name_group,
+'Not Mandatory' original_donor_institution_acr_name_group,
+'Not Mandatory' original_donor_acronym_group,
+'Not Mandatory' direct_donor_institution_name_group,
+'Not Mandatory' direct_donor_institution_acr_name_group,
+'Not Mandatory' direct_donor_acronym_group
 from 
 (
 select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id, 'Contributor' role_name,  -- the 1 is for contributor role
@@ -1114,6 +1357,213 @@ order by sg.id_phase, sg.ent_id, sg.name
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>partner_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>partner_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>partner_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>original_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>original_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>original_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>direct_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>direct_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_oicr_groups</origin>
+        <comments>direct_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1150,9 +1600,25 @@ ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.
 ifnull(group_concat(nullif(trim(gs.acronym),"")
 			order by gs.name asc separator ', '), 'NP') acronym_group, 
 ifnull(group_concat(concat(gs.institution_id, ';', gs.role_id)
-				order by gs.name asc separator ', '), '-1;1') ids_group,
+				order by gs.name asc, gs.role_id asc separator ', '), '-1;1') ids_group,
 ifnull(group_concat(distinct gs.role_name 
-				order by gs.name asc separator ', '), 'Not Provided') role_name_group
+				order by gs.role_name asc separator ', '), 'Not Provided') role_name_group,
+--
+ifnull(group_concat(gs.name
+					order by gs.name asc separator ', '), 'Not Provided') partner_institution_name_group,
+                    
+ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.name 
+			order by gs.name asc separator ', '), 'NP - Not Provided') partner_institution_acr_name_group,
+ifnull(group_concat(nullif(trim(gs.acronym),"")
+			order by gs.name asc separator ', '), 'NP') partner_acronym_group, 
+
+--
+'Not Mandatory' original_donor_institution_name_group,
+'Not Mandatory' original_donor_institution_acr_name_group,
+'Not Mandatory' original_donor_acronym_group,
+'Not Mandatory' direct_donor_institution_name_group,
+'Not Mandatory' direct_donor_institution_acr_name_group,
+'Not Mandatory' direct_donor_acronym_group
 from(
 	select pol.id ent_id,
 	'policy' ent_type,
@@ -1393,6 +1859,213 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>partner_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>partner_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>partner_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>original_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>original_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>original_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>direct_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>direct_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_policy_groups</origin>
+        <comments>direct_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1429,7 +2102,25 @@ ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.
 ifnull(group_concat(nullif(trim(gs.acronym),"")
 			order by gs.name asc separator ', '), 'NP') acronym_group, 
 ifnull(group_concat(concat(gs.institution_id, ';', gs.role_id)
-				order by gs.name asc separator ', '), '-1;1') ids_group
+				order by gs.name asc, gs.role_id separator ', '), '-1;1') ids_group,
+ifnull(group_concat(nullif(trim(gs.role_name),"")
+			order by gs.role_name asc separator ', '), 'NP') role_name_group,
+--
+ifnull(group_concat(gs.name
+					order by gs.name asc separator ', '), 'Not Provided') partner_institution_name_group,
+                    
+ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.name 
+			order by gs.name asc separator ', '), 'NP - Not Provided') partner_institution_acr_name_group,
+ifnull(group_concat(nullif(trim(gs.acronym),"")
+			order by gs.name asc separator ', '), 'NP') partner_acronym_group,
+--
+'Not Mandatory' original_donor_institution_name_group,
+'Not Mandatory' original_donor_institution_acr_name_group,
+'Not Mandatory' original_donor_acronym_group,
+'Not Mandatory' direct_donor_institution_name_group,
+'Not Mandatory' direct_donor_institution_acr_name_group,
+'Not Mandatory' direct_donor_acronym_group
+
 from(
 	select distinct pb.id_phase, pb.id ent_id, 'prbudget' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
 from marloDB.project_budgets pb
@@ -1598,6 +2289,236 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
         <precision>-1</precision>
         <origin>Load_institution_project_budget_groups</origin>
         <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>role_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>role_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>partner_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_acr_name_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>partner_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_acronym_group</name>
+        <length>4096</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>partner_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>original_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>original_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>original_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>direct_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>direct_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_project_budget_groups</origin>
+        <comments>direct_donor_acronym_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

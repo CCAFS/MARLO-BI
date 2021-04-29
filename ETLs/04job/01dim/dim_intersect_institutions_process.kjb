@@ -451,7 +451,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>end_log stg_pre_group_locations</name>
+      <name>end_log stg_pre_group_institutions</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -1108,7 +1108,7 @@
     </hop>
     <hop>
       <from>stg_pre_group_institutions</from>
-      <to>end_log stg_pre_group_locations</to>
+      <to>end_log stg_pre_group_institutions</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1116,7 +1116,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>end_log stg_pre_group_locations</from>
+      <from>end_log stg_pre_group_institutions</from>
       <to>start log stg_intersect_group_institutions</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
