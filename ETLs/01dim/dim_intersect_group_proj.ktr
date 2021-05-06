@@ -572,6 +572,16 @@ other tables
         <lookup>project_id_group</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>owner_project_title_group</name>
+        <lookup>owner_project_title_group</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>shared_project_title_group</name>
+        <lookup>shared_project_title_group</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_intersect_group_proj</name>
         <rename/>
@@ -629,7 +639,7 @@ other tables
         <name>owner_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>owner_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -652,7 +662,7 @@ other tables
         <name>shared_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>shared_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -675,7 +685,7 @@ other tables
         <name>owner_composed_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>owner_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -698,7 +708,7 @@ other tables
         <name>shared_composed_project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>shared_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -721,8 +731,54 @@ other tables
         <name>project_title_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>owner_project_title_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_proj</origin>
+        <comments>owner_project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_project_title_group</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_proj</origin>
+        <comments>shared_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -744,7 +800,7 @@ other tables
         <name>project_id_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -767,7 +823,7 @@ other tables
         <name>ids_group</name>
         <length>400</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_milestones</origin>
+        <origin>stg_intersect_group_proj</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

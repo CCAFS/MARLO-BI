@@ -10,6 +10,8 @@ create table `dim_intersect_group_proj`
  `owner_composed_project_id_group` TEXT,
  `shared_composed_project_id_group` TEXT,
  `project_title_group` TEXT,
+ `owner_project_title_group` TEXT, 
+ `shared_project_title_group` TEXT, 
  `project_id_group` TEXT,
  `ids_group` varchar(400) NOT NULL default 0,
 PRIMARY KEY (`pk_id_intersect_group_proj`),

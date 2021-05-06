@@ -636,6 +636,14 @@
         <rename/>
       </field>
       <field>
+        <name>owner_project_title_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>shared_project_title_group</name>
+        <rename/>
+      </field>
+      <field>
         <name>ids_group</name>
         <rename/>
       </field>
@@ -736,9 +744,16 @@ group_concat(if(is_owner = 1, ifnull(concat('P', ppp.project_id), 0), null)
 group_concat(if(is_owner = 0, ifnull(concat('P', ppp.project_id), 0), null)
 	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
 --
-group_concat(if(is_owner = 1, concat('{owner} P', ifnull(concat (ppp.project_id,' - ', ppp.project_title), "")), 
+group_concat(if(is_owner = 1, ifnull(concat ('{owner} P',ppp.project_id,' - ', ppp.project_title), ""), 
                ifnull(concat ('P',ppp.project_id,' - ', ppp.project_title), ""))
 	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
+group_concat(if(is_owner = 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)), ""), 
+                null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
+group_concat(if(is_owner != 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)) , ""), 
+                null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
+
 group_concat( ifnull(concat('P', ppp.project_id), 0)
 	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
 --
@@ -747,7 +762,7 @@ group_concat(concat(ppp.id_phase, ';', ifnull(ppp.project_id, 0), ';', ppp.is_ow
 from
 (
 select ph.id id_phase, 'oicr' ent_type, 
-pes.id ent_id , pesi.id,  pes.project_id, 1 is_owner, 'Yes' is_owner_description, pinf.title project_title
+pes.id ent_id , pesi.id,  pes.project_id project_id, 1 is_owner, 'Yes' is_owner_description, pinf.title project_title
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
@@ -857,7 +872,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>owner_project_id_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>owner_project_id_group</comments>
@@ -880,7 +895,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>shared_project_id_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>shared_project_id_group</comments>
@@ -903,7 +918,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>owner_composed_project_id_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>owner_composed_project_id_group</comments>
@@ -926,7 +941,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>shared_composed_project_id_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>shared_composed_project_id_group</comments>
@@ -949,7 +964,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>project_title_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>project_title_group</comments>
@@ -971,8 +986,54 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
+        <name>owner_project_title_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_oics</origin>
+        <comments>owner_project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_project_title_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_oics</origin>
+        <comments>shared_project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
         <name>project_id_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>project_id_group</comments>
@@ -995,7 +1056,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>proj_oics</origin>
         <comments>ids_group</comments>
