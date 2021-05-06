@@ -586,20 +586,20 @@ for many to many relationship between intersect table and flagships
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select pesi.id_phase, pes.id ent_id, 'oicr' ent_type,
-	group_concat(cpfl.name 
-	 	 		 order by cpfl.acronym asc separator ', ') flagship_name_group, 
-	group_concat(ifnull(concat(nullif(trim(cpfl.acronym),""), " - "), "") , cpfl.name 
-				order by cpfl.acronym asc separator ', ') flagship_acr_name_group,
-	group_concat(nullif(trim(cpfl.acronym),"")
-				order by cpfl.acronym asc separator ', ') acronym_group, 
-	group_concat(cpfl.id 
-				order by cpfl.acronym asc separator ', ') ids_group
+ifnull(	group_concat(cpfl.name 
+	 	 		 order by cpfl.acronym asc separator ', '), 'Not Provided') flagship_name_group, 
+ifnull(group_concat(ifnull(concat(nullif(trim(cpfl.acronym),""), " - "), "") , cpfl.name 
+				order by cpfl.acronym asc separator ', '), 'NP - Not Provided') flagship_acr_name_group,
+ifnull(group_concat(nullif(trim(cpfl.acronym),"")
+				order by cpfl.acronym asc separator ', '), 'NP') acronym_group, 
+ifnull(group_concat(cpfl.id 
+				order by cpfl.acronym asc separator ', '), -1) ids_group
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
-INNER JOIN project_expected_study_flagships pesf ON pesf.expected_id = pes.id AND pesf.id_phase = ph.id
-INNER JOIN crp_programs cpfl ON cpfl.id = pesf.crp_program_id AND cpfl.is_active AND cpfl.program_type = 1
 INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+left JOIN project_expected_study_flagships pesf ON pesf.expected_id = pes.id AND pesf.id_phase = ph.id
+left JOIN crp_programs cpfl ON cpfl.id = pesf.crp_program_id AND cpfl.is_active AND cpfl.program_type = 1
 -- LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 where  ph. NAME = pbc.phase_name
 and ph.year = pbc.phase_year
@@ -607,6 +607,7 @@ and pes.is_active
 and pesi.study_type_id = 1 -- OICR
 and pesi.title is not null
 group by pesi.id_phase, pes.id
+;
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -688,7 +689,7 @@ group by pesi.id_phase, pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>flagship_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_flagship_groups</origin>
         <comments>flagship_name_group</comments>
@@ -711,7 +712,7 @@ group by pesi.id_phase, pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>flagship_acr_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_flagship_groups</origin>
         <comments>flagship_acr_name_group</comments>
@@ -734,7 +735,7 @@ group by pesi.id_phase, pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>acronym_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_flagship_groups</origin>
         <comments>acronym_group</comments>
@@ -757,7 +758,7 @@ group by pesi.id_phase, pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_flagship_groups</origin>
         <comments>ids_group</comments>

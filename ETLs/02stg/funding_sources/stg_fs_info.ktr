@@ -1002,7 +1002,7 @@
 , fsi.contact_person_email
 , fsi.donor
 , fsi.direct_donor
-, fsi.status
+, ifnull(fsi.status, -1) status
 , fsi.type
 , fsi.division_id
 , fsi.global
@@ -1300,7 +1300,7 @@ left join (select pb.year prj_year, pb.id_phase, pb.funding_source_id, sum(pb.am
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>status</name>
-        <length>9</length>
+        <length>15</length>
         <precision>0</precision>
         <origin>input_fs_info</origin>
         <comments>status</comments>

@@ -605,27 +605,33 @@ for many to many relationship between intersect table and locations
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select stg1.id_phase, stg1.funding_source_id ent_id, 'fs' ent_type, 
+    <sql>select fsi1.id_phase, fsi1.funding_source_id ent_id, 'fs' ent_type, 
 ifnull(group_concat(stg1.name 
 		     order by stg1.name separator ', '), 'Not Provided') location_name_group, 
 ifnull(group_concat(stg1.iso_alpha_2
 			 order by stg1.name separator ', '),'NP') iso_alpha_2_group, 
 ifnull(group_concat(stg1.loc_element_id
              order by stg1.name),'-1') ids_group
-from
+from funding_sources fs1
+join marloDB.funding_sources_info fsi1 on fs1.id = fsi1.funding_source_id
+join phases ph1 on ph1.id = fsi1.id_phase
+join bi_phase_by_cubes pbc1 on pbc1.cube_name='fundingsources'
+left join
 (            
 select fsl.id_phase, fsl.funding_source_id, loc.name, 
 loc.iso_alpha_2, fsl.loc_element_id, 
 fsl.id 
 from funding_sources fs
+join marloDB.funding_sources_info fsi on fs.id = fsi.funding_source_id
 join funding_source_locations fsl on fs.id = fsl.funding_source_id 
 join loc_elements loc on loc.id = fsl.loc_element_id
 join phases ph on ph.id = fsl.id_phase
 join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
 where fs.is_active 
+and fsi.is_active 
 and fsl.is_active
 and loc.is_active
-and ph.name =  pbc.phase_name --'${V_PHASE_NAME}'
+and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
 and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
 -- and ph.name = 'POWB'
 -- and ph.year = 2021
@@ -642,12 +648,17 @@ join bi_phase_by_cubes pbc on pbc.cube_name='fundingsources'
 where fs.is_active 
 and fsi.is_active 
 and fsi.global
-and ph.name =  pbc.phase_name --'${V_PHASE_NAME}'
+and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
 and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
 -- and ph.name = 'POWB'
 -- and ph.year = 2021
-) stg1
-group by stg1.id_phase, stg1.funding_source_id ;</sql>
+) stg1 on stg1.id_phase = fsi1.id_phase and stg1.funding_source_id = fsi1.funding_source_id
+where fs1.is_active 
+and fsi1.is_active 
+and ph1.name =  pbc1.phase_name -- '${V_PHASE_NAME}'
+and ph1.year = pbc1.phase_year --  ${V_PHASE_YEAR}
+group by stg1.id_phase, stg1.funding_source_id 
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -728,7 +739,7 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>location_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_fs_location_groups</origin>
         <comments>location_name_group</comments>
@@ -751,7 +762,7 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>iso_alpha_2_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_fs_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
@@ -774,7 +785,7 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_fs_location_groups</origin>
         <comments>ids_group</comments>
@@ -803,7 +814,7 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
+      <xloc>192</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
@@ -820,14 +831,18 @@ group by stg1.id_phase, stg1.funding_source_id ;</sql>
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select stg2.id_phase, stg2.id_oics ent_id, 'oicr' ent_type, 
-group_concat(stg2.name 
-		     order by stg2.name separator ', ') location_name_group, 
-group_concat(stg2.iso_alpha_2
-			 order by stg2.name separator ', ') iso_alpha_2_group, 
-group_concat(stg2.id_loc
-             order by stg2.name) ids_group
-from
+    <sql>select pesi1.id_phase, pes1.id ent_id, 'oicr' ent_type, 
+ifnull(group_concat(distinct stg2.name 
+		     order by stg2.name separator ', '), 'Not Provided') location_name_group, 
+ifnull(group_concat(distinct stg2.iso_alpha_2
+			 order by stg2.name separator ', '), 'NP') iso_alpha_2_group, 
+ifnull(group_concat(distinct stg2.id_loc
+             order by stg2.name), -1) ids_group
+from project_expected_studies pes1 
+INNER JOIN project_expected_study_info pesi1 ON pesi1.project_expected_study_id = pes1.id 
+INNER JOIN phases ph1 on ph1.id = pesi1.id_phase
+INNER JOIN bi_phase_by_cubes pbc1 on pbc1.cube_name='oicrs'
+left join
 (
 -- BRIDGE 
 -- sub-national, national and multi-national 
@@ -880,7 +895,13 @@ and pes.is_active
 and pesi.study_type_id = 1
 and pesi.title is not null
 ) stg2
-group by stg2.id_phase, stg2.id_oics 
+on stg2.id_phase = pesi1.id_phase and stg2.id_oics = pes1.id
+where ph1.name =  pbc1.phase_name -- '${V_PHASE_NAME}'
+and ph1.year = pbc1.phase_year --  ${V_PHASE_YEAR}
+and pes1.is_active
+and pesi1.study_type_id = 1
+and pesi1.title is not null
+group by pesi1.id_phase, pes1.id  
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -962,7 +983,7 @@ group by stg2.id_phase, stg2.id_oics
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>location_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_oicr_location_groups</origin>
         <comments>location_name_group</comments>
@@ -985,7 +1006,7 @@ group by stg2.id_phase, stg2.id_oics
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>iso_alpha_2_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_oicr_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
@@ -1008,7 +1029,7 @@ group by stg2.id_phase, stg2.id_oics
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_oicr_location_groups</origin>
         <comments>ids_group</comments>
@@ -1055,14 +1076,18 @@ group by stg2.id_phase, stg2.id_oics
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select  poli2.id_phase, poli2.project_policy_id ent_id, 'policy' ent_type, 
-group_concat(distinct locat.name 
-		     order by locat.name asc separator ', ') location_name_group, 
-group_concat(distinct locat.iso_alpha_2
-			 order by locat.name separator ', ') iso_alpha_2_group, 
-group_concat(distinct locat.id
-             order by locat.name asc) ids_group
+ifnull(group_concat(distinct locat.name 
+		     order by locat.name asc separator ', '), 'Not Provided') location_name_group, 
+ifnull(group_concat(distinct locat.iso_alpha_2
+			 order by locat.name separator ', '), 'NP') iso_alpha_2_group, 
+ifnull(group_concat(distinct locat.id
+             order by locat.name asc), -1) ids_group
 FROM project_policy_info poli2
-join (
+join project_policies pol2 on pol2.id = poli2.project_policy_id 
+join phases ph2 on poli2.id_phase=ph2.id
+	JOIN global_units gu2 ON gu2.id = ph2.global_unit_id AND gu2.is_active
+	join bi_phase_by_cubes pbc2 on pbc2.cube_name = 'policies'
+left join (
 	select pol.id id_policy,
 	poli.id_phase,
 	case 
@@ -1086,16 +1111,19 @@ join (
 	and ph.year = pbc.phase_year
 	and pol.is_active
 ) polic on polic.id_policy = poli2.project_policy_id and polic.id_phase = poli2.id_phase
-join 
+left join 
 ( select loc.id, loc.name, loc.element_type_id, ifnull(loc.iso_alpha_2, 'NA') iso_alpha_2
   from loc_elements loc 
   where loc.is_active
   union all
   select -5,  'Global', 0, 'NA'
   union all
-  select -1, 'Not Provided', 0, 'NA'
+  select -1, 'Not Provided', 0, 'NP'
   ) locat
 on polic.location = locat.id
+where ph2.name = pbc2.phase_name -- 'AR'
+	and ph2.year = pbc2.phase_year
+    and pol2.is_active
 group by poli2.project_policy_id, poli2.id_phase
 ;</sql>
     <limit>0</limit>
@@ -1178,7 +1206,7 @@ group by poli2.project_policy_id, poli2.id_phase
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>location_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_policy_location_groups</origin>
         <comments>location_name_group</comments>
@@ -1201,7 +1229,7 @@ group by poli2.project_policy_id, poli2.id_phase
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>iso_alpha_2_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_policy_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
@@ -1224,7 +1252,7 @@ group by poli2.project_policy_id, poli2.id_phase
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_policy_location_groups</origin>
         <comments>ids_group</comments>

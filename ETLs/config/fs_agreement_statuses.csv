@@ -5,3 +5,5 @@ id,name,short_name
 4,Extended,Ext
 5,Cancelled,Canc
 7,Informally Confirmed,Inf. Conf.
+-1,Not Provided,NP
+-2,Non Applicable,NAP

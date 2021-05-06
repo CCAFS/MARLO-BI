@@ -728,6 +728,22 @@
 , year
 , rep_ind_stage_studies_id
 FROM marloDB.rep_ind_stage_process
+union all
+SELECT
+  -1 id
+, "Not Provided" name
+, "Not Provided" description
+, 2018 year
+, -1 rep_ind_stage_studies_id
+FROM dual
+union all
+SELECT
+  -2 id
+, "Not Applicable" name
+, "Not Applicable" description
+, 2018 year
+, -2 rep_ind_stage_studies_id
+FROM dual
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -763,7 +779,7 @@ FROM marloDB.rep_ind_stage_process
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>name</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>rep_ind_stage_process</origin>
         <comments>name</comments>
@@ -786,11 +802,57 @@ FROM marloDB.rep_ind_stage_process
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>description</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>rep_ind_stage_process</origin>
         <comments>description</comments>
         <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>year</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>rep_ind_stage_process</origin>
+        <comments>year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>rep_ind_stage_studies_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>rep_ind_stage_process</origin>
+        <comments>rep_ind_stage_studies_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
