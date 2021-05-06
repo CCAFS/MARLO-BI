@@ -673,6 +673,10 @@ from cgiar_cross_cutting_markers ccm, rep_ind_gender_youth_focus_levels rfl
 union all
 select ccm.id ccm_id, ccm.name ccm_name, -1 ccm_focus_level_id,  "Not Provided" ccm_focus_level, concat(ccm.name,": Not Provided") ccm_name_level
 from cgiar_cross_cutting_markers ccm
+union all
+select -1 ccm_id, "Not Provided" ccm_name, -1 ccm_focus_level_id,  "Not Provided" ccm_focus_level, "Not Provided" ccm_name_level
+from dual
+
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -684,11 +688,11 @@ from cgiar_cross_cutting_markers ccm
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id</name>
+        <name>ccm_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>geo_scopes</origin>
-        <comments>id</comments>
+        <origin>cross_cutting_markers</origin>
+        <comments>ccm_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -707,11 +711,57 @@ from cgiar_cross_cutting_markers ccm
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>name</name>
-        <length>21845</length>
+        <name>ccm_name</name>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>geo_scopes</origin>
-        <comments>name</comments>
+        <origin>cross_cutting_markers</origin>
+        <comments>ccm_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ccm_focus_level_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>cross_cutting_markers</origin>
+        <comments>ccm_focus_level_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ccm_focus_level</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>cross_cutting_markers</origin>
+        <comments>ccm_focus_level</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -730,34 +780,11 @@ from cgiar_cross_cutting_markers ccm
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>iati_name</name>
-        <length>21845</length>
+        <name>ccm_name_level</name>
+        <length>131072</length>
         <precision>-1</precision>
-        <origin>geo_scopes</origin>
-        <comments>iati_name</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>definition</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>geo_scopes</origin>
-        <comments>definition</comments>
+        <origin>cross_cutting_markers</origin>
+        <comments>ccm_name_level</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
