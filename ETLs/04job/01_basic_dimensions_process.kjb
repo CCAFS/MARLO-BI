@@ -357,7 +357,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>736</xloc>
+      <xloc>1024</xloc>
       <yloc>272</yloc>
       <attributes_kjc/>
     </entry>
@@ -455,7 +455,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>560</xloc>
+      <xloc>896</xloc>
       <yloc>272</yloc>
       <attributes_kjc/>
     </entry>
@@ -753,7 +753,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>928</xloc>
+      <xloc>736</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -790,7 +790,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>752</xloc>
+      <xloc>608</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -827,7 +827,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>592</xloc>
+      <xloc>480</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -864,7 +864,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
+      <xloc>352</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -901,7 +901,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>240</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -938,8 +938,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>208</xloc>
-      <yloc>160</yloc>
+      <xloc>240</xloc>
+      <yloc>272</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -975,7 +975,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>208</xloc>
+      <xloc>464</xloc>
       <yloc>272</yloc>
       <attributes_kjc/>
     </entry>
@@ -1012,8 +1012,45 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
+      <xloc>688</xloc>
       <yloc>272</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>dim_geo_scopes</name>
+      <description/>
+      <type>JOB</type>
+      <attributes/>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_geo_scopes_process.kjb</filename>
+      <jobname/>
+      <directory/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>896</xloc>
+      <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -1109,15 +1146,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_srf_cci</from>
-      <to>dim_cross_cutting_markers</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>dim_cross_cutting_markers</from>
       <to>dim_sdg</to>
       <from_nr>0</from_nr>
@@ -1183,6 +1211,24 @@
     <hop>
       <from>dim_policy_investment_types</from>
       <to>save_to_log_ETL_END</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>dim_srf_cci</from>
+      <to>dim_geo_scopes</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>dim_geo_scopes</from>
+      <to>dim_cross_cutting_markers</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
