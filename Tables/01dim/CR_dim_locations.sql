@@ -15,6 +15,7 @@ CREATE TABLE `dim_locations` (
   `reg_iati_name` text,
   `id` bigint(20) ,
   `loc_element_type` varchar(20) DEFAULT NULL,
+  `iso_alpha_3` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pk_id_location`),
   KEY `idx_dim_locations_lookup` (`country_id`) USING BTREE,
   KEY `idx_dim_locations_lookup2` (`id`) USING BTREE,
