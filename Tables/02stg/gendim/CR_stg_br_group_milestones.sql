@@ -8,5 +8,5 @@ CREATE TABLE marloBI.stg_br_group_milestones
 , `milestone_composed_id` varchar(20) 
 , `is_primary` INT 
 , `ids_group` VARCHAR(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

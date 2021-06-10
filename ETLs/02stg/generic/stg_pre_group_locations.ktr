@@ -657,7 +657,7 @@ where fs1.is_active
 and fsi1.is_active 
 and ph1.name =  pbc1.phase_name -- '${V_PHASE_NAME}'
 and ph1.year = pbc1.phase_year --  ${V_PHASE_YEAR}
-group by stg1.id_phase, stg1.funding_source_id 
+group by fsi1.id_phase, fsi1.funding_source_id 
 ;</sql>
     <limit>0</limit>
     <lookup/>

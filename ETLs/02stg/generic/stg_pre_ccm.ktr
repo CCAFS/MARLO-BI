@@ -776,21 +776,27 @@
     <fields>
       <field>
         <name>id_phase</name>
+        <rename/>
       </field>
       <field>
         <name>ent_id</name>
+        <rename/>
       </field>
       <field>
         <name>ent_type</name>
+        <rename/>
       </field>
       <field>
-        <name>ccm_id</name>
+        <name>id</name>
+        <rename>ccm_id</rename>
       </field>
       <field>
         <name>ccm_focus_level</name>
+        <rename/>
       </field>
       <field>
         <name>ccm_focus_level_id</name>
+        <rename/>
       </field>
       <field>
         <name>name</name>
@@ -826,24 +832,31 @@
     <fields>
       <field>
         <name>id_phase</name>
+        <rename/>
       </field>
       <field>
         <name>ent_id</name>
+        <rename/>
       </field>
       <field>
         <name>ent_type</name>
+        <rename/>
       </field>
       <field>
         <name>ccm_id</name>
+        <rename/>
       </field>
       <field>
         <name>ccm_focus_level</name>
+        <rename/>
       </field>
       <field>
         <name>ccm_focus_level_id</name>
+        <rename/>
       </field>
       <field>
         <name>ccm_name</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -1780,7 +1793,7 @@ FROM marloDB.cgiar_cross_cutting_markers
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
+    <specify_fields>N</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -1791,34 +1804,6 @@ FROM marloDB.cgiar_cross_cutting_markers
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
-      <field>
-        <column_name>id_phase</column_name>
-        <stream_name>id_phase</stream_name>
-      </field>
-      <field>
-        <column_name>ent_id</column_name>
-        <stream_name>ent_id</stream_name>
-      </field>
-      <field>
-        <column_name>ent_type</column_name>
-        <stream_name>ent_type</stream_name>
-      </field>
-      <field>
-        <column_name>ccm_id</column_name>
-        <stream_name>ccm_id</stream_name>
-      </field>
-      <field>
-        <column_name>ccm_focus_level_id</column_name>
-        <stream_name>ccm_focus_level_id</stream_name>
-      </field>
-      <field>
-        <column_name>ccm_focus_level</column_name>
-        <stream_name>ccm_focus_level</stream_name>
-      </field>
-      <field>
-        <column_name>ccm_name</column_name>
-        <stream_name>ccm_name</stream_name>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>

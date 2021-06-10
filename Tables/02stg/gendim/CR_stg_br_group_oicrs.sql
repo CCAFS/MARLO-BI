@@ -6,5 +6,5 @@ CREATE TABLE marloBI.`stg_br_group_oicrs`
 , `id_phase` bigint(20) 
 , `oicr_id` bigint(20) 
 , `ids_group` VARCHAR(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

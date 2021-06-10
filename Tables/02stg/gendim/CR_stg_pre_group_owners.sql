@@ -7,5 +7,5 @@ CREATE TABLE `stg_pre_group_owners`
 , `ent_type` VARCHAR(10)
 , `owner_name_group` TEXT
 , `ids_group` varchar(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

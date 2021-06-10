@@ -7,6 +7,6 @@ CREATE TABLE marloBI.`stg_br_group_sdg`
 , `sdg_target_id`  bigint(20) DEFAULT 0
 , `sdg_indicator_id` bigint(20) DEFAULT 0
 , `ids_group` varchar(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;
 

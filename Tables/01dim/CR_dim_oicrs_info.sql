@@ -17,5 +17,5 @@ CREATE TABLE `dim_oicrs_info`
   KEY `idx_dim_oicrs_info_lookup` (`oicr_id`, `id_phase`) USING BTREE,
   KEY `idx_dim_oicrs_info_lookup2` (`id`) USING BTREE,
   KEY `idx_dim_oicrs_tk` (`pk_id_oicr_info`) USING BTREE
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

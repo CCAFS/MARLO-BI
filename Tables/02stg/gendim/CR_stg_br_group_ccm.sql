@@ -6,5 +6,5 @@ CREATE TABLE `stg_br_group_ccm`
 , `ccm_id` BIGINT 
 ,  `ccm_focus_level_id` BIGINT
 , `ids_group` varchar(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

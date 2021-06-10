@@ -615,7 +615,7 @@ for many to many relationship between intersect table and institutions
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>-- grouping information about institutions (external partners) from funding_sources_institutions (many to many relationship is compressed in a field using group_concat)
-select gr.id_phase, gr.ent_id, gr.ent_type,
+select fsi1.id_phase, fsi1.funding_source_id ent_id, 'fs' ent_type,
 	ifnull(group_concat(distinct gr.name 
 	 	 		 order by gr.name asc separator ', '), 'Not Provided') institution_name_group, 
 	ifnull(group_concat(distinct ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name 
@@ -647,38 +647,42 @@ ifnull(group_concat(distinct if(gr.role_id = 3, concat(ifnull(concat(nullif(trim
 				order by gr.name asc separator ', '), 'Not Provided') direct_donor_institution_acr_name_group,
 ifnull(group_concat(distinct if(gr.role_id = 3, nullif(trim(gr.acronym),""), null)
 				order by gr.name asc separator ', '), 'NP')  direct_donor_acronym_group
-from 
-(
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
-from marloDB.funding_source_institutions fsi
-inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
-inner join phases ph on ph.id = fsi.id_phase 
-inner join institutions i on i.id = fsi.institution_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
-where ph.name = pbc.phase_name and ph.year = pbc.phase_year
-union all
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type,
-if(fsi.donor is null, dfund.name, i.name) name,
-if (fsi.donor is null, dfund.acronym, i.acronym) acronym,
-if (fsi.donor is null, dfund.id, i.id) institution_id, 2 role_id, 'Original Funder' role_name -- 2 is for institutions with Original Funder role
-from marloDB.funding_sources_info fsi
-inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
-inner join phases ph on ph.id = fsi.id_phase 
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
-inner join institutions dfund on dfund.id = fsi.direct_donor 
-left join institutions i on i.id = fsi.donor
-where ph.name = pbc.phase_name and ph.year = pbc.phase_year
-union all
-select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 3 role_id, 'Direct Funder' role_name -- 3 is for institutions with Direct Funder
-from marloDB.funding_sources_info fsi
-inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
-inner join phases ph on ph.id = fsi.id_phase 
-inner join institutions i on i.id = fsi.direct_donor
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
-where ph.name = pbc.phase_name and ph.year = pbc.phase_year
-) gr
-group by gr.id_phase, gr.ent_id
-order by gr.id_phase, gr.ent_id, gr.name
+from marloDB.funding_sources_info fsi1
+inner join funding_sources fs1 on fs1.id = fsi1.funding_source_id and fs1.is_active
+inner join phases ph1 on ph1.id = fsi1.id_phase 
+inner join bi_phase_by_cubes pbc1 on pbc1.cube_name = 'fundingsources'
+left join (
+	select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
+	from marloDB.funding_source_institutions fsi
+	inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
+	inner join phases ph on ph.id = fsi.id_phase 
+	inner join institutions i on i.id = fsi.institution_id
+	inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+	where ph.name = pbc.phase_name and ph.year = pbc.phase_year
+	union all
+	select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type,
+	if(fsi.donor is null, dfund.name, i.name) name,
+	if (fsi.donor is null, dfund.acronym, i.acronym) acronym,
+	if (fsi.donor is null, dfund.id, i.id) institution_id, 2 role_id, 'Original Funder' role_name -- 2 is for institutions with Original Funder role
+	from marloDB.funding_sources_info fsi
+	inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
+	inner join phases ph on ph.id = fsi.id_phase 
+	inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+	inner join institutions dfund on dfund.id = fsi.direct_donor 
+	left join institutions i on i.id = fsi.donor
+	where ph.name = pbc.phase_name and ph.year = pbc.phase_year
+	union all
+	select fsi.id_phase, fsi.funding_source_id ent_id, 'fs' ent_type, i.name, i.acronym, i.id institution_id, 3 role_id, 'Direct Funder' role_name -- 3 is for institutions with Direct Funder
+	from marloDB.funding_sources_info fsi
+	inner join funding_sources fs on fs.id = fsi.funding_source_id and fs.is_active
+	inner join phases ph on ph.id = fsi.id_phase 
+	inner join institutions i on i.id = fsi.direct_donor
+	inner join bi_phase_by_cubes pbc on pbc.cube_name = 'fundingsources'
+	where ph.name = pbc.phase_name and ph.year = pbc.phase_year
+	) gr on gr.id_phase = fsi1.id_phase and gr.ent_id = fsi1.funding_source_id
+where ph1.name = pbc1.phase_name and ph1.year = pbc1.phase_year
+group by fsi1.id_phase, fsi1.funding_source_id
+order by fsi1.id_phase, fsi1.funding_source_id
 ;
 </sql>
     <limit>0</limit>
@@ -761,7 +765,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>institution_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>institution_name_group</comments>
@@ -784,7 +788,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>institution_acr_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>institution_acr_name_group</comments>
@@ -807,7 +811,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>acronym_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>acronym_group</comments>
@@ -830,7 +834,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>ids_group</comments>
@@ -853,7 +857,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>role_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>role_name_group</comments>
@@ -876,7 +880,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_institution_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>partner_institution_name_group</comments>
@@ -899,7 +903,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_institution_acr_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>partner_institution_acr_name_group</comments>
@@ -922,7 +926,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_acronym_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>partner_acronym_group</comments>
@@ -945,7 +949,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>original_donor_institution_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>original_donor_institution_name_group</comments>
@@ -968,7 +972,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>original_donor_institution_acr_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>original_donor_institution_acr_name_group</comments>
@@ -991,7 +995,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>original_donor_acronym_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>original_donor_acronym_group</comments>
@@ -1014,7 +1018,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>direct_donor_institution_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>direct_donor_institution_name_group</comments>
@@ -1037,7 +1041,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>direct_donor_institution_acr_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>direct_donor_institution_acr_name_group</comments>
@@ -1060,7 +1064,7 @@ order by gr.id_phase, gr.ent_id, gr.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>direct_donor_acronym_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_institution_fs_groups</origin>
         <comments>direct_donor_acronym_group</comments>
