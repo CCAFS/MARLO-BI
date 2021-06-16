@@ -774,7 +774,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>stg_br_group_institutions</name>
+      <name>stg_br_group_geo_scopes</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -1180,7 +1180,7 @@
     </hop>
     <hop>
       <from>start log stg_br_group_geo_scopes</from>
-      <to>stg_br_group_institutions</to>
+      <to>stg_br_group_geo_scopes</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1188,7 +1188,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>stg_br_group_institutions</from>
+      <from>stg_br_group_geo_scopes</from>
       <to>end_log stg_br_group_geo_scopes</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

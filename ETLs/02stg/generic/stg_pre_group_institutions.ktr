@@ -583,21 +583,31 @@ for many to many relationship between intersect table and institutions
     </hop>
     <hop>
       <from>Load_institution_policy_groups</from>
-      <to>Sort rows 2 2</to>
+      <to>Sort rows 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2 2</from>
+      <from>Sort rows 3</from>
       <to>stg_pre_group_institutions</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Load_institution_project_budget_groups</from>
-      <to>Sort rows 2 2 2</to>
+      <to>Sort rows 4</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2 2 2</from>
+      <from>Sort rows 4</from>
+      <to>stg_pre_group_institutions</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Load_institution_innovation_groups</from>
+      <to>Sort rows 5</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 5</from>
       <to>stg_pre_group_institutions</to>
       <enabled>Y</enabled>
     </hop>
@@ -646,7 +656,11 @@ ifnull(group_concat( distinct if(gr.role_id = 3, gr.name, null)
 ifnull(group_concat(distinct if(gr.role_id = 3, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
 				order by gr.name asc separator ', '), 'Not Provided') direct_donor_institution_acr_name_group,
 ifnull(group_concat(distinct if(gr.role_id = 3, nullif(trim(gr.acronym),""), null)
-				order by gr.name asc separator ', '), 'NP')  direct_donor_acronym_group
+				order by gr.name asc separator ', '), 'NP')  direct_donor_acronym_group,
+--
+'Not Mandatory' lead_institution_name_group,
+'Not Mandatory' lead_institution_acr_name_group,
+'Not Mandatory' lead_acronym_group
 from marloDB.funding_sources_info fsi1
 inner join funding_sources fs1 on fs1.id = fsi1.funding_source_id and fs1.is_active
 inner join phases ph1 on ph1.id = fsi1.id_phase 
@@ -1099,6 +1113,591 @@ order by fsi1.id_phase, fsi1.funding_source_id
     </GUI>
   </step>
   <step>
+    <name>Load_institution_innovation_groups</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>SELECT pii1.id_phase, pii1.project_innovation_id ent_id, 'innovation' ent_type,
+	ifnull(group_concat(distinct gr.name 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') institution_name_group, 
+	ifnull(group_concat(distinct ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name 
+				order by gr.name asc separator ', '), 'Not Provided') institution_acr_name_group,
+	ifnull(group_concat(distinct nullif(trim(gr.acronym),"")
+				order by gr.name asc separator ', '), 'NP') acronym_group, 
+	ifnull(group_concat(distinct concat(gr.institution_id, ';', gr.role_id) 
+				order by gr.name asc, gr.role_id asc separator ', '), '-1;1') ids_group,
+	ifnull(group_concat(distinct gr.role_name 
+				order by gr.role_name asc separator ', '), 'Not Provided') role_name_group,
+--                 
+ifnull(group_concat( distinct if(gr.role_id = 1, gr.name, null) 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') partner_institution_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 1, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
+				order by gr.name asc separator ', '), 'Not Provided') partner_institution_acr_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 1, nullif(trim(gr.acronym),""), null)
+				order by gr.name asc separator ', '), 'NP')  partner_acronym_group,
+--
+'Not Mandatory' original_donor_institution_name_group,
+'Not Mandatory' original_donor_institution_acr_name_group,
+'Not Mandatory' original_donor_acronym_group,
+'Not Mandatory' direct_donor_institution_name_group,
+'Not Mandatory' direct_donor_institution_acr_name_group,
+'Not Mandatory' direct_donor_acronym_group,
+--                 
+ifnull(group_concat( distinct if(gr.role_id = 4, gr.name, null) 
+	 	 		 order by gr.name asc separator ', '), 'Not Provided') lead_institution_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 4, concat(ifnull(concat(nullif(trim(gr.acronym),""), " - "), "") , gr.name), null)
+				order by gr.name asc separator ', '), 'Not Provided') lead_institution_acr_name_group,
+ifnull(group_concat(distinct if(gr.role_id = 4, nullif(trim(gr.acronym),""), null)
+				order by gr.name asc separator ', '), 'NP')  lead_acronym_group
+FROM project_innovations pi1 
+JOIN project_innovation_info pii1 ON pii1.project_innovation_id = pi1.id
+JOIN phases ph1 on ph1.id = pii1.id_phase
+JOIN bi_phase_by_cubes pbc1 on pbc1.cube_name = 'innovations'
+left join
+(
+SELECT pii.project_innovation_id, pii.id_phase,org.institution_id institution_id, 1 role_id,  "Contibutor" role_name, ins.name, ins.acronym
+FROM project_innovations pi 
+JOIN project_innovation_info pii ON pii.project_innovation_id = pi.id
+JOIN phases ph on ph.id = pii.id_phase
+JOIN project_innovation_contributing_organizations org on org.project_innovation_id = pii.project_innovation_id and org.id_phase = pii.id_phase
+JOIN institutions ins on ins.id = org.institution_id
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+WHERE  pi.is_active
+and ifnull(pii.lead_organization_id,-1) != org.institution_id
+-- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0
+and ph.name = pbc.phase_name -- 'AR'
+and ph.year = pbc.phase_year -- pii.year
+-- AND ph. YEAR between 2018 and 2019
+-- AND ph.year between ${START_YEAR} and ${END_YEAR}  
+union all 
+SELECT pii.project_innovation_id, pii.id_phase ,pii.lead_organization_id institution_id,4 role_id,  "Leader" role_name, ins.name, ins.acronym
+FROM project_innovations pi 
+JOIN project_innovation_info pii ON pii.project_innovation_id = pi.id
+JOIN institutions ins on ins.id = pii.lead_organization_id
+JOIN phases ph on ph.id = pii.id_phase
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+WHERE  pi.is_active
+-- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0
+and ph.name = pbc.phase_name -- 'AR'
+and ph.year = pbc.phase_year -- pii.year
+and pii.lead_organization_id is not null
+-- AND ph. YEAR between 2018 and 2019
+-- and ph.`year` between ${START_YEAR} and ${END_YEAR}
+UNION all
+SELECT pii.project_innovation_id, pii.id_phase,org.institution_id institution_id, 1 role_id,  "Contibutor" role_name, ins.name, ins.acronym
+FROM project_innovations pi 
+JOIN project_innovation_info pii ON pii.project_innovation_id = pi.id
+JOIN phases ph on ph.id = pii.id_phase
+JOIN project_innovation_centers org on org.project_innovation_id = pii.project_innovation_id and org.id_phase = pii.id_phase
+JOIN institutions ins on ins.id = org.institution_id
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+WHERE  pi.is_active
+and ifnull(pii.lead_organization_id,-1) != org.institution_id
+-- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0
+and ph.name = pbc.phase_name -- 'AR'
+and ph.year = pbc.phase_year -- pii.year
+-- AND ph. YEAR between 2018 and 2019
+-- AND ph.year between ${START_YEAR} and ${END_YEAR}  
+) gr on pii1.project_innovation_id = gr.project_innovation_id and pii1.id_phase = gr.id_phase
+WHERE  pi1.is_active
+-- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0
+and ph1.name = pbc1.phase_name -- 'AR'
+and ph1.year = pbc1.phase_year -- pii1.year
+-- AND ph1. YEAR between 2018 and 2019
+group by pii1.project_innovation_id, pii1.id_phase
+;
+
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>institution_acr_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>acronym_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>role_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>role_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>partner_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_institution_acr_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>partner_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>partner_acronym_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>partner_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>original_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>original_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>original_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>original_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>direct_donor_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_institution_acr_name_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>direct_donor_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>direct_donor_acronym_group</name>
+        <length>13</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>direct_donor_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>lead_institution_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>lead_institution_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>lead_institution_acr_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>lead_institution_acr_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>lead_acronym_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_institution_innovation_groups</origin>
+        <comments>lead_acronym_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>576</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Load_institution_oicr_groups</name>
     <type>TableInput</type>
     <description/>
@@ -1138,7 +1737,10 @@ ifnull(group_concat(nullif(trim(sg.acronym),"")
 'Not Mandatory' original_donor_acronym_group,
 'Not Mandatory' direct_donor_institution_name_group,
 'Not Mandatory' direct_donor_institution_acr_name_group,
-'Not Mandatory' direct_donor_acronym_group
+'Not Mandatory' direct_donor_acronym_group,
+'Not Mandatory' lead_institution_name_group,
+'Not Mandatory' lead_institution_acr_name_group,
+'Not Mandatory' lead_acronym_group
 from 
 (
 select ph.id id_phase, pes.id ent_id, 'oicr' ent_type, 1 role_id, 'Contributor' role_name,  -- the 1 is for contributor role
@@ -1622,7 +2224,10 @@ ifnull(group_concat(nullif(trim(gs.acronym),"")
 'Not Mandatory' original_donor_acronym_group,
 'Not Mandatory' direct_donor_institution_name_group,
 'Not Mandatory' direct_donor_institution_acr_name_group,
-'Not Mandatory' direct_donor_acronym_group
+'Not Mandatory' direct_donor_acronym_group,
+'Not Mandatory' lead_institution_name_group,
+'Not Mandatory' lead_institution_acr_name_group,
+'Not Mandatory' lead_acronym_group
 from(
 	select pol.id ent_id,
 	'policy' ent_type,
@@ -2123,8 +2728,10 @@ ifnull(group_concat(nullif(trim(gs.acronym),"")
 'Not Mandatory' original_donor_acronym_group,
 'Not Mandatory' direct_donor_institution_name_group,
 'Not Mandatory' direct_donor_institution_acr_name_group,
-'Not Mandatory' direct_donor_acronym_group
-
+'Not Mandatory' direct_donor_acronym_group,
+'Not Mandatory' lead_institution_name_group,
+'Not Mandatory' lead_institution_acr_name_group,
+'Not Mandatory' lead_acronym_group
 from(
 	select distinct pb.id_phase, pb.id ent_id, 'prbudget' ent_type, i.name, i.acronym, i.id institution_id, 1 role_id, 'Contributor' role_name -- 1 is for institutions with contributor role
 from marloDB.project_budgets pb
@@ -2548,8 +3155,8 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
       </output>
     </remotesteps>
     <GUI>
-      <xloc>211</xloc>
-      <yloc>515</yloc>
+      <xloc>208</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2670,7 +3277,7 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
     </GUI>
   </step>
   <step>
-    <name>Sort rows 2 2</name>
+    <name>Sort rows 3</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2728,7 +3335,7 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
     </GUI>
   </step>
   <step>
-    <name>Sort rows 2 2 2</name>
+    <name>Sort rows 4</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2780,8 +3387,66 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>512</yloc>
+      <xloc>416</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 5</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>416</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

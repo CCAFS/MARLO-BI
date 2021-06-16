@@ -18,5 +18,8 @@ create table stg_pre_group_institutions
 `original_donor_institution_acr_name_group` text,
 `original_donor_institution_name_group` text,
 `original_donor_acronym_group` text,
+`lead_institution_acr_name_group` text,
+`lead_institution_name_group` text,
+`lead_acronym_group` text,
 `ids_group` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

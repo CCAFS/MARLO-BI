@@ -651,6 +651,21 @@ funding sources and institutions
         <lookup>original_donor_acronym_group</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>lead_institution_acr_name_group</name>
+        <lookup>lead_institution_acr_name_group</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>lead_institution_name_group</name>
+        <lookup>lead_institution_name_group</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>lead_acronym_group</name>
+        <lookup>lead_acronym_group</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_intersect_group_inst</name>
         <rename/>

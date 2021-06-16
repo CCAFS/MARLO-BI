@@ -794,6 +794,10 @@
         <source_value>3</source_value>
         <target_value>Direct Funder</target_value>
       </field>
+      <field>
+        <source_value>4</source_value>
+        <target_value>Lead</target_value>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>

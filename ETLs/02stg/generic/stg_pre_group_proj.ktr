@@ -582,8 +582,23 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>proj_oics</from>
+      <from>proj_oicrs</from>
       <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>proj_innovations</from>
+      <to>Sort rows 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>stg_pre_group_proj</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -601,51 +616,39 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>owner_project_id_group</name>
-        <rename/>
       </field>
       <field>
         <name>shared_project_id_group</name>
-        <rename/>
       </field>
       <field>
         <name>owner_composed_project_id_group</name>
-        <rename/>
       </field>
       <field>
         <name>shared_composed_project_id_group</name>
-        <rename/>
       </field>
       <field>
         <name>project_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>project_id_group</name>
-        <rename/>
       </field>
       <field>
         <name>owner_project_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>shared_project_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -722,7 +725,7 @@
     </GUI>
   </step>
   <step>
-    <name>proj_oics</name>
+    <name>proj_oicrs</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -788,7 +791,7 @@ AND ph. NAME = pbc.phase_name
 and pesi.title is not null
 and pes.is_active
 and esp.is_active
-and pes.project_id != esp.project_id
+and ifnull(pes.project_id, -1) != esp.project_id
 ) ppp
 group by ppp.id_phase, ppp.ent_type, ppp.ent_id
 ;</sql>
@@ -805,7 +808,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -828,7 +831,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ent_type</name>
         <length>4</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -851,7 +854,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -874,7 +877,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>owner_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -897,7 +900,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>shared_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -920,7 +923,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>owner_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -943,7 +946,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>shared_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -966,7 +969,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -989,7 +992,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>owner_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1012,7 +1015,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>shared_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1035,7 +1038,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1058,7 +1061,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ids_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oics</origin>
+        <origin>proj_oicrs</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1131,6 +1134,498 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
     <GUI>
       <xloc>816</xloc>
       <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>proj_innovations</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select ppp.id_phase, ppp.ent_type, ppp.ent_id,
+group_concat(if(is_owner = 1, ifnull(ppp.project_id, 0), null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_project_id_group,
+group_concat(if(is_owner = 0, ifnull(ppp.project_id, 0), null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_project_id_group,
+-- 
+group_concat(if(is_owner = 1, ifnull(concat('P', ppp.project_id), 0), null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_composed_project_id_group,
+group_concat(if(is_owner = 0, ifnull(concat('P', ppp.project_id), 0), null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
+--
+group_concat(if(is_owner = 1, ifnull(concat ('{owner} P',ppp.project_id,' - ', ppp.project_title), ""), 
+               ifnull(concat ('P',ppp.project_id,' - ', ppp.project_title), ""))
+	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
+group_concat(if(is_owner = 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)), ""), 
+                null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
+group_concat(if(is_owner != 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)) , ""), 
+                null)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
+
+group_concat( ifnull(concat('P', ppp.project_id), 0)
+	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
+--
+group_concat(concat(ppp.id_phase, ';', ifnull(ppp.project_id, 0), ';', ppp.is_owner)
+	 	 		order by ppp.is_owner desc, ppp.project_id asc, ppp.id_phase asc separator ', ') ids_group 			
+from
+(
+select ph.id id_phase, 'innovation' ent_type, 
+pes.id ent_id , pesi.id,  pes.project_id project_id, 1 is_owner, 'Yes' is_owner_description, pinf.title project_title
+from project_innovations pes 
+INNER JOIN project_innovation_info pesi ON pesi.project_innovation_id = pes.id 
+inner join phases ph on ph.id = pesi.id_phase
+inner join global_units gu on gu.id = ph.global_unit_id
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
+where ph. YEAR = pbc.phase_year
+AND ph. NAME = pbc.phase_name
+and pesi.title is not null
+and pes.is_active
+union all
+select ph.id id_phase, 'innovation' ent_type, 
+pes.id ent_id , pesi.id,  esp.project_id, 0 is_owner, 'No' is_owner_description, pinf.title project_title
+from project_innovations pes 
+INNER JOIN project_innovation_info pesi ON pesi.project_innovation_id = pes.id 
+inner join phases ph on ph.id = pesi.id_phase
+inner join global_units gu on gu.id = ph.global_unit_id
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+inner join  project_innovation_shared esp on esp.project_innovation_id = pes.id and esp.id_phase = ph.id
+join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
+where ph. YEAR = pbc.phase_year
+AND ph. NAME = pbc.phase_name
+and pesi.title is not null
+and pes.is_active
+and esp.is_active
+and ifnull(pes.project_id, -1) != esp.project_id
+) ppp
+group by ppp.id_phase, ppp.ent_type, ppp.ent_id
+;
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>proj_innovations</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>proj_innovations</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>owner_project_id_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>owner_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_project_id_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>shared_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>owner_composed_project_id_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>owner_composed_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_composed_project_id_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>shared_composed_project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>project_title_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>owner_project_title_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>owner_project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>shared_project_title_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>shared_project_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>project_id_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>project_id_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>proj_innovations</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>96</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>384</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_phase</name>
+      </field>
+      <field>
+        <name>ent_type</name>
+      </field>
+      <field>
+        <name>ent_id</name>
+      </field>
+      <field>
+        <name>owner_project_id_group</name>
+      </field>
+      <field>
+        <name>shared_project_id_group</name>
+      </field>
+      <field>
+        <name>owner_composed_project_id_group</name>
+      </field>
+      <field>
+        <name>shared_composed_project_id_group</name>
+      </field>
+      <field>
+        <name>project_title_group</name>
+      </field>
+      <field>
+        <name>project_id_group</name>
+      </field>
+      <field>
+        <name>owner_project_title_group</name>
+      </field>
+      <field>
+        <name>shared_project_title_group</name>
+      </field>
+      <field>
+        <name>ids_group</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
