@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_pre_group_oicrs</name>
+    <name>dim_innovations_info</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -428,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/07/07 09:34:37.098</created_date>
+    <created_date>2018/08/08 09:51:15.277</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/07/07 09:34:37.098</modified_date>
+    <modified_date>2018/08/08 09:51:15.277</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -503,139 +503,18 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>ORI_DB</name>
-    <server>${ORI_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${ORI_DBNAME}</database>
-    <port>3306</port>
-    <username>${ORI_USR}</username>
-    <password>${ORI_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>input oicrs policy group</from>
+      <from>input_oicrs</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
-      <to>stg_pre_group_oicrs</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>input oicrs innovation group</from>
-      <to>Sort rows 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows 2</from>
-      <to>Select values 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values 2</from>
-      <to>stg_pre_group_oicrs</to>
+      <to>dim_innovations_info</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_phase</name>
-      </field>
-      <field>
-        <name>ent_id</name>
-      </field>
-      <field>
-        <name>ent_type</name>
-      </field>
-      <field>
-        <name>oicr_title_group</name>
-      </field>
-      <field>
-        <name>oicr_compose_title_group</name>
-      </field>
-      <field>
-        <name>ids_group</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>416</xloc>
-      <yloc>80</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Sort rows</name>
     <type>SortRows</type>
@@ -664,15 +543,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
+        <name>project_innovation_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -689,14 +560,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>80</yloc>
+      <xloc>256</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>input oicrs policy group</name>
-    <type>TableInput</type>
+    <name>dim_innovations_info</name>
+    <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -705,180 +576,73 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select poli.id_phase,
-pol.id ent_id,
-'policy' ent_type,
--- ifnull(poli.rep_ind_stage_process_id,3) rep_ind,
-ifnull(group_concat(pesi.title
-					order by pesi.project_expected_study_id asc separator ', '), if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 'Non Mandatory', 'Not Provided')) oicr_title_group,
-ifnull(group_concat(concat('(', pesi.year, ') ', 'ID', pesi.project_expected_study_id, ' - ', pesi.title)
-					order by pesi.project_expected_study_id asc separator ', '), if(ifnull(poli.rep_ind_stage_process_id,3) = 3, 'Non Mandatory', 'Not Provided')) oicr_compose_title_group,                    
-ifnull(group_concat(concat(pesi.id_phase, ';', pesi.project_expected_study_id)
-        order by pesi.project_expected_study_id asc separator ', '),if(ifnull(poli.rep_ind_stage_process_id,3) = 3, concat(poli.id_phase,';-3'),concat(poli.id_phase,';-1'))) ids_group
-FROM project_policies pol
-join project_policy_info poli on pol.id=poli.project_policy_id
-join phases ph on poli.id_phase=ph.id
-JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
-join bi_phase_by_cubes pbc on pbc.cube_name = 'policies'
-left join project_expected_study_policies poicr on poicr.project_policy_id = poli.project_policy_id and poicr.id_phase=poli.id_phase 
-left join project_expected_study_info pesi on pesi.project_expected_study_id = poicr.expected_id and pesi.id_phase = poicr.id_phase
-where ph.year = pbc.phase_year -- poli.`year`
-and ph.name = pbc.phase_name -- 'AR'
--- and ph.`year` between ${START_YEAR} and ${END_YEAR}
-and pol.is_active
--- and 
--- and is_policy_excluded(poli.project_policy_id,poli.id_phase)=0
-group by pol.id, poli.id_phase
--- , poli.rep_ind_stage_process_id
-;
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
+    <schema/>
+    <table>dim_innovations_info</table>
+    <connection>DES_DB</connection>
+    <commit>100</commit>
+    <update>Y</update>
+    <fields>
+      <key>
+        <name>project_innovation_id</name>
+        <lookup>project_innovation_id</lookup>
+      </key>
+      <date>
+        <name/>
+        <from>date_from</from>
+        <to>date_to</to>
+      </date>
+      <field>
+        <name>title</name>
+        <lookup>title</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>narrative</name>
+        <lookup>narrative</lookup>
+        <update>Update</update>
+      </field>
+      <field>
         <name>id_phase</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>id_phase</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>ent_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>ent_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ent_type</name>
-        <length>6</length>
-        <precision>-1</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>ent_type</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>oicr_title_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>oicr_title_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>oicr_compose_title_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>oicr_compose_title_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input oicrs policy group</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
+        <lookup>id_phase</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>description_stage</name>
+        <lookup>description_stage</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>evidence_link</name>
+        <lookup>evidence_link</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>pdf</name>
+        <lookup>pdf</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>URL_link</name>
+        <lookup>URL_link</lookup>
+        <update>Update</update>
+      </field>
+      <return>
+        <name>pk_id_innovation_info</name>
+        <rename/>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+        <version>version</version>
+      </return>
+    </fields>
+    <sequence/>
+    <min_year>1900</min_year>
+    <max_year>2199</max_year>
+    <cache_size>-1</cache_size>
+    <preload_cache>N</preload_cache>
+    <use_start_date_alternative>N</use_start_date_alternative>
+    <start_date_alternative>none</start_date_alternative>
+    <start_date_field_name/>
+    <useBatch>N</useBatch>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -888,14 +652,14 @@ group by pol.id, poli.id_phase
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>80</yloc>
+      <xloc>400</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>stg_pre_group_oicrs</name>
-    <type>TableOutput</type>
+    <name>input_oicrs</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -905,89 +669,100 @@ group by pol.id, poli.id_phase
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema/>
-    <table>stg_pre_group_oicrs</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>672</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>input oicrs innovation group</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>SELECT  pini.id_phase, pin.id ent_id, 
-'innovation' ent_type, 
-ifnull(group_concat(pesi.title
-					order by pesi.project_expected_study_id asc separator '; '), if(ifnull(pini.stage_innovation_id,1) = 4, 'Not Provided', 'Non Mandatory' )) oicr_title_group,
-ifnull(group_concat(concat('(', pesi.year, ') ', 'ID', pesi.project_expected_study_id, ' - ', pesi.title)
-					order by pesi.project_expected_study_id asc separator '; '), if(ifnull(pini.stage_innovation_id,1) = 4, 'Not Provided', 'Non Mandatory')) oicr_compose_title_group,                    
-ifnull(group_concat(concat(pesi.id_phase, ';', pesi.project_expected_study_id)
-        order by pesi.project_expected_study_id asc separator ', '),if(ifnull(pini.stage_innovation_id,1) = 4, concat(pini.id_phase,';-1'), concat(pini.id_phase,';-3'))) ids_group
-FROM project_innovations pin 
-INNER JOIN project_innovation_info pini ON pini.project_innovation_id = pin.id
-INNER JOIN phases ph on ph.id = pini.id_phase
-INNER JOIN projects_info pi ON pi.id_phase = ph.id and pin.project_id = pi.project_id
-INNER JOIN projects p ON p.id = pi.project_id AND p.is_active
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
-left join project_expected_study_innovations oicr on oicr.project_innovation_id = pini.project_innovation_id and oicr.id_phase = pini.id_phase
-left join project_expected_study_info pesi on pesi.project_expected_study_id = oicr.expected_id and pesi.id_phase = oicr.id_phase
-WHERE pin.is_active
-and ph.name = pbc.phase_name -- 'AR'
--- and ph.year = pini.year
-AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
--- AND ph.year between ${START_YEAR} and ${END_YEAR}  
--- and ph.global_unit_id=1
-group by pini.id_phase, pin.id 
-;
+    <sql>SELECT
+  project_innovation_id
+, title
+, narrative
+, id_phase
+, description_stage
+, evidence_link
+, ifnull(external_link,pdf) pdf
+, URL_link
+FROM marloBI.stg_innovations_info
 </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
+    <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
+        <name>project_innovation_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_oicrs</origin>
+        <comments>project_innovation_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>title</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_oicrs</origin>
+        <comments>title</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>narrative</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_oicrs</origin>
+        <comments>narrative</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input oicrs innovation group</origin>
+        <origin>input_oicrs</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1005,36 +780,13 @@ group by pini.id_phase, pin.id
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>ent_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input oicrs innovation group</origin>
-        <comments>ent_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ent_type</name>
-        <length>10</length>
+        <name>description_stage</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>input oicrs innovation group</origin>
-        <comments>ent_type</comments>
+        <origin>input_oicrs</origin>
+        <comments>description_stage</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1053,11 +805,11 @@ group by pini.id_phase, pin.id
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>oicr_title_group</name>
-        <length>10000</length>
+        <name>evidence_link</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>input oicrs innovation group</origin>
-        <comments>oicr_title_group</comments>
+        <origin>input_oicrs</origin>
+        <comments>evidence_link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1076,11 +828,11 @@ group by pini.id_phase, pin.id
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>oicr_compose_title_group</name>
-        <length>10000</length>
+        <name>pdf</name>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>input oicrs innovation group</origin>
-        <comments>oicr_compose_title_group</comments>
+        <origin>input_oicrs</origin>
+        <comments>pdf</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1099,11 +851,11 @@ group by pini.id_phase, pin.id
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>10000</length>
+        <name>URL_link</name>
+        <length>500</length>
         <precision>-1</precision>
-        <origin>input oicrs innovation group</origin>
-        <comments>ids_group</comments>
+        <origin>input_oicrs</origin>
+        <comments>URL_link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1130,111 +882,7 @@ group by pini.id_phase, pin.id
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_phase</name>
-      </field>
-      <field>
-        <name>ent_id</name>
-      </field>
-      <field>
-        <name>ent_type</name>
-      </field>
-      <field>
-        <name>oicr_title_group</name>
-      </field>
-      <field>
-        <name>oicr_compose_title_group</name>
-      </field>
-      <field>
-        <name>ids_group</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>416</xloc>
-      <yloc>176</yloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
