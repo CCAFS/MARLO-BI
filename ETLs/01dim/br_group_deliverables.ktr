@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_intersect_group_geo_scopes</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL for an intersect table to create diferent groups for geographic scopes
-Trick for many to many relationship between
-other dimensions and geographic scopes
-</extended_description>
+    <name>br_group_deliverables</name>
+    <description>Bridge table for milestones and intersect group deliverables</description>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
@@ -508,14 +505,39 @@ other dimensions and geographic scopes
   </connection>
   <order>
     <hop>
-      <from>stg_intersect_group_geo_scopes</from>
-      <to>dim_intersect_group_institutions</to>
+      <from>stg_br_group_deliverables</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>dim_deliverables_info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_deliverables_info</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 2</from>
+      <to>br_group_deliverables</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>If field value is null</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>If field value is null</from>
+      <to>Sort rows 2</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>dim_intersect_group_institutions</name>
-    <type>DimensionLookup</type>
+    <name>If field value is null</name>
+    <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -524,43 +546,21 @@ other dimensions and geographic scopes
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <schema>${DES_DBNAME}</schema>
-    <table>dim_intersect_group_geo_scopes</table>
-    <connection>DES_DB</connection>
-    <commit>100</commit>
-    <update>Y</update>
+    <replaceAllByValue/>
+    <replaceAllMask/>
+    <selectFields>Y</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+      </valuetypes>
     <fields>
-      <key>
-        <name>ids_group</name>
-        <lookup>ids_group</lookup>
-      </key>
-      <date>
-        <name/>
-        <from>date_from</from>
-        <to>date_to</to>
-      </date>
       <field>
-        <name>geo_scope_name_group</name>
-        <lookup>geo_scope_name_group</lookup>
-        <update>Update</update>
+        <name>fk_id_deliverable_info</name>
+        <value>0</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
       </field>
-      <return>
-        <name>pk_id_intersect_group_geo</name>
-        <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
-        <version>version</version>
-      </return>
     </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -570,13 +570,249 @@ other dimensions and geographic scopes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
-      <yloc>96</yloc>
+      <xloc>800</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>stg_intersect_group_geo_scopes</name>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pk_id_intersect_group_deliverable</name>
+        <rename>fk_id_intersect_group_deliverable</rename>
+      </field>
+      <field>
+        <name>fk_id_deliverable_info</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>640</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>deliverable_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>pk_id_intersect_group_deliverable</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>fk_id_intersect_group_deliverable</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>fk_id_deliverable_info</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>br_group_deliverables</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>br_group_deliverables</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_deliverables_info</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>${DES_DBNAME}</schema>
+      <table>dim_deliverables_info</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>deliverable_id</name>
+        <field>deliverable_id</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pk_id_deliverable_info</name>
+        <rename>fk_id_deliverable_info</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_br_group_deliverables</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -587,7 +823,13 @@ other dimensions and geographic scopes
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_intersect_group_geo_scopes;</sql>
+    <sql>SELECT distinct
+  pk_id_intersect_group_deliverable
+, id_phase
+, deliverable_id
+, ids_group
+FROM marloBI.stg_br_group_deliverables
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -596,14 +838,60 @@ other dimensions and geographic scopes
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>geo_scope_name_group</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
-        <comments>geo_scope_name_group</comments>
-        <conversion_Mask/>
+        <name>pk_id_intersect_group_oicr</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_br_group_oicrs</origin>
+        <comments>pk_id_intersect_group_oicr</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_br_group_oicrs</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>oicr_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_br_group_oicrs</origin>
+        <comments>oicr_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -622,9 +910,9 @@ other dimensions and geographic scopes
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>800</length>
+        <length>200</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
+        <origin>stg_br_group_oicrs</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -651,8 +939,8 @@ other dimensions and geographic scopes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>96</yloc>
+      <xloc>176</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

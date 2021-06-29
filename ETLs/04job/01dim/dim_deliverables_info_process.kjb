@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>02_info_dimensions_process</name>
+  <name>dim_deliverables_info_process</name>
   <description/>
-  <extended_description>Job to create the basic dimensions
+  <extended_description>Job for Deliverables info dimension
 </extended_description>
   <job_version/>
   <job_status>0</job_status>
@@ -295,7 +295,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/var_ini_MarloBI.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -323,7 +323,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>176</xloc>
+      <xloc>96</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -345,7 +345,46 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
+      <xloc>16</xloc>
+      <yloc>48</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>dim_deliverables_info</name>
+      <description/>
+      <type>TRANS</type>
+      <attributes/>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_deliverables_info.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>720</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -357,8 +396,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>432</xloc>
-      <yloc>304</yloc>
+      <xloc>960</xloc>
+      <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -368,7 +407,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -400,24 +439,24 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>Dimensions</value>
+          <value>dim_deliverables_info</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>416</xloc>
+      <xloc>320</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>save_to_log_ETL_END</name>
+      <name>save_to_log ETL end</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../config/save_to_log.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -444,103 +483,29 @@
         <parameter>
           <name>P_LOG_MESSAGE</name>
           <stream_name/>
-          <value>End process</value>
+          <value>End transformation</value>
         </parameter>
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>Dimension process</value>
+          <value>dim_deliverables_info</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>624</xloc>
-      <yloc>304</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_fs_info</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_fs_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>528</xloc>
+      <xloc>848</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_projects_info</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_projects_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>624</xloc>
-      <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>init_variable_phase</name>
+      <name>stg_deliverables_info</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/var_ini_MarloBI_phase_fs.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../02stg/deliverables/stg_deliverables_info.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -568,193 +533,86 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>288</xloc>
+      <xloc>592</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_milestones_info</name>
+      <name>stg_current_phases</name>
       <description/>
-      <type>JOB</type>
+      <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_milestones_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_current_phases.ktr</filename>
+      <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
       <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
+      <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
-      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>752</xloc>
+      <xloc>464</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_oicrs_info</name>
+      <name>init_variable_phase</name>
       <description/>
-      <type>JOB</type>
+      <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_oicrs_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI_phase_fs.ktr</filename>
+      <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
       <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
+      <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
-      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>864</xloc>
+      <xloc>192</xloc>
       <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_policies_info</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_policies_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>864</xloc>
-      <yloc>144</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_innovations_info</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_innovations_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>864</xloc>
-      <yloc>224</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>dim_deliverables_info</name>
-      <description/>
-      <type>JOB</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_deliverables_info_process.kjb</filename>
-      <jobname/>
-      <directory/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Nothing</loglevel>
-      <slave_server_name/>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
-      <create_parent_folder>N</create_parent_folder>
-      <pass_export>N</pass_export>
-      <run_configuration>Pentaho local</run_configuration>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <set_append_logfile>N</set_append_logfile>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>864</xloc>
-      <yloc>304</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -769,7 +627,16 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>save_to_log_ETL_END</from>
+      <from>dim_deliverables_info</from>
+      <to>save_to_log ETL end</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>save_to_log ETL end</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -778,8 +645,26 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_fs_info</from>
-      <to>dim_projects_info</to>
+      <from>stg_deliverables_info</from>
+      <to>dim_deliverables_info</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>save_to_log ETL START</from>
+      <to>stg_current_phases</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>stg_current_phases</from>
+      <to>stg_deliverables_info</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -798,69 +683,6 @@
     <hop>
       <from>init_variable_phase</from>
       <to>save_to_log ETL START</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>save_to_log ETL START</from>
-      <to>dim_fs_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_milestones_info</from>
-      <to>dim_oicrs_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_projects_info</from>
-      <to>dim_milestones_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_oicrs_info</from>
-      <to>dim_policies_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_policies_info</from>
-      <to>dim_innovations_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_innovations_info</from>
-      <to>dim_deliverables_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_deliverables_info</from>
-      <to>save_to_log_ETL_END</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

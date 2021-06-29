@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_intersect_group_geo_scopes</name>
+    <name>dim_intersect_group_deliverables</name>
     <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL for an intersect table to create diferent groups for geographic scopes
+    <extended_description>ETL for an intersect table to create diferent groups for deliverables
 Trick for many to many relationship between
-other dimensions and geographic scopes
+facts and deliverables info dimension
 </extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
@@ -508,13 +508,13 @@ other dimensions and geographic scopes
   </connection>
   <order>
     <hop>
-      <from>stg_intersect_group_geo_scopes</from>
-      <to>dim_intersect_group_institutions</to>
+      <from>stg_intersect_group_deliverables</from>
+      <to>dim_intersect_group_deliverables</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>dim_intersect_group_institutions</name>
+    <name>dim_intersect_group_deliverables</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -525,7 +525,7 @@ other dimensions and geographic scopes
       <schema_name/>
     </partitioning>
     <schema>${DES_DBNAME}</schema>
-    <table>dim_intersect_group_geo_scopes</table>
+    <table>dim_intersect_group_deliverables</table>
     <connection>DES_DB</connection>
     <commit>100</commit>
     <update>Y</update>
@@ -540,12 +540,12 @@ other dimensions and geographic scopes
         <to>date_to</to>
       </date>
       <field>
-        <name>geo_scope_name_group</name>
-        <lookup>geo_scope_name_group</lookup>
+        <name>deliverable_name_group</name>
+        <lookup>deliverable_name_group</lookup>
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_intersect_group_geo</name>
+        <name>pk_id_intersect_group_deliverable</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -576,7 +576,7 @@ other dimensions and geographic scopes
     </GUI>
   </step>
   <step>
-    <name>stg_intersect_group_geo_scopes</name>
+    <name>stg_intersect_group_deliverables</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -587,7 +587,11 @@ other dimensions and geographic scopes
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_intersect_group_geo_scopes;</sql>
+    <sql>SELECT
+  deliverable_name_group
+, ids_group
+FROM marloBI.stg_intersect_group_deliverables
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -598,11 +602,11 @@ other dimensions and geographic scopes
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>geo_scope_name_group</name>
+        <name>deliverable_name_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
-        <comments>geo_scope_name_group</comments>
+        <origin>stg_intersect_group_geo_scopes</origin>
+        <comments>deliverable_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -624,7 +628,7 @@ other dimensions and geographic scopes
         <name>ids_group</name>
         <length>800</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
+        <origin>stg_intersect_group_geo_scopes</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

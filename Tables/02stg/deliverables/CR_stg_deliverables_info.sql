@@ -1,11 +1,25 @@
 Drop table if exists `stg_deliverables_info`;
 
 CREATE TABLE `stg_deliverables_info` (
-  `deliverable_id` bigint(20) DEFAULT NULL,
   `id_phase` bigint(20) DEFAULT NULL,
-  `title` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `deliverable_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `dissemination_URL` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `DOI` text CHARACTER SET utf8 COLLATE utf8_general_ci
+  `deliverable_id` bigint(20) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `subcategory_type_id` bigint(20) DEFAULT NULL,
+  `subcatogory_type_name` varchar(255) ,
+  `category_type_id` bigint(20) DEFAULT NULL, 
+  `categroy_type_name` varchar(255),
+  `title` text,
+  `description` text,
+  `dissemination_URL` text,
+  `deliverable_group` text,
+  `journal` text,
+  `volume` text,
+  `issue` text,
+  `pages` text,
+  `is_ISI_journal` tinyint(1),
+  `is_open_access` tinyint(1),
+  `metadata_title` text,
+  `DOI` text,
+  `Handle` text,
+  `Citation` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

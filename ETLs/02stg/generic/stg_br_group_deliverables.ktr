@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_intersect_group_geo_scopes</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL for an intersect table to create diferent groups for geographic scopes
-Trick for many to many relationship between
-other dimensions and geographic scopes
-</extended_description>
+    <name>stg_br_group_deliverables</name>
+    <description>PRE bridge group deliverables</description>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
@@ -508,14 +505,44 @@ other dimensions and geographic scopes
   </connection>
   <order>
     <hop>
-      <from>stg_intersect_group_geo_scopes</from>
-      <to>dim_intersect_group_institutions</to>
+      <from>Select values</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_intersect_group_deliverables</from>
+      <to>Split field to rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 2</from>
+      <to>Split fields</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split field to rows</from>
+      <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
+      <to>If field value is null</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>If field value is null</from>
+      <to>stg_br_group_deliverables</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Split fields</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>dim_intersect_group_institutions</name>
-    <type>DimensionLookup</type>
+    <name>If field value is null</name>
+    <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -524,43 +551,15 @@ other dimensions and geographic scopes
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <schema>${DES_DBNAME}</schema>
-    <table>dim_intersect_group_geo_scopes</table>
-    <connection>DES_DB</connection>
-    <commit>100</commit>
-    <update>Y</update>
+    <replaceAllByValue>0</replaceAllByValue>
+    <replaceAllMask/>
+    <selectFields>N</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+      </valuetypes>
     <fields>
-      <key>
-        <name>ids_group</name>
-        <lookup>ids_group</lookup>
-      </key>
-      <date>
-        <name/>
-        <from>date_from</from>
-        <to>date_to</to>
-      </date>
-      <field>
-        <name>geo_scope_name_group</name>
-        <lookup>geo_scope_name_group</lookup>
-        <update>Update</update>
-      </field>
-      <return>
-        <name>pk_id_intersect_group_geo</name>
-        <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
-        <version>version</version>
-      </return>
-    </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
+      </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -570,14 +569,14 @@ other dimensions and geographic scopes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
-      <yloc>96</yloc>
+      <xloc>1024</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>stg_intersect_group_geo_scopes</name>
-    <type>TableInput</type>
+    <name>Select values</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -586,8 +585,252 @@ other dimensions and geographic scopes
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <fields>
+      <field>
+        <name>pk_id_intersect_group_deliverable</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <rename/>
+      </field>
+      <field>
+        <name>deliverable_id</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>pk_id_intersect_group_deliverable</name>
+        <rename/>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <rename/>
+      </field>
+      <field>
+        <name>deliverables_group</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>pk_id_intersect_group_deliverable</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>deliverable_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ids_group</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>912</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split field to rows</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>ids_group</splitfield>
+    <delimiter>, </delimiter>
+    <newfield>deliverables_group</newfield>
+    <rownum>N</rownum>
+    <rownum_field/>
+    <resetrownumber>Y</resetrownumber>
+    <delimiter_is_regex>N</delimiter_is_regex>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split fields</name>
+    <type>FieldSplitter</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>deliverables_group</splitfield>
+    <delimiter>;</delimiter>
+    <enclosure/>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>Number</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>0</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>
+      <field>
+        <name>deliverable_id</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>Number</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <currency/>
+        <length>-1</length>
+        <precision>0</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_intersect_group_deliverables</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_intersect_group_geo_scopes;</sql>
+    <sql>SELECT pk_id_intersect_group_deliverable
+, ids_group
+FROM dim_intersect_group_deliverables</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -596,14 +839,14 @@ other dimensions and geographic scopes
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>geo_scope_name_group</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
-        <comments>geo_scope_name_group</comments>
-        <conversion_Mask/>
+        <name>pk_id_intersect_group_deliverable</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>dim_intersect_group_oicrs</origin>
+        <comments>pk_id_intersect_group_deliverable</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -624,7 +867,7 @@ other dimensions and geographic scopes
         <name>ids_group</name>
         <length>800</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
+        <origin>dim_intersect_group_oicrs</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -651,8 +894,52 @@ other dimensions and geographic scopes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>96</yloc>
+      <xloc>176</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_br_group_deliverables</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>stg_br_group_deliverables</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

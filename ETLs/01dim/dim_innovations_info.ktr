@@ -505,7 +505,7 @@
   </connection>
   <order>
     <hop>
-      <from>input_oicrs</from>
+      <from>input_stg_innovations_info</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -658,7 +658,7 @@
     </GUI>
   </step>
   <step>
-    <name>input_oicrs</name>
+    <name>input_stg_innovations_info</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
