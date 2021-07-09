@@ -500,7 +500,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>start log stg_intersect_group_geo_scopes</name>
+      <name>start log stg_intersect_group_deliverables</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -1117,7 +1117,7 @@
     </hop>
     <hop>
       <from>end_log stg_pre_group_deliverables</from>
-      <to>start log stg_intersect_group_geo_scopes</to>
+      <to>start log stg_intersect_group_deliverables</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1125,7 +1125,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>start log stg_intersect_group_geo_scopes</from>
+      <from>start log stg_intersect_group_deliverables</from>
       <to>stg_intersect_group_deliverables</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

@@ -637,7 +637,7 @@
     <sequence/>
     <min_year>1900</min_year>
     <max_year>2199</max_year>
-    <cache_size>-1</cache_size>
+    <cache_size>0</cache_size>
     <preload_cache>N</preload_cache>
     <use_start_date_alternative>N</use_start_date_alternative>
     <start_date_alternative>none</start_date_alternative>

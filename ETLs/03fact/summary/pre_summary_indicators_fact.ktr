@@ -460,6 +460,18 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -528,21 +540,31 @@
     </hop>
     <hop>
       <from>input_fact_fs</from>
-      <to>Select values 2 2</to>
+      <to>Select values 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2 2</from>
+      <from>Select values 3</from>
       <to>pre_summary_indicators_fact</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>input_fact_project_budgets</from>
-      <to>Select values 2 2 2</to>
+      <to>Select values 4</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2 2 2</from>
+      <from>Select values 4</from>
+      <to>pre_summary_indicators_fact</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>input_fact_innovations</from>
+      <to>Select values 5</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values 5</from>
       <to>pre_summary_indicators_fact</to>
       <enabled>Y</enabled>
     </hop>
@@ -561,47 +583,36 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -650,47 +661,36 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -726,7 +726,7 @@
     </GUI>
   </step>
   <step>
-    <name>Select values 2 2</name>
+    <name>Select values 3</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -739,47 +739,36 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
-        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -811,6 +800,162 @@
     <GUI>
       <xloc>400</xloc>
       <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 4</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+      </field>
+      <field>
+        <name>indicator_type</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+      </field>
+      <field>
+        <name>indicator_value</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>indicator_quantity</name>
+        <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 5</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+      </field>
+      <field>
+        <name>indicator_type</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+      </field>
+      <field>
+        <name>indicator_value</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>indicator_quantity</name>
+        <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1120,6 +1265,320 @@ group by   fk_id_crp
     <GUI>
       <xloc>80</xloc>
       <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>input_fact_innovations</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <sql>SELECT
+  inno.fk_id_crp
+, inno.fk_id_year
+, inno.fk_id_innovation_info fk_indicator
+, 'innovation' indicator_type
+, inno.fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, inno.fk_id_intersect_group_inst
+, inno.fk_id_intersect_group_loc
+, inno.fk_id_intersect_group_geo
+, ccm.pk_id_intersect_group_ccm fk_id_intersect_group_ccm
+, sum(inno.number_of_innovations) indicator_quantity
+, sum(0) indicator_value
+FROM marloBI.fact_innovations inno
+join marloBI.dim_intersect_group_ccm ccm on ids_group = '-1;-1'
+group by   fk_id_crp
+, inno.fk_id_year
+, inno.fk_id_innovation_info 
+, inno.fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, inno.fk_id_intersect_group_inst
+, inno.fk_id_intersect_group_loc
+, inno.fk_id_intersect_group_geo
+, ccm.pk_id_intersect_group_ccm
+;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_crp</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_crp</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_year</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_indicator</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_indicator</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_type</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>indicator_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_milestone</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_inst</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_intersect_group_inst</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_loc</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_intersect_group_geo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_ccm</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_quantity</name>
+        <length>41</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>indicator_quantity</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_value</name>
+        <length>23</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>indicator_value</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1750,50 +2209,6 @@ group by   fk_id_crp
     </GUI>
   </step>
   <step>
-    <name>pre_summary_indicators_fact</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>pre_summary_indicators_fact</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>input_fact_project_budgets</name>
     <type>TableInput</type>
     <description/>
@@ -2104,8 +2519,8 @@ group by   prb.fk_id_crp
     </GUI>
   </step>
   <step>
-    <name>Select values 2 2 2</name>
-    <type>SelectValues</type>
+    <name>pre_summary_indicators_fact</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2114,69 +2529,24 @@ group by   prb.fk_id_crp
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>pre_summary_indicators_fact</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
     <fields>
-      <field>
-        <name>fk_id_crp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_year</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_indicator</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_type</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_milestone</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_inst</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_loc</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_geo</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_ccm</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_quantity</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_value</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>indicator_quantity</name>
-        <rename>indicator_quantity</rename>
-        <type>BigNumber</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -2187,8 +2557,8 @@ group by   prb.fk_id_crp
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>480</yloc>
+      <xloc>704</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

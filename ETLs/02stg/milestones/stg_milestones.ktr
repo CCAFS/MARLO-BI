@@ -458,6 +458,18 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -589,47 +601,36 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>milestone_id</name>
-        <rename/>
       </field>
       <field>
         <name>milestone_composed_id</name>
-        <rename/>
       </field>
       <field>
         <name>milestone_title</name>
-        <rename/>
       </field>
       <field>
         <name>mile_year</name>
-        <rename/>
       </field>
       <field>
         <name>mile_extended_year</name>
-        <rename/>
       </field>
       <field>
         <name>milestone_year</name>
-        <rename/>
       </field>
       <field>
         <name>outcome_id</name>
-        <rename/>
       </field>
       <field>
         <name>outcome_composed_id</name>
-        <rename/>
       </field>
       <field>
         <name>outcome_description</name>
-        <rename/>
       </field>
       <field>
         <name>outcome_target_year</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

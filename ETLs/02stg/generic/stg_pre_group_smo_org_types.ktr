@@ -462,6 +462,14 @@ and smo_org_types
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -589,9 +597,9 @@ and smo_org_types
     <sql>-- innovations
 SELECT  pini.id_phase, pin.id ent_id, 'innovation' ent_type,
 ifnull(group_concat(riot.name 
-	 	 		order by riot.name asc separator ', '), if(pini.stage_innovation_id=4, 'Not Provided', 'Non Mandatory')) smo_org_type_name_group, 
+	 	 		order by riot.name asc separator ', '), if(pini.stage_innovation_id=4, 'Not Provided', 'Not Applicable')) smo_org_type_name_group, 
 ifnull(group_concat(riot.id
-				order by riot.name asc separator ', '),if(pini.stage_innovation_id=4, '-1', '-3')) ids_group
+				order by riot.name asc separator ', '),if(pini.stage_innovation_id=4, '-1', '-2')) ids_group
 FROM project_innovations pin 
 INNER JOIN project_innovation_info pini ON pini.project_innovation_id = pin.id
 INNER JOIN phases ph on ph.id = pini.id_phase

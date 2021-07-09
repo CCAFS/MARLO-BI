@@ -590,7 +590,7 @@
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_smo_org_types</name>
+        <name>pk_id_smo_org_type</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -633,7 +633,10 @@
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select id, name, definition 
-from rep_ind_organization_types</sql>
+from rep_ind_organization_types
+union all
+select -2 id, 'Not Applicable' name, 'Not Applicable' definition 
+from dual</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -668,7 +671,7 @@ from rep_ind_organization_types</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>name</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>rep_ind_organization_types</origin>
         <comments>name</comments>
@@ -691,7 +694,7 @@ from rep_ind_organization_types</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>definition</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>rep_ind_organization_types</origin>
         <comments>definition</comments>

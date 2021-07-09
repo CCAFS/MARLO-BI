@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -588,23 +596,18 @@
     <fields>
       <field>
         <name>pk_id_intersect_group_srf_cci</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_composed_id</name>
-        <rename/>
       </field>
       <field>
         <name>sub_ido_id</name>
-        <rename/>
       </field>
       <field>
         <name>is_primary</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

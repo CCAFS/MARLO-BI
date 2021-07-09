@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -704,6 +712,55 @@
     </GUI>
   </step>
   <step>
+    <name>Select values 3</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id_phase</name>
+      </field>
+      <field>
+        <name>ent_type</name>
+      </field>
+      <field>
+        <name>ent_id</name>
+      </field>
+      <field>
+        <name>sdg_short_name_group</name>
+      </field>
+      <field>
+        <name>sdg_target_group</name>
+      </field>
+      <field>
+        <name>sdg_indicators_group</name>
+      </field>
+      <field>
+        <name>ids_group</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Sort rows</name>
     <type>SortRows</type>
     <description/>
@@ -816,6 +873,302 @@
     <GUI>
       <xloc>320</xloc>
       <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 3</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>input_innovation_group_sdg</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
+ifnull(
+group_concat(distinct ssdg.sdg_short_name
+	 	 		order by ssdg.sdg_id asc separator '; '), 'Not Applicable') sdg_short_name_group,
+ifnull(group_concat(distinct ssdg.sdg_target
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc separator '; '), 'Not Applicable') sdg_target_group,
+ifnull(group_concat(distinct ssdg.sdg_indicator
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc, ssdg.sdg_indicator_codes separator '; '), 'Not Applicable') sdg_indicators_group,
+ifnull(group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
+	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', '), '-2;-2;-2') ids_group                
+from 
+(select ph.id id_phase, 'innovation' ent_type, inno.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
+dg.sdg_target sdg_target, 
+dg.sdg_target_id sdg_target_id,
+dg.sdg_target_code sdg_target_code, dg.sdg_short_name sdg_short_name, 
+dg.sdg_description sdg_description, dg.sdg_indicator sdg_indicator, 
+dg.sdg_indicator_codes, dg.sdg_indicator_id sdg_indicator_id
+FROM project_innovations inno
+join project_innovation_info inin on inno.id=inin.project_innovation_id
+join phases ph on ph.id=inin.id_phase
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+jOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+left JOIN project_innovation_sub_idos pisi on pisi.project_innovation_id = inin.project_innovation_id and pisi.id_phase=inin.id_phase 
+left JOIN
+( select sdg.id sdg_id, concat(sdgt.sdg_target_code, ' - ', sdgt.sdg_target) sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
+	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
+	concat(sdgi.sdg_indicator_codes, ' - ', sdgi.sdg_indicator) sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
+from	sub_ido_sdg_target idoxsdg 
+ join sdg_targets sdgt on sdgt.id = idoxsdg.sdg_target_id
+ JOIN sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
+ JOIN sustainable_development_goals sdg on sdg.id = sdgt.sdg_id
+union all
+select -1 sdg_id, 'Not Provided' sdg_target, -1 sdg_target_id, -1 sub_ido_id, 
+'NP' sdg_target_code,  'Not Provided' sdg_short_name, 'Not Provided' sdg_description,
+'Not Provided' sdg_indicator, 'NP' sdg_indicator_codes, -1 sdg_indicator_id 
+from dual
+) dg on dg.sub_ido_id =  ifnull(pisi.sub_ido_id, -1)
+where ph. NAME = pbc.phase_name
+AND ph. YEAR = pbc.phase_year
+-- AND ph.year between ${START_YEAR} and ${END_YEAR} 
+and inno.is_active
+) ssdg 
+group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_short_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>sdg_short_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_target_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>sdg_target_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>sdg_indicators_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>sdg_indicators_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>input_innovation_group_sdg</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1338,358 +1691,6 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
     <GUI>
       <xloc>624</xloc>
       <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>input_innovation_group_sdg</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
-ifnull(
-group_concat(distinct ssdg.sdg_short_name
-	 	 		order by ssdg.sdg_id asc separator '; '), 'Not Applicable') sdg_short_name_group,
-ifnull(group_concat(distinct ssdg.sdg_target
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc separator '; '), 'Not Applicable') sdg_target_group,
-ifnull(group_concat(distinct ssdg.sdg_indicator
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_code asc, ssdg.sdg_indicator_codes separator '; '), 'Not Applicable') sdg_indicators_group,
-ifnull(group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
-	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', '), '-2;-2;-2') ids_group                
-from 
-(select ph.id id_phase, 'innovation' ent_type, inno.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
-dg.sdg_target sdg_target, 
-dg.sdg_target_id sdg_target_id,
-dg.sdg_target_code sdg_target_code, dg.sdg_short_name sdg_short_name, 
-dg.sdg_description sdg_description, dg.sdg_indicator sdg_indicator, 
-dg.sdg_indicator_codes, dg.sdg_indicator_id sdg_indicator_id
-FROM project_innovations inno
-join project_innovation_info inin on inno.id=inin.project_innovation_id
-join phases ph on ph.id=inin.id_phase
-JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
-jOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
-left JOIN project_innovation_sub_idos pisi on pisi.project_innovation_id = inin.project_innovation_id and pisi.id_phase=inin.id_phase 
-left JOIN
-( select sdg.id sdg_id, concat(sdgt.sdg_target_code, ' - ', sdgt.sdg_target) sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
-	sdgt.sdg_target_code, sdg.short_name sdg_short_name, sdg.description sdg_description, 
-	concat(sdgi.sdg_indicator_codes, ' - ', sdgi.sdg_indicator) sdg_indicator, sdgi.sdg_indicator_codes, sdgi.id sdg_indicator_id
-from	sub_ido_sdg_target idoxsdg 
- join sdg_targets sdgt on sdgt.id = idoxsdg.sdg_target_id
- JOIN sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
- JOIN sustainable_development_goals sdg on sdg.id = sdgt.sdg_id
-union all
-select -1 sdg_id, 'Not Provided' sdg_target, -1 sdg_target_id, -1 sub_ido_id, 
-'NP' sdg_target_code,  'Not Provided' sdg_short_name, 'Not Provided' sdg_description,
-'Not Provided' sdg_indicator, 'NP' sdg_indicator_codes, -1 sdg_indicator_id 
-from dual
-) dg on dg.sub_ido_id =  ifnull(pisi.sub_ido_id, -1)
-where ph. NAME = pbc.phase_name
-AND ph. YEAR = pbc.phase_year
--- AND ph.year between ${START_YEAR} and ${END_YEAR} 
-and inno.is_active
-) ssdg 
-group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>id_phase</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>id_phase</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ent_type</name>
-        <length>10</length>
-        <precision>-1</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>ent_type</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>ent_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>ent_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>sdg_short_name_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>sdg_short_name_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>sdg_target_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>sdg_target_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>sdg_indicators_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>sdg_indicators_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>10000</length>
-        <precision>-1</precision>
-        <origin>input_innovation_group_sdg</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>160</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>320</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 3</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id_phase</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ent_type</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ent_id</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_short_name_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_target_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>sdg_indicators_group</name>
-        <rename/>
-      </field>
-      <field>
-        <name>ids_group</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

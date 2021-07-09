@@ -458,6 +458,18 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -591,6 +603,9 @@
         <name>id_phase</name>
       </field>
       <field>
+        <name>global_unit_id</name>
+      </field>
+      <field>
         <name>deliverable_id</name>
       </field>
       <field>
@@ -722,6 +737,7 @@
     <connection>ORI_DB</connection>
     <sql>SELECT 	
 devi.id_phase,
+ph.global_unit_id,
 devi.deliverable_id, dev.project_id,
 devi.type_id subcategory_type_id, dt.`name` subcatogory_type_name,
 dt.parent_id category_type_id, cat.name categroy_type_name,
@@ -753,6 +769,7 @@ AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
 union all
 SELECT 	
 -1 id_phase,
+-1  global_unit_id,
 -3 deliverable_id, 
 null project_id,
 -1 subcategory_type_id, 'Not provided' subcatogory_type_name,
@@ -787,6 +804,29 @@ from dual
         <precision>0</precision>
         <origin>deliverables_info</origin>
         <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>global_unit_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverables_info</origin>
+        <comments>global_unit_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -588,12 +596,11 @@
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_intersect_group_deliverable</name>
-        <rename>fk_id_intersect_group_deliverable</rename>
+        <name>pk_id_intersect_group_deliv</name>
+        <rename>fk_id_intersect_group_deliv</rename>
       </field>
       <field>
         <name>fk_id_deliverable_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -647,7 +654,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>pk_id_intersect_group_deliverable</name>
+        <name>pk_id_intersect_group_deliv</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -689,7 +696,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>fk_id_intersect_group_deliverable</name>
+        <name>fk_id_intersect_group_deliv</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -775,7 +782,7 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
@@ -824,7 +831,7 @@
     </partitioning>
     <connection>DES_DB</connection>
     <sql>SELECT distinct
-  pk_id_intersect_group_deliverable
+  pk_id_intersect_group_deliv
 , id_phase
 , deliverable_id
 , ids_group
@@ -840,11 +847,11 @@ FROM marloBI.stg_br_group_deliverables
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>pk_id_intersect_group_oicr</name>
+        <name>pk_id_intersect_group_deliv</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_group_oicrs</origin>
-        <comments>pk_id_intersect_group_oicr</comments>
+        <origin>stg_br_group_deliverables</origin>
+        <comments>pk_id_intersect_group_deliv</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -866,7 +873,7 @@ FROM marloBI.stg_br_group_deliverables
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_group_oicrs</origin>
+        <origin>stg_br_group_deliverables</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -886,11 +893,11 @@ FROM marloBI.stg_br_group_deliverables
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>oicr_id</name>
+        <name>deliverable_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_group_oicrs</origin>
-        <comments>oicr_id</comments>
+        <origin>stg_br_group_deliverables</origin>
+        <comments>deliverable_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -910,9 +917,9 @@ FROM marloBI.stg_br_group_deliverables
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>200</length>
+        <length>800</length>
         <precision>-1</precision>
-        <origin>stg_br_group_oicrs</origin>
+        <origin>stg_br_group_deliverables</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

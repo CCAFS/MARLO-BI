@@ -459,6 +459,18 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -602,43 +614,33 @@
     <fields>
       <field>
         <name>policy_id</name>
-        <rename/>
       </field>
       <field>
         <name>policy_title</name>
-        <rename/>
       </field>
       <field>
         <name>policy_description</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>rep_ind_policy_investment_type_id</name>
-        <rename/>
       </field>
       <field>
         <name>rep_ind_stage_process_id</name>
-        <rename/>
       </field>
       <field>
         <name>year</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

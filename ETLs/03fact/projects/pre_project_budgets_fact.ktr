@@ -460,6 +460,14 @@ to project budgets fact table
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -678,6 +686,42 @@ to project budgets fact table
     </GUI>
   </step>
   <step>
+    <name>Merge join 2</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Sort_stg_project_budgets</step1>
+    <step2>Sort_stg_br_group_institutions</step2>
+    <keys_1>
+      <key>id</key>
+      <key>id_phase</key>
+    </keys_1>
+    <keys_2>
+      <key>ent_id</key>
+      <key>id_phase</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Not defined</name>
     <type>IfNull</type>
     <description/>
@@ -725,75 +769,57 @@ to project budgets fact table
     <fields>
       <field>
         <name>year</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <field>
         <name>funding_source_id</name>
-        <rename/>
       </field>
       <field>
         <name>institution_id</name>
-        <rename/>
       </field>
       <field>
         <name>amount</name>
-        <rename/>
       </field>
       <field>
         <name>gender_percentage</name>
-        <rename/>
       </field>
       <field>
         <name>amount_gender</name>
-        <rename/>
       </field>
       <field>
         <name>amount_no_gender</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_ext_partner</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_fs_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_projects_info</name>
-        <rename/>
       </field>
       <field>
         <name>pr_has_budget</name>
-        <rename/>
       </field>
       <field>
         <name>updated_date</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -808,6 +834,56 @@ to project budgets fact table
     <GUI>
       <xloc>928</xloc>
       <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort_stg_br_group_institutions</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -873,7 +949,7 @@ to project budgets fact table
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
@@ -910,6 +986,54 @@ to project budgets fact table
     </GUI>
   </step>
   <step>
+    <name>dim_intersect_group_inst</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>marloBI</schema>
+      <table>dim_intersect_group_institutions</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ids_group_inst</name>
+        <field>ids_group</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pk_id_intersect_group_inst</name>
+        <rename>fk_id_intersect_group_inst</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>723</xloc>
+      <yloc>360</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>dim_projects_info lookup</name>
     <type>DBLookup</type>
     <description/>
@@ -921,7 +1045,7 @@ to project budgets fact table
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
@@ -975,7 +1099,7 @@ to project budgets fact table
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
@@ -1359,7 +1483,7 @@ order by pb.id_phase, pb.year, pb.project_id, pb.funding_source_id, pb.instituti
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
@@ -1436,54 +1560,6 @@ order by pb.id_phase, pb.year, pb.project_id, pb.funding_source_id, pb.instituti
     <GUI>
       <xloc>1216</xloc>
       <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>year lookup </name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_year</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>year</name>
-        <field>year</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>pk_id_year</name>
-        <rename>fk_id_year</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1595,93 +1671,7 @@ where pg.ent_type = 'prbudget';
     </GUI>
   </step>
   <step>
-    <name>Sort_stg_br_group_institutions</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>ent_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>240</xloc>
-      <yloc>400</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join 2</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>INNER</join_type>
-    <step1>Sort_stg_project_budgets</step1>
-    <step2>Sort_stg_br_group_institutions</step2>
-    <keys_1>
-      <key>id</key>
-      <key>id_phase</key>
-    </keys_1>
-    <keys_2>
-      <key>ent_id</key>
-      <key>id_phase</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>320</xloc>
-      <yloc>320</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_intersect_group_inst</name>
+    <name>year lookup </name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -1692,26 +1682,26 @@ where pg.ent_type = 'prbudget';
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <cache>N</cache>
+    <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
-      <table>dim_intersect_group_institutions</table>
+      <schema/>
+      <table>dim_year</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
-        <name>ids_group_inst</name>
-        <field>ids_group</field>
+        <name>year</name>
+        <field>year</field>
         <condition>=</condition>
         <name2/>
       </key>
       <value>
-        <name>pk_id_intersect_group_inst</name>
-        <rename>fk_id_intersect_group_inst</rename>
+        <name>pk_id_year</name>
+        <rename>fk_id_year</rename>
         <default/>
-        <type>None</type>
+        <type>Integer</type>
       </value>
     </lookup>
     <attributes/>
@@ -1723,8 +1713,8 @@ where pg.ent_type = 'prbudget';
       </output>
     </remotesteps>
     <GUI>
-      <xloc>723</xloc>
-      <yloc>360</yloc>
+      <xloc>448</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

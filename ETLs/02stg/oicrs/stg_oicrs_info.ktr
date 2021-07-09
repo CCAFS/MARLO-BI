@@ -458,6 +458,18 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -1004,7 +1016,7 @@ select 0 id_phase,
 'Not Provided' oicr_title,
 'Not Provided'  oicr_scope_comments, 
 'Not Provided'  oicr_outcome_impact_statement,
-1 global_unit_id,
+-1 global_unit_id,
 -1 status,
 -1 rep_ind_stage_study_id, 
 0 year,

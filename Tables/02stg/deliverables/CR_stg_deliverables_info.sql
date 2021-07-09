@@ -2,6 +2,7 @@ Drop table if exists `stg_deliverables_info`;
 
 CREATE TABLE `stg_deliverables_info` (
   `id_phase` bigint(20) DEFAULT NULL,
+  `global_unit_id` bigint(20) DEFAULT NULL,
   `deliverable_id` bigint(20) DEFAULT NULL,
   `project_id` bigint(20) DEFAULT NULL,
   `subcategory_type_id` bigint(20) DEFAULT NULL,
@@ -22,4 +23,4 @@ CREATE TABLE `stg_deliverables_info` (
   `DOI` text,
   `Handle` text,
   `Citation` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

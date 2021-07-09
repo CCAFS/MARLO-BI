@@ -509,12 +509,12 @@ other dimensions and geographic scopes
   <order>
     <hop>
       <from>stg_intersect_group_geo_scopes</from>
-      <to>dim_intersect_group_institutions</to>
+      <to>dim_intersect_group_geo_scopes</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>dim_intersect_group_institutions</name>
+    <name>dim_intersect_group_geo_scopes</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -555,7 +555,7 @@ other dimensions and geographic scopes
     <sequence/>
     <min_year>1900</min_year>
     <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
+    <cache_size>0</cache_size>
     <preload_cache>N</preload_cache>
     <use_start_date_alternative>N</use_start_date_alternative>
     <start_date_alternative>none</start_date_alternative>
@@ -587,7 +587,11 @@ other dimensions and geographic scopes
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_intersect_group_geo_scopes;</sql>
+    <sql>SELECT
+  geo_scope_name_group
+, ids_group
+FROM marloBI.stg_intersect_group_geo_scopes
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -598,11 +602,11 @@ other dimensions and geographic scopes
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>geo_scope_name_group</name>
-        <length>21845</length>
+        <name>smo_org_type_name_group</name>
+        <length>16383</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
-        <comments>geo_scope_name_group</comments>
+        <origin>stg_intersect_group_smo_org_types</origin>
+        <comments>smo_org_type_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -622,9 +626,9 @@ other dimensions and geographic scopes
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>800</length>
+        <length>200</length>
         <precision>-1</precision>
-        <origin>stg_fs_intersect_group_geo_scopes</origin>
+        <origin>stg_intersect_group_smo_org_types</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

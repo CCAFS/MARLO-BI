@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -587,20 +595,16 @@
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_intersect_group_deliverable</name>
-        <rename/>
+        <name>pk_id_intersect_group_deliv</name>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>deliverable_id</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -631,16 +635,13 @@
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_intersect_group_deliverable</name>
-        <rename/>
+        <name>pk_id_intersect_group_deliv</name>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <field>
         <name>deliverables_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -678,7 +679,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>pk_id_intersect_group_deliverable</name>
+        <name>pk_id_intersect_group_deliv</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -828,7 +829,7 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT pk_id_intersect_group_deliverable
+    <sql>SELECT pk_id_intersect_group_deliv
 , ids_group
 FROM dim_intersect_group_deliverables</sql>
     <limit>0</limit>
@@ -841,11 +842,11 @@ FROM dim_intersect_group_deliverables</sql>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>pk_id_intersect_group_deliverable</name>
+        <name>pk_id_intersect_group_deliv</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>dim_intersect_group_oicrs</origin>
-        <comments>pk_id_intersect_group_deliverable</comments>
+        <origin>dim_intersect_group_deliverables</origin>
+        <comments>pk_id_intersect_group_deliv</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -867,7 +868,7 @@ FROM dim_intersect_group_deliverables</sql>
         <name>ids_group</name>
         <length>800</length>
         <precision>-1</precision>
-        <origin>dim_intersect_group_oicrs</origin>
+        <origin>dim_intersect_group_deliverables</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

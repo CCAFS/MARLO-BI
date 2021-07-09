@@ -534,43 +534,33 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>title</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <field>
         <name>summary</name>
-        <rename/>
       </field>
       <field>
         <name>start_date</name>
-        <rename/>
       </field>
       <field>
         <name>end_date</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>pid_name</name>
-        <rename/>
       </field>
       <field>
         <name>project_link</name>
-        <rename/>
       </field>
       <field>
         <name>composed_title</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -719,7 +709,7 @@
     <sequence/>
     <min_year>1900</min_year>
     <max_year>2199</max_year>
-    <cache_size>1000</cache_size>
+    <cache_size>0</cache_size>
     <preload_cache>N</preload_cache>
     <use_start_date_alternative>N</use_start_date_alternative>
     <start_date_alternative>none</start_date_alternative>

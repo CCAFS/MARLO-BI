@@ -459,6 +459,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -530,67 +538,51 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_policy_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_pol_inv_type</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_projects_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_stage_processes</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_oicr</name>
-        <rename/>
       </field>
       <field>
         <name>updated_date</name>
-        <rename/>
       </field>
       <field>
         <name>quantity</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

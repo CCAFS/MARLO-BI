@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -776,15 +784,12 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
@@ -792,11 +797,9 @@
       </field>
       <field>
         <name>ccm_focus_level</name>
-        <rename/>
       </field>
       <field>
         <name>ccm_focus_level_id</name>
-        <rename/>
       </field>
       <field>
         <name>name</name>
@@ -832,31 +835,24 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>ccm_id</name>
-        <rename/>
       </field>
       <field>
         <name>ccm_focus_level</name>
-        <rename/>
       </field>
       <field>
         <name>ccm_focus_level_id</name>
-        <rename/>
       </field>
       <field>
         <name>ccm_name</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

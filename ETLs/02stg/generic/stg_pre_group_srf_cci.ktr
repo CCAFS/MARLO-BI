@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -801,79 +809,60 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>ent_id</name>
-        <rename/>
       </field>
       <field>
         <name>ent_type</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_title_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_smo_code_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_ido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_cci_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>cci_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>slo_ido_sido_description_group</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

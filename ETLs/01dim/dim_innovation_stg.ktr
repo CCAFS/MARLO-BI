@@ -589,7 +589,17 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select * from rep_ind_stage_innovations risi
+    <sql>SELECT
+  id
+, name
+, definition
+FROM marloDB.rep_ind_stage_innovations
+union all
+SELECT
+ -1  id
+,'Not Provided' name
+,'Not Provided' definition
+FROM dual;
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -625,7 +635,7 @@
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>name</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>Table input</origin>
         <comments>name</comments>
@@ -648,7 +658,7 @@
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>definition</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>Table input</origin>
         <comments>definition</comments>

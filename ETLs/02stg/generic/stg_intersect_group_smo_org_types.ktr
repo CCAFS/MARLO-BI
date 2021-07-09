@@ -463,6 +463,14 @@ facts and smo organization types
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -510,13 +518,13 @@ facts and smo organization types
   </connection>
   <order>
     <hop>
-      <from>Load_geo_scopes_groups</from>
-      <to>stg_intersect_group_geo_scopes</to>
+      <from>Load_smo_org_types_groups</from>
+      <to>stg_intersect_group_smo_org_types</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_geo_scopes_groups</name>
+    <name>Load_smo_org_types_groups</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -528,9 +536,9 @@ facts and smo organization types
     </partitioning>
     <connection>DES_DB</connection>
     <sql>SELECT distinct
-  geo_scope_name_group
+  smo_org_type_name_group
 , ids_group
-FROM stg_pre_group_geo_scopes
+FROM stg_pre_group_smo_org_types
 ;
 </sql>
     <limit>0</limit>
@@ -543,11 +551,11 @@ FROM stg_pre_group_geo_scopes
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>geo_scope_name_group</name>
+        <name>smo_org_type_name_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
-        <comments>geo_scope_name_group</comments>
+        <origin>Load_smo_org_types_groups</origin>
+        <comments>smo_org_type_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -569,7 +577,7 @@ FROM stg_pre_group_geo_scopes
         <name>ids_group</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>Load_institution_groups</origin>
+        <origin>Load_smo_org_types_groups</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -602,7 +610,7 @@ FROM stg_pre_group_geo_scopes
     </GUI>
   </step>
   <step>
-    <name>stg_intersect_group_geo_scopes</name>
+    <name>stg_intersect_group_smo_org_types</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -614,7 +622,7 @@ FROM stg_pre_group_geo_scopes
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>stg_intersect_group_geo_scopes</table>
+    <table>stg_intersect_group_smo_org_types</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>

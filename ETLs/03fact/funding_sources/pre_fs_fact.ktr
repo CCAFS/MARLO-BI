@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -814,67 +822,51 @@
     <fields>
       <field>
         <name>budget_amount</name>
-        <rename/>
       </field>
       <field>
         <name>budget_amount_allocated</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_agreement_status</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_direct_donor</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_donor</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_fs_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_lead_center</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>has_budget</name>
-        <rename/>
       </field>
       <field>
         <name>has_budget_allocated</name>
-        <rename/>
       </field>
       <field>
         <name>pending_budget_amount</name>
-        <rename/>
       </field>
       <field>
         <name>updated_date</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
