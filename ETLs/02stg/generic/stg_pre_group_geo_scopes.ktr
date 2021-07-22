@@ -575,7 +575,7 @@ and geographic scopes
   </connection>
   <order>
     <hop>
-      <from>Load_geo_scope_groups_oicrs</from>
+      <from>Load_geo_scope_groups_oicrs_melia</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -983,7 +983,7 @@ group by pini.id_phase, pin.id;</sql>
     </GUI>
   </step>
   <step>
-    <name>Load_geo_scope_groups_oicrs</name>
+    <name>Load_geo_scope_groups_oicrs_melia</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -994,8 +994,8 @@ group by pini.id_phase, pin.id;</sql>
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>-- oicrs
-select pesi.id_phase, pesi.project_expected_study_id ent_id, 'oicr' ent_type,
+    <sql>-- oicrs y melia
+select pesi.id_phase, pesi.project_expected_study_id ent_id, if(pesi.study_type_id = 1,'oicr', 'melia') ent_type,
 ifnull(group_concat(gs.name 
 	 	 		order by gs.name asc separator ', '), 'Not Provided') geo_scope_name_group, 
 ifnull(group_concat(gs.id
@@ -1014,7 +1014,7 @@ where -- pesi.`year` = ph. YEAR
 ph.year = pbc.phase_year 
 AND ph. NAME = pbc.phase_name -- 'AR'
 and pes.is_active
-and pesi.study_type_id = 1
+-- and pesi.study_type_id = 1
 and pesi.title is not null
 group by pesi.id_phase, pesi.project_expected_study_id 
 ;</sql>
@@ -1031,7 +1031,7 @@ group by pesi.id_phase, pesi.project_expected_study_id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_geo_scope_groups_oicrs</origin>
+        <origin>Load_geo_scope_groups_oicrs_melia</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1054,7 +1054,7 @@ group by pesi.id_phase, pesi.project_expected_study_id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_geo_scope_groups_oicrs</origin>
+        <origin>Load_geo_scope_groups_oicrs_melia</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1075,9 +1075,9 @@ group by pesi.id_phase, pesi.project_expected_study_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>5</length>
         <precision>-1</precision>
-        <origin>Load_geo_scope_groups_oicrs</origin>
+        <origin>Load_geo_scope_groups_oicrs_melia</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1098,9 +1098,9 @@ group by pesi.id_phase, pesi.project_expected_study_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>geo_scope_name_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_geo_scope_groups_oicrs</origin>
+        <origin>Load_geo_scope_groups_oicrs_melia</origin>
         <comments>geo_scope_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1121,9 +1121,9 @@ group by pesi.id_phase, pesi.project_expected_study_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_geo_scope_groups_oicrs</origin>
+        <origin>Load_geo_scope_groups_oicrs_melia</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1151,7 +1151,7 @@ group by pesi.id_phase, pesi.project_expected_study_id
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>96</yloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

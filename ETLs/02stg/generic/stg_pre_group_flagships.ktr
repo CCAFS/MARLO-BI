@@ -607,7 +607,8 @@ INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = 
 inner join phases ph on ph.id = pesi.id_phase
 INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
 left JOIN project_expected_study_flagships pesf ON pesf.expected_id = pes.id AND pesf.id_phase = ph.id
-left JOIN crp_programs cpfl ON cpfl.id = pesf.crp_program_id AND cpfl.is_active AND cpfl.program_type = 1
+-- program type 1 = flagships global_unit_id = project expected study global unit id 
+left JOIN crp_programs cpfl ON cpfl.id = pesf.crp_program_id AND cpfl.is_active AND cpfl.program_type = 1 and cpfl.global_unit_id = ph.global_unit_id
 -- LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 where  ph. NAME = pbc.phase_name
 and ph.year = pbc.phase_year

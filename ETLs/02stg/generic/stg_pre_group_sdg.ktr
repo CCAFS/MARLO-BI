@@ -568,7 +568,7 @@
   </connection>
   <order>
     <hop>
-      <from>input_oicr_group_sdg</from>
+      <from>input_oicr_melia_group_sdg</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -1173,7 +1173,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
     </GUI>
   </step>
   <step>
-    <name>input_oicr_group_sdg</name>
+    <name>input_oicr_melia_group_sdg</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1184,7 +1184,8 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
+    <sql>-- oicrs y melias
+select ssdg.id_phase, ssdg.ent_type, ssdg.ent_id,
 ifnull(
 group_concat(distinct ssdg.sdg_short_name
 	 	 		order by ssdg.sdg_id asc separator '; '), 'Not Applicable') sdg_short_name_group,
@@ -1195,7 +1196,7 @@ ifnull(group_concat(distinct ssdg.sdg_indicator
 ifnull(group_concat(distinct concat(ssdg.sdg_id, ';', ssdg.sdg_target_id, ';', ssdg.sdg_indicator_id)
 	 	 		order by ssdg.sdg_id asc, ssdg.sdg_target_id asc, ssdg.sdg_indicator_id separator ', '), '-2;-2;-2') ids_group                
 from 
-(select ph.id id_phase, 'oicr' ent_type, pes.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
+(select ph.id id_phase, if(pesi.study_type_id = 1,'oicr', 'melia') ent_type, pes.id ent_id, dg.sub_ido_id sub_ido_id, dg.sdg_id sdg_id, 
 dg.sdg_target sdg_target, 
 dg.sdg_target_id sdg_target_id,
 dg.sdg_target_code sdg_target_code, dg.sdg_short_name sdg_short_name, 
@@ -1225,7 +1226,7 @@ where ph. NAME = pbc.phase_name
 AND ph. YEAR = pbc.phase_year
 -- AND ph.year between ${START_YEAR} and ${END_YEAR} 
 and pes.is_active
-and pesi.study_type_id = 1
+-- and pesi.study_type_id = 1
 and pesi.title is not null
 ) ssdg 
 group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
@@ -1263,7 +1264,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>5</length>
         <precision>-1</precision>
         <origin>input_oicr_group_sdg</origin>
         <comments>ent_type</comments>

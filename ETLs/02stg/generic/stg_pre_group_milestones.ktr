@@ -568,7 +568,7 @@
   </connection>
   <order>
     <hop>
-      <from>milestones</from>
+      <from>oicrs_policies_milestones</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -1010,7 +1010,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;
     </GUI>
   </step>
   <step>
-    <name>milestones</name>
+    <name>oicrs_policies_milestones</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1148,7 +1148,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>milestone_title_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>milestones</origin>
         <comments>milestone_title_group</comments>
@@ -1171,7 +1171,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>outcome_description_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>milestones</origin>
         <comments>outcome_description_group</comments>
@@ -1194,7 +1194,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>milestones</origin>
         <comments>ids_group</comments>

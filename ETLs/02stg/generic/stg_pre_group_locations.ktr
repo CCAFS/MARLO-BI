@@ -580,7 +580,7 @@ for many to many relationship between intersect table and locations
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Load_oicr_location_groups</from>
+      <from>Load_oicr_melia_location_groups</from>
       <to>Sort rows 2</to>
       <enabled>Y</enabled>
     </hop>
@@ -1056,7 +1056,7 @@ group by pini.id_phase, pin.id
     </GUI>
   </step>
   <step>
-    <name>Load_oicr_location_groups</name>
+    <name>Load_oicr_melia_location_groups</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1067,7 +1067,7 @@ group by pini.id_phase, pin.id
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select pesi1.id_phase, pes1.id ent_id, 'oicr' ent_type, 
+    <sql>select pesi1.id_phase, pes1.id ent_id, if (study_type_id = 1,'oicr', 'melia') ent_type, 
 ifnull(group_concat(distinct stg2.name 
 		     order by stg2.name separator ', '), 'Not Provided') location_name_group, 
 ifnull(group_concat(distinct stg2.iso_alpha_2
@@ -1095,7 +1095,7 @@ where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id)in
 and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
 and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
 and pes.is_active
-and pesi.study_type_id = 1
+-- and pesi.study_type_id = 1
 and pesi.title is not null
 -- and ph.global_unit_id =1
 UNION ALL
@@ -1112,7 +1112,7 @@ where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) i
 and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
 and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
 and pes.is_active
-and pesi.study_type_id = 1
+-- and pesi.study_type_id = 1
 and pesi.title is not null
 -- and ph.global_unit_id =1
 UNION ALL
@@ -1128,14 +1128,14 @@ where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) i
 and ph.name =  pbc.phase_name -- '${V_PHASE_NAME}'
 and ph.year = pbc.phase_year --  ${V_PHASE_YEAR}
 and pes.is_active
-and pesi.study_type_id = 1
+-- and pesi.study_type_id = 1
 and pesi.title is not null
 ) stg2
 on stg2.id_phase = pesi1.id_phase and stg2.id_oics = pes1.id
 where ph1.name =  pbc1.phase_name -- '${V_PHASE_NAME}'
 and ph1.year = pbc1.phase_year --  ${V_PHASE_YEAR}
 and pes1.is_active
-and pesi1.study_type_id = 1
+-- and pesi1.study_type_id = 1
 and pesi1.title is not null
 group by pesi1.id_phase, pes1.id  
 ;</sql>
@@ -1196,7 +1196,7 @@ group by pesi1.id_phase, pes1.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>5</length>
         <precision>-1</precision>
         <origin>Load_oicr_location_groups</origin>
         <comments>ent_type</comments>
@@ -1294,7 +1294,7 @@ group by pesi1.id_phase, pes1.id
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
+      <xloc>192</xloc>
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>

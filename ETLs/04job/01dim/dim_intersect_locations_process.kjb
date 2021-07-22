@@ -500,7 +500,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>start log stg_fs_intersect_group_locations</name>
+      <name>start log stg_intersect_group_locations</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -549,7 +549,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>stg_fs_intersect_group_locations</name>
+      <name>stg_intersect_group_locations</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -1116,8 +1116,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>start log stg_fs_intersect_group_locations</from>
-      <to>stg_fs_intersect_group_locations</to>
+      <from>start log stg_intersect_group_locations</from>
+      <to>stg_intersect_group_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1125,7 +1125,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>stg_fs_intersect_group_locations</from>
+      <from>stg_intersect_group_locations</from>
       <to>end_log stg_intersect_group_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1243,7 +1243,7 @@
     </hop>
     <hop>
       <from>end_log stg_pre_group_locations</from>
-      <to>start log stg_fs_intersect_group_locations</to>
+      <to>start log stg_intersect_group_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

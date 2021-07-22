@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -588,23 +596,18 @@
     <fields>
       <field>
         <name>pk_id_intersect_group_sdg</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_target_id</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_indicator_id</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -636,15 +639,12 @@
     <fields>
       <field>
         <name>pk_id_intersect_group_sdg</name>
-        <rename/>
       </field>
       <field>
         <name>ids_group</name>
-        <rename/>
       </field>
       <field>
         <name>sdg_group</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
