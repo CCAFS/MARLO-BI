@@ -555,7 +555,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>D:/Github/MARLO-BI/ETLs/02stg/generic/stg_intersect_group_institutions.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_intersect_group_institutions.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
