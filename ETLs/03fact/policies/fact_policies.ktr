@@ -538,51 +538,71 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_policy_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_pol_inv_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_projects_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_stage_processes</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_oicr</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_owner</name>
+        <rename/>
       </field>
       <field>
         <name>updated_date</name>
+        <rename/>
       </field>
       <field>
         <name>quantity</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -671,6 +691,7 @@
 , fk_id_intersect_group_sdg
 , fk_id_intersect_group_ccm
 , fk_id_intersect_group_oicr
+, fk_id_intersect_group_owner
 , updated_date
 , quantity
 FROM marloBI.pre_policies_fact
@@ -688,7 +709,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_crp</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_crp</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -711,7 +732,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_year</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -731,11 +752,11 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_stg_maturities</name>
+        <name>fk_id_policy_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_stg_maturities</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_policy_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -754,11 +775,11 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_oicr_info</name>
+        <name>fk_id_pol_inv_type</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_oicr_info</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_pol_inv_type</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -777,11 +798,11 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_milestone</name>
+        <name>fk_id_projects_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_milestone</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_projects_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -800,57 +821,11 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_sdg</name>
+        <name>fk_id_stage_processes</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_sdg</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_srf_cci</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_srf_cci</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_srftar</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_srftar</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_stage_processes</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -872,7 +847,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_intersect_group_inst</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_intersect_group_inst</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -895,7 +870,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_intersect_group_loc</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_intersect_group_loc</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -918,7 +893,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_intersect_group_geo</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_intersect_group_geo</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -938,11 +913,57 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_flag</name>
+        <name>fk_id_intersect_group_milestone</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_flag</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_srf_cci</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_intersect_group_srf_cci</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_sdg</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_intersect_group_sdg</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -964,7 +985,7 @@ FROM marloBI.pre_policies_fact
         <name>fk_id_intersect_group_ccm</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>fk_id_intersect_group_ccm</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -984,11 +1005,34 @@ FROM marloBI.pre_policies_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_proj</name>
+        <name>fk_id_intersect_group_oicr</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
-        <comments>fk_id_intersect_group_proj</comments>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_intersect_group_oicr</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_owner</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_pre_policies_fact</origin>
+        <comments>fk_id_intersect_group_owner</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1010,7 +1054,7 @@ FROM marloBI.pre_policies_fact
         <name>updated_date</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1033,7 +1077,7 @@ FROM marloBI.pre_policies_fact
         <name>quantity</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_oicr_fact</origin>
+        <origin>input_pre_policies_fact</origin>
         <comments>quantity</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>

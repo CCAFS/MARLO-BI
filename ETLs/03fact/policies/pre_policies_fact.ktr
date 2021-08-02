@@ -713,17 +713,37 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join oicrs</from>
-      <to>crps lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>dim_policy_investment_types</from>
       <to>dim_policy_info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>Sort_br_group_owners</from>
+      <to>Merge join owners</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>stg_br_fs_group_owners</from>
+      <to>Sort_br_group_owners</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge join oicrs</from>
+      <to>Merge join owners</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge join owners</from>
+      <to>crps lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>dim_policy_info</from>
+      <to>dim_intersect owners</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_intersect owners</from>
       <to>Formula</to>
       <enabled>Y</enabled>
     </hop>
@@ -909,7 +929,7 @@
     <name>Merge join oicrs</name>
     <type>MergeJoin</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1097,48 +1117,67 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_policy_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_pol_inv_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_projects_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_stage_processes</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_oicr</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_owner</name>
+        <rename/>
       </field>
       <field>
         <name>updated_date</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -3453,6 +3492,247 @@ FROM marloBI.stg_policies_info
     <GUI>
       <xloc>448</xloc>
       <yloc>448</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge join owners</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Merge join oicrs</step1>
+    <step2>Sort_br_group_owners</step2>
+    <keys_1>
+      <key>policy_id</key>
+      <key>id_phase</key>
+    </keys_1>
+    <keys_2>
+      <key>policy_id</key>
+      <key>id_phase</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort_br_group_owners</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>policy_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>800</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_br_fs_group_owners</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <sql>select distinct  pg.id_phase, pg.ent_id policy_id, pg.ids_group ids_group_owners
+from stg_pre_group_owners pg
+where pg.ent_type = 'policy';
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_br_fs_group_oicrs 2</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>policy_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_br_fs_group_oicrs 2</origin>
+        <comments>policy_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group_owners</name>
+        <length>200</length>
+        <precision>-1</precision>
+        <origin>stg_br_fs_group_oicrs 2</origin>
+        <comments>ids_group_owners</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>784</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_intersect owners</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>${DES_DBNAME}</schema>
+      <table>dim_intersect_group_owners</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ids_group_owners</name>
+        <field>ids_group</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pk_id_intersect_group_owner</name>
+        <rename>fk_id_intersect_group_owner</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1008</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
