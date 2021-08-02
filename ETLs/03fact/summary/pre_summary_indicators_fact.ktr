@@ -593,41 +593,69 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>indicator_quantity</name>
         <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
         <type>BigNumber</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -671,41 +699,69 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>indicator_quantity</name>
         <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
         <type>BigNumber</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -749,41 +805,69 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>indicator_quantity</name>
         <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
         <type>BigNumber</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -808,7 +892,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>384</xloc>
       <yloc>368</yloc>
       <draw>Y</draw>
     </GUI>
@@ -827,41 +911,69 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>indicator_quantity</name>
         <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
         <type>BigNumber</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -905,41 +1017,69 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>indicator_quantity</name>
         <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
         <type>BigNumber</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -966,6 +1106,112 @@
     <GUI>
       <xloc>400</xloc>
       <yloc>560</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values 6</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>fk_id_crp</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_year</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_indicator</name>
+        <rename/>
+      </field>
+      <field>
+        <name>indicator_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_milestone</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_inst</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_loc</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_geo</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_intersect_group_ccm</name>
+        <rename/>
+      </field>
+      <field>
+        <name>indicator_quantity</name>
+        <rename/>
+      </field>
+      <field>
+        <name>indicator_value</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>indicator_quantity</name>
+        <rename>indicator_quantity</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>indicator_value</name>
+        <rename>indicator_value</rename>
+        <type>BigNumber</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1589,6 +1835,322 @@ group by   fk_id_crp
     <GUI>
       <xloc>80</xloc>
       <yloc>576</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>input_fact_melias</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <sql>SELECT distinct
+  fk_id_crp
+, fk_id_year
+, fk_id_melia_info fk_indicator
+, 'melia' indicator_type
+, mile.pk_id_intersect_group_milestone fk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, inst.pk_id_intersect_group_inst fk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, ccm.pk_id_intersect_group_ccm fk_id_intersect_group_ccm
+, sum(quantity) indicator_quantity
+, sum(0) indicator_value
+FROM marloBI.fact_melias mel
+left join marloBI.dim_intersect_group_milestones mile on mile.ids_group = '-2;-2;-2'
+left join marloBI.dim_intersect_group_institutions inst on inst.ids_group = '-1;1'
+left join marloBI.dim_intersect_group_ccm  ccm on ccm.ids_group = '-1;-1'
+group by   fk_id_crp
+, fk_id_year
+, fk_id_melia_info 
+, pk_id_intersect_group_milestone
+-- , fk_id_intersect_group_sdg
+-- , fk_id_intersect_group_srf_cci
+, pk_id_intersect_group_inst
+, fk_id_intersect_group_loc
+, fk_id_intersect_group_geo
+, pk_id_intersect_group_ccm
+;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_crp</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_crp</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_year</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_indicator</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_indicator</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_type</name>
+        <length>5</length>
+        <precision>-1</precision>
+        <origin>input_fact_melias</origin>
+        <comments>indicator_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_milestone</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_intersect_group_milestone</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_inst</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_intersect_group_inst</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_loc</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_intersect_group_loc</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_geo</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_intersect_group_geo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_intersect_group_ccm</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_quantity</name>
+        <length>41</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>indicator_quantity</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>BigNumber</type>
+        <storagetype>normal</storagetype>
+        <name>indicator_value</name>
+        <length>23</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>indicator_value</comments>
+        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>656</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2569,411 +3131,6 @@ group by   prb.fk_id_crp
     <GUI>
       <xloc>704</xloc>
       <yloc>240</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>input_fact_melias</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT distinct
-  fk_id_crp
-, fk_id_year
-, fk_id_melia_info fk_indicator
-, 'melia' indicator_type
-, mile.pk_id_intersect_group_milestone fk_id_intersect_group_milestone
--- , fk_id_intersect_group_sdg
--- , fk_id_intersect_group_srf_cci
-, inst.pk_id_intersect_group_inst fk_id_intersect_group_inst
-, fk_id_intersect_group_loc
-, fk_id_intersect_group_geo
-, ccm.pk_id_intersect_group_ccm fk_id_intersect_group_ccm
-, sum(quantity) indicator_quantity
-, sum(0) indicator_value
-FROM marloBI.fact_melias mel
-left join marloBI.dim_intersect_group_milestones mile on mile.ids_group = '-2;-2;-2'
-left join marloBI.dim_intersect_group_institutions inst on inst.ids_group = '-1;1'
-left join marloBI.dim_intersect_group_ccm  ccm on ccm.ids_group = '-1;-1'
-group by   fk_id_crp
-, fk_id_year
-, fk_id_melia_info 
-, pk_id_intersect_group_milestone
--- , fk_id_intersect_group_sdg
--- , fk_id_intersect_group_srf_cci
-, pk_id_intersect_group_inst
-, fk_id_intersect_group_loc
-, fk_id_intersect_group_geo
-, pk_id_intersect_group_ccm
-;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_crp</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_crp</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_year</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_year</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_indicator</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_indicator</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>indicator_type</name>
-        <length>5</length>
-        <precision>-1</precision>
-        <origin>input_fact_melias</origin>
-        <comments>indicator_type</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_milestone</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_intersect_group_milestone</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_inst</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_intersect_group_inst</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_loc</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_intersect_group_loc</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_geo</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_intersect_group_geo</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>fk_id_intersect_group_ccm</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>fk_id_intersect_group_ccm</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>BigNumber</type>
-        <storagetype>normal</storagetype>
-        <name>indicator_quantity</name>
-        <length>41</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>indicator_quantity</comments>
-        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>BigNumber</type>
-        <storagetype>normal</storagetype>
-        <name>indicator_value</name>
-        <length>23</length>
-        <precision>0</precision>
-        <origin>input_fact_melias</origin>
-        <comments>indicator_value</comments>
-        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>656</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values 6</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>fk_id_crp</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_year</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_indicator</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_type</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_milestone</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_inst</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_loc</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_geo</name>
-        <rename/>
-      </field>
-      <field>
-        <name>fk_id_intersect_group_ccm</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_quantity</name>
-        <rename/>
-      </field>
-      <field>
-        <name>indicator_value</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>indicator_quantity</name>
-        <rename>indicator_quantity</rename>
-        <type>BigNumber</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>400</xloc>
-      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

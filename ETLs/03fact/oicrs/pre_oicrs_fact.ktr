@@ -3572,7 +3572,7 @@ where pg.ent_type = 'oicr';
 , rep_ind_stage_study_id
 , year
 FROM marloBI.stg_oicrs_info
-where oicr_id not in (-1,-2) -- Estos oicrs son solo para manejo de la dimension, no para la fact
+where oicr_id not in (-1,-2,-3) -- Estos oicrs son solo para manejo de la dimension, no para la fact
 </sql>
     <limit>0</limit>
     <lookup/>
