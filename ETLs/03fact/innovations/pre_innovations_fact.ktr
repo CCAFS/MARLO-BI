@@ -458,6 +458,14 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.netWriteTimeout</code>
+        <attribute>1800</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.net_write_timeout</code>
+        <attribute>1800</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
         <attribute>true</attribute>
       </attribute>
@@ -1887,7 +1895,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_intersect_group_oicrs</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -1935,7 +1943,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_innovation_stg</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -1983,7 +1991,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_innovation_types</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -2031,7 +2039,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_innovations_info</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -2079,7 +2087,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_intersect_group_deliverables</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -2175,7 +2183,7 @@
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>marloBI</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_intersect_group_institutions</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -4071,7 +4079,7 @@ FROM marloBI.stg_innovations_info
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema/>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_year</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
