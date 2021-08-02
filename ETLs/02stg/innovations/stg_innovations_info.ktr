@@ -1014,11 +1014,11 @@ INNER JOIN phases ph on ph.id = pii.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
 WHERE  pin.is_active
--- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0
 and ph.name = pbc.phase_name -- 'AR'
--- and ph.year = pii.year
 AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
--- AND ph.year between ${START_YEAR} and ${END_YEAR}  </sql>
+-- AND ph.year between ${START_YEAR} and ${END_YEAR}  
+-- and ph.year = pii.year
+-- and is_innovation_excluded(pii.project_innovation_id,pii.id_phase) = 0</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
