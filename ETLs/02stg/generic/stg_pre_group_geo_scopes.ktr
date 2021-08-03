@@ -1016,7 +1016,7 @@ AND ph. NAME = pbc.phase_name -- 'AR'
 and pes.is_active
 -- and pesi.study_type_id = 1
 and pesi.title is not null
-group by pesi.id_phase, pesi.project_expected_study_id 
+group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id
 ;</sql>
     <limit>0</limit>
     <lookup/>
