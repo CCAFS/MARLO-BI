@@ -614,7 +614,233 @@ for many to many relationship between intersect table and locations
       <to>stg_pre_group_locations</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Load_deliverable_location_groups</from>
+      <to>Sort rows 5</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows 5</from>
+      <to>stg_pre_group_locations</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
+  <step>
+    <name>Load_deliverable_location_groups</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>ORI_DB</connection>
+    <sql>select ph.id id_phase, di.deliverable_id ent_id, 'deliverable' ent_type,
+ifnull(group_concat(distinct stg2.name
+		     order by stg2.name separator ', '), 'Not Provided') location_name_group, 
+ifnull(group_concat(distinct stg2.iso_alpha_2
+			 order by stg2.name separator ', '), 'NP') iso_alpha_2_group, 
+ifnull(group_concat(distinct stg2.id_loc
+             order by stg2.name), -1) ids_group
+FROM  deliverables d
+JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
+JOIN phases ph on ph.id = di.id_phase
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+left join (select pic.id_phase, pic.deliverable_id, pic.loc_element_id id_loc, loc1.name, loc1.iso_alpha_2
+	  from  deliverable_locations pic
+	  join  loc_elements loc1 on loc1.id = pic.loc_element_id
+      INNER JOIN phases phc on phc.id = pic.id_phase
+	  INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+      where phc.name = pbc.phase_name -- 'AR'
+       and phc.year = pbc.phase_year
+	-- where pini.id_phase = pic.id_phase and pic.project_innovation_id = pini.project_innovation_id
+	union all
+	select reg.id_phase, reg.deliverable_id, reg.loc_element_id id_loc,  loc2.name, loc2.iso_alpha_2
+	from deliverable_geographic_regions reg 
+	join  loc_elements loc2 on loc2.id = reg.loc_element_id
+    INNER JOIN phases phc on phc.id = reg.id_phase
+	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+	where phc.name = pbc.phase_name -- 'AR'
+	and phc.year = pbc.phase_year
+	-- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
+	union all
+	select igeo.id_phase, igeo.deliverable_id, -5 id_loc, 'Global' name, 'nn' iso_alpha_2
+	from deliverable_geographic_scopes igeo 
+	JOIN rep_ind_geographic_scopes rigs ON rigs.id = igeo.rep_ind_geographic_scope_id
+    INNER JOIN phases phc on phc.id = igeo.id_phase
+	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    where phc.name = pbc.phase_name 
+	and phc.year = pbc.phase_year
+	and rigs.id = 1
+    ) stg2 on stg2.id_phase = di.id_phase and  stg2.deliverable_id = di.deliverable_id
+WHERE d.is_active
+and ph.name = pbc.phase_name
+and ph.year = pbc.phase_year
+group by ph.id, di.deliverable_id 
+    ;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>id_phase</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>ent_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>ent_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ent_type</name>
+        <length>11</length>
+        <precision>-1</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>ent_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>location_name_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>location_name_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>iso_alpha_2_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>iso_alpha_2_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>ids_group</name>
+        <length>10000</length>
+        <precision>-1</precision>
+        <origin>Load_innovation_location_groups 2</origin>
+        <comments>ids_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Load_fs_location_groups</name>
     <type>TableInput</type>
@@ -871,17 +1097,29 @@ left JOIN
 	( select pic.id_phase, pic.project_innovation_id, pic.id_country id_loc, loc1.name, loc1.iso_alpha_2
 	  from  project_innovation_countries pic
 	  join  loc_elements loc1 on loc1.id = pic.id_country
+	  INNER JOIN phases phc on phc.id = pic.id_phase
+	  INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+      where phc.name = pbc.phase_name -- 'AR'
+       and phc.year = pbc.phase_year
 	-- where pini.id_phase = pic.id_phase and pic.project_innovation_id = pini.project_innovation_id
 	union all
 	select reg.id_phase, reg.project_innovation_id, reg.id_region id_loc,  loc2.name, loc2.iso_alpha_2
 	from project_innovation_regions reg 
 	join  loc_elements loc2 on loc2.id = reg.id_region
+	INNER JOIN phases phc on phc.id = reg.id_phase
+	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+    where phc.name = pbc.phase_name -- 'AR'
+    and phc.year = pbc.phase_year
 	-- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
 	union all
 	select igeo.id_phase, igeo.project_innovation_id, -5 id_loc, 'Global' name, 'NA' iso_alpha_2
 	from project_innovation_geographic_scopes igeo 
 	JOIN rep_ind_geographic_scopes rigs ON rigs.id = igeo.rep_ind_geographic_scope_id
-	where rigs.id = 1
+	INNER JOIN phases phc on phc.id = igeo.id_phase
+	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'innovations'
+    where phc.name = pbc.phase_name 
+	and phc.year = pbc.phase_year
+	and rigs.id = 1
 	-- where igeo.project_innovation_id = pini.project_innovation_id and pini.id_phase=igeo.id_phase
 	) stg2 ON pini.id_phase = stg2.id_phase and stg2.project_innovation_id = pini.project_innovation_id
 WHERE pin.is_active
@@ -1050,7 +1288,7 @@ group by pini.id_phase, pin.id
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
+      <xloc>192</xloc>
       <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1152,7 +1390,7 @@ group by pesi1.id_phase, pes1.id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1175,7 +1413,7 @@ group by pesi1.id_phase, pes1.id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1198,7 +1436,7 @@ group by pesi1.id_phase, pes1.id
         <name>ent_type</name>
         <length>5</length>
         <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1221,7 +1459,7 @@ group by pesi1.id_phase, pes1.id
         <name>location_name_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>location_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1244,7 +1482,7 @@ group by pesi1.id_phase, pes1.id
         <name>iso_alpha_2_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1267,7 +1505,7 @@ group by pesi1.id_phase, pes1.id
         <name>ids_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_oicr_location_groups</origin>
+        <origin>Load_oicr_melia_location_groups</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1329,7 +1567,7 @@ left join (
 	case 
 	WHEN pgeo.rep_ind_geographic_scope_id  in (3,4,5) then ifnull(polc.id_country, -1)
 	WHEN pgeo.rep_ind_geographic_scope_id  in (2) then ifnull(polr.id_region, -1)
-	WHEN pgeo.rep_ind_geographic_scope_id  in (1) then 0
+	WHEN pgeo.rep_ind_geographic_scope_id  in (1) then -5
 	WHEN pgeo.rep_ind_geographic_scope_id is null then -1
 	else CONCAT('Error: ',pgeo.rep_ind_geographic_scope_id)
 	end location 
@@ -1348,11 +1586,11 @@ left join (
 	and pol.is_active
 ) polic on polic.id_policy = poli2.project_policy_id and polic.id_phase = poli2.id_phase
 left join 
-( select loc.id, loc.name, loc.element_type_id, ifnull(loc.iso_alpha_2, 'NA') iso_alpha_2
+( select loc.id, loc.name, loc.element_type_id, ifnull(loc.iso_alpha_2, 'nn') iso_alpha_2
   from loc_elements loc 
   where loc.is_active
   union all
-  select -5,  'Global', 0, 'NA'
+  select -5,  'Global', 0, 'nn' iso_alpha_2
   union all
   select -1, 'Not Provided', 0, 'NP'
   ) locat
@@ -1518,7 +1756,7 @@ group by poli2.project_policy_id, poli2.id_phase
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>320</yloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1751,6 +1989,64 @@ group by poli2.project_policy_id, poli2.id_phase
     <GUI>
       <xloc>348</xloc>
       <yloc>421</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows 5</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_phase</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_type</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ent_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
