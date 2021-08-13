@@ -664,23 +664,18 @@
     <fields>
       <field>
         <name>melia_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>lever_id</name>
-        <rename/>
       </field>
       <field>
         <name>lever_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_melia_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -916,7 +911,9 @@ from marloBI.dim_melias_info doic;
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select sle.expected_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
+    <sql>-- extrae todos los expected studies, pero en el inner join externo con la dimension de oicrs filtra solo los que son OICRs
+
+select sle.expected_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
 from project_expected_study_levers sle
 join alliance_levers al on al.id = sle.lever_id
 join bi_phase_by_cubes pbc on cube_name = 'oicrs'

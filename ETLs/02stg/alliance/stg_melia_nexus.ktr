@@ -664,23 +664,18 @@
     <fields>
       <field>
         <name>melia_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>nexus_id</name>
-        <rename/>
       </field>
       <field>
         <name>nexus_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_melia_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -916,7 +911,8 @@ from marloBI.dim_melias_info doic;
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select sle.expected_id, sle.id_phase, sle.nexus_id, nx.name nexus_name
+    <sql>-- extrae todos los expected studies, pero en el inner join externo con la dimension de melias filtra solo los que son MELIAs
+select sle.expected_id, sle.id_phase, sle.nexus_id, nx.name nexus_name
 from project_expected_study_nexus sle
 join nexus nx on nx.id = sle.nexus_id
 join bi_phase_by_cubes pbc on cube_name = 'oicrs'
@@ -936,7 +932,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>expected_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_nexus</origin>
+        <origin>input_expected_study_nexus</origin>
         <comments>expected_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -959,7 +955,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_nexus</origin>
+        <origin>input_expected_study_nexus</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -982,7 +978,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>nexus_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_nexus</origin>
+        <origin>input_expected_study_nexus</origin>
         <comments>nexus_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1005,7 +1001,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>nexus_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_oicr_nexus</origin>
+        <origin>input_expected_study_nexus</origin>
         <comments>nexus_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

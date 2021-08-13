@@ -910,7 +910,9 @@ from marloBI.dim_oicrs_info doic;
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select sle.expected_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
+    <sql>-- extrae todos los expected studies, pero en el inner join externo con la dimension de oicrs filtra solo los que son OICRs
+
+select sle.expected_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
 from project_expected_study_levers sle
 join alliance_levers al on al.id = sle.lever_id
 join bi_phase_by_cubes pbc on cube_name = 'oicrs'

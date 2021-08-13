@@ -590,16 +590,16 @@
     </hop>
     <hop>
       <from>input_oicr_lever_outcomes</from>
-      <to>Sort input_oicr_lever_outcomes</to>
+      <to>Sort input_melia_lever_outcomes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>input_dim_oicrs</from>
+      <from>input_dim_melias</from>
       <to>Sort input_dim_melias</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort input_oicr_lever_outcomes</from>
+      <from>Sort input_melia_lever_outcomes</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
     </hop>
@@ -626,7 +626,7 @@
       <schema_name/>
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Sort input_oicr_lever_outcomes</step1>
+    <step1>Sort input_melia_lever_outcomes</step1>
     <step2>Sort input_dim_melias</step2>
     <keys_1>
       <key>expected_id</key>
@@ -662,31 +662,24 @@
     <fields>
       <field>
         <name>melia_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>lever_outcome_id</name>
-        <rename/>
       </field>
       <field>
         <name>lever_outcome_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_melia_info</name>
-        <rename/>
       </field>
       <field>
         <name>lever_id</name>
-        <rename/>
       </field>
       <field>
         <name>lever_name</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -755,7 +748,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort input_oicr_lever_outcomes</name>
+    <name>Sort input_melia_lever_outcomes</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -805,7 +798,7 @@
     </GUI>
   </step>
   <step>
-    <name>input_dim_oicrs</name>
+    <name>input_dim_melias</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -922,7 +915,9 @@ from marloBI.dim_melias_info doic;
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select sle.expected_id, sle.id_phase, sle.lever_outcome_id, concat(lo.indicator, ' - ', lo.name) lever_outcome_name, lo.parent_id lever_id, concat(le.indicator, ' - ', le.name ) lever_name
+    <sql>-- extrae todos los expected studies, pero en el inner join externo con la dimension de melias filtra solo los que son MELIAs
+
+select sle.expected_id, sle.id_phase, sle.lever_outcome_id, concat(lo.indicator, ' - ', lo.name) lever_outcome_name, lo.parent_id lever_id, concat(le.indicator, ' - ', le.name ) lever_name
 from project_expected_study_lever_outcomes sle
 join alliance_lever_outcomes lo on lo.id = sle.lever_outcome_id
 join alliance_levers le on le.id = lo.parent_id
