@@ -988,7 +988,7 @@ pesi.year,
 pesi.external_link,
 pesi.is_public,
 CONCAT('https://marlo.cgiar.org/projects/',gu.acronym,'/study.do?expectedID=',pes.id, '&amp;edit=true&amp;phaseID=') link_1,
-pesi.study_type_id,
+ifnull(pesi.study_type_id, -1) study_type_id,
 pesi.top_level_comments melia_description,
 pesi.commissioning_study 
 -- if(gu.id in (27,28,17)
@@ -1004,7 +1004,7 @@ where ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
 and pesi.title is not null
 and pes.is_active
-and pesi.study_type_id != 1 -- diferente a oicrs
+and ifnull(pesi.study_type_id, -1) != 1 -- diferente a oicrs
 union all
 -- MELIA dimension row for not provided oicrs
 select 0 id_phase,
