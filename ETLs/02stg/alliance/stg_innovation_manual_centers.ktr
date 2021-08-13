@@ -663,7 +663,7 @@ acording to the Excel file that Allison Pollous mapped
     </partitioning>
     <fields>
       <field>
-        <name>pk_id_innovation_info</name>
+        <name>project_innovation_id</name>
         <rename>innovation_id</rename>
       </field>
       <field>
