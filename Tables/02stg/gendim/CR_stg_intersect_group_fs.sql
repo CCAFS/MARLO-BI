@@ -2,7 +2,6 @@ drop table if exists stg_intersect_group_fs;
 
 create table stg_intersect_group_fs
 (
-`fs_id_window_title_group` text,
 `fs_id_title_group` text,
 `fs_id_fcode_title_group` text,
 `fs_idname_title_group` text,
