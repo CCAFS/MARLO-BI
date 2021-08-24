@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_intersect_group_flagships</name>
+    <name>dim_intersect_group_reg_programs</name>
     <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL for an intersect table to create diferent groups for flagships
+    <extended_description>ETL for an intersect table to create diferent groups for regional programs.
 Trick for many to many relationship between
-funding sources and flagships
+fact tables and regional programs
+
 </extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
@@ -461,14 +462,6 @@ funding sources and flagships
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -516,13 +509,85 @@ funding sources and flagships
   </connection>
   <order>
     <hop>
-      <from>Load_regional_programs_groups</from>
-      <to>stg_intersect_group_flagships</to>
+      <from>stg_intersect_group_reg_programs</from>
+      <to>dim_intersect_group_reg_programs</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_regional_programs_groups</name>
+    <name>dim_intersect_group_reg_programs</name>
+    <type>DimensionLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema>${DES_DBNAME}</schema>
+    <table>dim_intersect_group_reg_programs</table>
+    <connection>DES_DB</connection>
+    <commit>100</commit>
+    <update>Y</update>
+    <fields>
+      <key>
+        <name>ids_group</name>
+        <lookup>ids_group</lookup>
+      </key>
+      <date>
+        <name/>
+        <from>date_from</from>
+        <to>date_to</to>
+      </date>
+      <field>
+        <name>regional_program_acr_name_group</name>
+        <lookup>regional_program_acr_name_group</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>regional_program_name_group</name>
+        <lookup>regional_program_name_group</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>regional_program_acronym_group</name>
+        <lookup>regional_program_acronym_group</lookup>
+        <update>Update</update>
+      </field>
+      <return>
+        <name>pk_id_intersect_group_regpr</name>
+        <rename/>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+        <version>version</version>
+      </return>
+    </fields>
+    <sequence/>
+    <min_year>1900</min_year>
+    <max_year>2199</max_year>
+    <cache_size>0</cache_size>
+    <preload_cache>N</preload_cache>
+    <use_start_date_alternative>N</use_start_date_alternative>
+    <start_date_alternative>none</start_date_alternative>
+    <start_date_field_name/>
+    <useBatch>N</useBatch>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>656</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_intersect_group_reg_programs</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -533,27 +598,28 @@ funding sources and flagships
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT distinct flagship_acr_name_group
-, flagship_name_group
-, acronym_group
+    <sql>SELECT
+  regional_program_acr_name_group
+, regional_program_name_group
+, regional_program_acronym_group
 , ids_group
-FROM marloBI.stg_pre_group_flagships
+FROM marloBI.stg_intersect_group_reg_programs
 </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
+    <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>flagship_acr_name_group</name>
+        <name>regional_program_acr_name_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_regional_programs_groups</origin>
-        <comments>flagship_acr_name_group</comments>
+        <origin>stg_intersect_group_regional_programs</origin>
+        <comments>regional_program_acr_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -572,11 +638,11 @@ FROM marloBI.stg_pre_group_flagships
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>flagship_name_group</name>
+        <name>regional_program_name_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_regional_programs_groups</origin>
-        <comments>flagship_name_group</comments>
+        <origin>stg_intersect_group_regional_programs</origin>
+        <comments>regional_program_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -595,11 +661,11 @@ FROM marloBI.stg_pre_group_flagships
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>acronym_group</name>
+        <name>regional_program_acronym_group</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>Load_regional_programs_groups</origin>
-        <comments>acronym_group</comments>
+        <origin>stg_intersect_group_regional_programs</origin>
+        <comments>regional_program_acronym_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -621,7 +687,7 @@ FROM marloBI.stg_pre_group_flagships
         <name>ids_group</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>Load_regional_programs_groups</origin>
+        <origin>stg_intersect_group_regional_programs</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -648,52 +714,8 @@ FROM marloBI.stg_pre_group_flagships
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>stg_intersect_group_flagships</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>stg_intersect_group_flagships</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>576</xloc>
-      <yloc>112</yloc>
+      <xloc>208</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

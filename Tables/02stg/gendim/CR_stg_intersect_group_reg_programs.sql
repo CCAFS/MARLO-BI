@@ -1,6 +1,6 @@
-drop table if exists `stg_intersect_group_regional_programs`;
+drop table if exists `stg_intersect_group_reg_programs`;
 
-create table `stg_intersect_group_regional_programs`
+create table `stg_intersect_group_reg_programs`
 (`regional_program_acr_name_group` text,
 `regional_program_name_group` text,
 `regional_program_acronym_group` text,

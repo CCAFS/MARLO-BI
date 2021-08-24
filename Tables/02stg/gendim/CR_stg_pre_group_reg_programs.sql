@@ -1,6 +1,6 @@
-drop table if exists stg_pre_group_regional_programs;
+drop table if exists stg_pre_group_reg_programs;
 
-create table stg_pre_group_regional_programs
+create table stg_pre_group_reg_programs
 (
 `ent_id` bigint(20) NOT NULL,
 `ent_type` varchar(20) NOT NULL,
