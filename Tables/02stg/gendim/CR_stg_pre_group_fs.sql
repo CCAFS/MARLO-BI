@@ -1,4 +1,3 @@
-
 drop table if exists stg_pre_group_fs;
 
 create table stg_pre_group_fs

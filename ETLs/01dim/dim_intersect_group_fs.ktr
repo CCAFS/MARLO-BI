@@ -461,6 +461,18 @@ fact tables and funding sources
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -602,7 +614,14 @@ fact tables and funding sources
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_intersect_group_fs;</sql>
+    <sql>SELECT
+  fs_id_title_group
+, fs_id_fcode_title_group
+, fs_idname_title_group
+, fs_fcode_group
+, ids_group
+FROM marloBI.stg_intersect_group_fs
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -613,11 +632,11 @@ fact tables and funding sources
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>flagship_acr_name_group</name>
-        <length>21845</length>
+        <name>fs_id_title_group</name>
+        <length>16383</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_flagships</origin>
-        <comments>flagship_acr_name_group</comments>
+        <origin>stg_intersect_group_fs</origin>
+        <comments>fs_id_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -636,11 +655,11 @@ fact tables and funding sources
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>flagship_name_group</name>
-        <length>21845</length>
+        <name>fs_id_fcode_title_group</name>
+        <length>16383</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_flagships</origin>
-        <comments>flagship_name_group</comments>
+        <origin>stg_intersect_group_fs</origin>
+        <comments>fs_id_fcode_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -659,11 +678,34 @@ fact tables and funding sources
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>acronym_group</name>
-        <length>21845</length>
+        <name>fs_idname_title_group</name>
+        <length>16383</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_flagships</origin>
-        <comments>acronym_group</comments>
+        <origin>stg_intersect_group_fs</origin>
+        <comments>fs_idname_title_group</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>fs_fcode_group</name>
+        <length>16383</length>
+        <precision>-1</precision>
+        <origin>stg_intersect_group_fs</origin>
+        <comments>fs_fcode_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -685,7 +727,7 @@ fact tables and funding sources
         <name>ids_group</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>stg_intersect_group_flagships</origin>
+        <origin>stg_intersect_group_fs</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

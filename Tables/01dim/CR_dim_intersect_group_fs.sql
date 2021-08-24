@@ -5,7 +5,6 @@ create table dim_intersect_group_fs
   `version` int(11) DEFAULT NULL,
   `date_from` datetime DEFAULT NULL,
   `date_to` datetime DEFAULT NULL,
-`fs_id_window_title_group` text,
 `fs_id_title_group` text,
 `fs_id_fcode_title_group` text,
 `fs_idname_title_group` text,
