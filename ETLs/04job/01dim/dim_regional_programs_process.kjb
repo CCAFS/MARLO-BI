@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>dim_crp_process</name>
+  <name>dim_regional_programs_process</name>
   <description/>
-  <extended_description>Job for CRPs dimension
+  <extended_description>Job for Regional Programs dimension
+
 </extended_description>
   <job_version/>
   <job_status>0</job_status>
@@ -350,13 +351,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_crps</name>
+      <name>dim_regional_programs</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_crps.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_regional_programs.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -439,7 +440,7 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>dim_crps</value>
+          <value>dim_regional_programs</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
@@ -450,7 +451,7 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>save_to_log Outcome end</name>
+      <name>save_to_log ETL end</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
@@ -488,7 +489,7 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>dim_crps</value>
+          <value>dim_regional_programs</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
@@ -511,7 +512,7 @@
     </hop>
     <hop>
       <from>save_to_log ETL START</from>
-      <to>dim_crps</to>
+      <to>dim_regional_programs</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -519,8 +520,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_crps</from>
-      <to>save_to_log Outcome end</to>
+      <from>dim_regional_programs</from>
+      <to>save_to_log ETL end</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -528,7 +529,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>save_to_log Outcome end</from>
+      <from>save_to_log ETL end</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

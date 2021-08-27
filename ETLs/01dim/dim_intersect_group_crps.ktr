@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_crps</name>
-    <description/>
-    <extended_description/>
+    <name>dim_intersect_group_crps</name>
+    <description>Initial ETL for CRP Intersect dimension</description>
+    <extended_description>ETL for an intersect table to create diferent groups for CRPs
+Trick for many to many relationship between
+fact tables and crps/ptfs
+</extended_description>
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
@@ -428,9 +431,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 13:49:22.542</created_date>
+    <created_date>2017/11/14 08:51:05.283</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 13:49:22.542</modified_date>
+    <modified_date>2017/11/14 08:51:05.283</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -503,180 +506,15 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>ORI_DB</name>
-    <server>${ORI_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${ORI_DBNAME}</database>
-    <port>3306</port>
-    <username>${ORI_USR}</username>
-    <password>${ORI_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>input_crps</from>
-      <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
-      <to>dim_crps</to>
+      <from>stg_intersect_group_geo_scopes</from>
+      <to>dim_intersect_group_crps</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id</name>
-      </field>
-      <field>
-        <name>global_unit_type_id</name>
-      </field>
-      <field>
-        <name>name</name>
-      </field>
-      <field>
-        <name>acronym</name>
-      </field>
-      <field>
-        <name>is_active</name>
-      </field>
-      <field>
-        <name>global_unit_type</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>352</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>192</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_crps</name>
+    <name>dim_intersect_group_crps</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -687,14 +525,14 @@
       <schema_name/>
     </partitioning>
     <schema>${DES_DBNAME}</schema>
-    <table>dim_crps</table>
+    <table>dim_intersect_group_crps</table>
     <connection>DES_DB</connection>
     <commit>100</commit>
     <update>Y</update>
     <fields>
       <key>
-        <name>id</name>
-        <lookup>id</lookup>
+        <name>ids_group</name>
+        <lookup>ids_group</lookup>
       </key>
       <date>
         <name/>
@@ -702,32 +540,27 @@
         <to>date_to</to>
       </date>
       <field>
-        <name>global_unit_type_id</name>
-        <lookup>global_unit_type_id</lookup>
+        <name>crp_acr_name_group</name>
+        <lookup>crp_acr_name_group</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>name</name>
-        <lookup>name</lookup>
+        <name>crp_name_group</name>
+        <lookup>crp_name_group</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>acronym</name>
-        <lookup>acronym</lookup>
+        <name>crp_acronym_group</name>
+        <lookup>crp_acronym_group</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>is_active</name>
-        <lookup>is_active</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>global_unit_type</name>
-        <lookup>global_unit_type</lookup>
+        <name>crp_role_name_group</name>
+        <lookup>crp_role_name_group</lookup>
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_crp</name>
+        <name>pk_id_intersect_group_crp</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -737,7 +570,7 @@
     <sequence/>
     <min_year>1900</min_year>
     <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
+    <cache_size>0</cache_size>
     <preload_cache>N</preload_cache>
     <use_start_date_alternative>N</use_start_date_alternative>
     <start_date_alternative>none</start_date_alternative>
@@ -752,13 +585,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>64</yloc>
+      <xloc>656</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>input_crps</name>
+    <name>stg_intersect_group_geo_scopes</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -768,29 +601,13 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>SELECT
-  gu.id
-, gu.global_unit_type_id
-, gu.smo_code
-, gu.name
-, gu.acronym
-, gu.is_active
-, ty.name global_unit_type
-FROM global_units gu
-join global_unit_types ty on gu.global_unit_type_id = ty.id
-where global_unit_type_id in (1,3)
-union all
-SELECT -1, -1, -1, 'Not Provided', 'NP', 1, 'Not Provided'
-from dual
-union all
-SELECT -2, -2, -2, 'Not Applicable', 'NAP', 1, 'Not Applicable'
-from dual
-union all
-SELECT -3, -3, -3, 'Non Mandatory', 'NM', 1, 'Non Mandatory'
-from dual
-
-;
+    <connection>DES_DB</connection>
+    <sql>SELECT crp_acr_name_group
+, crp_name_group
+, crp_acronym_group
+, crp_role_name_group
+, ids_group
+FROM marloBI.stg_intersect_group_crps
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -800,59 +617,13 @@ from dual
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_crps</origin>
-        <comments>id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>global_unit_type_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_crps</origin>
-        <comments>global_unit_type_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>smo_code</name>
-        <length>65535</length>
+        <name>geo_scope_name_group</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>input_crps</origin>
-        <comments>smo_code</comments>
+        <origin>stg_intersect_group_geo_scopes</origin>
+        <comments>geo_scope_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -871,80 +642,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>name</name>
-        <length>65535</length>
+        <name>ids_group</name>
+        <length>200</length>
         <precision>-1</precision>
-        <origin>input_crps</origin>
-        <comments>name</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>acronym</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>input_crps</origin>
-        <comments>acronym</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>is_active</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>input_crps</origin>
-        <comments>is_active</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>global_unit_type</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>input_crps</origin>
-        <comments>global_unit_type</comments>
+        <origin>stg_intersect_group_geo_scopes</origin>
+        <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -970,8 +672,8 @@ from dual
       </output>
     </remotesteps>
     <GUI>
-      <xloc>32</xloc>
-      <yloc>64</yloc>
+      <xloc>208</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
