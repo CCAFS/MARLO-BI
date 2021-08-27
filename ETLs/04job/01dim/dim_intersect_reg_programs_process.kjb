@@ -1037,7 +1037,7 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>stg_br_group_reg_programs</value>
+          <value>br_group_reg_programs</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
