@@ -713,11 +713,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join ccm</from>
-      <to>crps lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>dim_intersect geo_scopes</from>
       <to>dim_intersect milestones</to>
       <enabled>Y</enabled>
@@ -754,6 +749,16 @@
     </hop>
     <hop>
       <from>dim_intersect ccm</from>
+      <to>dim_general_statuses</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge join ccm</from>
+      <to>crps lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dim_general_statuses</from>
       <to>Formula</to>
       <enabled>Y</enabled>
     </hop>
@@ -1238,6 +1243,9 @@
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+      </field>
+      <field>
+        <name>fk_id_general_status</name>
       </field>
       <field>
         <name>updated_date</name>
@@ -1853,6 +1861,54 @@
     <GUI>
       <xloc>432</xloc>
       <yloc>368</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_general_statuses</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>${DES_DBNAME}</schema>
+      <table>dim_general_statuses</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>general_status_id</name>
+        <field>status_id</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pk_id_general_status</name>
+        <rename>fk_id_general_status</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3566,12 +3622,14 @@ where pg.ent_type = 'oicr';
     </partitioning>
     <connection>DES_DB</connection>
     <sql>SELECT
-  id_phase
-, oicr_id
-, global_unit_id
-, rep_ind_stage_study_id
-, year
-FROM marloBI.stg_oicrs_info
+  oi.id_phase
+, oi.oicr_id
+, oi.global_unit_id
+, oi.rep_ind_stage_study_id
+, oi.year
+, ifnull(gs.general_status_id, -1) general_status_id
+FROM stg_oicrs_info oi
+left join stg_general_statuses gs on gs.table_status_id = oi.status and gs.table_name = 'project_expected_study_info' -- Este join es para traer la informacion del id de general status. 
 where oicr_id not in (-1,-2,-3) -- Estos oicrs son solo para manejo de la dimension, no para la fact
 </sql>
     <limit>0</limit>
@@ -3681,6 +3739,29 @@ where oicr_id not in (-1,-2,-3) -- Estos oicrs son solo para manejo de la dimens
         <precision>0</precision>
         <origin>stg_oicrs_info</origin>
         <comments>year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>general_status_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>stg_oicrs_info</origin>
+        <comments>general_status_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

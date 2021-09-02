@@ -10,7 +10,7 @@ CREATE TABLE `pre_fs_fact` (
   `fk_id_intersect_group_inst` bigint DEFAULT NULL,
   `fk_id_intersect_group_loc` bigint DEFAULT NULL,
   `fk_id_intersect_group_geo` bigint DEFAULT NULL,
-  `fk_id_agreement_status` bigint DEFAULT NULL,
+  `fk_id_general_status` bigint DEFAULT NULL,
   `budget_amount` decimal(20,5) DEFAULT NULL,
   `budget_amount_allocated` decimal(20,5) DEFAULT NULL,
   `pending_budget_amount` decimal(20,5) DEFAULT NULL,

@@ -564,7 +564,7 @@
         <name>fk_id_intersect_group_geo</name>
       </field>
       <field>
-        <name>fk_id_agreement_status</name>
+        <name>fk_id_general_status</name>
       </field>
       <field>
         <name>budget_amount</name>
@@ -614,7 +614,7 @@
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
     <table>fact_fs</table>
-    <commit>1000</commit>
+    <commit>5000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -666,7 +666,7 @@
 , fk_id_intersect_group_inst
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
-, fk_id_agreement_status
+, fk_id_general_status
 , budget_amount
 , budget_amount_allocated
 , pending_budget_amount pending_budget_amount_allocated
@@ -892,11 +892,11 @@ FROM marloBI.pre_fs_fact
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>fk_id_agreement_status</name>
+        <name>fk_id_general_status</name>
         <length>15</length>
         <precision>0</precision>
         <origin>input_pre_fs_fact</origin>
-        <comments>fk_id_agreement_status</comments>
+        <comments>fk_id_general_status</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

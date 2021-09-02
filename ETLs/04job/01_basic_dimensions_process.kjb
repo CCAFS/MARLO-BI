@@ -608,13 +608,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_fs_agreement_statuses</name>
+      <name>dim_general_statuses</name>
       <description/>
       <type>JOB</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/01dim/dim_fs_agreement_statuses_process.kjb</filename>
+      <filename>${Internal.Entry.Current.Directory}/01dim/dim_general_statuses_process.kjb</filename>
       <jobname/>
       <directory/>
       <arg_from_previous>N</arg_from_previous>
@@ -1314,7 +1314,7 @@
     </hop>
     <hop>
       <from>dim_locations</from>
-      <to>dim_fs_agreement_statuses</to>
+      <to>dim_general_statuses</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1322,7 +1322,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>dim_fs_agreement_statuses</from>
+      <from>dim_general_statuses</from>
       <to>dim_srf_cci</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

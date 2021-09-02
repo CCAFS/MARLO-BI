@@ -628,6 +628,10 @@
         <rename/>
       </field>
       <field>
+        <name>fk_id_general_status</name>
+        <rename/>
+      </field>
+      <field>
         <name>indicator_quantity</name>
         <rename/>
       </field>
@@ -731,6 +735,10 @@
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_general_status</name>
         <rename/>
       </field>
       <field>
@@ -840,6 +848,10 @@
         <rename/>
       </field>
       <field>
+        <name>fk_id_general_status</name>
+        <rename/>
+      </field>
+      <field>
         <name>indicator_quantity</name>
         <rename/>
       </field>
@@ -943,6 +955,10 @@
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_general_status</name>
         <rename/>
       </field>
       <field>
@@ -1052,6 +1068,10 @@
         <rename/>
       </field>
       <field>
+        <name>fk_id_general_status</name>
+        <rename/>
+      </field>
+      <field>
         <name>indicator_quantity</name>
         <rename/>
       </field>
@@ -1158,6 +1178,10 @@
         <rename/>
       </field>
       <field>
+        <name>fk_id_general_status</name>
+        <rename/>
+      </field>
+      <field>
         <name>indicator_quantity</name>
         <rename/>
       </field>
@@ -1237,6 +1261,7 @@
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , 0 fk_id_intersect_group_ccm
+, fk_id_general_status
 , count(distinct fk_id_fs_info) indicator_quantity
 , sum(budget_amount) indicator_value
 FROM marloBI.fact_fs
@@ -1248,6 +1273,7 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , fk_id_intersect_group_ccm
+, fk_id_general_status
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -1466,6 +1492,29 @@ group by   fk_id_crp
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_fs</origin>
+        <comments>fk_id_general_status</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
         <name>indicator_quantity</name>
         <length>15</length>
         <precision>0</precision>
@@ -1548,10 +1597,12 @@ group by   fk_id_crp
 , inno.fk_id_intersect_group_loc
 , inno.fk_id_intersect_group_geo
 , ccm.pk_id_intersect_group_ccm fk_id_intersect_group_ccm
+, pk_id_general_status fk_id_general_status
 , sum(inno.number_of_innovations) indicator_quantity
 , sum(0) indicator_value
 FROM marloBI.fact_innovations inno
 join marloBI.dim_intersect_group_ccm ccm on ids_group = '-1;-1'
+join marloBI.dim_general_statuses gs on gs.status_id = -2
 group by   fk_id_crp
 , inno.fk_id_year
 , inno.fk_id_innovation_info 
@@ -1778,6 +1829,29 @@ group by   fk_id_crp
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>fk_id_general_status</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>BigNumber</type>
         <storagetype>normal</storagetype>
         <name>indicator_quantity</name>
@@ -1862,6 +1936,7 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , ccm.pk_id_intersect_group_ccm fk_id_intersect_group_ccm
+, fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
 FROM marloBI.fact_melias mel
@@ -1878,6 +1953,7 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , pk_id_intersect_group_ccm
+, fk_id_general_status
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -2094,6 +2170,29 @@ group by   fk_id_crp
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_melias</origin>
+        <comments>fk_id_general_status</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>BigNumber</type>
         <storagetype>normal</storagetype>
         <name>indicator_quantity</name>
@@ -2178,6 +2277,7 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , fk_id_intersect_group_ccm
+, fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
 FROM marloBI.fact_oicrs
@@ -2191,6 +2291,7 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , fk_id_intersect_group_ccm
+, fk_id_general_status
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -2407,6 +2508,29 @@ group by   fk_id_crp
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>fk_id_general_status</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>BigNumber</type>
         <storagetype>normal</storagetype>
         <name>indicator_quantity</name>
@@ -2491,9 +2615,11 @@ group by   fk_id_crp
 , fk_id_intersect_group_loc
 , fk_id_intersect_group_geo
 , fk_id_intersect_group_ccm
+, pk_id_general_status fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
-FROM marloBI.fact_policies
+FROM marloBI.fact_policies fp
+join marloBI.dim_general_statuses gs on gs.status_id = -2
 group by   fk_id_crp
 , fk_id_year
 , fk_id_policy_info 
@@ -2720,6 +2846,29 @@ group by   fk_id_crp
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_policies</origin>
+        <comments>fk_id_general_status</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
         <type>BigNumber</type>
         <storagetype>normal</storagetype>
         <name>indicator_quantity</name>
@@ -2802,10 +2951,12 @@ group by   fk_id_crp
 , ffs.fk_id_intersect_group_loc
 , ffs.fk_id_intersect_group_geo
 , 0 fk_id_intersect_group_ccm
+, pk_id_general_status fk_id_general_status
 , 0 indicator_quantity
 , sum(amount) indicator_value
 FROM marloBI.fact_project_budgets prb
 join marloBI.fact_fs ffs on ffs.fk_id_fs_info = prb.fk_id_fs_info and ffs.fk_id_year = prb.fk_id_year and ffs.fk_id_crp = prb.fk_id_crp
+join marloBI.dim_general_statuses gs on gs.status_id = -2
 group by   prb.fk_id_crp
 , prb.fk_id_year
 , prb.fk_id_fs_info 
@@ -3014,6 +3165,29 @@ group by   prb.fk_id_crp
         <precision>0</precision>
         <origin>input_fact_project_budgets</origin>
         <comments>fk_id_intersect_group_ccm</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_fact_project_budgets</origin>
+        <comments>fk_id_general_status</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

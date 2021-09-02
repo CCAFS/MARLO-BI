@@ -12,6 +12,7 @@ CREATE TABLE pre_melias_fact
 , `fk_id_intersect_group_loc` BIGINT
 , `fk_id_intersect_group_geo` BIGINT
 , `fk_id_intersect_group_proj` BIGINT
+, `fk_id_general_status` BIGINT
 , `updated_date` DATETIME
 , `quantity` bigint
 ) ENGINE=InnoDB CHARSET=utf8mb4

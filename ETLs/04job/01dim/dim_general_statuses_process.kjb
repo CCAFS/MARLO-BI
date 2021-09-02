@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>dim_fs_agreement_statuses</name>
+  <name>dim_general_statuses</name>
   <description/>
-  <extended_description>Job for Funding source statuses or Budget statuses dimension
+  <extended_description>Job for General statuses dimension.
+this dimension works for:
+oicrs
+melias
+funding sources
+deliverables
+projects
 </extended_description>
   <job_version/>
   <job_status>0</job_status>
@@ -350,13 +356,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>dim_fs_agreement_statuses</name>
+      <name>dim_general_statuses</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_fs_agreement_statuses.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_general_statuses.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -384,7 +390,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
+      <xloc>704</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -396,7 +402,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>800</xloc>
+      <xloc>1152</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -439,13 +445,13 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>dim_fs_agreement_statuses</value>
+          <value>dim_general_statuses</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
+      <xloc>272</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -488,24 +494,24 @@
         <parameter>
           <name>P_LOG_PROCESS</name>
           <stream_name/>
-          <value>dim_fs_agreement_statuses</value>
+          <value>dim_general_statuses</value>
         </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
+      <xloc>928</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>init_variable_phase</name>
+      <name>stg_general_statuses</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI_phase_fs.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_general_statuses.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -533,7 +539,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>224</xloc>
+      <xloc>448</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -549,16 +555,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>save_to_log ETL START</from>
-      <to>dim_fs_agreement_statuses</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>dim_fs_agreement_statuses</from>
+      <from>dim_general_statuses</from>
       <to>save_to_log Outcome end</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -577,7 +574,7 @@
     </hop>
     <hop>
       <from>init_variables</from>
-      <to>init_variable_phase</to>
+      <to>save_to_log ETL START</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -585,8 +582,17 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>init_variable_phase</from>
-      <to>save_to_log ETL START</to>
+      <from>save_to_log ETL START</from>
+      <to>stg_general_statuses</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>stg_general_statuses</from>
+      <to>dim_general_statuses</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

@@ -537,51 +537,71 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_stg_maturities</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_oicr_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srftar</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_flag</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_proj</name>
+        <rename/>
+      </field>
+      <field>
+        <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>updated_date</name>
+        <rename/>
       </field>
       <field>
         <name>quantity</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -670,6 +690,7 @@
 , fk_id_intersect_group_flag
 , fk_id_intersect_group_ccm
 , fk_id_intersect_group_proj
+, fk_id_general_status
 , updated_date
 , 1 quantity
 FROM pre_oicrs_fact
@@ -988,6 +1009,29 @@ FROM pre_oicrs_fact
         <precision>0</precision>
         <origin>input_pre_oicr_fact</origin>
         <comments>fk_id_intersect_group_proj</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>fk_id_general_status</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_pre_oicr_fact</origin>
+        <comments>fk_id_general_status</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
