@@ -1546,7 +1546,7 @@ from dual
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema/>
+    <schema>${DES_DBNAME}</schema>
     <table>stg_deliverables_info</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
