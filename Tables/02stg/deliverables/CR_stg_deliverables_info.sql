@@ -6,9 +6,9 @@ CREATE TABLE `stg_deliverables_info` (
   `deliverable_id` bigint(20) DEFAULT NULL,
   `project_id` bigint(20) DEFAULT NULL,
   `subcategory_type_id` bigint(20) DEFAULT NULL,
-  `subcatogory_type_name` varchar(255) ,
+  `subcategory_type_name` varchar(255) ,
   `category_type_id` bigint(20) DEFAULT NULL, 
-  `categroy_type_name` varchar(255),
+  `category_type_name` varchar(255),
   `title` text,
   `description` text,
   `dissemination_URL` text,
@@ -22,5 +22,9 @@ CREATE TABLE `stg_deliverables_info` (
   `metadata_title` text,
   `DOI` text,
   `Handle` text,
-  `Citation` text
+  `Citation` text,
+  `key_output_name` text,
+  `coa_key_output_name` text,
+  `coa_id` varchar(20),
+  `coa_description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -601,69 +601,107 @@
     <fields>
       <field>
         <name>id_phase</name>
+        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
+        <rename/>
       </field>
       <field>
         <name>deliverable_id</name>
+        <rename/>
       </field>
       <field>
         <name>project_id</name>
+        <rename/>
       </field>
       <field>
         <name>subcategory_type_id</name>
+        <rename/>
       </field>
       <field>
-        <name>subcatogory_type_name</name>
+        <name>subcategory_type_name</name>
+        <rename/>
       </field>
       <field>
         <name>category_type_id</name>
+        <rename/>
       </field>
       <field>
-        <name>categroy_type_name</name>
+        <name>category_type_name</name>
+        <rename/>
       </field>
       <field>
         <name>title</name>
+        <rename/>
       </field>
       <field>
         <name>description</name>
+        <rename/>
       </field>
       <field>
         <name>dissemination_URL</name>
+        <rename/>
       </field>
       <field>
         <name>deliverable_group</name>
+        <rename/>
       </field>
       <field>
         <name>journal</name>
+        <rename/>
       </field>
       <field>
         <name>volume</name>
+        <rename/>
       </field>
       <field>
         <name>issue</name>
+        <rename/>
       </field>
       <field>
         <name>pages</name>
+        <rename/>
       </field>
       <field>
         <name>is_ISI_journal</name>
+        <rename/>
       </field>
       <field>
         <name>is_open_access</name>
+        <rename/>
       </field>
       <field>
         <name>metadata_title</name>
+        <rename/>
       </field>
       <field>
         <name>DOI</name>
+        <rename/>
       </field>
       <field>
         <name>Handle</name>
+        <rename/>
       </field>
       <field>
         <name>Citation</name>
+        <rename/>
+      </field>
+      <field>
+        <name>key_output_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>coa_key_output_name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>coa_id</name>
+        <rename/>
+      </field>
+      <field>
+        <name>coa_description</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -735,12 +773,14 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>SELECT 	
+    <sql>-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
+SELECT 	
+ifnull(devi.new_expected_year, devi.year) delivery_year,
 devi.id_phase,
 ph.global_unit_id,
 devi.deliverable_id, dev.project_id,
-devi.type_id subcategory_type_id, dt.`name` subcatogory_type_name,
-dt.parent_id category_type_id, cat.name categroy_type_name,
+devi.type_id subcategory_type_id, ifnull(dt.name,'Not Defined') subcategory_type_name,
+dt.parent_id category_type_id, cat.name category_type_name,
 devi.title, devi.description,dis.dissemination_URL,
 ifnull(dg.deliverable_group,devi.deliverable_id) deliverable_group,
 pm.journal,
@@ -751,23 +791,79 @@ pm.isi_publication is_ISI_journal,
 dis.is_open_access,
 get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
 get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.doi') as 'DOI',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.handle') as 'Handle',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.identifier.citation') as 'Citation'
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.handle') as 'handle',
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.identifier.citation') as 'citation',
+ifnull(kout.key_output, if(pin.administrative = 1,'Not Applicable','Not Defined')) as 'key_output_name'
+, ifnull(concat(ifnull(concat(coa.identifier, ' - '), '') , kout.key_output), if(pin.administrative = 1,'Not Applicable','Not Defined')) as 'coa_key_output_name'
+,if(pin.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) as 'coa_id'
+,if(pin.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) as 'coa_description'
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+inner join projects pr on pr.id = dev.project_id
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
 left JOIN deliverable_types dt ON dt.id = devi.type_id
 left join deliverable_types cat on dt.parent_id = cat.id
 LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = devi.deliverable_id and dis.id_phase = devi.id_phase
 left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
 left join deliverables_groups dg on dg.deliverable_id = devi.deliverable_id and dg.id_phase=devi.id_phase
+-- new tables
+LEFT JOIN crp_cluster_key_outputs kout on kout.id = devi.key_output_id 
+left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id -- and coa.id_phase = devi.id_phase
 WHERE dev.is_active
+and  pr.is_active
+and  pin.is_active
 and  ph.name = pbc.phase_name --  'AR'
 AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
 -- AND ph.year between ${START_YEAR} and ${END_YEAR}  
 union all
 SELECT 	
+-- the deliverables with project_id is null will be from the phase where reported.
+ifnull(devi.new_expected_year, devi.year) delivery_year,
+devi.id_phase,
+ph.global_unit_id,
+devi.deliverable_id, dev.project_id,
+devi.type_id subcategory_type_id, ifnull(dt.name,'Not Defined') subcategory_type_name,
+dt.parent_id category_type_id, cat.name category_type_name,
+devi.title, devi.description,dis.dissemination_URL,
+ifnull(dg.deliverable_group,devi.deliverable_id) deliverable_group,
+pm.journal,
+pm.volume,
+pm.issue,
+pm.pages,
+pm.isi_publication is_ISI_journal,
+dis.is_open_access,
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.doi') as 'DOI',
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.handle') as 'handle',
+get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.identifier.citation') as 'citation',
+ifnull(kout.key_output, 'Not Defined') as 'key_output_name'
+, ifnull(concat(ifnull(concat(coa.identifier, ' - '), '') , kout.key_output), 'Not Defined') as 'coa_key_output_name'
+,ifnull(coa.identifier,'Not Defined') as 'coa_id'
+,ifnull(coa.description ,'Not Defined') as 'coa_description'
+FROM  deliverables dev
+inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active 
+inner join phases ph on ph.id = devi.id_phase
+-- inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+left JOIN deliverable_types dt ON dt.id = devi.type_id
+left join deliverable_types cat on dt.parent_id = cat.id
+LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = devi.deliverable_id and dis.id_phase = devi.id_phase
+left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
+left join deliverables_groups dg on dg.deliverable_id = devi.deliverable_id and dg.id_phase=devi.id_phase
+-- new tables
+LEFT JOIN crp_cluster_key_outputs kout on kout.id = devi.key_output_id 
+left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id and coa.id_phase = devi.id_phase
+WHERE dev.is_active
+and dev.project_id is null 
+-- and  ph.name = pbc.phase_name --  'AR'
+-- AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
+and ph.year = ifnull(devi.new_expected_year, devi.year)
+-- and devi.title is not null
+and length(trim(devi.title)) > 0
+union all
+SELECT 	
+-1 deliverable_year,
 -1 id_phase,
 -1  global_unit_id,
 -3 deliverable_id, 
@@ -784,10 +880,16 @@ null project_id,
 0 is_open_access,
 'Non Mandatory' as 'metadata_title',
 'Non Mandatory' as 'DOI',
-'Non Mandatory' as 'Handle',
-'Non Mandatory' as 'Citation'
+'Non Mandatory' as 'handle',
+'Non Mandatory' as 'citation',
+'Not Applicable' as 'key_output_name'
+, 'Non Mandatory' as 'coa_key_output_name'
+, 'Non Mandatory' as 'coa_id'
+, 'Non Mandatory' as 'coa_description'
 from dual
 ;
+
+
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -796,6 +898,29 @@ from dual
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>delivery_year</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverables_info</origin>
+        <comments>delivery_year</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
@@ -914,11 +1039,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>subcatogory_type_name</name>
+        <name>subcategory_type_name</name>
         <length>255</length>
         <precision>-1</precision>
         <origin>deliverables_info</origin>
-        <comments>subcatogory_type_name</comments>
+        <comments>subcategory_type_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -960,11 +1085,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>categroy_type_name</name>
+        <name>category_type_name</name>
         <length>255</length>
         <precision>-1</precision>
         <origin>deliverables_info</origin>
-        <comments>categroy_type_name</comments>
+        <comments>category_type_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1259,11 +1384,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>Handle</name>
+        <name>handle</name>
         <length>21845</length>
         <precision>-1</precision>
         <origin>deliverables_info</origin>
-        <comments>Handle</comments>
+        <comments>handle</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1282,11 +1407,103 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>Citation</name>
+        <name>citation</name>
         <length>21845</length>
         <precision>-1</precision>
         <origin>deliverables_info</origin>
-        <comments>Citation</comments>
+        <comments>citation</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>key_output_name</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverables_info</origin>
+        <comments>key_output_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>coa_key_output_name</name>
+        <length>65558</length>
+        <precision>-1</precision>
+        <origin>deliverables_info</origin>
+        <comments>coa_key_output_name</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>coa_id</name>
+        <length>20</length>
+        <precision>-1</precision>
+        <origin>deliverables_info</origin>
+        <comments>coa_id</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>coa_description</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverables_info</origin>
+        <comments>coa_description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
