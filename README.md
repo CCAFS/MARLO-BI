@@ -3,17 +3,17 @@ MARLO BI module is a set of Dashboards created to help users to analyze their in
 
 The Cubes created to analyze information are:
 
-Funding Sources
+- Funding Sources
 
-OICRs
+- OICRs
 
-MELIAs
+- MELIAs
 
-Innovations
+- Innovations
 
-Policies
+- Policies
 
-Summary Indicators
+- Summary Indicators
 
 Also there are some tables created to provided information about:
 Project Status
@@ -35,17 +35,17 @@ The structure is divided in three folders:
 
 ETLs folder is divided in the following sub-folders:
 
-01dim: 
+- 01dim: 
 
-02stg:
+- 02stg:
 
-03fact:
+- 03fact:
 
-04job:
+- 04job:
 
-05misc:
+- 05misc:
 
-config:
+- config:
 
 **Tables Folder Structure:**
 
@@ -53,22 +53,22 @@ config:
 
 Tables folder has the folowing sub-folders:
 
-01dim: This folder contains the scripts used to create dimension tables: basic dimension, info dimension an intersect dimension tables
+- 01dim: This folder contains the scripts used to create dimension tables: basic dimension, info dimension an intersect dimension tables
 
-02stg: This folder is used to store the scripts for staging tables. There are the following sub-folders in there:
+- 02stg: This folder is used to store the scripts for staging tables. There are the following sub-folders in there:
 
 ![image](https://user-images.githubusercontent.com/74072431/133153557-7e268a1d-8fae-4074-9953-2e4eaab034c6.png)
 
-gendim sub-folder has the scripts about the **staging tables** for: basic dimensions and intersect dimension processes
+  - gendim sub-folder has the scripts about the **staging tables** for: basic dimensions and intersect dimension processes
 
-deliverables, funding_sources, innovations, melias, oicrs, policies and projects have the **staging tables** for the info dimension process
+  - deliverables, funding_sources, innovations, melias, oicrs, policies and projects have the **staging tables** for the info dimension process
 
-**Note:** deliverables folder has the staging tables for the existent deliverable table used for Deliverables Dashboard. Those tables will be replaced once the deliverables cube have been released.
+  **Note:** deliverables folder has the staging tables for the existent deliverable table used for Deliverables Dashboard. Those tables will be replaced once the deliverables cube have been released.
 
 
-03fact:This folder has the scripts for the fact tables
+- 03fact:This folder has the scripts for the fact tables
 
-04misc: 
+- 04misc: 
 
 
 
