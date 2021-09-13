@@ -28,6 +28,9 @@ ETLs folder is divided in the following sub-folders:
 
 config:
 
+**Tables Folder Structure:**
+
+![image](https://user-images.githubusercontent.com/74072431/133155067-d73ad0f9-c87f-44db-974f-f49a2ac94aa5.png)
 
 Tables folder has the folowing sub-folders:
 
