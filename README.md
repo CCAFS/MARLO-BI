@@ -2,11 +2,17 @@
 MARLO BI module is a set of Dashboards created to help users to analyze their information registered in MARLO. 
 
 The Cubes created to analyze information are:
+
 Funding Sources
+
 OICRs
+
 MELIAs
+
 Innovations
+
 Policies
+
 Summary Indicators
 
 Also there are some tables created to provided information about:
