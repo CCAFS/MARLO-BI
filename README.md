@@ -88,6 +88,22 @@ Tables folder has the folowing sub-folders:
 
 # MARLO-BI How to execute the process
 
+The process is executed using pentaho jobs and pentaho software: Pehtaho data integrator desktop or kitchen in command line mode.
+
+The whole process use the crp_BI_process.kjb
+
+![image](https://user-images.githubusercontent.com/74072431/133279667-156a202c-89e0-4641-b8f2-63dc0ed85dd9.png)
+
+this job is in the folder:
+MARLO-BI\ETLs\04job
+
+In doppler server there is a shell file to execute the process using command line kitchen program: **create_crp_BI.sh**
+
+located in **/home/doppler_admin/batchs/BI** folder /home/doppler_admin/batchs/BI
+
+
+
+
 
 
 
