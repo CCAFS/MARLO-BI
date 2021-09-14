@@ -37,7 +37,16 @@ ETLs folder is divided in the following sub-folders:
 
 - 01dim: In this folder, you could find the pentaho transformations for dimensions: basic dimension, info dimensions and intersect dimensions. Info dimensions are all the dimension related to the fact, for example: dim_oicrs_info, dim_melias_info, dim_fs_info, and so on.
 
-- 02stg: This folder contains the pentaho transformations related to staging tables. These transformations are intermediate ETLs and they participate in dimension and fact table  process
+- 02stg: This folder contains the pentaho transformations related to staging tables. These transformations are intermediate ETLs and they participate in dimension and fact table  process. There are in there, the folowing sub-folders:
+
+  - Deliverables, funding_sources, innovations, melias, milestone_status, milestones, oicrs, policies and projects: Transformations for specific dimension or table
+  
+  - generic: the transformatios for all staging tables related with generic dimensions
+  
+  - alliance: in this folder there are the transformations related to the Alliance CRIs.
+
+   ![image](https://user-images.githubusercontent.com/74072431/133302171-ed2bac68-6366-4d05-88a1-27b7940d4dc4.png)
+
 
 - 03fact: The folder has the pentaho transformations for the fact tables processes.
 
@@ -70,13 +79,13 @@ Tables folder has the folowing sub-folders:
 
 - 01dim: This folder contains the sql scripts used to create dimension tables: basic dimension, info dimension an intersect dimension tables
 
-- 02stg: This folder is used to store the creation sql scripts for staging tables. There are the following sub-folders in there:
+- 02stg: This folder is used to store the sql creation  scripts for staging tables. There are the following sub-folders in there:
 
-![image](https://user-images.githubusercontent.com/74072431/133153557-7e268a1d-8fae-4074-9953-2e4eaab034c6.png)
+  - deliverables, funding_sources, innovations, melias, oicrs, policies and projects have the **staging tables** sql scripts for the staging info dimension tables
 
-    - gendim sub-folder has the sql scripts about the **staging tables** for: basic dimensions and intersect dimension processes
-
-    - deliverables, funding_sources, innovations, melias, oicrs, policies and projects have the **staging tables** sql scripts for the staging info dimension tables
+  - gendim sub-folder has the sql scripts about the **staging tables** for: basic dimensions and intersect dimensions.
+  
+  ![image](https://user-images.githubusercontent.com/74072431/133153557-7e268a1d-8fae-4074-9953-2e4eaab034c6.png)
 
   **Note:** deliverables folder has the staging tables for the existent deliverable table used for Deliverables Dashboard. Those tables will be replaced once the deliverables cube have been released.
 
