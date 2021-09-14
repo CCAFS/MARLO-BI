@@ -47,14 +47,15 @@ ETLs folder is divided in the following sub-folders:
    
   The folder has a few pentaho jobs that are the principal jobs to execute the process:
   
-            - crp_BI_process.kjb: Executes the whole process. This pentaho job calls the following pentaho jobs:
-                        - 01_basic_dimensions_process.kjb: This job executes all the transformations related to basic dimensions
+    - crp_BI_process.kjb: Executes the whole process. This pentaho job calls the following pentaho jobs:
+    
+      - 01_basic_dimensions_process.kjb: This job executes all the transformations related to basic dimensions
+      
+      - 02_info_dimensions_process.kjb: This job executes all the transformations related to info dimensions (i.e. dim_oicrs_info, dim_melias_info, etc)
+      
+      - 03_intersect_dimensions_process.kjb: This job executes all the transformations related to the intersect dimensions. Intersect dimensions have been created to deal with the many to many relationships between the fact tables and the dimensions.
                         
-                        - 02_info_dimensions_process.kjb: This job executes all the transformations related to info dimensions (i.e. dim_oicrs_info, dim_melias_info, etc)
-                        
-                        - 03_intersect_dimensions_process.kjb: This job executes all the transformations related to the intersect dimensions. Intersect dimensions have been created to deal with the many to many relationships between the fact tables and the dimensions.
-                        
-                        - facts_process.kjb: This job executes the transformations to the fact tables process.
+      - facts_process.kjb: This job executes the transformations to the fact tables process.
           
 
 - 05misc:
