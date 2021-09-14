@@ -58,9 +58,9 @@ ETLs folder is divided in the following sub-folders:
       - facts_process.kjb: This job executes the transformations to the fact tables process.
           
 
-- 05misc:
+- 05misc: This folder has transformations for result dashboard process that could be useful in the MARLO-BI process
 
-- config:
+- config: This folder contains csv files for year, iso_alpha3 and general statuses. Also has the transformation to set the phase, which is used in some jobs.
 
 **Tables Folder Structure:**
 
@@ -83,7 +83,11 @@ Tables folder has the folowing sub-folders:
 
 - 03fact:This folder has the scripts for the fact tables
 
-- 04misc: 
+- 04misc: Inside this folder you could find the scripts to create process_log table and bi_phase_by_cubes table. bi_phase_by_cubes is created in the source schema to join the source tables.
+
+
+# MARLO-BI How to execute the process
+
 
 
 
