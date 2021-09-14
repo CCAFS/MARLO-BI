@@ -35,13 +35,15 @@ The structure is divided in three folders:
 
 ETLs folder is divided in the following sub-folders:
 
-- 01dim: 
+- 01dim: In this folder, you could find the pentaho transformations for dimensions: basic dimension, info dimensions and intersect dimensions. Info dimensions are all the dimension related to the fact, for example: dim_oicrs_info, dim_melias_info, dim_fs_info, and so on.
 
-- 02stg:
+- 02stg: This folder contains the pentaho transformations related to staging tables. These transformations are intermediate ETLs and they participate in dimension and fact table  process
 
-- 03fact:
+- 03fact: The folder has the pentaho transformations for the fact tables processes.
 
-- 04job:
+- 04job: In this folder could be found the pentaho jobs that execute the ETL processes. This folder has the following sub-folders:
+
+
 
 - 05misc:
 
