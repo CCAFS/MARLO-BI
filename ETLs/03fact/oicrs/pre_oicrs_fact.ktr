@@ -538,13 +538,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_group_locations</from>
-      <to>Sort_br_fs_group_locations</to>
+      <from>stg_pre_group_locations</from>
+      <to>Sort_pre_group_locations</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_group_institutions</from>
-      <to>Sort_br_group_institutions</to>
+      <from>stg_pre_group_institutions</from>
+      <to>Sort_pre_group_institutions</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -553,7 +553,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_fs_group_locations</from>
+      <from>Sort_pre_group_locations</from>
       <to>Merge join_loc</to>
       <enabled>Y</enabled>
     </hop>
@@ -563,7 +563,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_institutions</from>
+      <from>Sort_pre_group_institutions</from>
       <to>Merge join inst</to>
       <enabled>Y</enabled>
     </hop>
@@ -578,8 +578,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_group_geo_scopes</from>
-      <to>Sort_br_group_geo_scopes</to>
+      <from>stg_pre_group_geo_scopes</from>
+      <to>Sort_pre_group_geo_scopes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -588,7 +588,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_geo_scopes</from>
+      <from>Sort_pre_group_geo_scopes</from>
       <to>Merge join geo</to>
       <enabled>Y</enabled>
     </hop>
@@ -608,12 +608,12 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_milestones</from>
-      <to>Sort_br_group_mile</to>
+      <from>stg_pre_group_milestones</from>
+      <to>Sort_pre_group_mile</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_mile</from>
+      <from>Sort_pre_group_mile</from>
       <to>Merge join mile</to>
       <enabled>Y</enabled>
     </hop>
@@ -623,8 +623,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_srftar</from>
-      <to>Sort_br_group_srftar</to>
+      <from>stg_pre_group_srftar</from>
+      <to>Sort_pre_group_srftar</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -633,13 +633,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_srftar</from>
+      <from>Sort_pre_group_srftar</from>
       <to>Merge join srftar</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_srf_cci</from>
-      <to>Sort_br_group_srf_cci</to>
+      <from>stg_pre_group_srf_cci</from>
+      <to>Sort_pre_group_srf_cci</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -648,13 +648,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_srf_cci</from>
+      <from>Sort_pre_group_srf_cci</from>
       <to>Merge join srf_cci</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_sdg</from>
-      <to>Sort_br_group_sdg</to>
+      <from>stg_pre_group_sdg</from>
+      <to>Sort_pre_group_sdg</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -663,13 +663,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_sdg</from>
+      <from>Sort_pre_group_sdg</from>
       <to>Merge join sdg</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_flag</from>
-      <to>Sort_br_group_flag</to>
+      <from>stg_pre_group_flag</from>
+      <to>Sort_pre_group_flag</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -678,13 +678,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_flag</from>
+      <from>Sort_pre_group_flag</from>
       <to>Merge join flag</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_proj</from>
-      <to>Sort_br_group_proj</to>
+      <from>stg_pre_group_proj</from>
+      <to>Sort_pre_group_proj</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -693,17 +693,17 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_proj</from>
+      <from>Sort_pre_group_proj</from>
       <to>Merge join proj</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_br_fs_group_ccm</from>
-      <to>Sort_br_group_ccm</to>
+      <from>stg_pre_group_ccm</from>
+      <to>Sort_pre_group_ccm</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort_br_group_ccm</from>
+      <from>Sort_pre_group_ccm</from>
       <to>Merge join ccm</to>
       <enabled>Y</enabled>
     </hop>
@@ -809,7 +809,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join proj</step1>
-    <step2>Sort_br_group_ccm</step2>
+    <step2>Sort_pre_group_ccm</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -845,7 +845,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join sdg</step1>
-    <step2>Sort_br_group_flag</step2>
+    <step2>Sort_pre_group_flag</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -881,7 +881,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join inst</step1>
-    <step2>Sort_br_group_geo_scopes</step2>
+    <step2>Sort_pre_group_geo_scopes</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -917,7 +917,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join_loc</step1>
-    <step2>Sort_br_group_institutions</step2>
+    <step2>Sort_pre_group_institutions</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -953,7 +953,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join geo</step1>
-    <step2>Sort_br_group_mile</step2>
+    <step2>Sort_pre_group_mile</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -989,7 +989,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join flag</step1>
-    <step2>Sort_br_group_proj</step2>
+    <step2>Sort_pre_group_proj</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -1025,7 +1025,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join srf_cci</step1>
-    <step2>Sort_br_group_sdg</step2>
+    <step2>Sort_pre_group_sdg</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -1061,7 +1061,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join srftar</step1>
-    <step2>Sort_br_group_srf_cci</step2>
+    <step2>Sort_pre_group_srf_cci</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -1097,7 +1097,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Merge join mile</step1>
-    <step2>Sort_br_group_srftar</step2>
+    <step2>Sort_pre_group_srftar</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -1133,7 +1133,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Sort_stg_oicrs_info</step1>
-    <step2>Sort_br_fs_group_locations</step2>
+    <step2>Sort_pre_group_locations</step2>
     <keys_1>
       <key>oicr_id</key>
       <key>id_phase</key>
@@ -1267,7 +1267,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_fs_group_locations</name>
+    <name>Sort_pre_group_locations</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1317,7 +1317,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_ccm</name>
+    <name>Sort_pre_group_ccm</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1367,7 +1367,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_flag</name>
+    <name>Sort_pre_group_flag</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1417,7 +1417,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_geo_scopes</name>
+    <name>Sort_pre_group_geo_scopes</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1467,7 +1467,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_institutions</name>
+    <name>Sort_pre_group_institutions</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1517,7 +1517,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_mile</name>
+    <name>Sort_pre_group_mile</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1567,7 +1567,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_proj</name>
+    <name>Sort_pre_group_proj</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1617,7 +1617,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_sdg</name>
+    <name>Sort_pre_group_sdg</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1667,7 +1667,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_srf_cci</name>
+    <name>Sort_pre_group_srf_cci</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1717,7 +1717,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort_br_group_srftar</name>
+    <name>Sort_pre_group_srftar</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2539,7 +2539,7 @@
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_ccm</name>
+    <name>stg_pre_group_ccm</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -2567,7 +2567,7 @@ where pg.ent_type = 'oicr';
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_fs_group_proj 2</origin>
+        <origin>stg_br_fs_group_ccm</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -2590,7 +2590,7 @@ where pg.ent_type = 'oicr';
         <name>oicr_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_fs_group_proj 2</origin>
+        <origin>stg_br_fs_group_ccm</origin>
         <comments>oicr_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -2613,7 +2613,7 @@ where pg.ent_type = 'oicr';
         <name>ids_group_ccm</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>stg_br_fs_group_proj 2</origin>
+        <origin>stg_br_fs_group_ccm</origin>
         <comments>ids_group_ccm</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2646,7 +2646,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_flag</name>
+    <name>stg_pre_group_flag</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -2753,7 +2753,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_milestones</name>
+    <name>stg_pre_group_milestones</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -2860,7 +2860,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_proj</name>
+    <name>stg_pre_group_proj</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -2967,7 +2967,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_sdg</name>
+    <name>stg_pre_group_sdg</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -2995,7 +2995,7 @@ where pg.ent_type = 'oicr';
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_fs_group_srf_cci 2</origin>
+        <origin>stg_br_fs_group_sdg</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -3018,7 +3018,7 @@ where pg.ent_type = 'oicr';
         <name>oicr_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_br_fs_group_srf_cci 2</origin>
+        <origin>stg_br_fs_group_sdg</origin>
         <comments>oicr_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -3041,7 +3041,7 @@ where pg.ent_type = 'oicr';
         <name>ids_group_sdg</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>stg_br_fs_group_srf_cci 2</origin>
+        <origin>stg_br_fs_group_sdg</origin>
         <comments>ids_group_sdg</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -3074,7 +3074,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_srf_cci</name>
+    <name>stg_pre_group_srf_cci</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -3181,7 +3181,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_fs_group_srftar</name>
+    <name>stg_pre_group_srftar</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -3288,7 +3288,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_group_geo_scopes</name>
+    <name>stg_pre_group_geo_scopes</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -3395,7 +3395,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_group_institutions</name>
+    <name>stg_pre_group_institutions</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
@@ -3502,7 +3502,7 @@ where pg.ent_type = 'oicr';
     </GUI>
   </step>
   <step>
-    <name>stg_br_group_locations</name>
+    <name>stg_pre_group_locations</name>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>

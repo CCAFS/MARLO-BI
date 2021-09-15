@@ -810,6 +810,10 @@
         <source_value>4</source_value>
         <target_value>Lead</target_value>
       </field>
+      <field>
+        <source_value>5</source_value>
+        <target_value>Responsible</target_value>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
