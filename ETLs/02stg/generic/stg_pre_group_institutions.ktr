@@ -675,6 +675,7 @@ ifnull(group_concat(distinct if(gs.role_id = 1, nullif(trim(gs.acronym),""), nul
 'Not Applicable' lead_institution_name_group,
 'Not Applicable' lead_institution_acr_name_group,
 'Not Applicable' lead_acronym_group
+-- 20210917 CC the field responsible is missing It has to be created in the tables related to institution intersect dimensions
 from(
 	select del.id ent_id,
 	'deliverable' ent_type,
@@ -682,8 +683,8 @@ from(
 	sins.institution_id,
 	ins.name,
 	ins.acronym,
-	if(max(sins.deliverable_partner_type_id) = 1, 5, 1) role_id, -- 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
-	if(max(sins.deliverable_partner_type_id) = 1, "Contributor", "Responsible") role_name
+	if(max(sins.deliverable_partner_type_id) = 1, 5, 1) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
+	if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor") role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
 	FROM deliverables del 
 	join deliverables_info dlvi  on del.id=dlvi.deliverable_id
 	join phases ph on dlvi.id_phase=ph.id
