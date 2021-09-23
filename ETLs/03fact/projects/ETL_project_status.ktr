@@ -815,7 +815,7 @@ WHERE p.is_active
 -- and ph.name in ('AR','POWB')
 -- and p.id = 1594
 -- and gu.acronym = 'CCAFS'
-AND ph.year = 2020
+AND ph.year = 2021
 and ph.name ='AR'
 and ph.year between year(pi.start_date) and year(pi.end_date)
 GROUP BY
@@ -1069,7 +1069,7 @@ GROUP BY
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Lead Institution</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_Projects</origin>
         <comments>Lead Institution</comments>
@@ -1092,7 +1092,7 @@ GROUP BY
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Project Leader</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_Projects</origin>
         <comments>Project Leader</comments>
@@ -1345,7 +1345,7 @@ GROUP BY
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>missing fields</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>Load_Projects</origin>
         <comments>missing fields</comments>

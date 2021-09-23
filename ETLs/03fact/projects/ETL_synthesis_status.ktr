@@ -670,7 +670,7 @@ LEFT JOIN submissions s ON s.id = (
 	AND sq.cycle = ph.description
 	AND sq.`year` = ph.`year`
 )
-where ss.year =2020 
+where ss.year =2021 
 and ss.cycle='Reporting'
 
 ;
