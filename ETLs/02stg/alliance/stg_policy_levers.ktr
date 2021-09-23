@@ -763,8 +763,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>144</yloc>
+      <xloc>240</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -892,7 +892,10 @@ join alliance_levers al on al.id = sle.lever_id
 join bi_phase_by_cubes pbc on cube_name = 'policies'
 join phases ph on ph.id = sle.id_phase
 where ph.name = pbc.phase_name 
-and ph.year = pbc.phase_year;</sql>
+and ph.year = pbc.phase_year
+
+;
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1003,7 +1006,7 @@ and ph.year = pbc.phase_year;</sql>
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>144</yloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
