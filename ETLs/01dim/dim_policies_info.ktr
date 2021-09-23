@@ -611,6 +611,11 @@
         <lookup>policy_description</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>pdf_url</name>
+        <lookup>pdf_url</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_policy_info</name>
         <rename/>
@@ -660,7 +665,8 @@
 , id
 , policy_title
 , policy_description
-FROM marloBI.stg_policies_info
+, pdf_url 
+FROM stg_policies_info
 ;
 </sql>
     <limit>0</limit>
@@ -676,7 +682,7 @@ FROM marloBI.stg_policies_info
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_policies</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -696,11 +702,11 @@ FROM marloBI.stg_policies_info
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>oicr_id</name>
+        <name>policy_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
-        <comments>oicr_id</comments>
+        <origin>input_policies</origin>
+        <comments>policy_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -722,7 +728,7 @@ FROM marloBI.stg_policies_info
         <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_policies</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -742,11 +748,11 @@ FROM marloBI.stg_policies_info
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>oicr_title</name>
+        <name>policy_title</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
-        <comments>oicr_title</comments>
+        <origin>input_policies</origin>
+        <comments>policy_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -765,11 +771,11 @@ FROM marloBI.stg_policies_info
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>oicr_scope_comments</name>
+        <name>policy_description</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
-        <comments>oicr_scope_comments</comments>
+        <origin>input_policies</origin>
+        <comments>policy_description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -788,34 +794,11 @@ FROM marloBI.stg_policies_info
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>oicr_outcome_impact_statement</name>
-        <length>21845</length>
+        <name>pdf_url</name>
+        <length>500</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
-        <comments>oicr_outcome_impact_statement</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>pdf</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>input_oicrs</origin>
-        <comments>pdf</comments>
+        <origin>input_policies</origin>
+        <comments>pdf_url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

@@ -459,18 +459,6 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -529,18 +517,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -912,7 +888,7 @@ from marloBI.dim_oicrs_info doic;
     <connection>ORI_DB</connection>
     <sql>-- extrae todos los expected studies, pero en el inner join externo con la dimension de oicrs filtra solo los que son OICRs
 
-select sle.expected_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
+select sle.expected_id, sle.id_phase, sle.lever_id, al.name lever_name
 from project_expected_study_levers sle
 join alliance_levers al on al.id = sle.lever_id
 join bi_phase_by_cubes pbc on cube_name = 'oicrs'
@@ -999,7 +975,7 @@ and ph.year = pbc.phase_year;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>lever_name</name>
-        <length>131073</length>
+        <length>21845</length>
         <precision>-1</precision>
         <origin>input_oicr_levers</origin>
         <comments>lever_name</comments>

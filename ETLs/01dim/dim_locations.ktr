@@ -516,18 +516,6 @@
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -571,33 +559,8 @@
   </connection>
   <order>
     <hop>
-      <from>Table input</from>
-      <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Select values</from>
       <to>dim_locations</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>CSV file input</from>
-      <to>Sort rows 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows 2</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Merge join</from>
-      <to>Sort rows 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -605,126 +568,12 @@
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Table input</from>
+      <to>Sort rows 3</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
-  <step>
-    <name>CSV file input</name>
-    <type>CsvInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <filename>${Internal.Entry.Current.Directory}/../config/countries_alpha_iso_3.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>,</separator>
-    <enclosure>"</enclosure>
-    <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <format>mixed</format>
-    <encoding/>
-    <fields>
-      <field>
-        <name>country</name>
-        <type>String</type>
-        <format/>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>58</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>alpha_2_code</name>
-        <type>String</type>
-        <format/>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>2</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>alpha_3_code</name>
-        <type>String</type>
-        <format/>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>3</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>iso_numeric</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>96</xloc>
-      <yloc>304</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows</step1>
-    <step2>Sort rows 2</step2>
-    <keys_1>
-      <key>iso_alpha_2</key>
-    </keys_1>
-    <keys_2>
-      <key>alpha_2_code</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>352</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Select values</name>
     <type>SelectValues</type>
@@ -778,7 +627,15 @@
         <rename/>
       </field>
       <field>
-        <name>alpha_3_code</name>
+        <name>iso_alpha_3</name>
+        <rename/>
+      </field>
+      <field>
+        <name>latitude</name>
+        <rename/>
+      </field>
+      <field>
+        <name>longitude</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
@@ -792,92 +649,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
+      <xloc>496</xloc>
       <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>iso_alpha_2</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>205</xloc>
-      <yloc>189</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>alpha_2_code</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>224</xloc>
-      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -918,8 +691,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>240</yloc>
+      <xloc>288</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -938,33 +711,36 @@
     <sql>-- Countries with the 2 region
 select le.id country_id, le.name country_name, le.iso_alpha_2,le.iso_numeric, 
 par.iso_numeric reg_un_id, par.name reg_un_name, re.iati_id reg_iati_id,re.iati_name reg_iati_name, le.id id,
-'Country location' loc_element_type
+'Country location' loc_element_type, 
+le.iso_alpha_3, lgp.latitude, lgp.longitude
 from loc_elements le 
-join loc_elements par on par.id = le.parent_id
-join rep_ind_regions re on par.rep_ind_regions_id = re.id
+left join loc_elements par on par.id = le.parent_id
+left join rep_ind_regions re on par.rep_ind_regions_id = re.id
+LEFT JOIN loc_geopositions lgp on lgp.id = le.geoposition_id
 where le.is_active  
 and le.element_type_id = 2
 UNION ALL
 -- UN-iati Region 
 select reg.id country_id , reg.name country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 
 reg.iso_numeric  reg_un_id,reg.name reg_un_name, re.iati_id reg_iati_id, re.iati_name reg_iati_name, reg.id id,
-'Region location' loc_element_type
+'Region location' loc_element_type, 'nn' iso_alpha_3, lgp.latitude, lgp.longitude 
 from loc_elements reg
-join rep_ind_regions re on reg.rep_ind_regions_id = re.id
+left join rep_ind_regions re on reg.rep_ind_regions_id = re.id
+left join loc_geopositions lgp on lgp.id = reg.geoposition_id
 where reg.is_active
 and reg.element_type_id = 1
 union all
 -- World scope
-select  -5 country_id , 'Global' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global' reg_iati_name, -5 id,  'Global location' loc_element_type
+select  -5 country_id , 'Global' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'GL'  reg_un_id,'Global' reg_un_name,'GL' reg_iati_id, 'Global' reg_iati_name, -5 id,  'Global location' loc_element_type,'GLO' iso_alpha_3, 37.85 latitude,-41.2827 longitude
 union all
 -- Not provided
-select  -1 country_id , 'Not Provided' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Not Provided' reg_un_name,'NP' reg_iati_id, 'Not Provided' reg_iati_name, -1 id,  'Not Provided' loc_element_type
+select  -1 country_id , 'Not Provided' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Not Provided' reg_un_name,'NP' reg_iati_id, 'Not Provided' reg_iati_name, -1 id,  'Not Provided' loc_element_type,'Not Provided' iso_alpha_3,'Not Provided' latitude,'Not Provided' longitude
 union all
 -- Not applicable
-select  -2 country_id , 'Not Applicable' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Not Applicable' reg_un_name,'NA' reg_iati_id, 'Not Applicable' reg_iati_name, -2 id,  'Not Applicable' loc_element_type
+select  -2 country_id , 'Not Applicable' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Not Applicable' reg_un_name,'NA' reg_iati_id, 'Not Applicable' reg_iati_name, -2 id,  'Not Applicable' loc_element_type,'Not Applicable' iso_alpha_3,'Not Applicable' latitude,'Not Applicable' longitude
 union all
 -- Non Mandatory
-select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Non Mandatory' reg_un_name,'NM' reg_iati_id, 'Non Mandatory' reg_iati_name, -3 id,  'Non Mandatory' loc_element_type
+select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_numeric, 'nn'  reg_un_id,'Non Mandatory' reg_un_name,'NM' reg_iati_id, 'Non Mandatory' reg_iati_name, -3 id,  'Non Mandatory' loc_element_type,'Non Mandatory' iso_alpha_3,'Non Mandatory' latitude,'Non Mandatory' longitude
 
 ;</sql>
     <limit>0</limit>
@@ -1204,6 +980,75 @@ select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>iso_alpha_3</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>Table input</origin>
+        <comments>iso_alpha_3</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>latitude</name>
+        <length>22</length>
+        <precision>-1</precision>
+        <origin>Table input</origin>
+        <comments>latitude</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>longitude</name>
+        <length>22</length>
+        <precision>-1</precision>
+        <origin>Table input</origin>
+        <comments>longitude</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -1214,7 +1059,7 @@ select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>96</xloc>
       <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1291,8 +1136,18 @@ select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_
         <update>Update</update>
       </field>
       <field>
-        <name>alpha_3_code</name>
+        <name>iso_alpha_3</name>
         <lookup>iso_alpha_3</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>latitude</name>
+        <lookup>latitude</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>longitude</name>
+        <lookup>longitude</lookup>
         <update>Update</update>
       </field>
       <return>
@@ -1321,8 +1176,8 @@ select  -3 country_id , 'Non Mandatory' country_name, 'nn' iso_alpha_2,'nn' iso_
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
-      <yloc>176</yloc>
+      <xloc>736</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

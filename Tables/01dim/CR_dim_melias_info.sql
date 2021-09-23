@@ -15,6 +15,7 @@ CREATE TABLE `dim_melias_info`
 , `melia_description` TEXT
 , `commissioning_study` TEXT
 , `marlo_link` TINYTEXT
+, pdf_url TINYTEXT
 ,  PRIMARY KEY (`pk_id_melia_info`),
   KEY `idx_dim_melias_info_lookup` (`melia_id`) USING BTREE,
   KEY `idx_dim_melias_info_lookup2` (`id`) USING BTREE,

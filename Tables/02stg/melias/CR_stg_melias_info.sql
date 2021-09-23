@@ -16,6 +16,7 @@ CREATE TABLE `stg_melias_info` (
 , `melia_description` TEXT
 , `commissioning_study` TEXT
 , `melia_link` TINYTEXT
+, pdf_url TINYTEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 ;
 

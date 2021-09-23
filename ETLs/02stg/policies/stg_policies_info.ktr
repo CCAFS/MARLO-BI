@@ -459,18 +459,6 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -529,18 +517,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -642,6 +618,9 @@
       <field>
         <name>project_id</name>
       </field>
+      <field>
+        <name>pdf_url</name>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
@@ -729,7 +708,11 @@ gu.id global_unit_id,
 ifnull(poli.rep_ind_policy_investment_type_id, -1) rep_ind_policy_investment_type_id ,
 ifnull(poli.rep_ind_stage_process_id, -1) rep_ind_stage_process_id,
 poli.year,
-pol.project_id
+pol.project_id,
+if(gu.id in (27,28,17)
+	,poli.external_link
+	,concat('https://marlo.cgiar.org/summaries/',gu.acronym,'/projectPolicySummary.do?policyID=',pol.id,'&amp;phaseID=',ph.id)
+	) pdf_url
 FROM project_policies pol
 join project_policy_info poli on pol.id=poli.project_policy_id
 join phases ph on poli.id_phase=ph.id
@@ -781,7 +764,7 @@ pol.project_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>policy_title</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>input_policies</origin>
         <comments>policy_title</comments>
@@ -804,7 +787,7 @@ pol.project_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>policy_description</name>
-        <length>4096</length>
+        <length>10000</length>
         <precision>-1</precision>
         <origin>input_policies</origin>
         <comments>policy_description</comments>
@@ -970,6 +953,29 @@ pol.project_id
         <origin>input_policies</origin>
         <comments>project_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pdf_url</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>input_policies</origin>
+        <comments>pdf_url</comments>
+        <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>

@@ -458,18 +458,6 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -528,18 +516,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -816,6 +792,10 @@
         <name>melia_link</name>
         <rename/>
       </field>
+      <field>
+        <name>pdf_url</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
@@ -990,11 +970,11 @@ pesi.is_public,
 CONCAT('https://marlo.cgiar.org/projects/',gu.acronym,'/study.do?expectedID=',pes.id, '&amp;edit=true&amp;phaseID=') link_1,
 ifnull(pesi.study_type_id, -1) study_type_id,
 pesi.top_level_comments melia_description,
-pesi.commissioning_study 
--- if(gu.id in (27,28,17)
---	,pesi.external_link	
---	,if(ifnull(pesi.is_public,1) !=0,CONCAT('https://marlo.cgiar.org/projects/',gu.acronym,'/studySummary.do?studyID=',pes.id,'&amp;cycle=',cph.description,'&amp;year=',cph.year),"Private") 
---	)AS "pdf"
+pesi.commissioning_study,
+if(gu.id in (27,28,17)
+	, pesi.external_link	
+	, concat('https://marlo.cgiar.org/projects/',gu.acronym,'/studySummary.do?studyID=',pes.id,'&amp;cycle=',ph.description,'&amp;year=',ph.year)
+	)AS "pdf_url"
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
@@ -1022,7 +1002,8 @@ select 0 id_phase,
 ''  link_1,
 -1 study_type_id,
 'Not Provided' melia_description,
-'Not Provided' commissioning_study
+'Not Provided' commissioning_study,
+'Not Provided' pdf_url
 from dual
 union all
 -- MELIA dimension row for not applicable oicrs
@@ -1041,7 +1022,8 @@ select 0 id_phase,
 ''link_1,
 -1 study_type_id,
 'Not Applicable' melia_description,
-'Not Applicable' commissioning_study
+'Not Applicable' commissioning_study,
+'Not Applicable' pdf_url
 from dual
 union all
 -- MELIA dimension row for Non Mandatory oicrs
@@ -1060,7 +1042,8 @@ select 0 id_phase,
 ''link_1,
 -1 study_type_id,
 'Non Mandatory' melia_description,
-'Non Mandatory' commissioning_study
+'Non Mandatory' commissioning_study,
+'Non Mandatory' pdf_url
 from dual;
 
 
@@ -1402,6 +1385,29 @@ from dual;
         <precision>-1</precision>
         <origin>input_melias</origin>
         <comments>commissioning_study</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pdf_url</name>
+        <length>65687</length>
+        <precision>-1</precision>
+        <origin>input_melias</origin>
+        <comments>pdf_url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>

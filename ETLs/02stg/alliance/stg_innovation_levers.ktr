@@ -460,18 +460,6 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -530,18 +518,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -668,19 +644,15 @@
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>lever_id</name>
-        <rename/>
       </field>
       <field>
         <name>lever_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_innovation_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -916,7 +888,7 @@ from marloBI.dim_innovations_info doic;
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select sle.project_innovation_id, sle.id_phase, sle.lever_id, concat(al.indicator, ' - ', al.name) lever_name
+    <sql>select sle.project_innovation_id, sle.id_phase, sle.lever_id, al.name lever_name
 from project_innovation_levers sle
 join alliance_levers al on al.id = sle.lever_id
 join bi_phase_by_cubes pbc on cube_name = 'innovations'
@@ -936,7 +908,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>project_innovation_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_levers</origin>
+        <origin>input_innovation_levers</origin>
         <comments>project_innovation_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -959,7 +931,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_levers</origin>
+        <origin>input_innovation_levers</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -982,7 +954,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>lever_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_levers</origin>
+        <origin>input_innovation_levers</origin>
         <comments>lever_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1003,9 +975,9 @@ and ph.year = pbc.phase_year;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>lever_name</name>
-        <length>131073</length>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>input_policy_levers</origin>
+        <origin>input_innovation_levers</origin>
         <comments>lever_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

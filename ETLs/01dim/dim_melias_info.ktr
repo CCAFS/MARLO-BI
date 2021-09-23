@@ -631,6 +631,11 @@
         <lookup>marlo_link</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>pdf_url</name>
+        <lookup>pdf_url</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_melia_info</name>
         <rename/>
@@ -690,6 +695,7 @@
 , melia_description
 , commissioning_study
 , melia_link marlo_link
+, pdf_url
 FROM marloBI.stg_melias_info;</sql>
     <limit>0</limit>
     <lookup/>
@@ -704,7 +710,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -727,7 +733,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>melia_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>melia_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -750,7 +756,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -773,7 +779,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>melia_title</name>
         <length>16383</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>melia_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -796,7 +802,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>melia_scope_comments</name>
         <length>16383</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>melia_scope_comments</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -819,7 +825,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>melia_outcome_impact_statement</name>
         <length>16383</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>melia_outcome_impact_statement</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -842,7 +848,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>melia_description</name>
         <length>16383</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>melia_description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -865,7 +871,7 @@ FROM marloBI.stg_melias_info;</sql>
         <name>commissioning_study</name>
         <length>16383</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>commissioning_study</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -888,8 +894,31 @@ FROM marloBI.stg_melias_info;</sql>
         <name>marlo_link</name>
         <length>63</length>
         <precision>-1</precision>
-        <origin>input_oicrs</origin>
+        <origin>input_melias</origin>
         <comments>marlo_link</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pdf_url</name>
+        <length>63</length>
+        <precision>-1</precision>
+        <origin>input_melias</origin>
+        <comments>pdf_url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
