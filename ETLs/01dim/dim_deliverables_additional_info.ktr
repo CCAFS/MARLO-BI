@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_ext_partners</name>
+    <name>dim_deliverables_additional_info</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2018/08/24 11:20:49.113</created_date>
+    <created_date>2021/10/21 14:50:03.964</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2018/08/24 11:20:49.113</modified_date>
+    <modified_date>2021/10/21 14:50:03.964</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -502,130 +502,18 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>ORI_DB</name>
-    <server>${ORI_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${ORI_DBNAME}</database>
-    <port>3306</port>
-    <username>${ORI_USR}</username>
-    <password>${ORI_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
       <from>Sort rows</from>
-      <to>Select values</to>
+      <to>dim_deliverables_additional_info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>partners_inst</from>
+      <from>input_stg_deliverables_additional_info</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
-    <hop>
-      <from>Select values</from>
-      <to>dim_ext_partners</to>
-      <enabled>Y</enabled>
-    </hop>
   </order>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>id</name>
-      </field>
-      <field>
-        <name>name</name>
-      </field>
-      <field>
-        <name>acronym</name>
-      </field>
-      <field>
-        <name>website_link</name>
-      </field>
-      <field>
-        <name>type</name>
-      </field>
-      <field>
-        <name>headquarter</name>
-      </field>
-      <field>
-        <name>hq_name</name>
-      </field>
-      <field>
-        <name>compound_name</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>512</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Sort rows</name>
     <type>SortRows</type>
@@ -646,7 +534,15 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>id</name>
+        <name>deliverable_id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>id_phase</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -663,13 +559,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>144</yloc>
+      <xloc>272</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>dim_ext_partners</name>
+    <name>dim_deliverables_additional_info</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -680,14 +576,14 @@
       <schema_name/>
     </partitioning>
     <schema>${DES_DBNAME}</schema>
-    <table>dim_ext_partners</table>
+    <table>dim_deliverables_additional_info</table>
     <connection>DES_DB</connection>
     <commit>1000</commit>
     <update>Y</update>
     <fields>
       <key>
-        <name>id</name>
-        <lookup>id</lookup>
+        <name>deliverable_id</name>
+        <lookup>deliverable_id</lookup>
       </key>
       <date>
         <name/>
@@ -695,42 +591,92 @@
         <to>date_to</to>
       </date>
       <field>
-        <name>name</name>
-        <lookup>name</lookup>
+        <name>id_phase</name>
+        <lookup>id_phase</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>acronym</name>
-        <lookup>acronym</lookup>
+        <name>global_unit_id</name>
+        <lookup>global_unit_id</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>website_link</name>
-        <lookup>website_link</lookup>
+        <name>project_id</name>
+        <lookup>project_id</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>type</name>
-        <lookup>type</lookup>
+        <name>has_participants</name>
+        <lookup>has_participants</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>headquarter</name>
-        <lookup>headquarter</lookup>
+        <name>activity_name</name>
+        <lookup>activity_name</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>hq_name</name>
-        <lookup>hq_name</lookup>
+        <name>activity_type</name>
+        <lookup>activity_type</lookup>
         <update>Update</update>
       </field>
       <field>
-        <name>compound_name</name>
-        <lookup>compound_name</lookup>
+        <name>participants</name>
+        <lookup>participants</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>females</name>
+        <lookup>females</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>participant_type</name>
+        <lookup>participant_type</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>language</name>
+        <lookup>language</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>country</name>
+        <lookup>country</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>keywords</name>
+        <lookup>keywords</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>publication_acknowledge</name>
+        <lookup>publication_acknowledge</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>findable</name>
+        <lookup>findable</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>accesible</name>
+        <lookup>accesible</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>interoperable</name>
+        <lookup>interoperable</lookup>
+        <update>Update</update>
+      </field>
+      <field>
+        <name>reusable</name>
+        <lookup>reusable</lookup>
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_ext_partner</name>
+        <name>pk_id_deliverable_additional_info</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -755,13 +701,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>144</yloc>
+      <xloc>416</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>partners_inst</name>
+    <name>input_stg_deliverables_additional_info</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -771,21 +717,9 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>ORI_DB</connection>
-    <sql>select ins.id, ins.name, ins.acronym, ins.website_link, smo.name  type , loc.iso_alpha_2 headquarter, loc.name hq_name,
-concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
-from  institutions ins 
-join institution_types ity on ity.id = ins.institution_type_id
-join institutions_locations il on il.institution_id = ins.id and il.is_headquater = 1
-join rep_ind_organization_types smo on smo.id = ity.rep_ind_organization_type_id
-join loc_elements loc on loc.id = il.loc_element_id 
--- union ALL
--- select ins.id, ins.name, ins.acronym, ins.website_link, null  type , null headquarter, null hq_name,
--- concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
--- from institutions_dashboard ins
-union all
-select -1, 'Not Provided', 'NP' acronym, null website_link, null type, null headquarter, null hq_name, 'NP - Not Provided' compound_name
-from dual
+    <connection>DES_DB</connection>
+    <sql>SELECT *
+FROM marloBI.stg_deliverables_additional_info
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -797,11 +731,80 @@ from dual
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id</name>
+        <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>partners_inst</origin>
-        <comments>id</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>global_unit_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>global_unit_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>deliverable_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>deliverable_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>project_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>project_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -820,11 +823,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>name</name>
-        <length>65535</length>
+        <name>has_participants</name>
+        <length>3</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>name</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>has_participants</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -843,11 +846,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>acronym</name>
-        <length>45</length>
+        <name>activity_name</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>acronym</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>activity_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -866,11 +869,80 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>website_link</name>
-        <length>255</length>
+        <name>activity_type</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>website_link</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>activity_type</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>participants</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>participants</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>females</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>females</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>participant_type</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>participant_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -889,11 +961,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>type</name>
-        <length>65535</length>
+        <name>language</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>type</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>language</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -912,11 +984,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>headquarter</name>
-        <length>45</length>
+        <name>country</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>headquarter</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>country</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -935,11 +1007,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>hq_name</name>
-        <length>65535</length>
+        <name>keywords</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>hq_name</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>keywords</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -958,12 +1030,173 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>compound_name</name>
-        <length>65583</length>
+        <name>volume</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>compound_name</comments>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>volume</comments>
         <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>issue</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>issue</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>pages</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>pages</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>publication_acknowledge</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>publication_acknowledge</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>findable</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>findable</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>accesible</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>accesible</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>interoperable</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>interoperable</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>reusable</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>input_stg_deliverables_info</origin>
+        <comments>reusable</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -988,8 +1221,8 @@ from dual
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>144</yloc>
+      <xloc>96</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

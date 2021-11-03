@@ -768,8 +768,10 @@ end as indicator_ID_2
 FROM
 	projects p
 INNER JOIN projects_info pi ON pi.project_id = p.id
-INNER JOIN phases ph ON ph.id = pi.id_phase
+join bi_parameters bip on bip.parameter_name='project_status_phase' 
+INNER JOIN phases ph ON ph.id = pi.id_phase and concat(ph.name,ph.year)=bip.parameter_value
 INNER JOIN global_units gu ON gu.id = ph.global_unit_id and gu.is_active
+
 LEFT join project_focuses pfp on pfp.project_id = pi.project_id and pfp.id_phase = pi.id_phase and pfp.is_active
 LEFT join crp_programs fp on fp.id = pfp.program_id and fp.is_active and fp.global_unit_id = gu.id
 LEFT JOIN liaison_institutions li ON li.id = pi.liaison_institution_id AND li.is_active
@@ -810,13 +812,14 @@ left join project_policy_info poli on poli.project_policy_id = pol.id and poli.i
 
 left join project_outcomes pout on pout.id = sec.project_outcome_id and pout.is_active
 left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_active
+ 
 WHERE p.is_active
 -- AND ph.year in (2020,2021)
 -- and ph.name in ('AR','POWB')
--- and p.id = 1594
+-- and p.id = 372
 -- and gu.acronym = 'CCAFS'
-AND ph.year = 2021
-and ph.name ='AR'
+-- AND ph.year = 2021
+-- and ph.name ='AR'
 and ph.year between year(pi.start_date) and year(pi.end_date)
 GROUP BY
 	p.id,pi.title,pi.administrative,pi.status,pi.is_evaluated,
@@ -827,6 +830,10 @@ GROUP BY
   ph.id,
   sec.id,sec.section_name,sec.deliverable_id,sec.project_expected_id,sec.project_innovation_id,sec.project_policy_id,sec.project_outcome_id
 ;
+
+
+-- 55.291 new
+
 </sql>
     <limit>0</limit>
     <lookup/>

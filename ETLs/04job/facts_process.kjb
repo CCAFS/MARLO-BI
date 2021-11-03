@@ -131,10 +131,10 @@
     </field>
   </job-log-table>
   <jobentry-log-table>
-    <connection/>
-    <schema/>
-    <table/>
-    <timeout_days/>
+    <connection>DES_DB</connection>
+    <schema>marlobi</schema>
+    <table>pentaho_job_log</table>
+    <timeout_days>10</timeout_days>
     <field>
       <id>ID_BATCH</id>
       <enabled>Y</enabled>

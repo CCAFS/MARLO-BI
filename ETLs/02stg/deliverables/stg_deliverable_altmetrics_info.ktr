@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_deliverables_info</name>
+    <name>stg_deliverable_altmetrics_info</name>
     <description/>
-    <extended_description>Staging table for deliverables</extended_description>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -428,10 +427,10 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2018/08/29 15:46:14.716</created_date>
+    <created_date>2021/10/26 10:07:30.392</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2018/08/29 15:46:14.716</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2021/10/26 10:07:30.392</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -560,8 +559,8 @@
   </connection>
   <order>
     <hop>
-      <from>deliverables_info</from>
-      <to>Sort rows</to>
+      <from>Select values</from>
+      <to>stg_deliverable_altmetrics_info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -570,8 +569,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>stg_deliverables_info</to>
+      <from>deliverable_altmetrics_info</from>
+      <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -588,82 +587,168 @@
     </partitioning>
     <fields>
       <field>
-        <name>id_phase</name>
-      </field>
-      <field>
-        <name>global_unit_id</name>
-      </field>
-      <field>
         <name>deliverable_id</name>
+        <rename/>
       </field>
       <field>
-        <name>project_id</name>
-      </field>
-      <field>
-        <name>subcategory_type_id</name>
-      </field>
-      <field>
-        <name>subcategory_type_name</name>
-      </field>
-      <field>
-        <name>category_type_id</name>
-      </field>
-      <field>
-        <name>category_type_name</name>
+        <name>phase_id</name>
+        <rename/>
       </field>
       <field>
         <name>title</name>
+        <rename/>
       </field>
       <field>
-        <name>description</name>
+        <name>doi</name>
+        <rename/>
       </field>
       <field>
-        <name>dissemination_URL</name>
+        <name>uri</name>
+        <rename/>
       </field>
       <field>
-        <name>deliverable_group</name>
+        <name>altmetric_jid</name>
+        <rename/>
       </field>
       <field>
         <name>journal</name>
+        <rename/>
       </field>
       <field>
-        <name>volume</name>
+        <name>authors</name>
+        <rename/>
       </field>
       <field>
-        <name>issue</name>
+        <name>type</name>
+        <rename/>
       </field>
       <field>
-        <name>pages</name>
+        <name>handle</name>
+        <rename/>
       </field>
       <field>
-        <name>is_ISI_journal</name>
+        <name>altmetric_id</name>
+        <rename/>
       </field>
       <field>
-        <name>is_open_access</name>
+        <name>almetrics_detail_page</name>
+        <rename/>
       </field>
       <field>
-        <name>metadata_title</name>
+        <name>is_oa</name>
+        <rename/>
       </field>
       <field>
-        <name>DOI</name>
+        <name>cited_by_posts</name>
+        <rename/>
       </field>
       <field>
-        <name>Handle</name>
+        <name>cited_by_delicious</name>
+        <rename/>
       </field>
       <field>
-        <name>Citation</name>
+        <name>cited_by_facebook_pages</name>
+        <rename/>
       </field>
       <field>
-        <name>key_output_name</name>
+        <name>cited_by_blogs</name>
+        <rename/>
       </field>
       <field>
-        <name>coa_key_output_name</name>
+        <name>cited_by_forum_users</name>
+        <rename/>
       </field>
       <field>
-        <name>coa_id</name>
+        <name>cited_by_google_plus_users</name>
+        <rename/>
       </field>
       <field>
-        <name>coa_description</name>
+        <name>cited_by_linkedin_users</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_news_outlets</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_peer_review_sites</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_pinterest_users</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_policies</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_stack_exchange_resources</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_reddit_users</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_research_highlight_platforms</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_twitter_users</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_youtube_channels</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_weibo_users</name>
+        <rename/>
+      </field>
+      <field>
+        <name>cited_by_wikipedia_pages</name>
+        <rename/>
+      </field>
+      <field>
+        <name>last_updated</name>
+        <rename/>
+      </field>
+      <field>
+        <name>score</name>
+        <rename/>
+      </field>
+      <field>
+        <name>url</name>
+        <rename/>
+      </field>
+      <field>
+        <name>added_on</name>
+        <rename/>
+      </field>
+      <field>
+        <name>published_on</name>
+        <rename/>
+      </field>
+      <field>
+        <name>image_small</name>
+        <rename/>
+      </field>
+      <field>
+        <name>image_medium</name>
+        <rename/>
+      </field>
+      <field>
+        <name>image_large</name>
+        <rename/>
+      </field>
+      <field>
+        <name>details_url</name>
+        <rename/>
+      </field>
+      <field>
+        <name>last_sync</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -676,8 +761,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>224</yloc>
+      <xloc>464</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -718,13 +803,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>224</yloc>
+      <xloc>320</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>deliverables_info</name>
+    <name>deliverable_altmetrics_info</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -735,148 +820,161 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
-SELECT 	
-ifnull(devi.new_expected_year, devi.year) delivery_year,
-devi.id_phase,
-ph.global_unit_id,
-devi.deliverable_id, dev.project_id,
-devi.type_id subcategory_type_id, ifnull(dt.name,'Not Defined') subcategory_type_name,
-dt.parent_id category_type_id, cat.name category_type_name,
-devi.title, devi.description,dis.dissemination_URL,
-ifnull(dg.deliverable_group,devi.deliverable_id) deliverable_group,
-pm.journal,
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.volume,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.volume,'Not mandatory')
-	ELSE 'Not applicable'
-end  volume, 
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.issue,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.issue,'Not mandatory')
-	ELSE 'Not applicable'
-end  issue,
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.pages,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.pages,'Not mandatory')
-	ELSE 'Not applicable'
-end  pages,
-pm.isi_publication is_ISI_journal,
-dis.is_open_access,
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.doi') as 'DOI',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.handle') as 'handle',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.identifier.citation') as 'citation',
-ifnull(kout.key_output, if(pin.administrative = 1,'Not Applicable','Not Defined')) as 'key_output_name'
-, ifnull(concat(ifnull(concat(coa.identifier, ' - '), '') , kout.key_output), if(pin.administrative = 1,'Not Applicable','Not Defined')) as 'coa_key_output_name'
-,if(pin.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) as 'coa_id'
-,if(pin.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) as 'coa_description'
+    <sql>
+select 
+ dalt.deliverable_id
+,dalt.phase_id
+,dalt.title
+,dalt.doi
+,dalt.uri
+,dalt.altmetric_jid
+,dalt.journal
+,dalt.authors
+,dalt.type
+,dalt.handle
+,dalt.altmetric_id
+,concat('https://www.altmetric.com/details/',dalt.altmetric_id) almetrics_detail_page
+,dalt.is_oa
+,dalt.cited_by_posts
+,dalt.cited_by_delicious
+,dalt.cited_by_facebook_pages
+,dalt.cited_by_blogs
+,dalt.cited_by_forum_users
+,dalt.cited_by_google_plus_users
+,dalt.cited_by_linkedin_users
+,dalt.cited_by_news_outlets
+,dalt.cited_by_peer_review_sites
+,dalt.cited_by_pinterest_users
+,dalt.cited_by_policies
+,dalt.cited_by_stack_exchange_resources
+,dalt.cited_by_reddit_users
+,dalt.cited_by_research_highlight_platforms
+,dalt.cited_by_twitter_users
+,dalt.cited_by_youtube_channels
+,dalt.cited_by_weibo_users
+,dalt.cited_by_wikipedia_pages
+,dalt.last_updated
+,dalt.score
+,dalt.url
+,dalt.added_on
+,dalt.published_on
+,dalt.image_small
+,dalt.image_medium
+,dalt.image_large
+,dalt.details_url
+,dalt.last_sync
+FROM  deliverables dev
+inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+inner join projects pr on pr.id = dev.project_id
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+inner join phases ph on ph.id = devi.id_phase
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+inner join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
+WHERE dev.is_active
+and  pr.is_active
+and  pin.is_active
+and  ph.name = -- pbc.phase_name --  
+'AR'
+AND ph. YEAR = -- pbc.phase_year -- 
+2021
+
+union all
+
+select 
+ dalt.deliverable_id
+,dalt.phase_id
+,dalt.title
+,dalt.doi
+,dalt.uri
+,dalt.altmetric_jid
+,dalt.journal
+,dalt.authors
+,dalt.type
+,dalt.handle
+,dalt.altmetric_id
+,concat('https://www.altmetric.com/details/',dalt.altmetric_id) almetrics_detail_page
+,dalt.is_oa
+,dalt.cited_by_posts
+,dalt.cited_by_delicious
+,dalt.cited_by_facebook_pages
+,dalt.cited_by_blogs
+,dalt.cited_by_forum_users
+,dalt.cited_by_google_plus_users
+,dalt.cited_by_linkedin_users
+,dalt.cited_by_news_outlets
+,dalt.cited_by_peer_review_sites
+,dalt.cited_by_pinterest_users
+,dalt.cited_by_policies
+,dalt.cited_by_stack_exchange_resources
+,dalt.cited_by_reddit_users
+,dalt.cited_by_research_highlight_platforms
+,dalt.cited_by_twitter_users
+,dalt.cited_by_youtube_channels
+,dalt.cited_by_weibo_users
+,dalt.cited_by_wikipedia_pages
+,dalt.last_updated
+,dalt.score
+,dalt.url
+,dalt.added_on
+,dalt.published_on
+,dalt.image_small
+,dalt.image_medium
+,dalt.image_large
+,dalt.details_url
+,dalt.last_sync
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-inner join projects pr on pr.id = dev.project_id
-inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
-left JOIN deliverable_types dt ON dt.id = devi.type_id
-left join deliverable_types cat on dt.parent_id = cat.id
-LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = devi.deliverable_id and dis.id_phase = devi.id_phase
-left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
-left join deliverables_groups dg on dg.deliverable_id = devi.deliverable_id and dg.id_phase=devi.id_phase
--- new tables
-LEFT JOIN crp_cluster_key_outputs kout on kout.id = devi.key_output_id 
-left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id -- and coa.id_phase = devi.id_phase
-WHERE dev.is_active
-and  pr.is_active
-and  pin.is_active
-and  ph.name = pbc.phase_name --  'AR'
-AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
--- AND ph.year between ${START_YEAR} and ${END_YEAR}  
-union all
-SELECT 	
--- the deliverables with project_id is null will be from the phase where reported.
-ifnull(devi.new_expected_year, devi.year) delivery_year,
-devi.id_phase,
-ph.global_unit_id,
-devi.deliverable_id, dev.project_id,
-devi.type_id subcategory_type_id, ifnull(dt.name,'Not Defined') subcategory_type_name,
-dt.parent_id category_type_id, cat.name category_type_name,
-devi.title, devi.description,dis.dissemination_URL,
-ifnull(dg.deliverable_group,devi.deliverable_id) deliverable_group,
-pm.journal,
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.volume,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.volume,'Not mandatory')
-	ELSE 'Not applicable'
-end  volume, 
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.issue,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.issue,'Not mandatory')
-	ELSE 'Not applicable'
-end  issue,
-case  
-	WHEN devi.type_id = 63 THEN IFNULL(pm.pages,'Not provided') -- Peer review
-	WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.pages,'Not mandatory')
-	ELSE 'Not applicable'
-end  pages,
-pm.isi_publication is_ISI_journal,
-dis.is_open_access,
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.doi') as 'DOI',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.handle') as 'handle',
-get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.identifier.citation') as 'citation',
-ifnull(kout.key_output, 'Not Defined') as 'key_output_name'
-, ifnull(concat(ifnull(concat(coa.identifier, ' - '), '') , kout.key_output), 'Not Defined') as 'coa_key_output_name'
-,ifnull(coa.identifier,'Not Defined') as 'coa_id'
-,ifnull(coa.description ,'Not Defined') as 'coa_description'
-FROM  deliverables dev
-inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active 
-inner join phases ph on ph.id = devi.id_phase
--- inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-left JOIN deliverable_types dt ON dt.id = devi.type_id
-left join deliverable_types cat on dt.parent_id = cat.id
-LEFT JOIN deliverable_dissemination dis on dis.deliverable_id = devi.deliverable_id and dis.id_phase = devi.id_phase
-left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
-left join deliverables_groups dg on dg.deliverable_id = devi.deliverable_id and dg.id_phase=devi.id_phase
--- new tables
-LEFT JOIN crp_cluster_key_outputs kout on kout.id = devi.key_output_id 
-left join crp_cluster_of_activities coa on coa.id = kout.cluster_activity_id and coa.id_phase = devi.id_phase
-WHERE dev.is_active
-and dev.project_id is null 
--- and  ph.name = pbc.phase_name --  'AR'
--- AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
+inner join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
+where dev.is_active
+and dev.project_id is null
 and ph.year = ifnull(devi.new_expected_year, devi.year)
--- and devi.title is not null
 and length(trim(devi.title)) > 0
 union all
-SELECT 	
--1 deliverable_year,
--1 id_phase,
--1  global_unit_id,
--3 deliverable_id, 
-null project_id,
--1 subcategory_type_id, 'Not provided' subcatogory_type_name,
--1 category_type_id, 'Not provided' categroy_type_name,
-'Non Mandatory' title, ' Non Mandatory' description,'Non Mandatory' dissemination_URL,
--3 deliverable_group,
-'Non Mandatory' journal,
-'Non Mandatory' volume,
-'Non Mandatory' issue,
-'Non Mandatory' pages,
-0 is_ISI_journal,
-0 is_open_access,
-'Non Mandatory' as 'metadata_title',
-'Non Mandatory' as 'DOI',
-'Non Mandatory' as 'handle',
-'Non Mandatory' as 'citation',
-'Not Applicable' as 'key_output_name'
-, 'Non Mandatory' as 'coa_key_output_name'
-, 'Non Mandatory' as 'coa_id'
-, 'Non Mandatory' as 'coa_description'
-from dual
-;
-
-
-</sql>
+select
+ -1 deliverable_id
+,-1 phase_id
+,'Not provided' title
+,'Not provided' doi
+,'Not provided' uri
+,'Not provided' altmetric_jid
+,'Not provided' journal
+,'Not provided' authors
+,'Not provided' type
+,'Not provided' handle
+,'Not provided' altmetric_id
+,'Not provided' almetrics_detail_page
+,'Not provided' is_oa
+,-1 cited_by_posts
+,-1 cited_by_delicious
+,-1 cited_by_facebook_pages
+,-1 cited_by_blogs
+,-1 cited_by_forum_users
+,-1 cited_by_google_plus_users
+,-1 cited_by_linkedin_users
+,-1 cited_by_news_outlets
+,-1 cited_by_peer_review_sites
+,-1 cited_by_pinterest_users
+,-1 cited_by_policies
+,-1 cited_by_stack_exchange_resources
+,-1 cited_by_reddit_users
+,-1 cited_by_research_highlight_platforms
+,-1 cited_by_twitter_users
+,-1 cited_by_youtube_channels
+,-1 cited_by_weibo_users
+,-1 cited_by_wikipedia_pages
+,null last_updated
+,'Not provided' score
+,'Not provided' url
+,null added_on
+,'Not provided' published_on
+,'Not provided' image_small
+,'Not provided' image_medium
+,'Not provided' image_large
+,'Not provided' details_url
+,null last_sync
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -887,79 +985,10 @@ from dual
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>delivery_year</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>delivery_year</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>id_phase</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>id_phase</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>global_unit_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>global_unit_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
         <name>deliverable_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverables_info</origin>
+        <origin>deliverable_external_info</origin>
         <comments>deliverable_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -979,104 +1008,12 @@ from dual
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>project_id</name>
+        <name>phase_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>project_id</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>phase_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>subcategory_type_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>subcategory_type_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>subcategory_type_name</name>
-        <length>255</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>subcategory_type_name</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>category_type_id</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>category_type_id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>category_type_name</name>
-        <length>255</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>category_type_name</comments>
-        <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -1097,7 +1034,7 @@ from dual
         <name>title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
+        <origin>deliverable_external_info</origin>
         <comments>title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1117,11 +1054,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>description</name>
+        <name>doi</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>description</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>doi</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1140,11 +1077,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>dissemination_URL</name>
-        <length>600</length>
+        <name>uri</name>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>dissemination_URL</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>uri</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1163,11 +1100,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>deliverable_group</name>
+        <name>altmetric_jid</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>deliverable_group</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>altmetric_jid</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1189,7 +1126,7 @@ from dual
         <name>journal</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
+        <origin>deliverable_external_info</origin>
         <comments>journal</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1209,11 +1146,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>volume</name>
+        <name>authors</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>volume</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>authors</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1232,126 +1169,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>issue</name>
+        <name>type</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>issue</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>pages</name>
-        <length>65535</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>pages</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>is_ISI_journal</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>is_ISI_journal</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>is_open_access</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>deliverables_info</origin>
-        <comments>is_open_access</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>metadata_title</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>metadata_title</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>DOI</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>DOI</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1371,9 +1193,9 @@ from dual
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>handle</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
+        <origin>deliverable_external_info</origin>
         <comments>handle</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1393,34 +1215,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>citation</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>citation</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>key_output_name</name>
+        <name>altmetric_id</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>key_output_name</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>altmetric_id</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1439,11 +1238,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>coa_key_output_name</name>
-        <length>65558</length>
+        <name>almetrics_detail_page</name>
+        <length>65569</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>coa_key_output_name</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>almetrics_detail_page</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1462,34 +1261,655 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>coa_id</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>coa_id</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>coa_description</name>
+        <name>is_oa</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverables_info</origin>
-        <comments>coa_description</comments>
+        <origin>deliverable_external_info</origin>
+        <comments>is_oa</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_posts</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_posts</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_delicious</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_delicious</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_facebook_pages</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_facebook_pages</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_blogs</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_blogs</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_forum_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_forum_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_google_plus_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_google_plus_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_linkedin_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_linkedin_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_news_outlets</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_news_outlets</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_peer_review_sites</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_peer_review_sites</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_pinterest_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_pinterest_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_policies</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_policies</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_stack_exchange_resources</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_stack_exchange_resources</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_reddit_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_reddit_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_research_highlight_platforms</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_research_highlight_platforms</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_twitter_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_twitter_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_youtube_channels</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_youtube_channels</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_weibo_users</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_weibo_users</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>cited_by_wikipedia_pages</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>cited_by_wikipedia_pages</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>last_updated</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>last_updated</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>score</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>score</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>url</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>url</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>added_on</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>added_on</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>published_on</name>
+        <length>19</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>published_on</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>image_small</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>image_small</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>image_medium</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>image_medium</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>image_large</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>image_large</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>details_url</name>
+        <length>65535</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>details_url</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Timestamp</type>
+        <storagetype>normal</storagetype>
+        <name>last_sync</name>
+        <length>0</length>
+        <precision>-1</precision>
+        <origin>deliverable_external_info</origin>
+        <comments>last_sync</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1515,13 +1935,13 @@ from dual
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>224</yloc>
+      <xloc>144</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>stg_deliverables_info</name>
+    <name>stg_deliverable_altmetrics_info</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1533,7 +1953,7 @@ from dual
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>stg_deliverables_info</table>
+    <table>stg_deliverable_altmetrics_info</table>
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
@@ -1559,8 +1979,8 @@ from dual
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>224</yloc>
+      <xloc>656</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

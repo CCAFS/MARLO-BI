@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_ext_partners</name>
+    <name>stg_deliverables_additional_info</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2018/08/24 11:20:49.113</created_date>
+    <created_date>2021/10/21 11:58:16.443</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2018/08/24 11:20:49.113</modified_date>
+    <modified_date>2021/10/21 11:58:16.443</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -559,18 +559,18 @@
   </connection>
   <order>
     <hop>
+      <from>Select values</from>
+      <to>stg_deliverables_additional_info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>Sort rows</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>partners_inst</from>
+      <from>deliverables_additional_info</from>
       <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Select values</from>
-      <to>dim_ext_partners</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -587,28 +587,76 @@
     </partitioning>
     <fields>
       <field>
-        <name>id</name>
+        <name>id_phase</name>
+        <rename/>
       </field>
       <field>
-        <name>name</name>
+        <name>global_unit_id</name>
+        <rename/>
       </field>
       <field>
-        <name>acronym</name>
+        <name>deliverable_id</name>
+        <rename/>
       </field>
       <field>
-        <name>website_link</name>
+        <name>project_id</name>
+        <rename/>
       </field>
       <field>
-        <name>type</name>
+        <name>has_participants</name>
+        <rename/>
       </field>
       <field>
-        <name>headquarter</name>
+        <name>activity_name</name>
+        <rename/>
       </field>
       <field>
-        <name>hq_name</name>
+        <name>activity_type</name>
+        <rename/>
       </field>
       <field>
-        <name>compound_name</name>
+        <name>participants</name>
+        <rename/>
+      </field>
+      <field>
+        <name>females</name>
+        <rename/>
+      </field>
+      <field>
+        <name>participant_type</name>
+        <rename/>
+      </field>
+      <field>
+        <name>language</name>
+        <rename/>
+      </field>
+      <field>
+        <name>country</name>
+        <rename/>
+      </field>
+      <field>
+        <name>keywords</name>
+        <rename/>
+      </field>
+      <field>
+        <name>publication_acknowledge</name>
+        <rename/>
+      </field>
+      <field>
+        <name>findable</name>
+        <rename/>
+      </field>
+      <field>
+        <name>accesible</name>
+        <rename/>
+      </field>
+      <field>
+        <name>interoperable</name>
+        <rename/>
+      </field>
+      <field>
+        <name>reusable</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -621,8 +669,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>144</yloc>
+      <xloc>432</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -646,7 +694,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>id</name>
+        <name>deliverable_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -663,105 +711,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>144</yloc>
+      <xloc>288</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>dim_ext_partners</name>
-    <type>DimensionLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <schema>${DES_DBNAME}</schema>
-    <table>dim_ext_partners</table>
-    <connection>DES_DB</connection>
-    <commit>1000</commit>
-    <update>Y</update>
-    <fields>
-      <key>
-        <name>id</name>
-        <lookup>id</lookup>
-      </key>
-      <date>
-        <name/>
-        <from>date_from</from>
-        <to>date_to</to>
-      </date>
-      <field>
-        <name>name</name>
-        <lookup>name</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>acronym</name>
-        <lookup>acronym</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>website_link</name>
-        <lookup>website_link</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>type</name>
-        <lookup>type</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>headquarter</name>
-        <lookup>headquarter</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>hq_name</name>
-        <lookup>hq_name</lookup>
-        <update>Update</update>
-      </field>
-      <field>
-        <name>compound_name</name>
-        <lookup>compound_name</lookup>
-        <update>Update</update>
-      </field>
-      <return>
-        <name>pk_id_ext_partner</name>
-        <rename/>
-        <creation_method>tablemax</creation_method>
-        <use_autoinc>N</use_autoinc>
-        <version>version</version>
-      </return>
-    </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>0</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>688</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>partners_inst</name>
+    <name>deliverables_additional_info</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -772,36 +728,202 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select ins.id, ins.name, ins.acronym, ins.website_link, smo.name  type , loc.iso_alpha_2 headquarter, loc.name hq_name,
-concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
-from  institutions ins 
-join institution_types ity on ity.id = ins.institution_type_id
-join institutions_locations il on il.institution_id = ins.id and il.is_headquater = 1
-join rep_ind_organization_types smo on smo.id = ity.rep_ind_organization_type_id
-join loc_elements loc on loc.id = il.loc_element_id 
--- union ALL
--- select ins.id, ins.name, ins.acronym, ins.website_link, null  type , null headquarter, null hq_name,
--- concat(ifnull(concat(nullif(trim(ins.acronym),"")," - "),""), ins.name) compound_name
--- from institutions_dashboard ins
+    <sql>
+-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
+SELECT 	
+devi.id_phase,
+ph.global_unit_id,
+devi.deliverable_id,
+dev.project_id,
+if(ifnull(dcap.has_participants,0)=0,'NO','Yes') has_participants,
+if(dcap.has_participants=1,ifnull(dcap.event_activity_name,'Not provided'),'Not applicable') activity_name, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1,ifnull(acty.`name`,'Not provided'),'Not applicable')  activity_type, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1,dcap.participants,0) participants,-- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1 and ifnull(dont_know_female,0)=0,dcap.females,0) females, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable AND if dont_know_female =1, 0 
+if(dcap.has_participants=1,ifnull(part.`name`,'Not provided'),'Not applicable')  participant_type, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.language'),'Not mandatory') as 'language', -- null -> not mandatory
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'cg:coverage.country'),'Not mandatory') as 'country',-- null -> not mandatory
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.keywords'),'Not mandatory') as 'keywords',-- null -> not mandatory
+if(devi.type_id in(64,66,80,63),if(ifnull(pm.publication_acknowledge,0)=1,'Yes','No'),'Not applicable') publication_acknowledge,-- if Categoria articles and books ->  publication_acknowledge else not applicable
+ifnull(is_deliverable_findable(devi.deliverable_id,devi.id_phase),'Not applicable') 'findable',
+ifnull(is_deliverable_accesible(devi.deliverable_id,devi.id_phase),'Not applicable') 'accesible',
+ifnull(is_deliverable_interoperable(devi.deliverable_id,devi.id_phase),'Not applicable') 'interoperable',
+ifnull(is_deliverable_reusable(devi.deliverable_id,devi.id_phase),'Not applicable') 'reusable'
+
+FROM  deliverables dev
+inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+inner join phases ph on ph.id = devi.id_phase
+inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+inner join projects pr on pr.id = dev.project_id
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+left join deliverable_participants dcap on dcap.deliverable_id = devi.deliverable_id and dcap.phase_id = devi.id_phase
+left join rep_ind_type_activities acty on acty.id = dcap.rep_ind_type_activity_id
+left join rep_ind_type_participants part on part.id = dcap.rep_ind_type_participant_id
+left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
+-- new tables
+WHERE dev.is_active
+and  pr.is_active
+and  pin.is_active
+and  ph.name =  pbc.phase_name -- 'AR'
+AND ph. YEAR =  pbc.phase_year -- 2021
+-- and dev.id=26548
+-- AND ph.year between ${START_YEAR} and ${END_YEAR}  
 union all
-select -1, 'Not Provided', 'NP' acronym, null website_link, null type, null headquarter, null hq_name, 'NP - Not Provided' compound_name
+
+-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
+
+SELECT 	
+devi.id_phase,
+ph.global_unit_id,
+devi.deliverable_id,
+dev.project_id,
+if(ifnull(dcap.has_participants,0)=0,'NO','Yes') has_participants,
+if(dcap.has_participants=1,ifnull(dcap.event_activity_name,'Not provided'),'Not applicable') activity_name, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1,ifnull(acty.`name`,'Not provided'),'Not applicable')  activity_type, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1,dcap.participants,0) participants,-- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+if(dcap.has_participants=1 and ifnull(dont_know_female,0)=0,dcap.females,0) females, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable AND if dont_know_female =1, 0 
+if(dcap.has_participants=1,ifnull(part.`name`,'Not provided'),'Not applicable')  participant_type, -- has_participants=yes y vacio -> not provided has_participants =no -> not applicable
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.language'),'Not mandatory') as 'language', -- null -> not mandatory
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'cg:coverage.country'),'Not mandatory') as 'country',-- null -> not mandatory
+ifnull(get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'marlo.keywords'),'Not mandatory') as 'keywords',-- null -> not mandatory
+if(devi.type_id in(64,66,80,63),if(ifnull(pm.publication_acknowledge,0)=1,'Yes','No'),'Not applicable') publication_acknowledge,-- if Categoria articles and books ->  publication_acknowledge else not applicable
+ifnull(is_deliverable_findable(devi.deliverable_id,devi.id_phase),'Not applicable') 'findable',
+ifnull(is_deliverable_accesible(devi.deliverable_id,devi.id_phase),'Not applicable') 'accesible',
+ifnull(is_deliverable_interoperable(devi.deliverable_id,devi.id_phase),'Not applicable') 'interoperable',
+ifnull(is_deliverable_reusable(devi.deliverable_id,devi.id_phase),'Not applicable') 'reusable'
+
+FROM  deliverables dev
+inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+inner join phases ph on ph.id = devi.id_phase
+-- inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+-- inner join projects pr on pr.id = dev.project_id
+-- inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+left join deliverable_participants dcap on dcap.deliverable_id = devi.deliverable_id and dcap.phase_id = devi.id_phase
+left join rep_ind_type_activities acty on acty.id = dcap.rep_ind_type_activity_id
+left join rep_ind_type_participants part on part.id = dcap.rep_ind_type_participant_id
+left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverable_id and pm.id_phase = devi.id_phase
+-- new tables
+WHERE dev.is_active
+and dev.project_id is null 
+-- and  ph.name = pbc.phase_name --  'AR'
+-- AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
+and ph.year = ifnull(devi.new_expected_year, devi.year)
+-- and devi.title is not null
+and length(trim(devi.title)) > 0
+and ph.global_unit_id =1
+-- and dev.id=26548
+-- AND ph.year between ${START_YEAR} and ${END_YEAR}  
+union all
+
+
+SELECT 	
+-1 id_phase,	
+-1 global_unit_id,
+-1 deliverable_id	,
+null project_id	,
+null has_participants	,
+'Not applicable' activity_name	,
+'Not applicable' activity_type	,
+-1 participants	,
+-1 females	,
+'Not applicable' participant_type	,
+'Not mandatory' language	,
+'Not mandatory' country	,
+'Not mandatory' keywords	,
+'Not mandatory' publication_acknowledge	,
+'Not applicable' findable	,
+'Not applicable' accesible	,
+'Not applicable' interoperable	,
+'Not applicable' reusable
 from dual
-;</sql>
+;
+
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
+    <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
     <cached_row_meta_active>N</cached_row_meta_active>
     <row-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>id</name>
+        <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>partners_inst</origin>
-        <comments>id</comments>
+        <origin>deliverables_additional_info</origin>
+        <comments>id_phase</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>global_unit_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>global_unit_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>deliverable_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>deliverable_id</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>project_id</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>project_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -820,11 +942,34 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>name</name>
+        <name>has_participants</name>
+        <length>3</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>has_participants</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>activity_name</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>name</comments>
+        <origin>deliverables_additional_info</origin>
+        <comments>activity_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -843,57 +988,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>acronym</name>
-        <length>45</length>
-        <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>acronym</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>website_link</name>
-        <length>255</length>
-        <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>website_link</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>type</name>
+        <name>activity_type</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>type</comments>
+        <origin>deliverables_additional_info</origin>
+        <comments>activity_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -910,14 +1009,37 @@ from dual
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Number</type>
         <storagetype>normal</storagetype>
-        <name>headquarter</name>
-        <length>45</length>
+        <name>participants</name>
+        <length>-1</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>headquarter</comments>
-        <conversion_Mask/>
+        <origin>deliverables_additional_info</origin>
+        <comments>participants</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Number</type>
+        <storagetype>normal</storagetype>
+        <name>females</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>females</comments>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
@@ -935,11 +1057,11 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>hq_name</name>
+        <name>participant_type</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>hq_name</comments>
+        <origin>deliverables_additional_info</origin>
+        <comments>participant_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -958,11 +1080,172 @@ from dual
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>compound_name</name>
-        <length>65583</length>
+        <name>language</name>
+        <length>21845</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
-        <comments>compound_name</comments>
+        <origin>deliverables_additional_info</origin>
+        <comments>language</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>country</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>country</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>keywords</name>
+        <length>21845</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>keywords</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>publication_acknowledge</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>publication_acknowledge</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>findable</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>findable</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>accesible</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>accesible</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>interoperable</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>interoperable</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>reusable</name>
+        <length>14</length>
+        <precision>-1</precision>
+        <origin>deliverables_additional_info</origin>
+        <comments>reusable</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -988,8 +1271,52 @@ from dual
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>144</yloc>
+      <xloc>112</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_deliverables_additional_info</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>stg_deliverables_additional_info</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
