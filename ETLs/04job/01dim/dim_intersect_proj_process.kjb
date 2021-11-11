@@ -130,7 +130,7 @@
     </field>
   </job-log-table>
   <jobentry-log-table>
-    <connection>ORI_DB</connection>
+    <connection>DES_DB</connection>
     <schema>MARLOBI</schema>
     <table>pentaho_job_log</table>
     <timeout_days>10</timeout_days>
