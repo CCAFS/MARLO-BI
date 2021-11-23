@@ -357,105 +357,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
-      <yloc>512</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>save_to_log ETL START</name>
-      <description/>
-      <type>TRANS</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-        <parameter>
-          <name>P_LOG_MESSAGE</name>
-          <stream_name/>
-          <value>Start automatic MARLO BI ETL process from ${ORI_DB} to ${DES_DB}</value>
-        </parameter>
-        <parameter>
-          <name>P_LOG_PROCESS</name>
-          <stream_name/>
-          <value>Dimensions</value>
-        </parameter>
-      </parameters>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>416</xloc>
-      <yloc>48</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>save_to_log_ETL_END</name>
-      <description/>
-      <type>TRANS</type>
-      <attributes/>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/../config/save_to_log.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-        <parameter>
-          <name>P_LOG_MESSAGE</name>
-          <stream_name/>
-          <value>End process</value>
-        </parameter>
-        <parameter>
-          <name>P_LOG_PROCESS</name>
-          <stream_name/>
-          <value>Dimension process</value>
-        </parameter>
-      </parameters>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>224</xloc>
       <yloc>400</yloc>
       <attributes_kjc/>
     </entry>
@@ -492,7 +394,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>560</xloc>
+      <xloc>464</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -529,7 +431,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>768</xloc>
+      <xloc>672</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -605,7 +507,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>976</xloc>
+      <xloc>880</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -642,7 +544,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>976</xloc>
+      <xloc>880</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -679,7 +581,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>784</xloc>
+      <xloc>688</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -716,7 +618,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>640</xloc>
+      <xloc>544</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -753,7 +655,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>464</xloc>
+      <xloc>368</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -790,7 +692,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>224</xloc>
       <yloc>160</yloc>
       <attributes_kjc/>
     </entry>
@@ -827,7 +729,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>224</xloc>
       <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
@@ -864,7 +766,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>480</xloc>
+      <xloc>384</xloc>
       <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
@@ -901,7 +803,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>608</xloc>
+      <xloc>512</xloc>
       <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
@@ -938,7 +840,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>800</xloc>
+      <xloc>704</xloc>
       <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
@@ -975,7 +877,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>976</xloc>
+      <xloc>880</xloc>
       <yloc>256</yloc>
       <attributes_kjc/>
     </entry>
@@ -1012,7 +914,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>976</xloc>
+      <xloc>880</xloc>
       <yloc>400</yloc>
       <attributes_kjc/>
     </entry>
@@ -1049,7 +951,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>768</xloc>
+      <xloc>672</xloc>
       <yloc>400</yloc>
       <attributes_kjc/>
     </entry>
@@ -1086,7 +988,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>576</xloc>
+      <xloc>480</xloc>
       <yloc>400</yloc>
       <attributes_kjc/>
     </entry>
@@ -1123,7 +1025,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>432</xloc>
+      <xloc>336</xloc>
       <yloc>400</yloc>
       <attributes_kjc/>
     </entry>
@@ -1137,15 +1039,6 @@
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
-    </hop>
-    <hop>
-      <from>save_to_log_ETL_END</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>dim_intersect_locations</from>
@@ -1166,26 +1059,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>init_variable_phase</from>
-      <to>save_to_log ETL START</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>dim_intersect_institutions</from>
       <to>dim_intersect_geo_scopes</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>save_to_log ETL START</from>
-      <to>dim_intersect_locations</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1319,8 +1194,17 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
+      <from>init_variable_phase</from>
+      <to>dim_intersect_locations</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
       <from>dim_intersect_crps</from>
-      <to>save_to_log_ETL_END</to>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

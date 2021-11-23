@@ -458,6 +458,10 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -744,11 +748,11 @@ else
 "Complete" 
 end AS "Section status"
 ,CASE 
-when section_name ='deliverableList' then concat('D',di.deliverable_id)
+when section_name ='deliverableList' then if(sec.deliverable_id is null,'ALL',concat('D',di.deliverable_id))
 when section_name ='studies' then concat('OI',pesi.project_expected_study_id)
 when section_name ='innovationsList' then concat('IN',inni.project_innovation_id)
 when section_name ='policies' then concat('PO',poli.project_policy_id)
-when section_name ='contributionsCrpList' then concat('''',outc.composed_id)
+when section_name ='contributionsCrpList' then if(sec.deliverable_id is null,'ALL',concat('''',outc.composed_id))
 ELSE 'ALL'
 end as indicator_ID
 ,CASE 
