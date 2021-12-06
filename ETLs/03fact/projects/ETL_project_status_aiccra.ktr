@@ -563,7 +563,7 @@
   </connection>
   <order>
     <hop>
-      <from>Load_Projects</from>
+      <from>Load aiccra Clusters</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
@@ -574,7 +574,7 @@
     </hop>
   </order>
   <step>
-    <name>Load_Projects</name>
+    <name>Load aiccra Clusters</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -602,7 +602,7 @@ CONCAT(
 			pi.title
 		END
 	) AS 'Project Title',
-	ct.name 'Project type',
+	if(pi.administrative=1,'Administrative',ct.name) 'Project type',
 	(CASE
 		WHEN pi.administrative = 1 THEN
 			"&lt;Not Applicable>"
@@ -773,7 +773,7 @@ JOIN aiccradb.projects_info pi ON pi.project_id = p.id
 JOIN aiccradb.bi_parameters bip on bip.parameter_name='project_status_phase' 
 JOIN aiccradb.phases ph ON ph.id = pi.id_phase and concat(ph.name,ph.year)=bip.parameter_value
 JOIN aiccradb.global_units gu ON gu.id = ph.global_unit_id and gu.is_active
-JOIN aiccradb.cluster_types ct ON ct.id = pi.type_id
+LEFT JOIN aiccradb.cluster_types ct ON ct.id = pi.type_id
 
 LEFT join aiccradb.project_focuses pfp on pfp.project_id = pi.project_id and pfp.id_phase = pi.id_phase and pfp.is_active
 LEFT join aiccradb.crp_programs fp on fp.id = pfp.program_id and fp.is_active and fp.global_unit_id = gu.id
@@ -847,7 +847,7 @@ GROUP BY
         <name>CRP</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>CRP</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -870,7 +870,7 @@ GROUP BY
         <name>project id</name>
         <length>21</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>project id</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -893,7 +893,7 @@ GROUP BY
         <name>Project link</name>
         <length>175</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Project link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -916,7 +916,7 @@ GROUP BY
         <name>Project Title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Project Title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -937,9 +937,9 @@ GROUP BY
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>Project type</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Project type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -962,7 +962,7 @@ GROUP BY
         <name>Flagships</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Flagships</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -985,7 +985,7 @@ GROUP BY
         <name>Regions</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Regions</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1008,7 +1008,7 @@ GROUP BY
         <name>Status</name>
         <length>9</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1031,7 +1031,7 @@ GROUP BY
         <name>Management Liaison</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Management Liaison</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1054,7 +1054,7 @@ GROUP BY
         <name>Management Liaison acronym</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Management Liaison acronym</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1077,7 +1077,7 @@ GROUP BY
         <name>Management Liaison Contact Person</name>
         <length>769</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Management Liaison Contact Person</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1100,7 +1100,7 @@ GROUP BY
         <name>Lead Institution</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Lead Institution</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1123,7 +1123,7 @@ GROUP BY
         <name>Project Leader</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Project Leader</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1146,7 +1146,7 @@ GROUP BY
         <name>Submission_status</name>
         <length>13</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Submission_status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1169,7 +1169,7 @@ GROUP BY
         <name>submitted_by</name>
         <length>511</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>submitted_by</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1192,7 +1192,7 @@ GROUP BY
         <name>Submission Date</name>
         <length>34</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Submission Date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1215,7 +1215,7 @@ GROUP BY
         <name>Submission Justification</name>
         <length>16777215</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Submission Justification</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1238,7 +1238,7 @@ GROUP BY
         <name>Unsubmission Justification</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Unsubmission Justification</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1261,7 +1261,7 @@ GROUP BY
         <name>section_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>section_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1284,7 +1284,7 @@ GROUP BY
         <name>section_name</name>
         <length>500</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>section_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1307,7 +1307,7 @@ GROUP BY
         <name>Section status</name>
         <length>10</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Section status</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1330,7 +1330,7 @@ GROUP BY
         <name>indicator_ID</name>
         <length>22</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>indicator_ID</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1353,7 +1353,7 @@ GROUP BY
         <name>indicator_ID_2</name>
         <length>22</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>indicator_ID_2</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1376,7 +1376,7 @@ GROUP BY
         <name>missing fields</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>missing fields</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1399,7 +1399,7 @@ GROUP BY
         <name>is_evaluated</name>
         <length>3</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>is_evaluated</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1422,7 +1422,7 @@ GROUP BY
         <name>updated_date</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1445,7 +1445,7 @@ GROUP BY
         <name>Phase</name>
         <length>65546</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>Phase</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1468,7 +1468,7 @@ GROUP BY
         <name>phase_name</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>phase_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1491,7 +1491,7 @@ GROUP BY
         <name>phase_year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>Load_Projects</origin>
+        <origin>Load aiccra Clusters</origin>
         <comments>phase_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
