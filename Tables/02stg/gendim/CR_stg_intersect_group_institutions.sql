@@ -17,5 +17,5 @@ create table `stg_intersect_group_institutions`
 `lead_institution_acr_name_group` text,
 `lead_institution_name_group` text,
 `lead_acronym_group` text,
-`ids_group` varchar(200) NOT NULL
+`ids_group` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

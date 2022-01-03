@@ -585,7 +585,7 @@
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>SELECT gu.acronym CRP, concat('P',p.id) 'project id',
+    <sql>SELECT gu.acronym CRP, concat('C',p.id) 'project id',
 CONCAT(
 		'https://aiccra.marlo.cgiar.org/clusters/',
 		gu.acronym,

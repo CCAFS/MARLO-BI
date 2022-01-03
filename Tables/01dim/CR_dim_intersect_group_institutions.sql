@@ -21,7 +21,7 @@ create table `dim_intersect_group_institutions`
 `lead_institution_acr_name_group` text,
 `lead_institution_name_group` text,
 `lead_acronym_group` text,
-`ids_group` varchar(200) NOT NULL default 0,
+`ids_group` varchar(1000) NOT NULL default 0,
 PRIMARY KEY (`pk_id_intersect_group_inst`),
 KEY `idx_id_intersect_group_inst_tk` (`pk_id_intersect_group_inst`) USING BTREE,
 KEY `idx_id_group_intersect_group_inst` (`ids_group`) USING BTREE

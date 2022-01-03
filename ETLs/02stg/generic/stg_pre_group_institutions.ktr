@@ -460,15 +460,7 @@ for many to many relationship between intersect table and institutions
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -1184,7 +1176,7 @@ group by gs.id_phase, gs.ent_id, gs.ent_type
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>672</yloc>
+      <yloc>688</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1753,7 +1745,7 @@ order by fsi1.id_phase, fsi1.funding_source_id
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>80</yloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
