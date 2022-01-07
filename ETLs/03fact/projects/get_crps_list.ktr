@@ -529,7 +529,7 @@
 from global_units
 where is_active
 and global_unit_type_id in (1,3)
-and id in(24)</sql>
+-- and id in(24)</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
