@@ -6,7 +6,7 @@ CREATE TABLE marlobi.dim_intersect_group_persons
 , version INT
 , date_from DATETIME
 , date_to DATETIME
-, ids_group TEXT
+, ids_group varchar(500)
 , person_name_group TEXT
 , person_email_group TEXT
 , person_name_email_group TEXT

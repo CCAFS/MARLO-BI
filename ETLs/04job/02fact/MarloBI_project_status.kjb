@@ -199,10 +199,10 @@
     </field>
   </job-log-table>
   <jobentry-log-table>
-    <connection/>
-    <schema/>
-    <table/>
-    <timeout_days/>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>pentaho_job_log</table>
+    <timeout_days>10</timeout_days>
     <field>
       <id>ID_BATCH</id>
       <enabled>Y</enabled>
@@ -427,7 +427,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1312</xloc>
+      <xloc>1440</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -476,7 +476,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1168</xloc>
+      <xloc>1296</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -515,7 +515,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>736</xloc>
+      <xloc>864</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -690,7 +690,7 @@ ${LOG_PATH}</comment>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>896</xloc>
+      <xloc>1024</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -734,7 +734,7 @@ ${LOG_PATH}</comment>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1024</xloc>
+      <xloc>1152</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -773,7 +773,7 @@ ${LOG_PATH}</comment>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>640</xloc>
+      <xloc>768</xloc>
       <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
@@ -791,8 +791,8 @@ ${LOG_PATH}</comment>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>576</xloc>
-      <yloc>112</yloc>
+      <xloc>640</xloc>
+      <yloc>48</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -901,7 +901,7 @@ ${LOG_PATH}</comment>
       <to>ETL_synthesis_status</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
