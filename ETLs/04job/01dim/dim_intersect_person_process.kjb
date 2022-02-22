@@ -4,6 +4,7 @@
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
   <created_date>2021/11/19 15:24:10.727</created_date>
@@ -127,10 +128,10 @@
     </field>
   </job-log-table>
   <jobentry-log-table>
-    <connection/>
-    <schema/>
-    <table/>
-    <timeout_days/>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>pentaho_job_log</table>
+    <timeout_days>10</timeout_days>
     <field>
       <id>ID_BATCH</id>
       <enabled>Y</enabled>
@@ -290,7 +291,6 @@
       <name>Start</name>
       <description/>
       <type>SPECIAL</type>
-      <attributes/>
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
@@ -306,25 +306,21 @@
       <nr>0</nr>
       <xloc>64</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>Success</name>
       <description/>
       <type>SUCCESS</type>
-      <attributes/>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>432</xloc>
       <yloc>176</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>stg_pre_group_person</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_pre_group_person.ktr</filename>
@@ -348,7 +344,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -357,13 +352,11 @@
       <nr>0</nr>
       <xloc>432</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>init_variables</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
@@ -387,7 +380,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -396,13 +388,11 @@
       <nr>0</nr>
       <xloc>192</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>init_variable_phase</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI_phase_fs.ktr</filename>
@@ -426,7 +416,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -435,13 +424,11 @@
       <nr>0</nr>
       <xloc>304</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>stg_intersect_group_persons</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_intersect_group_persons.ktr</filename>
@@ -465,7 +452,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -474,13 +460,11 @@
       <nr>0</nr>
       <xloc>592</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>dim_intersect_group_persons</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../01dim/dim_intersect_group_persons.ktr</filename>
@@ -504,7 +488,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -513,13 +496,11 @@
       <nr>0</nr>
       <xloc>768</xloc>
       <yloc>80</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>stg_br_group_persons</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../02stg/generic/stg_br_group_persons.ktr</filename>
@@ -543,7 +524,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -552,13 +532,11 @@
       <nr>0</nr>
       <xloc>768</xloc>
       <yloc>176</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>br_group_persons</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../01dim/br_group_persons.ktr</filename>
@@ -582,7 +560,6 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
-      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -591,7 +568,6 @@
       <nr>0</nr>
       <xloc>592</xloc>
       <yloc>176</yloc>
-      <attributes_kjc/>
     </entry>
   </entries>
   <hops>
@@ -670,5 +646,4 @@
   </hops>
   <notepads>
   </notepads>
-  <attributes/>
 </job>
