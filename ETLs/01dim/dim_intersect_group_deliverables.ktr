@@ -453,26 +453,6 @@ facts and deliverables info dimension
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -569,7 +549,6 @@ facts and deliverables info dimension
     <start_date_alternative>none</start_date_alternative>
     <start_date_field_name/>
     <useBatch>N</useBatch>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -605,56 +584,6 @@ FROM marloBI.stg_intersect_group_deliverables
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>deliverable_name_group</name>
-        <length>21845</length>
-        <precision>-1</precision>
-        <origin>stg_intersect_group_geo_scopes</origin>
-        <comments>deliverable_name_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>800</length>
-        <precision>-1</precision>
-        <origin>stg_intersect_group_geo_scopes</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -673,5 +602,4 @@ FROM marloBI.stg_intersect_group_deliverables
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>

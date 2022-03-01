@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>MarloBI_deliverables</name>
+  <name>bi_aiccra_update</name>
   <description/>
   <extended_description/>
   <job_version/>
-  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/07/10 16:15:05.695</created_date>
+  <created_date>2022/03/01 07:57:34.530</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/07/10 16:15:05.695</modified_date>
+  <modified_date>2022/03/01 07:57:34.530</modified_date>
   <parameters>
     </parameters>
   <slaveservers>
@@ -128,10 +127,10 @@
     </field>
   </job-log-table>
   <jobentry-log-table>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>pentaho_job_log</table>
-    <timeout_days>10</timeout_days>
+    <connection/>
+    <schema/>
+    <table/>
+    <timeout_days/>
     <field>
       <id>ID_BATCH</id>
       <enabled>Y</enabled>
@@ -304,16 +303,52 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
-      <yloc>64</yloc>
+      <xloc>160</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
-      <name>get_dlv_variables</name>
+      <name>var ini Marlo Bi</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/ETL_get_dlv_variables.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>Y</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>304</xloc>
+      <yloc>112</yloc>
+    </entry>
+    <entry>
+      <name>bi_update_indicators_process</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_update_indicators_process.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -340,16 +375,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
-      <yloc>64</yloc>
+      <xloc>480</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
-      <name>var ini MarloBI</name>
+      <name>bi_update_deliverable_process</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/config/var_ini_MarloBI.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_update_deliverables_process.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -376,8 +411,85 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>176</xloc>
-      <yloc>64</yloc>
+      <xloc>832</xloc>
+      <yloc>112</yloc>
+    </entry>
+    <entry>
+      <name>bi_project_contribution</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_project_contribution.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>656</xloc>
+      <yloc>112</yloc>
+    </entry>
+    <entry>
+      <name>ETL_project_status_aiccra</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_project_status_aiccra.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>p_ori_database</name>
+          <stream_name/>
+          <value>aiccradb</value>
+        </parameter>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1008</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>Success</name>
@@ -386,14 +498,14 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>432</xloc>
-      <yloc>64</yloc>
+      <xloc>1152</xloc>
+      <yloc>112</yloc>
     </entry>
   </entries>
   <hops>
     <hop>
       <from>START</from>
-      <to>var ini MarloBI</to>
+      <to>var ini Marlo Bi</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -401,7 +513,34 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>get_dlv_variables</from>
+      <from>bi_update_indicators_process</from>
+      <to>bi_project_contribution</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>bi_project_contribution</from>
+      <to>bi_update_deliverable_process</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>bi_update_deliverable_process</from>
+      <to>ETL_project_status_aiccra</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ETL_project_status_aiccra</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -410,8 +549,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>var ini MarloBI</from>
-      <to>get_dlv_variables</to>
+      <from>var ini Marlo Bi</from>
+      <to>bi_update_indicators_process</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -431,6 +570,10 @@
     </group>
     <group>
       <name>{"_":"Embedded MetaStore Elements","namespace":"pentaho","type":"Default Run Configuration"}</name>
+      <attribute>
+        <key>Pentaho local</key>
+        <value>{"children":[{"children":[],"id":"server","value":null},{"children":[],"id":"clustered","value":"N"},{"children":[],"id":"name","value":"Pentaho local"},{"children":[],"id":"description","value":null},{"children":[],"id":"pentaho","value":"N"},{"children":[],"id":"readOnly","value":"Y"},{"children":[],"id":"sendResources","value":"N"},{"children":[],"id":"logRemoteExecutionLocally","value":"N"},{"children":[],"id":"remote","value":"N"},{"children":[],"id":"local","value":"Y"},{"children":[],"id":"showTransformations","value":"N"}],"id":"Pentaho local","value":null,"name":"Pentaho local","owner":null,"ownerPermissionsList":[]}</value>
+      </attribute>
     </group>
   </attributes>
 </job>

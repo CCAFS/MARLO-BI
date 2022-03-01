@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>ETL_deliverables_full_data</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL with a whole deliverables information</extended_description>
+    <name>ETL_project_status_aiccra</name>
+    <description/>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -428,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 08:51:05.283</created_date>
+    <created_date>2021/11/09 15:44:55.996</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 08:51:05.283</modified_date>
+    <modified_date>2021/11/09 15:44:55.996</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -491,15 +490,75 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>ORI_AICCRA</name>
+    <server>${ORI_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${ORI_DBNAME_AICCRA}</database>
+    <port>3306</port>
+    <username>${ORI_USR}</username>
+    <password>${ORI_PSW}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
-      <from>Load_stg_deliverables</from>
-      <to>Sheet_Deliverables</to>
+      <from>Load aiccra Clusters</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Sheet_ProjectSubmision</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_stg_deliverables</name>
+    <name>Load aiccra Clusters</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -509,60 +568,256 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT dfd.`CGIAR_entity`,
-    dfd.`Phase`,
-    dfd.`PRY_ID`,
-    dfd.`PRY_composeID`,
-    dfd.`PRY_title`,
-    dfd.`DLV_ID`,
-    dfd.`DLV_composeID`,
-    dfd.`DLV_Title`,
-    dfd.`DLV_Description`,
-    dfd.`DLV_year`,
-    dfd.`DLV_Category`,
-    dfd.`DLV_subCategory`,
-    dfd.`DLV_Status`,
-    dfd.`DLV_keyOutput`,
-    dfd.`DLV_geographicScope`,
-    dfd.`DLV_location`,
-    dfd.`DLV_CrossCuttingDimension`,
-    dfd.`DLV_CrossCuttingScore`,
-    dfd.`DLV_partnerName`,
-    dfd.`DLV_partnerPerson`,
-    dfd.`DLV_isOpenAcces`,
-    dmd.DLV_disseminatedTitle,
-    dmd.DLV_disseminatedDate,
-    dfd.`DLV_licence`,
-    dfd.`DLV_Journal`,
-    dfd.`FS_ID`,
-    dfd.`FS_composeID`,
-    dfd.`FS_title`,
-    dfd.`FS_type`,
-    dfd.`Management_liason`,
-    dfd.`reg_name`,
-    dfd.`prg_name`,
-    dfd.`CoA_id`,
-    dfd.`CoA_DESC`,
-    dfd.`loc_region`,
-    dfd.`already_disseminated`,
-    dfd.`dissemination_channel`,
-    dfd.`dissemination_URL`,
-    dmd.DOI,
-    dmd.`Handle`,
-    dfd.`journal`,
-    dfd.`isi_publication`,
-    dfd.`identifier`,
-    dfd.`DLV_planned`,
-    dfd.`is_complete`,
-    dii.`Included_AR`,
-    dfd.`Link`,
-    dfd.`updated_date`,
-	dfd.`adopted_license`,
-	dfd.`DLV_loc_iso_alpha_2`
-FROM bi_stg_deliverables_full_data dfd 
-left join bi_stg_deliverables_metadata dmd on dfd.id_phase = dmd.id_phase and dfd.DLV_ID = dmd.DLV_ID
-join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.DLV_ID = dii.DLV_ID;</sql>
+    <connection>ORI_AICCRA</connection>
+    <sql>SELECT gu.acronym CRP, concat('C',p.id) 'project id',
+CONCAT(
+		'https://aiccra.marlo.cgiar.org/clusters/',
+		gu.acronym,
+		'/description.do?edit=true&amp;projectID=',
+		p.id,
+		'&amp;phaseID=',
+		ph.id
+	)	 AS 'Project link',
+	(
+		CASE
+		WHEN ISNULL(pi.title) THEN
+			"&lt;Not Defined>"
+		ELSE
+			pi.title
+		END
+	) AS 'Project Title',
+	if(pi.administrative=1,'Administrative',ct.name) 'Project type',
+	(CASE
+		WHEN pi.administrative = 1 THEN
+			"&lt;Not Applicable>"
+		ELSE
+			if(fp.program_type = 1,fp.acronym,'')
+		END
+	) Flagships,
+(CASE
+		WHEN pi.administrative = 1 THEN
+			"&lt;Not Applicable>"
+		ELSE
+			if(fp.program_type = 2,fp.acronym,'')
+		END
+	) Regions,
+	(
+		CASE pi. STATUS
+		WHEN 2 THEN
+			"On-going"
+		WHEN 3 THEN
+			"Complete"
+		WHEN 4 THEN
+			"Extended"
+		WHEN 5 THEN
+			"Cancelled"
+		END
+	) AS "Status",
+	(
+		CASE
+		WHEN li.crp_program IS NOT NULL
+		OR li.institution_id IS NULL THEN
+			 li.`name`
+		WHEN i.id IS NOT NULL THEN
+			 i.`name`
+		ELSE
+			""
+		END
+	) AS "Management Liaison",
+	(
+		CASE
+		WHEN li.crp_program IS NOT NULL
+		OR li.institution_id IS NULL THEN
+			li.acronym
+		WHEN i.id IS NOT NULL THEN
+			i.acronym
+		ELSE
+			"&lt;Not Defined>"
+		END
+	) AS "Management Liaison acronym",
+	CONCAT(
+		u.first_name,
+		", ",
+		u.last_name,
+		"&lt;",
+		u.email,
+		">"
+	) AS "Management Liaison Contact Person",
+(
+		CASE
+		WHEN COUNT(i2.id)=0 THEN
+			"&lt;Not Defined>"
+		WHEN GROUP_CONCAT(DISTINCT  i2.acronym) IS NOT NULL AND GROUP_CONCAT(DISTINCT  i2.acronym)!="" THEN
+			GROUP_CONCAT(DISTINCT  i2.acronym, "-", i2.`name`)
+		ELSE
+			GROUP_CONCAT(DISTINCT  i2.`name`)
+		END
+	) AS "Lead Institution",
+ GROUP_CONCAT(DISTINCT
+		u2.first_name,
+		", ",
+		u2.last_name,
+		"&lt;",
+		u2.email,
+		">"
+	) AS "Project Leader",
+	(
+		CASE
+		WHEN s.id IS NULL THEN
+			"Not Submitted"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			"Submitted"
+		ELSE
+			"Returned"
+		END
+	) AS "Submission_status",
+	(	CASE
+		WHEN s.id IS NULL THEN
+			"&lt;Not Defined>"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			concat(subusr.first_name,' ',subusr.last_name)
+		ELSE
+			concat(unsubusr.first_name,' ',unsubusr.last_name)
+ 			-- "&lt;Not Defined>"
+		END
+  ) submitted_by, 
+	(
+		CASE
+		WHEN s.id IS NULL THEN
+			"&lt;Not Defined>"
+		WHEN s.unsubmit = 0
+		OR s.unsubmit IS NULL THEN
+			CONCAT(
+				"Submitted on ",
+				s.date_time
+			)
+		ELSE
+			CONCAT(
+				"Unsubmitted on ",
+				s.date_time
+			)
+		END
+	) AS "Submission Date",
+	(
+		CASE
+		WHEN ISNULL(
+			s.modification_justification
+		)
+		OR s.modification_justification = "" THEN
+			"&lt;Not Defined>"
+		ELSE
+			s.modification_justification
+		END
+	) AS "Submission Justification",
+	(
+		CASE
+		WHEN ISNULL(s.unsubmit_justification)
+		OR s.unsubmit_justification = "" THEN
+			"&lt;Not Defined>"
+		ELSE
+			s.unsubmit_justification
+		END
+	) AS "Unsubmission Justification",
+sec.id section_id
+,ifnull(nsec.new_value,sec.section_name) section_name
+-- ,sec.section_name
+,CASE 
+when 
+group_concat(distinct sec.missing_fields) is not null and group_concat(distinct missing_fields)!="" 
+then "Incomplete"
+else 
+"Complete" 
+end AS "Section status"
+,CASE 
+when section_name ='deliverableList' then concat('D',di.deliverable_id)
+when section_name ='studies' then concat('OI',pesi.project_expected_study_id)
+when section_name ='innovationsList' then concat('IN',inni.project_innovation_id)
+when section_name ='policies' then concat('PO',poli.project_policy_id)
+when section_name ='contributionsCrpList' then concat('''',outc.composed_id)
+ELSE 'ALL'
+end as indicator_ID
+,CASE 
+when section_name ='deliverableList' then concat('D',sec.deliverable_id)
+when section_name ='studies' then concat('OI',sec.project_expected_id)
+when section_name ='innovationsList' then concat('IN',sec.project_innovation_id)
+when section_name ='policies' then concat('PO',sec.project_policy_id)
+when section_name ='contributionsCrpList' then concat('''',sec.project_outcome_id)
+ELSE 'ALL'
+end as indicator_ID_2
+,group_concat(distinct sec.missing_fields) AS "missing fields"
+,if(gu.acronym = 'CCAFS' and IFNULL(pi.is_evaluated,0)= 0 ,'No','Yes') is_evaluated
+,sysdate() updated_date
+,concat(ph.name,ph.year) Phase
+,ph.name phase_name
+,ph.year phase_year
+FROM projects p
+JOIN projects_info pi ON pi.project_id = p.id
+JOIN bi_parameters bip on bip.parameter_name='project_status_phase' 
+JOIN phases ph ON ph.id = pi.id_phase and concat(ph.name,ph.year)=bip.parameter_value
+JOIN global_units gu ON gu.id = ph.global_unit_id and gu.is_active
+LEFT JOIN cluster_types ct ON ct.id = pi.type_id
+
+LEFT join project_focuses pfp on pfp.project_id = pi.project_id and pfp.id_phase = pi.id_phase and pfp.is_active
+LEFT join crp_programs fp on fp.id = pfp.program_id and fp.is_active and fp.global_unit_id = gu.id
+LEFT JOIN liaison_institutions li ON li.id = pi.liaison_institution_id AND li.is_active
+LEFT JOIN liaison_users lu ON lu.id = pi.liaison_user_id AND lu.is_active
+LEFT JOIN institutions i ON i.id = li.institution_id
+LEFT JOIN users u ON u.id = lu.user_id
+LEFT JOIN project_partners pp ON pp.project_id = p.id AND pp.is_active AND pp.id_phase =ph.id
+LEFT JOIN project_partner_persons ppp ON pp.id = ppp.project_partner_id AND ppp.is_active AND ppp.contact_type="PL"
+LEFT JOIN project_partners pp2 ON pp2.id = ppp.project_partner_id and pp2.is_active
+LEFT JOIN institutions i2 ON i2.id = pp2.institution_id
+LEFT JOIN users u2 ON u2.id = ppp.user_id AND u2.is_active
+LEFT JOIN submissions s ON s.id = (
+	SELECT
+		MAX(sq.id) sq
+	FROM
+		submissions sq
+	WHERE
+		sq.project_id = p.id
+	AND sq.cycle = ph.description
+	AND sq.`year` = ph.`year`
+)
+left join users subusr on subusr.id = s.user_id
+left join users unsubusr on unsubusr.id = s.unsubmit_user_id
+LEFT JOIN section_statuses sec  ON sec.project_id=p.id  AND sec.cycle = ph.description AND sec.year=ph.year 
+LEFT JOIN bi_homologation_fields nsec on nsec.Table_value = sec.section_name and nsec.`Table`='section_statuses' and nsec.Field='section_name' and scope = 'Project'
+
+-- only validate year = phase_year
+left join deliverables_info di on di.deliverable_id = sec.deliverable_id and di.id_phase = ph.id  and di.is_active and ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`) = ph.year
+
+left join project_expected_studies pes on pes.id= sec.project_expected_id and pes.is_active
+left join project_expected_study_info pesi on pesi.project_expected_study_id= pes.id and pesi.id_phase = ph.id and pesi.year >= ph.year
+
+left join project_innovations inn on inn.id= sec.project_innovation_id and inn.is_active
+left join project_innovation_info inni on inni.project_innovation_id =inn.id and inni.id_phase = ph.id and inni.`year` >= ph.`year`
+-- only validate year = phase_year
+left join project_policies pol on pol.id= sec.project_policy_id and pol.is_active
+left join project_policy_info poli on poli.project_policy_id = pol.id and poli.id_phase = ph.id and poli.`year` = ph.year 
+
+left join project_outcomes pout on pout.id = sec.project_outcome_id and pout.is_active
+left join crp_program_outcomes outc on pout.outcome_id = outc.id and outc.is_active
+ WHERE p.is_active
+-- AND ph.year =2022 
+-- and ph.name ='APWB'
+-- and p.id = 372
+and gu.acronym = 'AICCRA'
+-- AND ph.year = 2021
+-- and ph.name ='AR'
+and ph.year between year(pi.start_date) and year(pi.end_date)
+GROUP BY
+	p.id,pi.title,pi.administrative,pi.status,pi.is_evaluated,
+  li.crp_program,li.institution_id,li.name,li.acronym,
+	u.first_name,u.last_name,u.email,
+	s.id,
+  fp.program_type,fp.acronym,
+  ph.id,
+  sec.id,sec.section_name,sec.deliverable_id,sec.project_expected_id,sec.project_innovation_id,sec.project_policy_id,sec.project_outcome_id
+;
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -576,13 +831,127 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>256</yloc>
+      <xloc>112</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sheet_Deliverables</name>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>CRP</name>
+      </field>
+      <field>
+        <name>project id</name>
+      </field>
+      <field>
+        <name>Project link</name>
+      </field>
+      <field>
+        <name>Project Title</name>
+      </field>
+      <field>
+        <name>Project type</name>
+      </field>
+      <field>
+        <name>Flagships</name>
+      </field>
+      <field>
+        <name>Regions</name>
+      </field>
+      <field>
+        <name>Status</name>
+      </field>
+      <field>
+        <name>Management Liaison</name>
+      </field>
+      <field>
+        <name>Management Liaison acronym</name>
+      </field>
+      <field>
+        <name>Management Liaison Contact Person</name>
+      </field>
+      <field>
+        <name>Lead Institution</name>
+      </field>
+      <field>
+        <name>Project Leader</name>
+      </field>
+      <field>
+        <name>Submission_status</name>
+      </field>
+      <field>
+        <name>submitted_by</name>
+      </field>
+      <field>
+        <name>Submission Date</name>
+      </field>
+      <field>
+        <name>Submission Justification</name>
+      </field>
+      <field>
+        <name>Unsubmission Justification</name>
+      </field>
+      <field>
+        <name>section_id</name>
+      </field>
+      <field>
+        <name>section_name</name>
+      </field>
+      <field>
+        <name>Section status</name>
+      </field>
+      <field>
+        <name>indicator_ID</name>
+      </field>
+      <field>
+        <name>indicator_ID_2</name>
+      </field>
+      <field>
+        <name>missing fields</name>
+      </field>
+      <field>
+        <name>is_evaluated</name>
+      </field>
+      <field>
+        <name>updated_date</name>
+      </field>
+      <field>
+        <name>Phase</name>
+      </field>
+      <field>
+        <name>phase_name</name>
+      </field>
+      <field>
+        <name>phase_year</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sheet_ProjectSubmision</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -594,8 +963,8 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>bi_deliverables_full_data</table>
-    <commit>10000</commit>
+    <table>aiccra_project_submission</table>
+    <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -619,8 +988,8 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>256</yloc>
+      <xloc>464</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

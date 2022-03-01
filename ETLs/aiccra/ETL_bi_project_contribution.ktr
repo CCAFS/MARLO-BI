@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>ETL_deliverables_full_data</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL with a whole deliverables information</extended_description>
+    <name>ETL_bi_project_contribution</name>
+    <description/>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -428,10 +427,10 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 08:51:05.283</created_date>
+    <created_date>2022/03/01 07:51:15.739</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 08:51:05.283</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2022/03/01 07:51:15.739</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -491,15 +490,70 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>ORI_AICCRA</name>
+    <server>${ORI_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${ORI_DBNAME_AICCRA}</database>
+    <port>3306</port>
+    <username>${ORI_USR}</username>
+    <password>${ORI_PSW}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
-      <from>Load_stg_deliverables</from>
-      <to>Sheet_Deliverables</to>
+      <from>Load_ project_contribution</from>
+      <to>aiccra_project_contribution</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_stg_deliverables</name>
+    <name>Load_ project_contribution</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -509,60 +563,90 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT dfd.`CGIAR_entity`,
-    dfd.`Phase`,
-    dfd.`PRY_ID`,
-    dfd.`PRY_composeID`,
-    dfd.`PRY_title`,
-    dfd.`DLV_ID`,
-    dfd.`DLV_composeID`,
-    dfd.`DLV_Title`,
-    dfd.`DLV_Description`,
-    dfd.`DLV_year`,
-    dfd.`DLV_Category`,
-    dfd.`DLV_subCategory`,
-    dfd.`DLV_Status`,
-    dfd.`DLV_keyOutput`,
-    dfd.`DLV_geographicScope`,
-    dfd.`DLV_location`,
-    dfd.`DLV_CrossCuttingDimension`,
-    dfd.`DLV_CrossCuttingScore`,
-    dfd.`DLV_partnerName`,
-    dfd.`DLV_partnerPerson`,
-    dfd.`DLV_isOpenAcces`,
-    dmd.DLV_disseminatedTitle,
-    dmd.DLV_disseminatedDate,
-    dfd.`DLV_licence`,
-    dfd.`DLV_Journal`,
-    dfd.`FS_ID`,
-    dfd.`FS_composeID`,
-    dfd.`FS_title`,
-    dfd.`FS_type`,
-    dfd.`Management_liason`,
-    dfd.`reg_name`,
-    dfd.`prg_name`,
-    dfd.`CoA_id`,
-    dfd.`CoA_DESC`,
-    dfd.`loc_region`,
-    dfd.`already_disseminated`,
-    dfd.`dissemination_channel`,
-    dfd.`dissemination_URL`,
-    dmd.DOI,
-    dmd.`Handle`,
-    dfd.`journal`,
-    dfd.`isi_publication`,
-    dfd.`identifier`,
-    dfd.`DLV_planned`,
-    dfd.`is_complete`,
-    dii.`Included_AR`,
-    dfd.`Link`,
-    dfd.`updated_date`,
-	dfd.`adopted_license`,
-	dfd.`DLV_loc_iso_alpha_2`
-FROM bi_stg_deliverables_full_data dfd 
-left join bi_stg_deliverables_metadata dmd on dfd.id_phase = dmd.id_phase and dfd.DLV_ID = dmd.DLV_ID
-join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.DLV_ID = dii.DLV_ID;</sql>
+    <connection>ORI_AICCRA</connection>
+    <sql>SELECT  DISTINCT
+	ph.id "ID Phase", ph.`name` "Phase name", ph.`year` "Phase year",
+	gu.acronym CRP,gu.name "CRP name",
+	concat('C',p.id) "Project ID",
+	CONCAT(
+		'https://aiccra.marlo.cgiar.org/projects/',
+		gu.acronym,
+		'/contributionCrp.do?projectOutcomeID=',
+		pout.id,
+		'&amp;edit=true&amp;phaseID=',
+		get_max_open_phase(gu.id)
+	) AS 'Project Link'
+	,pi.title "Project Title"
+	,ct.`name` "Project type"
+	, fp.acronym "Flagship" 
+	,outc.composed_id "Outcome ID"
+	, if(ph.`name`='POWB',pout.expected_value,0) "Outcome expected value"
+	, if(ph.`name`='POWB',exunit.`name`,'') "Outcome expected unit"
+	-- , if(ph.`name`='AR',pout.expected_value,0) "Outcome reported value"
+	-- , if(ph.`name`='AR',exunit.`name`,'') "Outcome reported unit"
+	, mil.composed_id "Milestone ID"
+	, mil.title "Milestone"
+	-- , mil.year
+	, pmil.expected_value "Milestone expected value"
+	, munit.`name` "Milestone expected unit"
+	, pmil.progress_value "Milestone progress value"
+	, pmil.achieved_value "Milestone reported value"
+	, pmil.setted_value "Milestone setted value"
+	-- , if(ph.`name`='AR',munit.`name`,'') "Milestone reported unit"
+	, pout.narrative_target "Contribution Narrative"
+	, com.communication "Outcome Comunication" 
+	, if(mil.id is null,'&lt;Not provided>',pmil.narrative_target) "Milestone expected narrative"
+	, if(mil.id is null,'&lt;Not provided>',pmil.narrative_progress) "Milestone progress narrative"
+	, if(mil.id is null,'&lt;Not provided>',pmil.narrative_achieved) "Milestone achieved narrative"
+	, if(next.id is null,'&lt;Not provided>',next.next_user) "Next user"
+	, if(next.id is null,'&lt;Not provided>',next.knowledge) "Next user knowledge expected"
+	, if(next.id is null,'&lt;Not provided>',next.strategies) "Next user Strategies"
+	, if(next.id is null,'&lt;Not provided>',next.knowledge_report) "Next user knowledge progress"
+	, if(next.id is null,'&lt;Not provided>',next.strategies_report) "Next user Strategies Progress"
+	, outi2.indicator as 'Progress question'
+	, (select ifnull(GROUP_CONCAT(pouti2.narrative),'') from project_outcome_indicators pouti2 where pouti2.project_outcome_id = pout2.id and pouti2.crp_outcome_indicator=outi2.id and pouti2.is_active) 'Progress Narrative'
+	, outi.indicator 'Report question'
+	, (select ifnull(GROUP_CONCAT(pouti.narrative),'') from project_outcome_indicators pouti where pouti.project_outcome_id = pout.id and pouti.crp_outcome_indicator=outi.id and pouti.is_active) 'Report Narrative'
+	, concat(ph.id,'_',mil.composed_id) pk
+	, concat(p.id,'_',outc.composed_id,'_',mil.year) contribution_pk
+	, pcl.lessons 	
+	FROM	projects p
+	INNER JOIN projects_info pi ON pi.project_id = p.id
+	JOIN cluster_types ct on ct.id = pi.type_id
+	-- join bi_parameters bpa on bpa.parameter_name='BI_data_phase'
+	INNER JOIN phases ph ON ph.id = pi.id_phase -- and ph.id = bpa.parameter_value
+	INNER JOIN global_units gu ON gu.id = ph.global_unit_id
+
+	JOIN project_outcomes pout on pout.project_id = pi.project_id and pout.id_phase = pi.id_phase  and pout.is_active
+	
+	JOIN crp_program_outcomes outc on outc.id = pout.outcome_id
+	JOIN crp_programs fp on fp.id = outc.crp_program_id
+	JOIN srf_target_units unit on unit.id = outc.target_unit_id
+	left join crp_program_outcome_indicator outi on outi.crp_program_outcome_id = outc.id and outi.is_active
+	
+	
+	-- Questions from progress
+	left join phases ph2 on ph2.year=ph.year and ph2.global_unit_id = ph.global_unit_id and ph2.name='Progress'
+	left join crp_program_outcomes outc2 on outc.composed_id = outc2.composed_id and outc2.id_phase = ph2.id
+  left JOIN project_outcomes pout2 on pout2.project_id = pi.project_id and pout2.id_phase = ph2.id and outc2.id = pout2.outcome_id and pout2.is_active
+  left join crp_program_outcome_indicator outi2 on outc2.id = outi2.crp_program_outcome_id and outi2.is_active	
+
+	LEFT JOIN srf_target_units exunit on exunit.id = pout.expected_unit
+	LEFT JOIN project_communications com on com.project_outcome_id =pout.id and com.is_active
+	LEFT JOIN project_nextusers next on next.project_outcome_id =pout.id and next.is_active
+
+	left join project_milestones pmil on pmil.project_outcome_id = pout.id and pmil.is_active
+	LEFT JOIN crp_milestones mil on mil.id = pmil.crp_milestone_id
+	LEFT JOIN srf_target_units munit on munit.id = pmil.expected_unit
+	left join project_component_lessons pcl on pcl.component_name='contributionCrp' and pcl.id_phase = pout.id_phase and pcl.project_outcome_id = pout.id
+	WHERE	p.is_active
+	-- and  pi.project_id = 102084
+  -- and  mil.title='IPI 1.3: Satisfaction with the quality and usefulness of climate?relevant knowledge products, decision-making tools and services received under AICCRA expressed by surveyed partners and stakeholders express (%)'
+	and ph.name = 'AR'
+	-- and ph.year = 2022
+	and ph.year = mil.year
+	and gu.acronym = 'AICCRA'
+	;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -576,13 +660,13 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>256</yloc>
+      <xloc>208</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sheet_Deliverables</name>
+    <name>aiccra_project_contribution</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -593,9 +677,9 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>bi_deliverables_full_data</table>
-    <commit>10000</commit>
+    <schema/>
+    <table>aiccra_project_contribution</table>
+    <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -620,7 +704,7 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
     </remotesteps>
     <GUI>
       <xloc>512</xloc>
-      <yloc>256</yloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

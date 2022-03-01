@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>ETL_deliverables_full_data</name>
-    <description>Initial ETL for deliverables sheet</description>
-    <extended_description>ETL with a whole deliverables information</extended_description>
+    <name>ETL_bi_update_indicators_process</name>
+    <description/>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -428,10 +427,10 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/11/14 08:51:05.283</created_date>
+    <created_date>2022/02/28 14:22:16.810</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/11/14 08:51:05.283</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <modified_date>2022/02/28 14:22:16.810</modified_date>
+    <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -491,15 +490,70 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>ORI_AICCRA</name>
+    <server>${ORI_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${ORI_DBNAME_AICCRA}</database>
+    <port>3306</port>
+    <username>${ORI_USR}</username>
+    <password>${ORI_PSW}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
-      <from>Load_stg_deliverables</from>
-      <to>Sheet_Deliverables</to>
+      <from>Load_indicators</from>
+      <to>aiccra_indicators</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Load_stg_deliverables</name>
+    <name>Load_indicators</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -509,60 +563,43 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_DB</connection>
-    <sql>SELECT dfd.`CGIAR_entity`,
-    dfd.`Phase`,
-    dfd.`PRY_ID`,
-    dfd.`PRY_composeID`,
-    dfd.`PRY_title`,
-    dfd.`DLV_ID`,
-    dfd.`DLV_composeID`,
-    dfd.`DLV_Title`,
-    dfd.`DLV_Description`,
-    dfd.`DLV_year`,
-    dfd.`DLV_Category`,
-    dfd.`DLV_subCategory`,
-    dfd.`DLV_Status`,
-    dfd.`DLV_keyOutput`,
-    dfd.`DLV_geographicScope`,
-    dfd.`DLV_location`,
-    dfd.`DLV_CrossCuttingDimension`,
-    dfd.`DLV_CrossCuttingScore`,
-    dfd.`DLV_partnerName`,
-    dfd.`DLV_partnerPerson`,
-    dfd.`DLV_isOpenAcces`,
-    dmd.DLV_disseminatedTitle,
-    dmd.DLV_disseminatedDate,
-    dfd.`DLV_licence`,
-    dfd.`DLV_Journal`,
-    dfd.`FS_ID`,
-    dfd.`FS_composeID`,
-    dfd.`FS_title`,
-    dfd.`FS_type`,
-    dfd.`Management_liason`,
-    dfd.`reg_name`,
-    dfd.`prg_name`,
-    dfd.`CoA_id`,
-    dfd.`CoA_DESC`,
-    dfd.`loc_region`,
-    dfd.`already_disseminated`,
-    dfd.`dissemination_channel`,
-    dfd.`dissemination_URL`,
-    dmd.DOI,
-    dmd.`Handle`,
-    dfd.`journal`,
-    dfd.`isi_publication`,
-    dfd.`identifier`,
-    dfd.`DLV_planned`,
-    dfd.`is_complete`,
-    dii.`Included_AR`,
-    dfd.`Link`,
-    dfd.`updated_date`,
-	dfd.`adopted_license`,
-	dfd.`DLV_loc_iso_alpha_2`
-FROM bi_stg_deliverables_full_data dfd 
-left join bi_stg_deliverables_metadata dmd on dfd.id_phase = dmd.id_phase and dfd.DLV_ID = dmd.DLV_ID
-join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.DLV_ID = dii.DLV_ID;</sql>
+    <connection>ORI_AICCRA</connection>
+    <sql>
+	select 
+	ph.id "Phase ID", ph.`name` "Phase name", ph.`year` "Phase year",
+	gu.acronym CRP,gu.name "CRP name",
+	cp.acronym Component, cp.name "Component name",
+	cpo.composed_id "Outcome ID", cpo.description Outcome, cpo.`year` "Outcome Target Year", otu.`name` "Outcome Target Unit", cpo.`value` "Outcome Target Value",
+	concat(cpo.composed_id,'_',cm.year) indicator_pk,
+	cm.composed_id "Milestone ID", cm.title Milestone, cm.year "Milestone Year", if(cm.extended_year =-1,null,cm.extended_year) "Milestone extended year",
+	mtu.`name` "Milestone Target Unit", cm.`value` "Milestone Target Value",  
+	ifnull(gst.`name`,'Not defined') "Milestone Status", ifnull(pifm.`name`,'Not Defined') "Level of Change",
+	cm.powb_milestone_verification "Mean of Verification",
+	ifnull(gender.powb_name,'Not defined') Gender,
+	ifnull(youth.powb_name,'Not defined') Youth,
+	ifnull(capdev.powb_name,'Not defined') CapDev,
+	ifnull(climate.powb_name,'Not defined') Climate,
+	concat(ph.id,'_',cm.composed_id) pk,
+	sysdate() updated_date
+	from crp_milestones cm
+	join crp_program_outcomes cpo on cm.crp_program_outcome_id = cpo.id and cpo.is_active
+	join crp_programs cp on cpo.crp_program_id = cp.id and cp.is_active
+	-- join bi_parameters bpa on bpa.parameter_name='BI_data_phase'
+	join phases ph on cpo.id_phase = ph.id -- and ph.id=bpa.parameter_value
+	join global_units gu on ph.global_unit_id = gu.id and cp.global_unit_id = gu.id and gu.is_active
+	
+	left join srf_target_units otu on otu.id = cpo.target_unit_id and otu.is_active
+	left join srf_target_units mtu on mtu.id = cm.target_unit_id and mtu.is_active
+	left join general_statuses gst on gst.id = cm.milestone_status 
+	left join powb_ind_following_milestones pifm on cm.powb_ind_following_milestone_id = pifm.id 
+	left join rep_ind_gender_youth_focus_levels gender on cm.rep_ind_gender_focus_level_id = gender.id
+	left join rep_ind_gender_youth_focus_levels youth on cm.rep_ind_youth_focus_level_id = youth.id
+	left join rep_ind_gender_youth_focus_levels capdev on cm.rep_ind_capdev_focus_level_id = capdev.id
+	left join rep_ind_gender_youth_focus_levels climate on cm.rep_ind_climate_focus_level_id = climate.id
+	where cm.is_active 
+	and ph.year = cm.`year`
+	and ph.name = 'AR'
+	;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -576,13 +613,13 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>256</yloc>
+      <xloc>160</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sheet_Deliverables</name>
+    <name>aiccra_indicators</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -594,8 +631,8 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
     </partitioning>
     <connection>DES_DB</connection>
     <schema>${DES_DBNAME}</schema>
-    <table>bi_deliverables_full_data</table>
-    <commit>10000</commit>
+    <table>aiccra_indicators</table>
+    <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -619,8 +656,8 @@ join bi_stg_deliverables_included_ar dii on dfd.id_phase = dii.id_phase and dfd.
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>256</yloc>
+      <xloc>464</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

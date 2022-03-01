@@ -465,7 +465,6 @@
     <add_filename_result>N</add_filename_result>
     <parallel>N</parallel>
     <newline_possible>N</newline_possible>
-    <format/>
     <encoding/>
     <fields>
       <field>
@@ -475,7 +474,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>5</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -497,7 +496,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>56</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -508,19 +507,30 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>7</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>ori_port</name>
+        <name>ori_dbname_aiccra</name>
         <type>String</type>
         <format/>
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>8</length>
         <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>ori_port</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -530,7 +540,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>13</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -541,7 +551,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>10</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -552,7 +562,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>9</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -563,19 +573,19 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>7</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>des_port</name>
-        <type>String</type>
-        <format/>
+        <type>Integer</type>
+        <format>#</format>
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
-        <precision>-1</precision>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -585,7 +595,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>4</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -596,7 +606,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>30</length>
+        <length>12</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -618,7 +628,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>155</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -629,7 +639,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>41</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -640,7 +650,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>12</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -651,7 +661,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>15</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -662,7 +672,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>20</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -673,7 +683,7 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>40</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -684,45 +694,66 @@
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>50</length>
+        <length>86</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>start_year</name>
         <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>end_year</name>
         <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>so_name</name>
         <type>String</type>
         <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>7</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>V_PHASE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>2</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>V_PHASE_YEAR</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -886,9 +917,14 @@
         <variable_type>JVM</variable_type>
         <default_value/>
       </field>
+      <field>
+        <field_name>ori_dbname_aiccra</field_name>
+        <variable_name>ORI_DBNAME_AICCRA</variable_name>
+        <variable_type>JVM</variable_type>
+        <default_value/>
+      </field>
     </fields>
     <use_formatting>Y</use_formatting>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -907,5 +943,4 @@
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>

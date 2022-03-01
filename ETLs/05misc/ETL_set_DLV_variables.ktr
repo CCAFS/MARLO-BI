@@ -480,7 +480,6 @@
         <precision>-1</precision>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -532,7 +531,6 @@
       </field>
     </fields>
     <use_formatting>Y</use_formatting>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -551,5 +549,4 @@
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>
