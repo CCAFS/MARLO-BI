@@ -13,6 +13,6 @@ CREATE TABLE stg_pre_group_proj
 , `owner_project_title_group` TEXT 
 , `shared_project_title_group` TEXT 
 , `project_id_group` TEXT
-, `ids_group` varchar(400) NOT NULL
+, `ids_group` varchar(2000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;

@@ -6,6 +6,6 @@ CREATE TABLE `stg_br_group_proj`
 , `project_id` bigint(20) DEFAULT 0
 , `id_phase`  bigint(20) DEFAULT 0
 , `is_owner`   int(1) DEFAULT 0
-, `ids_group` varchar(400)
+, `ids_group` varchar(2000)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
