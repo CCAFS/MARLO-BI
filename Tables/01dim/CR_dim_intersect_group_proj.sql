@@ -13,7 +13,7 @@ create table `dim_intersect_group_proj`
  `owner_project_title_group` TEXT, 
  `shared_project_title_group` TEXT, 
  `project_id_group` TEXT,
- `ids_group` varchar(2000) NOT NULL default 0,
+ `ids_group` varchar(768) NOT NULL default 0,
 PRIMARY KEY (`pk_id_intersect_group_proj`),
 KEY `idx_id_intersect_group_proj_tk` (`pk_id_intersect_group_proj`) USING BTREE,
 KEY `idx_id_intersect_group_proj` (`ids_group`) USING BTREE

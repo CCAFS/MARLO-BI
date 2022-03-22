@@ -516,11 +516,11 @@
       <server>cluster5out.us.messagelabs.com</server>
       <port>25</port>
       <destination>m.r.almanzar@cgiar.org</destination>
-      <destinationCc/>
+      <destinationCc>g.hernandez@cgiar.org</destinationCc>
       <destinationBCc/>
       <replyto>m.r.almanzar@cgiar.org</replyto>
       <replytoname>MARLO BI</replytoname>
-      <subject>MARLO-BI: crp_BI_process</subject>
+      <subject>MARLO-BI: Error crp_BI_process</subject>
       <include_date>Y</include_date>
       <contact_person/>
       <contact_phone/>
@@ -547,7 +547,7 @@ ${LOG_PATH}</comment>
       <secureconnectiontype>SSL</secureconnectiontype>
       <replyToAddresses/>
       <filetypes>
-        <filetype>GENERAL</filetype>
+        <filetype>LOG</filetype>
       </filetypes>
       <embeddedimages>
       </embeddedimages>
@@ -566,11 +566,11 @@ ${LOG_PATH}</comment>
       <server>cluster5out.us.messagelabs.com</server>
       <port>25</port>
       <destination>m.r.almanzar@cgiar.org</destination>
-      <destinationCc/>
+      <destinationCc>g.hernandez@cgiar.org</destinationCc>
       <destinationBCc/>
       <replyto>m.r.almanzar@cgiar.org</replyto>
       <replytoname>MARLO BI</replytoname>
-      <subject>MARLO-BI: crp_BI_process</subject>
+      <subject>MARLO-BI: Succcess crp_BI_process</subject>
       <include_date>Y</include_date>
       <contact_person/>
       <contact_phone/>
@@ -589,13 +589,13 @@ ${LOG_PATH}</comment>
       <use_HTML>N</use_HTML>
       <use_Priority>Y</use_Priority>
       <encoding>UTF-8</encoding>
-      <priority>high</priority>
-      <importance>high</importance>
+      <priority>low</priority>
+      <importance>low</importance>
       <sensitivity>normal</sensitivity>
       <secureconnectiontype>SSL</secureconnectiontype>
       <replyToAddresses/>
       <filetypes>
-        <filetype>GENERAL</filetype>
+        <filetype>LOG</filetype>
       </filetypes>
       <embeddedimages>
       </embeddedimages>
