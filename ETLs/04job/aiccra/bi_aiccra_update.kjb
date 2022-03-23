@@ -290,6 +290,7 @@
       <name>START</name>
       <description/>
       <type>SPECIAL</type>
+      <attributes/>
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
@@ -305,18 +306,20 @@
       <nr>0</nr>
       <xloc>160</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>var ini Marlo Bi</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
-      <exec_per_row>Y</exec_per_row>
+      <exec_per_row>N</exec_per_row>
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
@@ -333,6 +336,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -341,11 +345,13 @@
       <nr>0</nr>
       <xloc>304</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>bi_update_indicators_process</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_update_indicators_process.ktr</filename>
@@ -369,6 +375,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -377,11 +384,13 @@
       <nr>0</nr>
       <xloc>480</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>bi_update_deliverable_process</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_update_deliverables_process.ktr</filename>
@@ -405,6 +414,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -413,11 +423,13 @@
       <nr>0</nr>
       <xloc>832</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>bi_project_contribution</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_bi_project_contribution.ktr</filename>
@@ -441,6 +453,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -449,11 +462,13 @@
       <nr>0</nr>
       <xloc>656</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>ETL_project_status_aiccra</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../aiccra/ETL_project_status_aiccra.ktr</filename>
@@ -477,6 +492,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
         <parameter>
@@ -490,16 +506,19 @@
       <nr>0</nr>
       <xloc>1008</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>Success</name>
       <description/>
       <type>SUCCESS</type>
+      <attributes/>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>1152</xloc>
       <yloc>112</yloc>
+      <attributes_kjc/>
     </entry>
   </entries>
   <hops>
@@ -570,10 +589,6 @@
     </group>
     <group>
       <name>{"_":"Embedded MetaStore Elements","namespace":"pentaho","type":"Default Run Configuration"}</name>
-      <attribute>
-        <key>Pentaho local</key>
-        <value>{"children":[{"children":[],"id":"server","value":null},{"children":[],"id":"clustered","value":"N"},{"children":[],"id":"name","value":"Pentaho local"},{"children":[],"id":"description","value":null},{"children":[],"id":"pentaho","value":"N"},{"children":[],"id":"readOnly","value":"Y"},{"children":[],"id":"sendResources","value":"N"},{"children":[],"id":"logRemoteExecutionLocally","value":"N"},{"children":[],"id":"remote","value":"N"},{"children":[],"id":"local","value":"Y"},{"children":[],"id":"showTransformations","value":"N"}],"id":"Pentaho local","value":null,"name":"Pentaho local","owner":null,"ownerPermissionsList":[]}</value>
-      </attribute>
     </group>
   </attributes>
 </job>

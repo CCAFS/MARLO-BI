@@ -291,6 +291,7 @@
       <name>init_variables</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
@@ -314,6 +315,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -322,11 +324,13 @@
       <nr>0</nr>
       <xloc>176</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>START</name>
       <description/>
       <type>SPECIAL</type>
+      <attributes/>
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
@@ -342,11 +346,13 @@
       <nr>0</nr>
       <xloc>64</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>ETL_milestones_prj_contribution</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../03fact/milestones/ETL_milestones.ktr</filename>
@@ -370,6 +376,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -378,21 +385,25 @@
       <nr>0</nr>
       <xloc>480</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>Success</name>
       <description/>
       <type>SUCCESS</type>
+      <attributes/>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>624</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>init_variable_phase</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI_phase_milestones.ktr</filename>
@@ -416,6 +427,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -424,6 +436,7 @@
       <nr>0</nr>
       <xloc>304</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
   </entries>
   <hops>

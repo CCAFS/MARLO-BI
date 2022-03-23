@@ -449,6 +449,22 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -640,8 +656,8 @@
 										ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.`year`)
 						),'NP') contribution_pk
 		, ifnull(pout.composed_id,'NP') indicator_id		
-		,SUBSTRING_INDEX(pout.description,':',1) "indicator_code" 
-		,ifnull(pout.description,' Not provided') Indicator
+        ,if(pi.administrative = 1,'Not Applicable',SUBSTRING_INDEX(pout.description,':',1)) "indicator code" 
+        ,if(pi.administrative = 1,'Not Applicable',ifnull(pout.description,' Not provided')) Indicator
 		,region.name loc_region
 		, gender.powb_name gender_level
 		, youth.powb_name youth_level
@@ -749,6 +765,9 @@
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -792,6 +811,7 @@
     <return_field/>
     <fields>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -810,4 +830,5 @@
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
+  <attributes/>
 </transformation>
