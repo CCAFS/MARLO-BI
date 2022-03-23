@@ -450,26 +450,6 @@
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -568,7 +548,6 @@
       </valuetypes>
     <fields>
       </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -577,7 +556,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
+      <xloc>992</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -611,7 +590,6 @@
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -620,7 +598,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
+      <xloc>752</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -648,7 +626,6 @@
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -657,7 +634,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
+      <xloc>496</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -722,7 +699,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -731,7 +707,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>912</xloc>
+      <xloc>864</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -754,7 +730,6 @@
     <rownum_field/>
     <resetrownumber>Y</resetrownumber>
     <delimiter_is_regex>N</delimiter_is_regex>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -763,7 +738,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
+      <xloc>352</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -829,7 +804,6 @@
         <trimtype>both</trimtype>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -838,7 +812,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
+      <xloc>624</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -863,56 +837,6 @@ FROM dim_intersect_group_proj</sql>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>pk_id_intersect_group_proj</name>
-        <length>15</length>
-        <precision>0</precision>
-        <origin>dim_intersect_group_milestones</origin>
-        <comments>pk_id_intersect_group_proj</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ids_group</name>
-        <length>400</length>
-        <precision>-1</precision>
-        <origin>dim_intersect_group_milestones</origin>
-        <comments>ids_group</comments>
-        <conversion_Mask/>
-        <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol>,</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>en_US</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -956,7 +880,6 @@ FROM dim_intersect_group_proj</sql>
     <return_field/>
     <fields>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -965,7 +888,7 @@ FROM dim_intersect_group_proj</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1168</xloc>
+      <xloc>1104</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -975,5 +898,4 @@ FROM dim_intersect_group_proj</sql>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>

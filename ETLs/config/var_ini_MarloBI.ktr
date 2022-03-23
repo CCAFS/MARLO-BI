@@ -754,6 +754,17 @@
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>SMTP_server</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>50</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
     <cluster_schema/>
     <remotesteps>
@@ -933,6 +944,12 @@
       <field>
         <field_name>V_PHASE_YEAR</field_name>
         <variable_name>V_PHASE_YEAR</variable_name>
+        <variable_type>JVM</variable_type>
+        <default_value/>
+      </field>
+      <field>
+        <field_name>SMTP_server</field_name>
+        <variable_name>SMTP_SERVER</variable_name>
         <variable_type>JVM</variable_type>
         <default_value/>
       </field>
