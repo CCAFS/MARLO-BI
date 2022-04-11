@@ -461,11 +461,7 @@ for many to many relationship between intersect table and flagships
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -603,66 +599,76 @@ for many to many relationship between intersect table and flagships
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select pesi.id_phase, pes.id ent_id, 'deliverable' ent_type,
-ifnull(	group_concat(distinct pesf.name 
-	 	 		 order by pesf.acronym asc separator ', '), 'Not Provided') flagship_name_group, 
+    <sql>
+select pesf.id_phase, pesf.deliverable_id ent_id, 'deliverable' ent_type,
+ifnull( group_concat(distinct pesf.name 
+                 order by pesf.acronym asc separator ', '), 'Not Provided') flagship_name_group, 
 ifnull(group_concat(distinct ifnull(concat(nullif(trim(pesf.acronym),""), " - "), "") , pesf.name 
-				order by pesf.acronym asc separator ', '), 'NP - Not Provided') flagship_acr_name_group,
+                order by pesf.acronym asc separator ', '), 'NP - Not Provided') flagship_acr_name_group,
 ifnull(group_concat(distinct nullif(trim(pesf.acronym),"")
-				order by pesf.acronym asc separator ', '), 'NP') acronym_group, 
+                order by pesf.acronym asc separator ', '), 'NP') acronym_group, 
 ifnull(group_concat(distinct pesf.program_id 
-				order by pesf.acronym asc separator ', '), -1) ids_group
-from deliverables pes 
-INNER JOIN deliverables_info pesi ON pesi.deliverable_id = pes.id 
-inner join phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-left join (
-		-- flagships from key outputs
-		select  distinct dev.project_id, dev.id deliverable_id,  coa.crp_program_id program_id, pfp.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id    
-		from deliverables dev 
-		inner join deliverables_info pfp on dev.id = pfp.deliverable_id and pfp.is_active
-        inner join crp_cluster_key_outputs cck on cck.id = pfp.key_output_id and cck.is_active
-        inner join phases ph on ph.id = pfp.id_phase
-		INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-        inner join crp_cluster_of_activities coa on coa.id = cck.cluster_activity_id and coa.id_phase = pfp.id_phase
-        -- cpfl.program_type = 1 = flagships
-		inner JOIN crp_programs cpfl ON cpfl.id = coa.crp_program_id and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1 
-		where pfp.is_active
-		and dev.is_active
-		and ph. NAME = pbc.phase_name
-		and ph.year = pbc.phase_year
-		union
-        -- flagships from project deliverables, other flagships contributing (they are in deliverable_crp)
-		select dv.project_id, dv.id deliverable_id, dcr.crp_program program_id, dcr.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
-		from deliverables dv
-		inner join deliverable_crps dcr on dcr.deliverable_id = dv.id
-		inner join phases ph on ph.id = dcr.id_phase
-		INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-		inner JOIN crp_programs cpfl ON cpfl.id = dcr.crp_program and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1
-		where dv.is_active
-		and ph. NAME = pbc.phase_name
-		and ph.year = pbc.phase_year 
-		and dcr.crp_program is not null
-		union
-         -- flagships from supplementary deliverables, other flagships contributing
-		select dv.project_id, dv.id deliverable_id, dpr.crp_program program_id, dpr.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
-		from deliverables dv
-        inner join deliverables_info devi on devi.deliverable_id = dv.id and devi.is_active
-		inner join deliverable_programs dpr on dpr.deliverable_id = devi.deliverable_id and dpr.id_phase = devi.id_phase
-		inner join phases ph on ph.id = dpr.id_phase
-		inner JOIN crp_programs cpfl ON cpfl.id = dpr.crp_program and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1
-		INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-		where dv.is_active
-		and ph. NAME = pbc.phase_name
-		and ph.year = pbc.phase_year
-) pesf on pesf.deliverable_id = pesi.deliverable_id and pesf.id_phase = pesi.id_phase
--- left join center_areas ca on ca.id = pesf.area_id and ca.is_active
-where  ph. NAME = pbc.phase_name
-and ph.year = pbc.phase_year
-and pes.is_active
-and pesi.is_active
--- and pes.id = 11
-group by pesi.id_phase, pes.id</sql>
+                order by pesf.acronym asc separator ', '), -1) ids_group
+FROM (
+    -- FP of Key output project deliverables
+    select dev.project_id, dev.id deliverable_id, cpfl.id  program_id, devi.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
+    from deliverables dev
+    inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+    inner join phases ph on ph.id = devi.id_phase
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    left  join crp_cluster_key_outputs cck on cck.id = devi.key_output_id and cck.is_active
+    left  join crp_cluster_of_activities coa on coa.id = cck.cluster_activity_id 
+    left  JOIN crp_programs cpfl ON cpfl.id = coa.crp_program_id and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1 
+    where dev.is_active
+    and ph.NAME = pbc.phase_name
+    and ph.year = pbc.phase_year 
+    and dev.project_id is not null
+    -- and dev.id=1863
+    union all
+    -- FP of Key outputs for supplementary publications
+    select dev.project_id, dev.id deliverable_id, cpfl.id  program_id, devi.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
+    from deliverables dev
+    inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+    inner join phases ph on ph.id = devi.id_phase
+    left  join crp_cluster_key_outputs cck on cck.id = devi.key_output_id and cck.is_active
+    left  join crp_cluster_of_activities coa on coa.id = cck.cluster_activity_id 
+    left  JOIN crp_programs cpfl ON cpfl.id = coa.crp_program_id and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1 
+    where dev.is_active
+    and ph.NAME = 'AR'
+    and ph.year =  ifnull(devi.new_expected_year, devi.year)
+    and dev.project_id is null
+    --     and dev.id =18872
+    union all
+    -- FP of project deliverables 
+    select dv.project_id, dv.id deliverable_id, cpfl.id program_id, dcr.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
+    from deliverables dv
+    inner join deliverable_crps dcr on dcr.deliverable_id = dv.id
+    inner join phases ph on ph.id = dcr.id_phase
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    left  JOIN crp_programs cpfl ON cpfl.id = dcr.crp_program and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1
+    where dv.is_active
+    and ph. NAME = pbc.phase_name
+    and ph.year = pbc.phase_year 
+    and dcr.crp_program is not null
+    and dv.project_id is not null
+    -- and dv.id =19300
+    union all
+    -- FP of project for supplementary publications
+    select dev.project_id, dev.id deliverable_id, cpfl.id program_id, dpr.id_phase, cpfl.acronym, cpfl.name, cpfl.area_id
+    from deliverables dev
+    inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+    inner join deliverable_programs dpr on dpr.deliverable_id = devi.deliverable_id and dpr.id_phase = devi.id_phase
+    inner join phases ph on ph.id = dpr.id_phase
+    left  JOIN crp_programs cpfl ON cpfl.id = dpr.crp_program and cpfl.global_unit_id = ph.global_unit_id AND cpfl.is_active AND cpfl.program_type = 1
+    where dev.is_active
+    and ph.year=ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year) 
+	and ph.name = 'AR'
+    and dev.project_id is null
+--     and devi.deliverable_id =18872
+    ) pesf
+    -- where pesf.deliverable_id = 18872
+    group by pesf.deliverable_id, pesf.id_phase
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>

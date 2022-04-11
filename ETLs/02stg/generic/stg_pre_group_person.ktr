@@ -588,67 +588,88 @@
     <sql>
 select gs.id_phase, gs.ent_id, gs.ent_type, 
 ifnull(group_concat(distinct gs.name
-					order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') person_name_group
+                    order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') person_name_group
 ,ifnull(group_concat(distinct gs.email
-					order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') person_email_group
+                    order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') person_email_group
 ,ifnull(group_concat(distinct concat(gs.name, " &lt;", gs.email,">")
-			order by gs.name asc,gs.gs.role_id,gs.institution_id asc  separator ', '), 'NP - Not Provided') person_name_email_group
+            order by gs.name asc,gs.gs.role_id,gs.institution_id asc  separator ', '), 'NP - Not Provided') person_name_email_group
 ,ifnull(group_concat(distinct concat(gs.name, ' (', ifnull(concat(gs.institution_acronym,'-',gs.institution),gs.institution),')')
-			order by gs.name asc,gs.gs.role_id,gs.institution_id separator ', '), 'NP - Not Provided') person_affiliation_group
-
+            order by gs.name asc,gs.gs.role_id,gs.institution_id separator ', '), 'NP - Not Provided') person_affiliation_group
 ,ifnull(group_concat(distinct concat(gs.user_id, ';', gs.role_id,';',gs.institution_id)
-				order by gs.user_id asc, gs.role_id asc,gs.institution_id asc separator ', '), '-1;1;1') ids_group
+                order by gs.user_id asc, gs.role_id asc,gs.institution_id asc separator ', '), '-1;-1;-1') ids_group
 ,ifnull(group_concat(distinct gs.role_name 
-				order by gs.role_name asc separator ', '), 'Not Provided') role_name_group
+                order by gs.role_name asc separator ', '), 'Not Provided') role_name_group
 --                 
 ,ifnull(group_concat( distinct if(gs.role_id = 1, gs.name, null) 
-	 	 		 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_name_group
+                 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_name_group
 ,ifnull(group_concat( distinct if(gs.role_id = 1, concat(gs.name, " &lt;", gs.email,">"), null) 
-	 	 		 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_name_email_group
+                 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_name_email_group
 ,ifnull(group_concat( distinct if(gs.role_id = 1, concat(gs.name, ' (', ifnull(concat(gs.institution_acronym,'-',gs.institution),gs.institution),')'),null) 
-	 	 		 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_affiliation_group
-
+                 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') partner_person_affiliation_group
 ,ifnull(group_concat( distinct if(gs.role_id = 5, gs.name, null) 
-	 	 		 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_name_group
+                 order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_name_group
 ,ifnull(group_concat( distinct if(gs.role_id = 5, concat(gs.name, " &lt;", gs.email,">"), null) 
-	 	 		order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_name_email_group
+                order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_name_email_group
 ,ifnull(group_concat( distinct if(gs.role_id = 5, concat(gs.name, ' (', ifnull(concat(gs.institution_acronym,'-',gs.institution),gs.institution),')'),null) 
-	 	 		order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_affiliation_group
+                order by gs.name asc,gs.gs.role_id,gs.institution_id  asc separator ', '), 'Not Provided') resp_person_affiliation_group
 from(
+-- Just applicable to project deliverables
 select del.id ent_id,
-	'deliverable' ent_type,
-	dlvi.id_phase,
-	dper.user_id,
-	concat(usr.first_name,' ', usr.last_name) name,
-	usr.email,
-	ins.name institution,
-	ins.acronym institution_acronym,
-	sins.institution_id,
-	IF(dper.user_id is null,'Not Provided',if(max(sins.deliverable_partner_type_id) = 1, 5, 1)) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
-	IF(dper.user_id is null,'Not Provided',if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor")) role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
-	FROM deliverables del 
-	join deliverables_info dlvi  on del.id=dlvi.deliverable_id
-	join phases ph on dlvi.id_phase=ph.id
-	JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-	left join deliverable_user_partnerships sins on sins.id_phase = dlvi.id_phase and sins.deliverable_id = dlvi.deliverable_id and sins.is_active
-	left join deliverable_user_partnership_persons dper on dper.user_partnership_id = sins.id and dper.is_active
-	left join users usr on usr.id = dper.user_id
-	left join institutions ins on ins.id = sins.institution_id
-  where 	
-	ph.year = pbc.phase_year
-	and ph.name = pbc.phase_name -- 'AR'
-	and del.is_active
-  and sins.is_active
-  and sins.institution_id is not null
+    'deliverable' ent_type,
+    dlvi.id_phase,
+    dper.user_id,
+    concat(usr.first_name,' ', usr.last_name) name,
+    usr.email,
+    if(dper.user_id is null,null, ifnull(ins.name,'Not provided')) institution  ,
+    if(dper.user_id is not null,ifnull(ins.acronym,'NP'),'NP') institution_acronym,
+    if(dper.user_id is not null,ifnull(sins.institution_id,-1),-1) institution_id,
+    IF(dper.user_id is null,'Not Provided',if(max(sins.deliverable_partner_type_id) = 1, 5, 1)) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
+    IF(dper.user_id is null,'Not Provided',if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor")) role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
+    FROM deliverables del 
+    join deliverables_info dlvi  on del.id=dlvi.deliverable_id
+    join phases ph on dlvi.id_phase=ph.id
+    JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    left join deliverable_user_partnerships sins on sins.id_phase = dlvi.id_phase and sins.deliverable_id = dlvi.deliverable_id and sins.is_active 
+    left join deliverable_user_partnership_persons dper on dper.user_partnership_id = sins.id and dper.is_active
+    left join users usr on usr.id = dper.user_id
+    left join institutions ins on ins.id = sins.institution_id
+  where     
+    ph.year = pbc.phase_year
+    and ph.name = pbc.phase_name -- 'AR'
+    and del.is_active
+    and dlvi.is_active 
+    and del.project_id is not null
+--     and del.id=11
   group by del.id,
-	dlvi.id_phase,
-	sins.institution_id,
-	dper.user_id,
-	ins.name,
-	ins.acronym
+    dlvi.id_phase,
+    sins.institution_id,
+    dper.user_id,
+    ins.name,
+    ins.acronym
+    union all
+    select d.id ent_id,
+    'deliverable' ent_type, 
+    di.id_phase,
+    -2 name,
+    'Not applicable' name,
+    'Not applicable' email,
+    'Not applicable' institution,
+    'NA' institution_acronym,
+    -2 institution_id,
+    -2 role_id,
+    'Not applicable' role_name
+    from deliverables d 
+    join deliverables_info di on d.id = di.deliverable_id
+    join phases ph on ph.id = di.id_phase
+    where ph.year = ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.year) 
+    and ph.name = 'AR'
+    and di.is_active 
+    and d.is_active 
+    and d.project_id is null    
 ) gs
+-- where  gs.name&lt;&gt; 'Not applicable'
+-- where gs.ent_id = 11
 group by gs.id_phase, gs.ent_id, gs.ent_type
-
 ;
 
 

@@ -457,6 +457,10 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -588,75 +592,57 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>deliverable_id</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <field>
         <name>has_participants</name>
-        <rename/>
       </field>
       <field>
         <name>activity_name</name>
-        <rename/>
       </field>
       <field>
         <name>activity_type</name>
-        <rename/>
       </field>
       <field>
         <name>participants</name>
-        <rename/>
       </field>
       <field>
         <name>females</name>
-        <rename/>
       </field>
       <field>
         <name>participant_type</name>
-        <rename/>
       </field>
       <field>
         <name>language</name>
-        <rename/>
       </field>
       <field>
         <name>country</name>
-        <rename/>
       </field>
       <field>
         <name>keywords</name>
-        <rename/>
       </field>
       <field>
         <name>publication_acknowledge</name>
-        <rename/>
       </field>
       <field>
         <name>findable</name>
-        <rename/>
       </field>
       <field>
         <name>accesible</name>
-        <rename/>
       </field>
       <field>
         <name>interoperable</name>
-        <rename/>
       </field>
       <field>
         <name>reusable</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -755,7 +741,7 @@ inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_ac
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
 inner join projects pr on pr.id = dev.project_id
-inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = devi.id_phase
 left join deliverable_participants dcap on dcap.deliverable_id = devi.deliverable_id and dcap.phase_id = devi.id_phase
 left join rep_ind_type_activities acty on acty.id = dcap.rep_ind_type_activity_id
 left join rep_ind_type_participants part on part.id = dcap.rep_ind_type_participant_id
@@ -805,12 +791,10 @@ left join deliverable_publications_metada pm on pm.deliverable_id=devi.deliverab
 -- new tables
 WHERE dev.is_active
 and dev.project_id is null 
--- and  ph.name = pbc.phase_name --  'AR'
+and  ph.name = 'AR'
 -- AND ph. YEAR = pbc.phase_year -- between 2018 and 2019
-and ph.year = ifnull(devi.new_expected_year, devi.year)
+and ph.year = ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year) 
 -- and devi.title is not null
-and length(trim(devi.title)) > 0
-and ph.global_unit_id =1
 -- and dev.id=26548
 -- AND ph.year between ${START_YEAR} and ${END_YEAR}  
 union all

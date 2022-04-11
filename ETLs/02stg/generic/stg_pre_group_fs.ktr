@@ -461,11 +461,7 @@ for many to many relationship between intersect table and funding sources
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -582,50 +578,6 @@ for many to many relationship between intersect table and funding sources
     </hop>
   </order>
   <step>
-    <name>stg_pre_group_fs</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <schema>${DES_DBNAME}</schema>
-    <table>stg_pre_group_fs</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>656</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Load_fs_deliverables_group</name>
     <type>TableInput</type>
     <description/>
@@ -637,29 +589,54 @@ for many to many relationship between intersect table and funding sources
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select pesi.id_phase, pes.id ent_id, 'deliverable' ent_type,
-ifnull(	group_concat(distinct concat(fsi.funding_source_id, ' - ' , fsi.title)
-	 	 		 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_id_title_group, 
+    <sql>select devi.id_phase, dev.id ent_id, 'deliverable' ent_type,
+ifnull( group_concat(distinct concat(fsi.funding_source_id, ' - ' , fsi.title)
+                 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_id_title_group, 
 ifnull(group_concat(distinct fsi.funding_source_id, ' - ',  ifnull(concat(nullif(trim(fsi.finance_code),""), " - "), "") , fsi.title 
-				order by fsi.finance_code asc separator '; '), 'NP - Not Provided') fs_id_fcode_title_group,       
-ifnull(	group_concat(distinct concat('FS',fsi.funding_source_id, ' - ' , fsi.title)
-	 	 		 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_idname_title_group, 
+                order by fsi.finance_code asc separator '; '), 'NP - Not Provided') fs_id_fcode_title_group,       
+ifnull( group_concat(distinct concat('FS',fsi.funding_source_id, ' - ' , fsi.title)
+                 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_idname_title_group, 
 ifnull(group_concat(distinct nullif(trim(fsi.finance_code),"")
-				order by fsi.finance_code asc separator ', '), 'NP') fs_fcode_group, 
+                order by fsi.finance_code asc separator ', '), 'NP') fs_fcode_group, 
 ifnull(group_concat(distinct fsi.funding_source_id 
-				order by fsi.funding_source_id asc separator ','), -1) ids_group
-from deliverables pes 
-INNER JOIN deliverables_info pesi ON pesi.deliverable_id = pes.id 
-inner join phases ph on ph.id = pesi.id_phase
+                order by fsi.funding_source_id asc separator ','), -1) ids_group
+from deliverables dev 
+INNER JOIN deliverables_info devi ON devi.deliverable_id = dev.id 
+inner join phases ph on ph.id = devi.id_phase
 INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-left join deliverable_funding_sources  pesf1 on pesf1.deliverable_id = pesi.deliverable_id and pesf1.id_phase = pesi.id_phase and pesf1.is_active
-left join funding_sources fs on fs.id = pesf1.funding_source_id and fs.is_active
-left join funding_sources_info fsi on fsi.funding_source_id = pesf1.funding_source_id and fsi.id_phase = pesf1.id_phase and fsi.is_active
+left join deliverable_funding_sources  devf1 on devf1.deliverable_id = devi.deliverable_id and devf1.id_phase = devi.id_phase and devf1.is_active
+left join funding_sources fs on fs.id = devf1.funding_source_id and fs.is_active
+left join funding_sources_info fsi on fsi.funding_source_id = devf1.funding_source_id and fsi.id_phase = devf1.id_phase and fsi.is_active
 where  ph. NAME = pbc.phase_name
 and ph.year = pbc.phase_year
-and pes.is_active
-and pesi.is_active
-group by pesi.id_phase, pes.id 
+and dev.is_active
+and devi.is_active
+and dev.project_id is not null
+group by devi.id_phase, dev.id 
+UNION ALL 
+select devi.id_phase, dev.id ent_id, 'deliverable' ent_type,
+ifnull( group_concat(distinct concat(fsi.funding_source_id, ' - ' , fsi.title)
+                 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_id_title_group, 
+ifnull(group_concat(distinct fsi.funding_source_id, ' - ',  ifnull(concat(nullif(trim(fsi.finance_code),""), " - "), "") , fsi.title 
+                order by fsi.finance_code asc separator '; '), 'NP - Not Provided') fs_id_fcode_title_group,       
+ifnull( group_concat(distinct concat('FS',fsi.funding_source_id, ' - ' , fsi.title)
+                 order by fsi.funding_source_id asc separator '; '), 'Not Provided') fs_idname_title_group, 
+ifnull(group_concat(distinct nullif(trim(fsi.finance_code),"")
+                order by fsi.finance_code asc separator ', '), 'NP') fs_fcode_group, 
+ifnull(group_concat(distinct fsi.funding_source_id 
+                order by fsi.funding_source_id asc separator ','), -1) ids_group
+from deliverables dev 
+INNER JOIN deliverables_info devi ON devi.deliverable_id = dev.id 
+inner join phases ph on ph.id = devi.id_phase
+left join deliverable_funding_sources  devf1 on devf1.deliverable_id = devi.deliverable_id and devf1.id_phase = devi.id_phase and devf1.is_active
+left join funding_sources fs on fs.id = devf1.funding_source_id and fs.is_active
+left join funding_sources_info fsi on fsi.funding_source_id = devf1.funding_source_id and fsi.id_phase = devf1.id_phase and fsi.is_active
+where  ph. NAME = 'AR'
+and ph.year = ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year) 
+and dev.is_active
+and devi.is_active
+and dev.project_id is null
+group by devi.id_phase, dev.id
 ;
 </sql>
     <limit>0</limit>
@@ -922,6 +899,50 @@ group by pesi.id_phase, pes.id
     </remotesteps>
     <GUI>
       <xloc>416</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>stg_pre_group_fs</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <schema>${DES_DBNAME}</schema>
+    <table>stg_pre_group_fs</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>656</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>

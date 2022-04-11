@@ -26,5 +26,7 @@ CREATE TABLE `stg_deliverables_info` (
   `key_output_name` text,
   `coa_key_output_name` text,
   `coa_id` varchar(20),
-  `coa_description` text
+  `coa_description` text,
+  status bigint(20),
+  delivery_year bigint(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

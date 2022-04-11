@@ -430,7 +430,7 @@
     <created_date>2021/10/26 10:07:30.392</created_date>
     <modified_user>-</modified_user>
     <modified_date>2021/10/26 10:07:30.392</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -455,6 +455,10 @@
       <attribute>
         <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
         <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
       </attribute>
       <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
@@ -588,167 +592,126 @@
     <fields>
       <field>
         <name>deliverable_id</name>
-        <rename/>
       </field>
       <field>
         <name>phase_id</name>
-        <rename/>
       </field>
       <field>
         <name>title</name>
-        <rename/>
       </field>
       <field>
         <name>doi</name>
-        <rename/>
       </field>
       <field>
         <name>uri</name>
-        <rename/>
       </field>
       <field>
         <name>altmetric_jid</name>
-        <rename/>
       </field>
       <field>
         <name>journal</name>
-        <rename/>
       </field>
       <field>
         <name>authors</name>
-        <rename/>
       </field>
       <field>
         <name>type</name>
-        <rename/>
       </field>
       <field>
         <name>handle</name>
-        <rename/>
       </field>
       <field>
         <name>altmetric_id</name>
-        <rename/>
       </field>
       <field>
         <name>almetrics_detail_page</name>
-        <rename/>
       </field>
       <field>
         <name>is_oa</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_posts</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_delicious</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_facebook_pages</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_blogs</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_forum_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_google_plus_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_linkedin_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_news_outlets</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_peer_review_sites</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_pinterest_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_policies</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_stack_exchange_resources</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_reddit_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_research_highlight_platforms</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_twitter_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_youtube_channels</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_weibo_users</name>
-        <rename/>
       </field>
       <field>
         <name>cited_by_wikipedia_pages</name>
-        <rename/>
       </field>
       <field>
         <name>last_updated</name>
-        <rename/>
       </field>
       <field>
         <name>score</name>
-        <rename/>
       </field>
       <field>
         <name>url</name>
-        <rename/>
       </field>
       <field>
         <name>added_on</name>
-        <rename/>
       </field>
       <field>
         <name>published_on</name>
-        <rename/>
       </field>
       <field>
         <name>image_small</name>
-        <rename/>
       </field>
       <field>
         <name>image_medium</name>
-        <rename/>
       </field>
       <field>
         <name>image_large</name>
-        <rename/>
       </field>
       <field>
         <name>details_url</name>
-        <rename/>
       </field>
       <field>
         <name>last_sync</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -822,159 +785,113 @@
     <connection>ORI_DB</connection>
     <sql>
 select 
- dalt.deliverable_id
-,dalt.phase_id
-,dalt.title
-,dalt.doi
-,dalt.uri
-,dalt.altmetric_jid
-,dalt.journal
-,dalt.authors
-,dalt.type
-,dalt.handle
-,dalt.altmetric_id
-,concat('https://www.altmetric.com/details/',dalt.altmetric_id) almetrics_detail_page
-,dalt.is_oa
-,dalt.cited_by_posts
-,dalt.cited_by_delicious
-,dalt.cited_by_facebook_pages
-,dalt.cited_by_blogs
-,dalt.cited_by_forum_users
-,dalt.cited_by_google_plus_users
-,dalt.cited_by_linkedin_users
-,dalt.cited_by_news_outlets
-,dalt.cited_by_peer_review_sites
-,dalt.cited_by_pinterest_users
-,dalt.cited_by_policies
-,dalt.cited_by_stack_exchange_resources
-,dalt.cited_by_reddit_users
-,dalt.cited_by_research_highlight_platforms
-,dalt.cited_by_twitter_users
-,dalt.cited_by_youtube_channels
-,dalt.cited_by_weibo_users
-,dalt.cited_by_wikipedia_pages
-,dalt.last_updated
-,dalt.score
-,dalt.url
-,dalt.added_on
-,dalt.published_on
-,dalt.image_small
-,dalt.image_medium
-,dalt.image_large
-,dalt.details_url
-,dalt.last_sync
+devi.deliverable_id
+,devi.id_phase phase_id
+,ifnull(dalt.title,'Not provided') title
+,ifnull(dalt.doi,'Not provided') doi
+,ifnull(dalt.uri,'Not provided') uri
+,ifnull(dalt.altmetric_jid,'Not provided') altmetric_jid
+,ifnull(dalt.journal,'Not provided') journal
+,ifnull(dalt.authors,'Not provided') authors
+,ifnull(dalt.type,'Not provided') type
+,ifnull(dalt.handle,'Not provided') handle
+,ifnull(dalt.altmetric_id,'Not provided') altmetric_id
+,ifnull(concat('https://www.altmetric.com/details/',dalt.altmetric_id),'Not provided') almetrics_detail_page 
+,ifnull(dalt.is_oa,'Not provided') is_oa
+,ifnull(dalt.cited_by_posts,0) cited_by_posts
+,ifnull(dalt.cited_by_delicious,0) cited_by_delicious
+,ifnull(dalt.cited_by_facebook_pages,0) cited_by_facebook_pages
+,ifnull(dalt.cited_by_blogs,0) cited_by_blogs
+,ifnull(dalt.cited_by_forum_users,0) cited_by_forum_users
+,ifnull(dalt.cited_by_google_plus_users,0) cited_by_google_plus_users
+,ifnull(dalt.cited_by_linkedin_users,0) cited_by_linkedin_users
+,ifnull(dalt.cited_by_news_outlets,0) cited_by_news_outlets
+,ifnull(dalt.cited_by_peer_review_sites,0) cited_by_peer_review_sites
+,ifnull(dalt.cited_by_pinterest_users,0) cited_by_pinterest_users
+,ifnull(dalt.cited_by_policies,0) cited_by_policies
+,ifnull(dalt.cited_by_stack_exchange_resources,0) cited_by_stack_exchange_resources
+,ifnull(dalt.cited_by_reddit_users,0) cited_by_reddit_users
+,ifnull(dalt.cited_by_research_highlight_platforms,0) cited_by_research_highlight_platforms
+,ifnull(dalt.cited_by_twitter_users,0) cited_by_twitter_users
+,ifnull(dalt.cited_by_youtube_channels,0) cited_by_youtube_channels
+,ifnull(dalt.cited_by_weibo_users,0) cited_by_weibo_users
+,ifnull(dalt.cited_by_wikipedia_pages,0) cited_by_wikipedia_pages
+,dalt.last_updated last_updated
+,ifnull(dalt.score,0) score
+,ifnull(dalt.url,'Not provided') url
+,dalt.added_on added_on
+,dalt.published_on published_on
+,ifnull(dalt.image_small,'Not provided') image_small
+,ifnull(dalt.image_medium,'Not provided') image_medium
+,ifnull(dalt.image_large,'Not provided') image_large
+,ifnull(dalt.details_url,'Not provided') details_url
+,dalt.last_sync last_sync
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join projects pr on pr.id = dev.project_id
-inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = devi.id_phase
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-inner join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
+left join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
 WHERE dev.is_active
 and  pr.is_active
 and  pin.is_active
-and  ph.name = -- pbc.phase_name --  
-'AR'
-AND ph. YEAR = -- pbc.phase_year -- 
-2021
-
+and  ph.name = pbc.phase_name --  
+AND ph. YEAR = pbc.phase_year -- 
 union all
-
 select 
- dalt.deliverable_id
-,dalt.phase_id
-,dalt.title
-,dalt.doi
-,dalt.uri
-,dalt.altmetric_jid
-,dalt.journal
-,dalt.authors
-,dalt.type
-,dalt.handle
-,dalt.altmetric_id
-,concat('https://www.altmetric.com/details/',dalt.altmetric_id) almetrics_detail_page
-,dalt.is_oa
-,dalt.cited_by_posts
-,dalt.cited_by_delicious
-,dalt.cited_by_facebook_pages
-,dalt.cited_by_blogs
-,dalt.cited_by_forum_users
-,dalt.cited_by_google_plus_users
-,dalt.cited_by_linkedin_users
-,dalt.cited_by_news_outlets
-,dalt.cited_by_peer_review_sites
-,dalt.cited_by_pinterest_users
-,dalt.cited_by_policies
-,dalt.cited_by_stack_exchange_resources
-,dalt.cited_by_reddit_users
-,dalt.cited_by_research_highlight_platforms
-,dalt.cited_by_twitter_users
-,dalt.cited_by_youtube_channels
-,dalt.cited_by_weibo_users
-,dalt.cited_by_wikipedia_pages
-,dalt.last_updated
-,dalt.score
-,dalt.url
-,dalt.added_on
-,dalt.published_on
-,dalt.image_small
-,dalt.image_medium
-,dalt.image_large
-,dalt.details_url
-,dalt.last_sync
+ devi.deliverable_id
+,devi.id_phase phase_id
+,ifnull(dalt.title,'Not provided') title
+,ifnull(dalt.doi,'Not provided') doi
+,ifnull(dalt.uri,'Not provided') uri
+,ifnull(dalt.altmetric_jid,'Not provided') altmetric_jid
+,ifnull(dalt.journal,'Not provided') journal
+,ifnull(dalt.authors,'Not provided') authors
+,ifnull(dalt.type,'Not provided') type
+,ifnull(dalt.handle,'Not provided') handle
+,ifnull(dalt.altmetric_id,'Not provided') altmetric_id
+,ifnull(concat('https://www.altmetric.com/details/',dalt.altmetric_id),'Not provided') almetrics_detail_page 
+,ifnull(dalt.is_oa,'Not provided') is_oa
+,ifnull(dalt.cited_by_posts,0) cited_by_posts
+,ifnull(dalt.cited_by_delicious,0) cited_by_delicious
+,ifnull(dalt.cited_by_facebook_pages,0) cited_by_facebook_pages
+,ifnull(dalt.cited_by_blogs,0) cited_by_blogs
+,ifnull(dalt.cited_by_forum_users,0) cited_by_forum_users
+,ifnull(dalt.cited_by_google_plus_users,0) cited_by_google_plus_users
+,ifnull(dalt.cited_by_linkedin_users,0) cited_by_linkedin_users
+,ifnull(dalt.cited_by_news_outlets,0) cited_by_news_outlets
+,ifnull(dalt.cited_by_peer_review_sites,0) cited_by_peer_review_sites
+,ifnull(dalt.cited_by_pinterest_users,0) cited_by_pinterest_users
+,ifnull(dalt.cited_by_policies,0) cited_by_policies
+,ifnull(dalt.cited_by_stack_exchange_resources,0) cited_by_stack_exchange_resources
+,ifnull(dalt.cited_by_reddit_users,0) cited_by_reddit_users
+,ifnull(dalt.cited_by_research_highlight_platforms,0) cited_by_research_highlight_platforms
+,ifnull(dalt.cited_by_twitter_users,0) cited_by_twitter_users
+,ifnull(dalt.cited_by_youtube_channels,0) cited_by_youtube_channels
+,ifnull(dalt.cited_by_weibo_users,0) cited_by_weibo_users
+,ifnull(dalt.cited_by_wikipedia_pages,0) cited_by_wikipedia_pages
+,dalt.last_updated last_updated
+,ifnull(dalt.score,0) score
+,ifnull(dalt.url,'Not provided') url
+,dalt.added_on added_on
+,dalt.published_on published_on
+,ifnull(dalt.image_small,'Not provided') image_small
+,ifnull(dalt.image_medium,'Not provided') image_medium
+,ifnull(dalt.image_large,'Not provided') image_large
+,ifnull(dalt.details_url,'Not provided') details_url
+,dalt.last_sync last_sync
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-inner join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
+left join deliverable_altmetric_info dalt on dalt.deliverable_id = devi.deliverable_id and dalt.phase_id = devi.id_phase and dalt.is_active
 where dev.is_active
 and dev.project_id is null
-and ph.year = ifnull(devi.new_expected_year, devi.year)
-and length(trim(devi.title)) > 0
-union all
-select
- -1 deliverable_id
-,-1 phase_id
-,'Not provided' title
-,'Not provided' doi
-,'Not provided' uri
-,'Not provided' altmetric_jid
-,'Not provided' journal
-,'Not provided' authors
-,'Not provided' type
-,'Not provided' handle
-,'Not provided' altmetric_id
-,'Not provided' almetrics_detail_page
-,'Not provided' is_oa
-,-1 cited_by_posts
-,-1 cited_by_delicious
-,-1 cited_by_facebook_pages
-,-1 cited_by_blogs
-,-1 cited_by_forum_users
-,-1 cited_by_google_plus_users
-,-1 cited_by_linkedin_users
-,-1 cited_by_news_outlets
-,-1 cited_by_peer_review_sites
-,-1 cited_by_pinterest_users
-,-1 cited_by_policies
-,-1 cited_by_stack_exchange_resources
-,-1 cited_by_reddit_users
-,-1 cited_by_research_highlight_platforms
-,-1 cited_by_twitter_users
-,-1 cited_by_youtube_channels
-,-1 cited_by_weibo_users
-,-1 cited_by_wikipedia_pages
-,null last_updated
-,'Not provided' score
-,'Not provided' url
-,null added_on
-,'Not provided' published_on
-,'Not provided' image_small
-,'Not provided' image_medium
-,'Not provided' image_large
-,'Not provided' details_url
-,null last_sync
-;</sql>
+and ph.year = ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year)
+
+;
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -988,7 +905,7 @@ select
         <name>deliverable_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>deliverable_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1011,7 +928,7 @@ select
         <name>phase_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>phase_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1034,7 +951,7 @@ select
         <name>title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1057,7 +974,7 @@ select
         <name>doi</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>doi</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1080,7 +997,7 @@ select
         <name>uri</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>uri</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1103,7 +1020,7 @@ select
         <name>altmetric_jid</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>altmetric_jid</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1126,7 +1043,7 @@ select
         <name>journal</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>journal</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1149,7 +1066,7 @@ select
         <name>authors</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>authors</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1172,7 +1089,7 @@ select
         <name>type</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1195,7 +1112,7 @@ select
         <name>handle</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>handle</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1218,7 +1135,7 @@ select
         <name>altmetric_id</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>altmetric_id</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1241,7 +1158,7 @@ select
         <name>almetrics_detail_page</name>
         <length>65569</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>almetrics_detail_page</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1264,7 +1181,7 @@ select
         <name>is_oa</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>is_oa</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1287,7 +1204,7 @@ select
         <name>cited_by_posts</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_posts</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1310,7 +1227,7 @@ select
         <name>cited_by_delicious</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_delicious</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1333,7 +1250,7 @@ select
         <name>cited_by_facebook_pages</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_facebook_pages</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1356,7 +1273,7 @@ select
         <name>cited_by_blogs</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_blogs</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1379,7 +1296,7 @@ select
         <name>cited_by_forum_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_forum_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1402,7 +1319,7 @@ select
         <name>cited_by_google_plus_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_google_plus_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1425,7 +1342,7 @@ select
         <name>cited_by_linkedin_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_linkedin_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1448,7 +1365,7 @@ select
         <name>cited_by_news_outlets</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_news_outlets</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1471,7 +1388,7 @@ select
         <name>cited_by_peer_review_sites</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_peer_review_sites</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1494,7 +1411,7 @@ select
         <name>cited_by_pinterest_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_pinterest_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1517,7 +1434,7 @@ select
         <name>cited_by_policies</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_policies</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1540,7 +1457,7 @@ select
         <name>cited_by_stack_exchange_resources</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_stack_exchange_resources</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1563,7 +1480,7 @@ select
         <name>cited_by_reddit_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_reddit_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1586,7 +1503,7 @@ select
         <name>cited_by_research_highlight_platforms</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_research_highlight_platforms</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1609,7 +1526,7 @@ select
         <name>cited_by_twitter_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_twitter_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1632,7 +1549,7 @@ select
         <name>cited_by_youtube_channels</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_youtube_channels</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1655,7 +1572,7 @@ select
         <name>cited_by_weibo_users</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_weibo_users</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1678,7 +1595,7 @@ select
         <name>cited_by_wikipedia_pages</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>cited_by_wikipedia_pages</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1701,7 +1618,7 @@ select
         <name>last_updated</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>last_updated</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1724,7 +1641,7 @@ select
         <name>score</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>score</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1747,7 +1664,7 @@ select
         <name>url</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1770,7 +1687,7 @@ select
         <name>added_on</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>added_on</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1788,12 +1705,12 @@ select
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Timestamp</type>
         <storagetype>normal</storagetype>
         <name>published_on</name>
-        <length>19</length>
+        <length>0</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>published_on</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1816,7 +1733,7 @@ select
         <name>image_small</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>image_small</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1839,7 +1756,7 @@ select
         <name>image_medium</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>image_medium</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1862,7 +1779,7 @@ select
         <name>image_large</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>image_large</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1885,7 +1802,7 @@ select
         <name>details_url</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>details_url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1908,7 +1825,7 @@ select
         <name>last_sync</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>deliverable_external_info</origin>
+        <origin>deliverable_altmetrics_info</origin>
         <comments>last_sync</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

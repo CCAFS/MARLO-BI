@@ -461,15 +461,7 @@ and geographic scopes
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -637,12 +629,12 @@ and geographic scopes
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>-- deliverables
+    <sql>-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
 SELECT  pini.id_phase, pin.id ent_id, 'deliverable' ent_type,
 ifnull(group_concat(rigs.name 
-	 	 		order by rigs.name asc separator ', '), 'Not Provided') geo_scope_name_group, 
+                order by rigs.name asc separator ', '), 'Not Provided') geo_scope_name_group, 
 ifnull(group_concat(rigs.id
-				order by rigs.name asc separator ', '), '-1') ids_group
+                order by rigs.name asc separator ', '), '-1') ids_group
 FROM deliverables pin 
 INNER JOIN deliverables_info pini ON pini.deliverable_id = pin.id
 INNER JOIN phases ph on ph.id = pini.id_phase
@@ -655,7 +647,27 @@ WHERE ph.name = pbc.phase_name -- 'AR'
 and ph.year = pbc.phase_year -- pini.year
 and pin.is_active
 and pini.is_active
-group by pini.id_phase, pin.id;</sql>
+and pin.project_id is not null
+group by pini.id_phase, pin.id
+union all
+-- the deliverables with project_id is null will be from the phase where reported.
+SELECT  pini.id_phase, pin.id ent_id, 'deliverable' ent_type,
+ifnull(group_concat(rigs.name 
+                order by rigs.name asc separator ', '), 'Not Provided') geo_scope_name_group, 
+ifnull(group_concat(rigs.id
+                order by rigs.name asc separator ', '), '-1') ids_group
+FROM deliverables pin 
+INNER JOIN deliverables_info pini ON pini.deliverable_id = pin.id
+INNER JOIN phases ph on ph.id = pini.id_phase
+left join deliverable_geographic_scopes igeo on igeo.deliverable_id = pini.deliverable_id and pini.id_phase=igeo.id_phase
+LEFT JOIN rep_ind_geographic_scopes rigs ON rigs.id = ifnull(igeo.rep_ind_geographic_scope_id,pini.geographic_scope_id)
+WHERE ph.name = 'AR'
+and ph.year = ifnull(if(pini.new_expected_year=-1,null,pini.new_expected_year), pini.year)
+and pin.is_active
+and pini.is_active
+and pin.project_id is null
+group by pini.id_phase, pin.id
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -789,7 +801,7 @@ group by pini.id_phase, pin.id;</sql>
     </remotesteps>
     <GUI>
       <xloc>192</xloc>
-      <yloc>544</yloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

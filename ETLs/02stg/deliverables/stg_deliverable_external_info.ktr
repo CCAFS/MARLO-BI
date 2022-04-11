@@ -458,6 +458,10 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -715,90 +719,70 @@
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select 
-dext.deliverable_id	,
-dext.phase_id	,
-dext.source	,
-dext.url	,
-dext.doi	,
-dext.title	,
-dext.publication_type	,
-dext.publication_year	,
-dext.is_open_access	,
-dext.open_access_link	,
-dext.is_isi	,
-dext.journal_name	,
-dext.volume	,
-dext.pages	,
-dext.gardian_findability	,
-dext.gardian_accessibility	,
-dext.gardian_interoperability	,
-dext.gardian_reusability	,
-dext.gardian_title
+devi.deliverable_id,
+devi.id_phase phase_id  ,
+ifnull(dext.source,'Not provided') source,
+ifnull(dext.url,'Not provided') url   ,
+ifnull(dext.doi,'Not provided') doi   ,
+ifnull(dext.title,'Not provided') title ,
+ifnull(dext.publication_type,'Not provided') publication_type  ,
+ifnull(dext.publication_year,null)  publication_year ,
+ifnull(dext.is_open_access,'Not provided') is_open_access,
+ifnull(dext.open_access_link,'Not provided')  open_access_link ,
+ifnull(dext.is_isi,'Not provided') is_isi ,
+ifnull(dext.journal_name,'Not provided')   journal_name ,
+ifnull(dext.volume,'Not provided') volume ,
+ifnull(dext.pages,'Not provided')  pages,
+ifnull(dext.gardian_findability,'Not provided') gardian_findability   ,
+ifnull(dext.gardian_accessibility,'Not provided') gardian_accessibility ,
+ifnull(dext.gardian_interoperability,'Not provided')  gardian_interoperability ,
+ifnull(dext.gardian_reusability,'Not provided')    gardian_reusability,
+ifnull(dext.gardian_title,'Not provided') gardian_title
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join projects pr on pr.id = dev.project_id
-inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = devi.id_phase
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-inner join deliverable_metadata_external_sources dext on dext.deliverable_id = devi.deliverable_id and dext.phase_id = devi.id_phase and dext.is_active
+left join deliverable_metadata_external_sources dext on dext.deliverable_id = devi.deliverable_id and dext.phase_id = devi.id_phase and dext.is_active
 WHERE dev.is_active
 and  pr.is_active
 and  pin.is_active
 and  ph.name = pbc.phase_name --  'AR'
-AND ph. YEAR = pbc.phase_year --2021
+AND ph. YEAR = pbc.phase_year -- 2021
 
 union all
 
 select 
-dext.deliverable_id	,
-dext.phase_id	,
-dext.source	,
-dext.url	,
-dext.doi	,
-dext.title	,
-dext.publication_type	,
-dext.publication_year	,
-dext.is_open_access	,
-dext.open_access_link	,
-dext.is_isi	,
-dext.journal_name	,
-dext.volume	,
-dext.pages	,
-dext.gardian_findability	,
-dext.gardian_accessibility	,
-dext.gardian_interoperability	,
-dext.gardian_reusability	,
-dext.gardian_title
+devi.deliverable_id,
+devi.id_phase phase_id  ,
+ifnull(dext.source,'Not provided') source,
+ifnull(dext.url,'Not provided') url   ,
+ifnull(dext.doi,'Not provided') doi   ,
+ifnull(dext.title,'Not provided') title ,
+ifnull(dext.publication_type,'Not provided') publication_type  ,
+ifnull(dext.publication_year,null)  publication_year ,
+ifnull(dext.is_open_access,'Not provided') is_open_access,
+ifnull(dext.open_access_link,'Not provided')  open_access_link ,
+ifnull(dext.is_isi,'Not provided') is_isi ,
+ifnull(dext.journal_name,'Not provided')   journal_name ,
+ifnull(dext.volume,'Not provided') volume ,
+ifnull(dext.pages,'Not provided')  pages,
+ifnull(dext.gardian_findability,'Not provided') gardian_findability   ,
+ifnull(dext.gardian_accessibility,'Not provided') gardian_accessibility ,
+ifnull(dext.gardian_interoperability,'Not provided')  gardian_interoperability ,
+ifnull(dext.gardian_reusability,'Not provided')    gardian_reusability,
+ifnull(dext.gardian_title,'Not provided') gardian_title
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-inner join deliverable_metadata_external_sources dext on dext.deliverable_id = devi.deliverable_id and dext.phase_id = devi.id_phase and dext.is_active
+left join deliverable_metadata_external_sources dext on dext.deliverable_id = devi.deliverable_id and dext.phase_id = devi.id_phase and dext.is_active
 where dev.is_active
 and dev.project_id is null
-and ph.year = ifnull(devi.new_expected_year, devi.year)
-and length(trim(devi.title)) > 0
-union all
-select -1 deliverable_id	
-,-1 phase_id	
-,'Not provided' source	
-,'Not provided' url	
-,'Not provided' doi	
-,'Not provided' title	
-,'Not provided' publication_type	
-,-1 publication_year	
-,'Not provided' is_open_access	
-,'Not provided' open_access_link	
-,'Not provided' is_isi	
-,'Not provided' journal_name	
-,'Not provided' volume	
-,'Not provided' pages	
-,'Not provided' gardian_findability	
-,'Not provided' gardian_accessibility	
-,'Not provided' gardian_interoperability	
-,'Not provided' gardian_reusability	
-,'Not provided' gardian_title
-;</sql>
+and ph.year = ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year)
+and ph.name = 'AR'
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -812,7 +796,7 @@ select -1 deliverable_id
         <name>deliverable_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>deliverable_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -835,7 +819,7 @@ select -1 deliverable_id
         <name>phase_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>phase_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -858,7 +842,7 @@ select -1 deliverable_id
         <name>source</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>source</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -881,7 +865,7 @@ select -1 deliverable_id
         <name>url</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>url</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -904,7 +888,7 @@ select -1 deliverable_id
         <name>doi</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>doi</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -927,7 +911,7 @@ select -1 deliverable_id
         <name>title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -950,7 +934,7 @@ select -1 deliverable_id
         <name>publication_type</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>publication_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -971,9 +955,9 @@ select -1 deliverable_id
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>publication_year</name>
-        <length>15</length>
+        <length>9</length>
         <precision>0</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>publication_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -996,7 +980,7 @@ select -1 deliverable_id
         <name>is_open_access</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>is_open_access</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1019,7 +1003,7 @@ select -1 deliverable_id
         <name>open_access_link</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>open_access_link</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1042,7 +1026,7 @@ select -1 deliverable_id
         <name>is_isi</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>is_isi</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1065,7 +1049,7 @@ select -1 deliverable_id
         <name>journal_name</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>journal_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1088,7 +1072,7 @@ select -1 deliverable_id
         <name>volume</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>volume</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1111,7 +1095,7 @@ select -1 deliverable_id
         <name>pages</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>pages</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1134,7 +1118,7 @@ select -1 deliverable_id
         <name>gardian_findability</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>gardian_findability</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1157,7 +1141,7 @@ select -1 deliverable_id
         <name>gardian_accessibility</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>gardian_accessibility</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1180,7 +1164,7 @@ select -1 deliverable_id
         <name>gardian_interoperability</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>gardian_interoperability</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1203,7 +1187,7 @@ select -1 deliverable_id
         <name>gardian_reusability</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>gardian_reusability</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1226,7 +1210,7 @@ select -1 deliverable_id
         <name>gardian_title</name>
         <length>65535</length>
         <precision>-1</precision>
-        <origin>deliverable_metadata_external_sources</origin>
+        <origin>deliverable_external_info</origin>
         <comments>gardian_title</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

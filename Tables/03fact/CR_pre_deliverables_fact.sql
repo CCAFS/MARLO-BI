@@ -1,6 +1,6 @@
-drop table if exists `fact_deliverables`;
+drop table if exists pre_deliverables_fact;
 
- CREATE TABLE fact_deliverables
+CREATE TABLE pre_deliverables_fact
 (
   fk_id_deliverable_additional_info BIGINT
 , fk_id_deliverable_altmetrics_info BIGINT
@@ -18,4 +18,5 @@ drop table if exists `fact_deliverables`;
 , fk_id_year BIGINT
 , fk_id_intersect_group_fs BIGINT
 , updated_date DATETIME
-) ENGINE=InnoDB CHARSET=utf8mb4;
+)
+;

@@ -430,7 +430,7 @@
     <created_date>2022/01/03 16:02:56.559</created_date>
     <modified_user>-</modified_user>
     <modified_date>2022/01/03 16:02:56.559</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -592,27 +592,21 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>first_name</name>
-        <rename/>
       </field>
       <field>
         <name>last_name</name>
-        <rename/>
       </field>
       <field>
         <name>full_name</name>
-        <rename/>
       </field>
       <field>
         <name>username</name>
-        <rename/>
       </field>
       <field>
         <name>email</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -770,7 +764,9 @@
 from users
 union all
 select -1, 'Not Provided', 'Not Provided', 'Not Provided', 'Not Provided', 'Not Provided'
-from dual
+union all
+select -2, 'Not Applicable', 'Not Applicable', 'Not Applicable', 'Not Applicable', 'Not Applicable'
+
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -785,7 +781,7 @@ from dual
         <name>id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -808,7 +804,7 @@ from dual
         <name>first_name</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>first_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -831,7 +827,7 @@ from dual
         <name>last_name</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>last_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -854,7 +850,7 @@ from dual
         <name>full_name</name>
         <length>511</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>full_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -877,7 +873,7 @@ from dual
         <name>username</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>username</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -900,7 +896,7 @@ from dual
         <name>email</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>partners_inst</origin>
+        <origin>persons</origin>
         <comments>email</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

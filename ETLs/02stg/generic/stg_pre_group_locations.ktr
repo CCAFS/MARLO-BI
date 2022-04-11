@@ -461,15 +461,7 @@ for many to many relationship between intersect table and locations
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -637,11 +629,12 @@ for many to many relationship between intersect table and locations
       <schema_name/>
     </partitioning>
     <connection>ORI_DB</connection>
-    <sql>select ph.id id_phase, di.deliverable_id ent_id, 'deliverable' ent_type,
+    <sql>-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
+select ph.id id_phase, di.deliverable_id ent_id, 'deliverable' ent_type,
 ifnull(group_concat(distinct stg2.name
-		     order by stg2.name separator ', '), 'Not Provided') location_name_group, 
+             order by stg2.name separator ', '), 'Not Provided') location_name_group, 
 ifnull(group_concat(distinct stg2.iso_alpha_2
-			 order by stg2.name separator ', '), 'NP') iso_alpha_2_group, 
+             order by stg2.name separator ', '), 'NP') iso_alpha_2_group, 
 ifnull(group_concat(distinct stg2.id_loc
              order by stg2.name), -1) ids_group
 FROM  deliverables d
@@ -650,37 +643,86 @@ JOIN phases ph on ph.id = di.id_phase
 JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
 join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
 left join (select pic.id_phase, pic.deliverable_id, pic.loc_element_id id_loc, loc1.name, loc1.iso_alpha_2
-	  from  deliverable_locations pic
-	  join  loc_elements loc1 on loc1.id = pic.loc_element_id
+      from  deliverable_locations pic
+      join  loc_elements loc1 on loc1.id = pic.loc_element_id
       INNER JOIN phases phc on phc.id = pic.id_phase
-	  INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+      INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
       where phc.name = pbc.phase_name -- 'AR'
        and phc.year = pbc.phase_year
-	-- where pini.id_phase = pic.id_phase and pic.project_innovation_id = pini.project_innovation_id
-	union all
-	select reg.id_phase, reg.deliverable_id, reg.loc_element_id id_loc,  loc2.name, loc2.iso_alpha_2
-	from deliverable_geographic_regions reg 
-	join  loc_elements loc2 on loc2.id = reg.loc_element_id
+    -- where pini.id_phase = pic.id_phase and pic.project_innovation_id = pini.project_innovation_id
+    union all
+    select reg.id_phase, reg.deliverable_id, reg.loc_element_id id_loc,  loc2.name, loc2.iso_alpha_2
+    from deliverable_geographic_regions reg 
+    join  loc_elements loc2 on loc2.id = reg.loc_element_id
     INNER JOIN phases phc on phc.id = reg.id_phase
-	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-	where phc.name = pbc.phase_name -- 'AR'
-	and phc.year = pbc.phase_year
-	-- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
-	union all
-	select igeo.id_phase, igeo.deliverable_id, -5 id_loc, 'Global' name, 'nn' iso_alpha_2
-	from deliverable_geographic_scopes igeo 
-	JOIN rep_ind_geographic_scopes rigs ON rigs.id = igeo.rep_ind_geographic_scope_id
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    where phc.name = pbc.phase_name -- 'AR'
+    and phc.year = pbc.phase_year
+    -- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
+    union all
+    select igeo.id_phase, igeo.deliverable_id, -5 id_loc, 'Global' name, 'nn' iso_alpha_2
+    from deliverable_geographic_scopes igeo 
+    JOIN rep_ind_geographic_scopes rigs ON rigs.id = igeo.rep_ind_geographic_scope_id
     INNER JOIN phases phc on phc.id = igeo.id_phase
-	INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
     where phc.name = pbc.phase_name 
-	and phc.year = pbc.phase_year
-	and rigs.id = 1
+    and phc.year = pbc.phase_year
+    and rigs.id = 1
     ) stg2 on stg2.id_phase = di.id_phase and  stg2.deliverable_id = di.deliverable_id
 WHERE d.is_active
 and ph.name = pbc.phase_name
 and ph.year = pbc.phase_year
+and d.project_id is not null
 group by ph.id, di.deliverable_id 
-    ;</sql>
+union all
+-- the deliverables with project_id is null will be from the phase where reported.
+select ph.id id_phase, di.deliverable_id ent_id, 'deliverable' ent_type,
+ifnull(group_concat(distinct stg2.name
+             order by stg2.name separator ', '), 'Not Provided') location_name_group, 
+ifnull(group_concat(distinct stg2.iso_alpha_2
+             order by stg2.name separator ', '), 'NP') iso_alpha_2_group, 
+ifnull(group_concat(distinct stg2.id_loc
+             order by stg2.name), -1) ids_group
+FROM  deliverables d
+JOIN deliverables_info di ON di.deliverable_id = d.id and di.is_active
+JOIN phases ph on ph.id = di.id_phase
+JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
+join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+left join (select pic.id_phase, pic.deliverable_id, pic.loc_element_id id_loc, loc1.name, loc1.iso_alpha_2
+      from deliverables_info di1 
+      JOIN deliverable_locations pic on pic.deliverable_id = di1.deliverable_id and pic.id_phase = di1.id_phase 
+      join  loc_elements loc1 on loc1.id = pic.loc_element_id
+      INNER JOIN phases phc on phc.id = pic.id_phase
+      INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+      where phc.name = 'AR'
+      and phc.year = ifnull(if(di1.new_expected_year=-1,null,di1.new_expected_year), di1.year)
+    -- where pini.id_phase = pic.id_phase and pic.project_innovation_id = pini.project_innovation_id
+    union all
+    select reg.id_phase, reg.deliverable_id, reg.loc_element_id id_loc,  loc2.name, loc2.iso_alpha_2
+    from deliverables_info di2  
+    JOIN deliverable_geographic_regions reg on reg.deliverable_id = di2.deliverable_id and reg.id_phase = di2.id_phase 
+    join  loc_elements loc2 on loc2.id = reg.loc_element_id
+    INNER JOIN phases phc on phc.id = reg.id_phase
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    where phc.name = 'AR'
+    and phc.year = ifnull(di2.new_expected_year, di2.year)    -- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
+    union all
+    select igeo.id_phase, igeo.deliverable_id, -5 id_loc, 'Global' name, 'nn' iso_alpha_2
+    from deliverables_info di3  
+    JOIN deliverable_geographic_scopes igeo on igeo.deliverable_id = di3.deliverable_id and igeo.id_phase = di3.id_phase 
+    JOIN rep_ind_geographic_scopes rigs ON rigs.id = igeo.rep_ind_geographic_scope_id
+    INNER JOIN phases phc on phc.id = igeo.id_phase
+    INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    where phc.name = 'AR'
+    and phc.year = ifnull(if(di3.new_expected_year=-1,null,di3.new_expected_year), di3.year)  -- where pini.id_phase = reg.id_phase and reg.project_innovation_id = pini.project_innovation_id
+    and rigs.id = 1
+    ) stg2 on stg2.id_phase = di.id_phase and  stg2.deliverable_id = di.deliverable_id
+WHERE d.is_active
+and ph.name = 'AR'
+and ph.year = ifnull(if(di.new_expected_year=-1,null,di.new_expected_year), di.year)
+and d.project_id is null
+group by ph.id, di.deliverable_id 
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -694,7 +736,7 @@ group by ph.id, di.deliverable_id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -717,7 +759,7 @@ group by ph.id, di.deliverable_id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -740,7 +782,7 @@ group by ph.id, di.deliverable_id
         <name>ent_type</name>
         <length>11</length>
         <precision>-1</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -763,7 +805,7 @@ group by ph.id, di.deliverable_id
         <name>location_name_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>location_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -786,7 +828,7 @@ group by ph.id, di.deliverable_id
         <name>iso_alpha_2_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -809,7 +851,7 @@ group by ph.id, di.deliverable_id
         <name>ids_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>Load_innovation_location_groups 2</origin>
+        <origin>Load_deliverable_location_groups</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -836,7 +878,7 @@ group by ph.id, di.deliverable_id
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
+      <xloc>144</xloc>
       <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1755,8 +1797,8 @@ group by poli2.project_policy_id, poli2.id_phase
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>304</yloc>
+      <xloc>192</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

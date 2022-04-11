@@ -640,23 +640,22 @@ for many to many relationship between intersect table and institutions
     <connection>ORI_DB</connection>
     <sql>select gs.id_phase, gs.ent_id, gs.ent_type, 
 ifnull(group_concat(gs.name
-					order by gs.name asc separator ', '), 'Not Provided') institution_name_group,
-                    
+                    order by gs.name asc separator ', '), 'Not Provided') institution_name_group,
 ifnull(group_concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.name 
-			order by gs.name asc separator ', '), 'NP - Not Provided') institution_acr_name_group,
+            order by gs.name asc separator ', '), 'NP - Not Provided') institution_acr_name_group,
 ifnull(group_concat(nullif(trim(gs.acronym),"")
-			order by gs.name asc separator ', '), 'NP') acronym_group, 
+            order by gs.name asc separator ', '), 'NP') acronym_group, 
 ifnull(group_concat(concat(gs.institution_id, ';', gs.role_id)
-				order by gs.name asc, gs.role_id asc separator ', '), '-1;1') ids_group,
+                order by gs.name asc, gs.role_id asc separator ', '), '-1;1') ids_group,
 ifnull(group_concat(distinct gs.role_name 
-				order by gs.role_name asc separator ', '), 'Not Provided') role_name_group,
+                order by gs.role_name asc separator ', '), 'Not Provided') role_name_group,
 --                 
 ifnull(group_concat( distinct if(gs.role_id = 1, gs.name, null) 
-	 	 		 order by gs.name asc separator ', '), 'Not Provided') partner_institution_name_group,
+                 order by gs.name asc separator ', '), 'Not Provided') partner_institution_name_group,
 ifnull(group_concat(distinct if(gs.role_id = 1, concat(ifnull(concat(nullif(trim(gs.acronym),""), " - "), "") , gs.name), null)
-				order by gs.name asc separator ', '), 'Not Provided') partner_institution_acr_name_group,
+                order by gs.name asc separator ', '), 'Not Provided') partner_institution_acr_name_group,
 ifnull(group_concat(distinct if(gs.role_id = 1, nullif(trim(gs.acronym),""), null)
-				order by gs.name asc separator ', '), 'NP')  partner_acronym_group,
+                order by gs.name asc separator ', '), 'NP')  partner_acronym_group,
 --    
 'Not Applicable' original_donor_institution_name_group,
 'Not Applicable' original_donor_institution_acr_name_group,
@@ -669,35 +668,47 @@ ifnull(group_concat(distinct if(gs.role_id = 1, nullif(trim(gs.acronym),""), nul
 'Not Applicable' lead_acronym_group
 -- 20210917 CC the field responsible is missing It has to be created in the tables related to institution intersect dimensions
 from(
-	select del.id ent_id,
-	'deliverable' ent_type,
-	dlvi.id_phase,
-	sins.institution_id,
-	ins.name,
-	ins.acronym,
-	if(max(sins.deliverable_partner_type_id) = 1, 5, 1) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
-	if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor") role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
-	FROM deliverables del 
-	join deliverables_info dlvi  on del.id=dlvi.deliverable_id
-	join phases ph on dlvi.id_phase=ph.id
-	JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
-	join deliverable_user_partnerships sins on sins.id_phase = dlvi.id_phase and sins.deliverable_id = dlvi.deliverable_id
-	left join institutions ins on ins.id = sins.institution_id
-    where 	
-	ph.year = pbc.phase_year
-	and ph.name = pbc.phase_name -- 'AR'
-	and del.is_active
-    and sins.is_active
-    and sins.institution_id is not null
-    group by del.id,
-	dlvi.id_phase,
-	sins.institution_id,
-	ins.name,
-	ins.acronym
-) gs
-group by gs.id_phase, gs.ent_id, gs.ent_type
-;
-</sql>
+   select del.id ent_id,
+    'deliverable' ent_type,
+    dlvi.id_phase,
+    sins.institution_id,
+    ins.name,
+    ins.acronym,
+    if(max(sins.deliverable_partner_type_id) = 1, 5, 1) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
+    if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor") role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
+    FROM deliverables del 
+    join deliverables_info dlvi  on del.id=dlvi.deliverable_id
+    join phases ph on dlvi.id_phase=ph.id
+    JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+    left join deliverable_user_partnerships sins on sins.id_phase = dlvi.id_phase and sins.deliverable_id = dlvi.deliverable_id and sins.is_active and sins.institution_id is not null
+    left join institutions ins on ins.id = sins.institution_id
+    where   
+    ph.year = pbc.phase_year
+    and ph.name = pbc.phase_name -- 'AR'
+    and del.is_active
+    and del.project_id is not null
+    group by del.id,dlvi.id_phase,sins.institution_id,ins.name,ins.acronym
+    union ALL
+    select del.id ent_id,
+    'deliverable' ent_type,
+    dlvi.id_phase,
+    sins.institution_id,
+    ins.name,
+    ins.acronym,
+    if(max(sins.deliverable_partner_type_id) = 1, 5, 1) role_id, -- role_id 1 is contributor, 2 is for Original Funder, 3 is for Direct Funder, 4 is for leader, 5 is for responsible
+    if(max(sins.deliverable_partner_type_id) = 1, "Responsible", "Contributor") role_name -- deliverable_partner_id 1 is Responsible, 2 is Other. There is a homologation between this id and bi role_id
+    FROM deliverables del 
+    join deliverables_info dlvi  on del.id=dlvi.deliverable_id
+    join phases ph on dlvi.id_phase=ph.id
+    left join deliverable_user_partnerships sins on sins.id_phase = dlvi.id_phase and sins.deliverable_id = dlvi.deliverable_id and sins.is_active and sins.institution_id is not null
+    left join institutions ins on ins.id = sins.institution_id
+    where ph.year = ifnull(if(dlvi.new_expected_year=-1,null,dlvi.new_expected_year), dlvi.year) 
+    and ph.name = 'AR'
+    and del.project_id is null
+    and del.is_active
+    group by del.id,dlvi.id_phase,sins.institution_id,ins.name,ins.acronym
+) gs 
+group by gs.id_phase, gs.ent_id, gs.ent_type</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>

@@ -458,6 +458,10 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -1019,7 +1023,7 @@ inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_ac
 inner join phases ph on ph.id = devi.id_phase
 inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
 inner join projects pr on pr.id = dev.project_id
-inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = dev.id_phase
+inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = devi.id_phase
 WHERE dev.is_active
 and pr.is_active
 and pin.is_active
@@ -1034,7 +1038,7 @@ JOIN phases ph on ph.id = devi.id_phase
 JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
 JOIN project_deliverable_shared dsh on dsh.deliverable_id = devi.deliverable_id and dsh.id_phase = devi.id_phase and dsh.is_active
 JOIN projects pr on pr.id = dsh.project_id
-JOIN projects_info pin on pin.project_id = pr.id and pin.id_phase = dev.id_phase
+JOIN projects_info pin on pin.project_id = pr.id and pin.id_phase = devi.id_phase
 WHERE dev.is_active
 and pr.is_active
 and pin.is_active
@@ -1057,7 +1061,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1080,7 +1084,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ent_type</name>
         <length>12</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1103,7 +1107,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1126,7 +1130,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>owner_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1149,7 +1153,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>shared_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1172,7 +1176,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>owner_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1195,7 +1199,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>shared_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1218,7 +1222,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1241,7 +1245,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>owner_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1264,7 +1268,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>shared_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1287,7 +1291,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1310,7 +1314,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ids_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_innovations 2</origin>
+        <origin>proj_deliverables</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
