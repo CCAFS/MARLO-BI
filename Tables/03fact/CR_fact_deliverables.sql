@@ -17,5 +17,7 @@ drop table if exists `fact_deliverables`;
 , fk_id_intersect_group_regpr BIGINT
 , fk_id_year BIGINT
 , fk_id_intersect_group_fs BIGINT
+, quantity BIGINT
 , updated_date DATETIME
 ) ENGINE=InnoDB CHARSET=utf8mb4;
+

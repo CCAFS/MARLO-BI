@@ -430,7 +430,7 @@
     <created_date>2022/04/07 15:05:57.000</created_date>
     <modified_user>-</modified_user>
     <modified_date>2022/04/07 15:05:57.000</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -532,67 +532,54 @@
     <fields>
       <field>
         <name>fk_id_deliverable_additional_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_deliverable_altmetrics_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_deliverable_external_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_deliverable_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_crp</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_flag</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_persons</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_regpr</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_fs</name>
-        <rename/>
+      </field>
+      <field>
+        <name>quantity</name>
       </field>
       <field>
         <name>updated_date</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -680,7 +667,8 @@ fk_id_intersect_group_loc,
 fk_id_intersect_group_persons, 
 fk_id_intersect_group_regpr, 
 fk_id_year, 
-fk_id_intersect_group_fs, 
+fk_id_intersect_group_fs,
+1 quantity, 
 updated_date
 from pre_deliverables_fact</sql>
     <limit>0</limit>
@@ -696,7 +684,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_deliverable_additional_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_deliverable_additional_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -719,7 +707,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_deliverable_altmetrics_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_deliverable_altmetrics_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -742,7 +730,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_deliverable_external_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_deliverable_external_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -765,7 +753,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_deliverable_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_deliverable_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -788,7 +776,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_general_status</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_general_status</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -811,7 +799,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_ccm</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_ccm</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -834,7 +822,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_crp</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_crp</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -857,7 +845,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_flag</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_flag</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -880,7 +868,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_geo</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_geo</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -903,7 +891,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_inst</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_inst</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -926,7 +914,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_loc</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_loc</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -949,7 +937,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_persons</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_persons</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -972,7 +960,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_regpr</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_regpr</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -995,7 +983,7 @@ from pre_deliverables_fact</sql>
         <name>fk_id_year</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1018,8 +1006,31 @@ from pre_deliverables_fact</sql>
         <name>fk_id_intersect_group_fs</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>fk_id_intersect_group_fs</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>quantity</name>
+        <length>15</length>
+        <precision>0</precision>
+        <origin>pre_deliverables_fact</origin>
+        <comments>quantity</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
         <grouping_symbol>,</grouping_symbol>
@@ -1041,7 +1052,7 @@ from pre_deliverables_fact</sql>
         <name>updated_date</name>
         <length>0</length>
         <precision>-1</precision>
-        <origin>input_pre_policies_fact</origin>
+        <origin>pre_deliverables_fact</origin>
         <comments>updated_date</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
