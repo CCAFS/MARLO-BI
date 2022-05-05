@@ -1,16 +1,16 @@
-Drop table if exists `stg_deliverables_info`;
+Drop table if exists `dim_deliverables_info`;
 
-CREATE TABLE `stg_deliverables_info` (
+CREATE TABLE `dim_deliverables_info` (
+  `pk_id_deliverable_info` bigint(20) NOT NULL,
+  `version` int(11) DEFAULT NULL,
+  `date_from` datetime DEFAULT NULL,
+  `date_to` datetime DEFAULT NULL,
   `id_phase` bigint(20) DEFAULT NULL,
-  `global_unit_id` bigint(20) DEFAULT NULL,
   `deliverable_id` bigint(20) DEFAULT NULL,
-  `project_id` bigint(20) DEFAULT NULL,
   `subcategory_type_id` bigint(20) DEFAULT NULL,
   `subcategory_type_name` varchar(255) ,
   `category_type_id` bigint(20) DEFAULT NULL, 
   `category_type_name` varchar(255),
-  `dissemination_channel` VARCHAR(50),
-  `adopted_license` VARCHAR(13)
   `title` text,
   `description` text,
   `dissemination_URL` text,
@@ -29,6 +29,7 @@ CREATE TABLE `stg_deliverables_info` (
   `coa_key_output_name` text,
   `coa_id` varchar(20),
   `coa_description` text,
-  status bigint(20),
-  delivery_year bigint(20)
+  PRIMARY KEY (`pk_id_deliverable_info`),
+  KEY `idx_dim_deliverables_info_lookup` (`deliverable_id`) USING BTREE,
+  KEY `idx_dim_deliverables_info_tk` (`pk_id_deliverable_info`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

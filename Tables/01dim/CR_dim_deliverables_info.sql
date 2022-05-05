@@ -1,15 +1,15 @@
 Drop table if exists `dim_deliverables_info`;
 
 CREATE TABLE `dim_deliverables_info` (
-  `pk_id_deliverable_info` bigint(20) NOT NULL,
-  `version` int(11) DEFAULT NULL,
+  `pk_id_deliverable_info` bigint NOT NULL,
+  `version` int DEFAULT NULL,
   `date_from` datetime DEFAULT NULL,
   `date_to` datetime DEFAULT NULL,
-  `id_phase` bigint(20) DEFAULT NULL,
-  `deliverable_id` bigint(20) DEFAULT NULL,
-  `subcategory_type_id` bigint(20) DEFAULT NULL,
+  `id_phase` bigint DEFAULT NULL,
+  `deliverable_id` bigint DEFAULT NULL,
+  `subcategory_type_id` bigint DEFAULT NULL,
   `subcategory_type_name` varchar(255) ,
-  `category_type_id` bigint(20) DEFAULT NULL, 
+  `category_type_id` bigint DEFAULT NULL, 
   `category_type_name` varchar(255),
   `title` text,
   `description` text,
@@ -19,8 +19,8 @@ CREATE TABLE `dim_deliverables_info` (
   `volume` text,
   `issue` text,
   `pages` text,
-  `is_ISI_journal` tinyint(1),
-  `is_open_access` tinyint(1),
+  `is_ISI_journal` tinyint,
+  `is_open_access` tinyint,
   `metadata_title` text,
   `DOI` text,
   `Handle` text,
@@ -29,7 +29,11 @@ CREATE TABLE `dim_deliverables_info` (
   `coa_key_output_name` text,
   `coa_id` varchar(20),
   `coa_description` text,
+  `adopted_license` varchar(13),
+  `dissemination_channel` varchar(50),
   PRIMARY KEY (`pk_id_deliverable_info`),
   KEY `idx_dim_deliverables_info_lookup` (`deliverable_id`) USING BTREE,
   KEY `idx_dim_deliverables_info_tk` (`pk_id_deliverable_info`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+

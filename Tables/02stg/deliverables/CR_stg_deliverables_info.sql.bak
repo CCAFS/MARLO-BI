@@ -9,8 +9,6 @@ CREATE TABLE `stg_deliverables_info` (
   `subcategory_type_name` varchar(255) ,
   `category_type_id` bigint(20) DEFAULT NULL, 
   `category_type_name` varchar(255),
-  `dissemination_channel` VARCHAR(50),
-  `adopted_license` VARCHAR(13)
   `title` text,
   `description` text,
   `dissemination_URL` text,
