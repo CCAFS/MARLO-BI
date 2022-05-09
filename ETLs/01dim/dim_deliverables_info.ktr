@@ -703,6 +703,11 @@
         <lookup>dissemination_channel</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>marlo_link</name>
+        <lookup>marlo_link</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_deliverable_info</name>
         <rename/>
@@ -772,7 +777,8 @@ coa_key_output_name,
 coa_id,
 coa_description,
 adopted_license,
-dissemination_channel
+dissemination_channel,
+marlo_link
 FROM marloBI.stg_deliverables_info
 ;</sql>
     <limit>0</limit>
