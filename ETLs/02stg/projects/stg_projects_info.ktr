@@ -458,15 +458,7 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -528,18 +520,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -954,7 +934,12 @@ ph.global_unit_id
 from projects p
 join projects_info pin on p.id = pin.project_id and p.is_active and pin.is_active
 join phases ph on pin.id_phase = ph.id and ph.name = '${V_PHASE_NAME}' and ph.year = ${V_PHASE_YEAR}
-join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in (1,3)</sql>
+join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in (1,3)
+union all 
+select -2 id,'Not applicable' title,-2 project_id,-2 id_phase,null start_date,null end_date,'Not applicable' `type`,-2 status,
+'Not applicable' pid_name,'Not applicable' composed_title,
+'Not applicable' project_link1,'Not applicable' project_link2,'Not applicable' project_link3,
+'NA' acronym,-2 global_unit_id</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -989,7 +974,7 @@ join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in 
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>title</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>input_projects_info</origin>
         <comments>title</comments>
@@ -1104,7 +1089,7 @@ join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in 
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>type</name>
-        <length>21845</length>
+        <length>65535</length>
         <precision>-1</precision>
         <origin>input_projects_info</origin>
         <comments>type</comments>
@@ -1339,6 +1324,8 @@ join global_units gu on gu.id = ph.global_unit_id and gu.global_unit_type_id in 
 , parameter_id
 , current_phase
 FROM marloBI.stg_current_phases
+union all
+select -2,1,-2
 </sql>
     <limit>0</limit>
     <lookup/>

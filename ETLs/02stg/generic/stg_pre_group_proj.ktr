@@ -989,34 +989,34 @@
     <connection>ORI_DB</connection>
     <sql>select ppp.id_phase, ppp.ent_type, ppp.ent_id,
 group_concat(if(is_owner = 1, ifnull(ppp.project_id, 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') owner_project_id_group,
 group_concat(if(is_owner = 0, ifnull(ppp.project_id, 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') shared_project_id_group,
 -- 
 group_concat(if(is_owner = 1, ifnull(concat('P', ppp.project_id), 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_composed_project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') owner_composed_project_id_group,
 group_concat(if(is_owner = 0, ifnull(concat('P', ppp.project_id), 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
 --
 group_concat(if(is_owner = 1, ifnull(concat ('{owner} P',ppp.project_id,' - ', ppp.project_title), ""), 
                ifnull(concat ('P',ppp.project_id,' - ', ppp.project_title), ""))
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
+                order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
 group_concat(if(is_owner = 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)), ""), 
                 null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
+                order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
 group_concat(if(is_owner != 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)) , ""), 
                 null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
-
+                order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
 group_concat( ifnull(concat('P', ppp.project_id), 0)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
 --
 group_concat(concat(ppp.id_phase, ';', ifnull(ppp.project_id, 0), ';', ppp.is_owner)
-	 	 		order by ppp.is_owner desc, ppp.project_id asc, ppp.id_phase asc separator ', ') ids_group 			
+                order by ppp.is_owner desc, ppp.project_id asc, ppp.id_phase asc separator ', ') ids_group          
 from
 (
 /*--------------------------------------------------------------------------------------------*/
-select ph.id id_phase, 'deliverables' ent_type, 
+-- Deliverables with project id not null have replication, so, those deliverables will be selected from the AR2021
+select ph.id id_phase, 'deliverable' ent_type, 
 dev.id ent_id , devi.id,  pr.id project_id, 1 is_owner, 'Yes' is_owner_description, pin.title project_title
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
@@ -1029,8 +1029,9 @@ and pr.is_active
 and pin.is_active
 and ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
+and dev.project_id is not null
 union all
-select ph.id id_phase, 'deliverables' ent_type, 
+select ph.id id_phase, 'deliverable' ent_type, 
 dev.id ent_id , devi.id,  pr.id project_id, 0 is_owner, 'No' is_owner_description, pin.title project_title
 FROM  deliverables dev
 JOIN deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
@@ -1044,9 +1045,23 @@ and pr.is_active
 and pin.is_active
 and ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
+and dev.project_id is not null
 ) ppp
 group by ppp.id_phase, ppp.ent_type, ppp.ent_id
-;
+union all
+-- the deliverables with project_id is null will be from the phase where reported.
+select ph.id id_phase, 'deliverable' ent_type, dev.id ent_id, 
+-2 owner_project_id_group, NULL shared_project_id_group, 'NA' owner_composed_project_id_group,
+'NA' shared_composed_project_id_group,'Not applicable' project_title_group,'Not applicable' owner_project_title_group,'Not applicable' shared_project_title_group, 'NA' project_id_group,
+CONCAT(ph.id,';-2;1') ids_group
+FROM  deliverables dev
+JOIN deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
+JOIN phases ph on ph.id = devi.id_phase
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+WHERE dev.is_active
+and dev.project_id is null 
+and  ph.name = 'AR'
+and ph.year = ifnull(if(devi.new_expected_year=-1,null,devi.new_expected_year), devi.year) 
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -1082,7 +1097,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>12</length>
+        <length>11</length>
         <precision>-1</precision>
         <origin>proj_deliverables</origin>
         <comments>ent_type</comments>
@@ -1729,31 +1744,30 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
     </partitioning>
     <connection>ORI_DB</connection>
     <sql>select ppp.id_phase, ppp.ent_type, ppp.ent_id,
-group_concat(if(is_owner = 1, ifnull(ppp.project_id, 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_project_id_group,
-group_concat(if(is_owner = 0, ifnull(ppp.project_id, 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_project_id_group,
+group_concat(if(is_owner = 1, ifnull(ppp.project_id, -2), null)
+                order by ppp.is_owner desc, ppp.id asc separator ', ') owner_project_id_group,
+group_concat(if(is_owner = 0, ifnull(ppp.project_id, -2), null)
+                order by ppp.is_owner desc, ppp.id asc separator ', ') shared_project_id_group,
 -- 
-group_concat(if(is_owner = 1, ifnull(concat('P', ppp.project_id), 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') owner_composed_project_id_group,
-group_concat(if(is_owner = 0, ifnull(concat('P', ppp.project_id), 0), null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
+group_concat(if(is_owner = 1, ifnull(concat('P', ppp.project_id), -2), 'NA')
+                order by ppp.is_owner desc, ppp.id asc separator ', ') owner_composed_project_id_group,
+group_concat(if(is_owner = 0, ifnull(concat('P', ppp.project_id), -2), 'NA')
+                order by ppp.is_owner desc, ppp.id asc separator ', ') shared_composed_project_id_group,
 --
-group_concat(if(is_owner = 1, ifnull(concat ('{owner} P',ppp.project_id,' - ', ppp.project_title), ""), 
-               ifnull(concat ('P',ppp.project_id,' - ', ppp.project_title), ""))
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
-group_concat(if(is_owner = 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)), ""), 
+group_concat(if(is_owner = 1, ifnull(concat ('{owner} P',ppp.project_id,' - ', ppp.project_title), 'Not Applicable'), 
+               ifnull(concat ('P',ppp.project_id,' - ', ppp.project_title), 'Not Applicable'))
+                order by ppp.is_owner desc, ppp.id asc separator '; ') project_title_group,
+group_concat(if(is_owner = 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)), 'Not Applicable'), 
                 null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
-group_concat(if(is_owner != 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)) , ""), 
+                order by ppp.is_owner desc, ppp.id asc separator '; ') owner_project_title_group,
+group_concat(if(is_owner != 1, ifnull(concat('P', concat (ppp.project_id,' - ', ppp.project_title)) , 'Not Applicable'), 
                 null)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
-
+                order by ppp.is_owner desc, ppp.id asc separator '; ') shared_project_title_group,
 group_concat( ifnull(concat('P', ppp.project_id), 0)
-	 	 		order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
+                order by ppp.is_owner desc, ppp.id asc separator ', ') project_id_group,
 --
 group_concat(concat(ppp.id_phase, ';', ifnull(ppp.project_id, 0), ';', ppp.is_owner)
-	 	 		order by ppp.is_owner desc, ppp.project_id asc, ppp.id_phase asc separator ', ') ids_group 			
+                order by ppp.is_owner desc, ppp.project_id asc, ppp.id_phase asc separator ', ') ids_group          
 from
 (
 select ph.id id_phase, if(pesi.study_type_id =1, 'oicr', 'melia') ent_type, 
@@ -1800,7 +1814,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1821,9 +1835,9 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ent_type</name>
-        <length>4</length>
+        <length>5</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1846,7 +1860,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1869,7 +1883,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>owner_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1892,7 +1906,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>shared_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1915,7 +1929,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>owner_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1938,7 +1952,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_composed_project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>shared_composed_project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1961,7 +1975,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1984,7 +1998,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>owner_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>owner_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2007,7 +2021,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>shared_project_title_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>shared_project_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2030,7 +2044,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>project_id_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>project_id_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2053,7 +2067,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <name>ids_group</name>
         <length>10000</length>
         <precision>-1</precision>
-        <origin>proj_oicrs</origin>
+        <origin>proj_oicrs_melias</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

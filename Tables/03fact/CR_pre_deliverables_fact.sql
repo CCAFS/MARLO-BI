@@ -17,6 +17,7 @@ CREATE TABLE pre_deliverables_fact
 , fk_id_intersect_group_regpr BIGINT
 , fk_id_year BIGINT
 , fk_id_intersect_group_fs BIGINT
+, fk_id_intersect_group_proj BIGINT
 , updated_date DATETIME
 , deliverable_id BIGINT
 , id_phase BIGINT
