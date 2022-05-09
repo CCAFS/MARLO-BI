@@ -31,6 +31,7 @@ CREATE TABLE `dim_deliverables_info` (
   `coa_description` text,
   `adopted_license` varchar(13),
   `dissemination_channel` varchar(50),
+  `marlo_link` varchar(300),
   PRIMARY KEY (`pk_id_deliverable_info`),
   KEY `idx_dim_deliverables_info_lookup` (`deliverable_id`) USING BTREE,
   KEY `idx_dim_deliverables_info_tk` (`pk_id_deliverable_info`) USING BTREE
