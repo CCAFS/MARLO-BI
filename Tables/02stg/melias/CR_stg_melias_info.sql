@@ -12,11 +12,12 @@ CREATE TABLE `stg_melias_info` (
 , `study_type_id` BIGINT
 , `year` INT
 , `external_link` TEXT
-, `is_public` tinyint(1)
+, `is_public` tinyint
 , `melia_description` TEXT
 , `commissioning_study` TEXT
 , `melia_link` TINYTEXT
 , pdf_url TINYTEXT
+, `CRP`  varchar(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 ;
 

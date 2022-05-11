@@ -43,5 +43,6 @@ CREATE TABLE marlobi.stg_deliverable_altmetrics_info
 , image_large TEXT
 , details_url TEXT
 , last_sync DATETIME
+, CRP varchar(20)
 )
 ;

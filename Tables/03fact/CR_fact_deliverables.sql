@@ -17,6 +17,7 @@ CREATE TABLE `fact_deliverables` (
    `fk_id_year` bigint NOT NULL,
    `fk_id_intersect_group_fs` bigint NOT NULL,
    `fk_id_intersect_group_proj` bigint NOT NULL,
+   `CRP` varchar(20),
    `quantity` bigint DEFAULT NULL,
    `updated_date` datetime DEFAULT NULL,
    PRIMARY KEY (`fk_id_deliverable_additional_info`,`fk_id_deliverable_altmetrics_info`,`fk_id_deliverable_external_info`,`fk_id_deliverable_info`,`fk_id_general_status`,`fk_id_intersect_group_ccm`,`fk_id_intersect_group_crp`,`fk_id_intersect_group_flag`,`fk_id_intersect_group_geo`,`fk_id_intersect_group_inst`,`fk_id_intersect_group_loc`,`fk_id_intersect_group_persons`,`fk_id_intersect_group_regpr`,`fk_id_year`,`fk_id_intersect_group_fs`,`fk_id_intersect_group_proj`),

@@ -708,6 +708,11 @@
         <lookup>marlo_link</lookup>
         <update>Update</update>
       </field>
+      <field>
+        <name>CRP</name>
+        <lookup>CRP</lookup>
+        <update>Update</update>
+      </field>
       <return>
         <name>pk_id_deliverable_info</name>
         <rename/>
@@ -778,7 +783,8 @@ coa_id,
 coa_description,
 adopted_license,
 dissemination_channel,
-marlo_link
+marlo_link,
+CRP
 FROM marloBI.stg_deliverables_info
 ;</sql>
     <limit>0</limit>

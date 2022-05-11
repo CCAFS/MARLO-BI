@@ -699,6 +699,10 @@
         <name>marlo_link</name>
         <rename/>
       </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <cluster_schema/>
@@ -796,6 +800,7 @@ case
     WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.pages,'Not mandatory')
     ELSE 'Not applicable'
 end  pages,
+gu.acronym as CRP,
 pm.isi_publication is_ISI_journal,
 dis.is_open_access,
 get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
@@ -858,6 +863,7 @@ case
     WHEN devi.type_id in(64,66,80) THEN IFNULL(pm.pages,'Not mandatory')
     ELSE 'Not applicable'
 end  pages,
+gu.acronym as CRP,
 pm.isi_publication is_ISI_journal,
 dis.is_open_access,
 get_deliverable_metadata (devi.deliverable_id,devi.id_phase,'dc.title') as 'metadata_title',
@@ -903,6 +909,7 @@ SELECT
 'Non Mandatory' volume,
 'Non Mandatory' issue,
 'Non Mandatory' pages,
+'Non Mandatory' CRP,
 0 is_ISI_journal,
 0 is_open_access,
 'Non Mandatory' as 'metadata_title',

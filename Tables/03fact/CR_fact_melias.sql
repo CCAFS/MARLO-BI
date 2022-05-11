@@ -12,6 +12,7 @@ CREATE TABLE `fact_melias` (
 , `fk_id_intersect_group_geo` BIGINT not null
 , `fk_id_intersect_group_proj` BIGINT not null
 , `fk_id_general_status` BIGINT not null
+, `CRP` varchar(20)
 , `quantity` bigint
 , `updated_date` DATETIME,
   primary key (`fk_id_year`, `fk_id_melia_info`, `fk_id_crp`, `fk_id_intersect_group_loc`, `fk_id_intersect_group_geo`,

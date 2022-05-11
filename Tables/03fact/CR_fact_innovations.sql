@@ -17,6 +17,7 @@ CREATE TABLE `fact_innovations`
 , `fk_id_intersect_group_deliv` BIGINT
 , `fk_id_intersect_group_smo_org_type` BIGINT
 , `fk_id_intersect_group_proj` BIGINT
+, `CRP` varchar(20)
 , `number_of_innovations` BIGINT
 , `updated_date` DATETIME,
 primary key (`fk_id_year`, `fk_id_crp`, `fk_id_innovation_info`, `fk_id_innovation_stg`,  `fk_id_innovation_type`,  

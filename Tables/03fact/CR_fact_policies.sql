@@ -17,6 +17,7 @@ CREATE TABLE `fact_policies`
 , `fk_id_intersect_group_ccm` BIGINT not null
 , `fk_id_intersect_group_oicr` BIGINT not null
 , `fk_id_intersect_group_owner` BIGINT not null
+, `CRP`  varchar(20) 
 , `updated_date` DATETIME not null
 , `quantity` bigint default 1 ,
 primary key (`fk_id_year`, `fk_id_crp`, `fk_id_policy_info`, `fk_id_pol_inv_type`,  `fk_id_projects_info`,  `fk_id_stage_processes`,

@@ -18,5 +18,6 @@ CREATE TABLE `pre_policies_fact`
 , `fk_id_intersect_group_oicr` BIGINT
 , `fk_id_intersect_group_owner` BIGINT not null
 , `updated_date` DATETIME
+, `CRP` varchar(20)
 , `quantity` bigint default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

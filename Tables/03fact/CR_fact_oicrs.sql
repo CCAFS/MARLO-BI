@@ -16,6 +16,7 @@ CREATE TABLE `fact_oicrs` (
 , `fk_id_intersect_group_ccm` BIGINT not null
 , `fk_id_intersect_group_proj` BIGINT not null
 , `fk_id_general_status` BIGINT not null
+, `CRP` varchar(20)
 , `quantity` bigint
 , `updated_date` DATETIME,
   primary key (`fk_id_year`, `fk_id_oicr_info`, `fk_id_crp`, `fk_id_intersect_group_loc`, `fk_id_intersect_group_inst`, `fk_id_intersect_group_geo`,

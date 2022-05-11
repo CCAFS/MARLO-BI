@@ -17,7 +17,8 @@ CREATE TABLE pre_oicrs_fact
 , `fk_id_intersect_group_ccm` BIGINT
 , `fk_id_intersect_group_proj` BIGINT
 , `fk_id_general_status` BIGINT
+, `CRP` varchar(20)
 , `updated_date` DATETIME
 , `quantity` bigint
-) ENGINE=InnoDB CHARSET=utf8
+) ENGINE=InnoDB CHARSET=utf8mb4
 ;

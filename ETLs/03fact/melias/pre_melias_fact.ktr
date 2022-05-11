@@ -952,39 +952,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_study_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_melia_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srftar</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_proj</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>updated_date</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -2079,6 +2095,7 @@ where pg.ent_type = 'melia';
     `global_unit_id`,
     `status`,
     `study_type_id`,
+    `CRP`,
     `year`,
     ifnull(gs.general_status_id, -1) general_status_id
 FROM `stg_melias_info` oi

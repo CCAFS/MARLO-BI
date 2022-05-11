@@ -6,11 +6,11 @@ CREATE TABLE stg_deliverables_additional_info
 , global_unit_id BIGINT
 , deliverable_id BIGINT
 , project_id BIGINT
-, has_participants VARCHAR(3)
+, has_participants VARCHAR(20)
 , activity_name TEXT
 , activity_type TEXT
 , participants DOUBLE
-, females DOUBLE
+, females varchar(22)
 , participant_type TEXT
 , language TEXT
 , country TEXT
@@ -20,5 +20,6 @@ CREATE TABLE stg_deliverables_additional_info
 , accesible  varchar(50)
 , interoperable  varchar(50)
 , reusable  varchar(50)
-)
+, CRP varchar(20)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ;

@@ -450,22 +450,6 @@
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useSSL</code>
-        <attribute>false</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -763,7 +747,6 @@
       <value_precision>-1</value_precision>
       <replace_field/>
     </formula>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -799,7 +782,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -835,7 +817,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -871,7 +852,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -907,7 +887,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -943,7 +922,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -979,7 +957,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1015,7 +992,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1051,7 +1027,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1087,7 +1062,6 @@
       <key>policy_id</key>
       <key>id_phase</key>
     </keys_2>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1121,7 +1095,6 @@
       </valuetypes>
     <fields>
       </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1149,55 +1122,74 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_policy_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_pol_inv_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_projects_info</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_stage_processes</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_srf_cci</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_sdg</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_oicr</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_owner</name>
+        <rename/>
       </field>
       <field>
         <name>updated_date</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1247,7 +1239,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1297,7 +1288,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1347,7 +1337,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1397,7 +1386,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1447,7 +1435,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1497,7 +1484,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1547,7 +1533,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1597,7 +1582,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1647,7 +1631,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1697,7 +1680,6 @@
         <presorted>N</presorted>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1745,7 +1727,6 @@
         <type>Integer</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1793,7 +1774,6 @@
         <type>Integer</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1841,7 +1821,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1889,7 +1868,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1937,7 +1915,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1985,7 +1962,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2033,7 +2009,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2081,7 +2056,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2129,7 +2103,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2177,7 +2150,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2225,7 +2197,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2273,7 +2244,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2321,7 +2291,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2369,7 +2338,6 @@
         <type>None</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2413,7 +2381,6 @@
     <return_field/>
     <fields>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2448,9 +2415,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2485,9 +2449,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2522,9 +2483,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2559,9 +2517,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2596,9 +2551,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2633,9 +2585,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2670,9 +2619,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2707,9 +2653,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2745,9 +2688,6 @@ where pg.ent_type = 'policy';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2784,6 +2724,7 @@ where pg.ent_type = 'policy';
 , rep_ind_policy_investment_type_id
 , year
 , project_id
+, CRP
 FROM marloBI.stg_policies_info
 </sql>
     <limit>0</limit>
@@ -2791,9 +2732,6 @@ FROM marloBI.stg_policies_info
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2841,7 +2779,6 @@ FROM marloBI.stg_policies_info
         <type>Integer</type>
       </value>
     </lookup>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2860,5 +2797,4 @@ FROM marloBI.stg_policies_info
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>

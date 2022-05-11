@@ -30,6 +30,7 @@ CREATE TABLE `stg_deliverables_info` (
   `coa_id` varchar(20),
   `coa_description` text,
   `marlo_link` varchar(300),
+  `CRP` varchar(20),
   status bigint,
   delivery_year bigint
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

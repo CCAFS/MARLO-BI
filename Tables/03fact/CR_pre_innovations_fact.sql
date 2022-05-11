@@ -17,6 +17,7 @@ CREATE TABLE `pre_innovations_fact`
 , `fk_id_intersect_group_deliv` BIGINT
 , `fk_id_intersect_group_smo_org_type` BIGINT
 , `fk_id_intersect_group_proj` BIGINT
+, `CRP` varchar(20)
 , `number_of_innovations` BIGINT
 , `updated_date` DATETIME
 ) ENGINE=InnoDB CHARSET=utf8mb4
