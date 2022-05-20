@@ -8,7 +8,6 @@ CREATE TABLE pre_deliverables_fact
 , fk_id_deliverable_info BIGINT
 , fk_id_general_status BIGINT
 , fk_id_intersect_group_ccm BIGINT
-, fk_id_intersect_group_crp BIGINT
 , fk_id_intersect_group_flag BIGINT
 , fk_id_intersect_group_geo BIGINT
 , fk_id_intersect_group_inst BIGINT
@@ -18,6 +17,7 @@ CREATE TABLE pre_deliverables_fact
 , fk_id_year BIGINT
 , fk_id_intersect_group_fs BIGINT
 , fk_id_intersect_group_proj BIGINT
+, fk_id_crp BIGINT
 , CRP varchar(20)
 , updated_date DATETIME
 , deliverable_id BIGINT

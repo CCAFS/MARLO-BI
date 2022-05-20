@@ -449,6 +449,22 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -642,16 +658,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>year lookup</from>
-      <to>CRPS intersect lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>CRPS intersect lookup</from>
-      <to>Institutions intersec lookup</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Institutions intersec lookup</from>
       <to>Persons intersec lookup</to>
       <enabled>Y</enabled>
@@ -746,6 +752,16 @@
       <to>Formula</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>year lookup</from>
+      <to>CRP Owner lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>CRP Owner lookup</from>
+      <to>Institutions intersec lookup</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>CCM intersec lookup</name>
@@ -781,6 +797,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -790,54 +807,7 @@
     </remotesteps>
     <GUI>
       <xloc>656</xloc>
-      <yloc>512</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>CRPS intersect lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>DES_DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema>${DES_DBNAME}</schema>
-      <table>dim_intersect_group_crps</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>ids_group_crps</name>
-        <field>ids_group</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>pk_id_intersect_group_crp</name>
-        <rename>fk_id_intersect_group_crp</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>656</xloc>
-      <yloc>272</yloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -875,6 +845,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -884,7 +855,7 @@
     </remotesteps>
     <GUI>
       <xloc>656</xloc>
-      <yloc>592</yloc>
+      <yloc>656</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -922,6 +893,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -931,7 +903,7 @@
     </remotesteps>
     <GUI>
       <xloc>800</xloc>
-      <yloc>512</yloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -954,6 +926,7 @@
       <value_precision>-1</value_precision>
       <replace_field/>
     </formula>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -962,7 +935,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
+      <xloc>928</xloc>
       <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1001,6 +974,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1010,7 +984,7 @@
     </remotesteps>
     <GUI>
       <xloc>656</xloc>
-      <yloc>352</yloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1036,6 +1010,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1071,6 +1046,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1106,6 +1082,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1141,6 +1118,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1176,6 +1154,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1211,6 +1190,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1246,6 +1226,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1281,6 +1262,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1316,6 +1298,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1351,6 +1334,7 @@
       <key>deliverable_id</key>
       <key>id_phase</key>
     </keys_2>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1384,6 +1368,7 @@
       </valuetypes>
     <fields>
       </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1392,7 +1377,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>976</xloc>
+      <xloc>1104</xloc>
       <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1431,6 +1416,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1440,7 +1426,7 @@
     </remotesteps>
     <GUI>
       <xloc>656</xloc>
-      <yloc>432</yloc>
+      <yloc>496</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1478,6 +1464,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1486,7 +1473,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
+      <xloc>800</xloc>
       <yloc>656</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1528,10 +1515,6 @@
         <rename/>
       </field>
       <field>
-        <name>fk_id_intersect_group_crp</name>
-        <rename/>
-      </field>
-      <field>
         <name>fk_id_intersect_group_flag</name>
         <rename/>
       </field>
@@ -1568,6 +1551,10 @@
         <rename/>
       </field>
       <field>
+        <name>fk_id_crp</name>
+        <rename/>
+      </field>
+      <field>
         <name>updated_date</name>
         <rename/>
       </field>
@@ -1585,6 +1572,7 @@
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1593,7 +1581,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>896</xloc>
+      <xloc>1024</xloc>
       <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1634,6 +1622,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1683,6 +1672,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1732,6 +1722,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1781,6 +1772,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1830,6 +1822,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1879,6 +1872,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1928,6 +1922,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -1977,6 +1972,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2026,6 +2022,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2075,6 +2072,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2124,6 +2122,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2177,6 +2176,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2230,6 +2230,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2283,6 +2284,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2330,6 +2332,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2339,7 +2342,7 @@
     </remotesteps>
     <GUI>
       <xloc>800</xloc>
-      <yloc>656</yloc>
+      <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2383,6 +2386,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2430,6 +2434,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2439,7 +2444,7 @@
     </remotesteps>
     <GUI>
       <xloc>800</xloc>
-      <yloc>576</yloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2473,6 +2478,7 @@
     <return_field/>
     <fields>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2481,7 +2487,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>976</xloc>
+      <xloc>1104</xloc>
       <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
@@ -2520,6 +2526,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2529,7 +2536,7 @@
     </remotesteps>
     <GUI>
       <xloc>800</xloc>
-      <yloc>432</yloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2567,6 +2574,7 @@
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2601,6 +2609,9 @@ where pg.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2635,6 +2646,9 @@ where pg.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2669,6 +2683,9 @@ where pg.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2703,6 +2720,9 @@ where pg.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2742,6 +2762,9 @@ where deliverable_id not in (-1,-2,-3)</sql>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2776,6 +2799,9 @@ where rp.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2810,6 +2836,9 @@ where pg.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2844,6 +2873,9 @@ where fp.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2878,6 +2910,9 @@ where fs.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2912,6 +2947,9 @@ where per.ent_type = 'deliverable';
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2945,6 +2983,9 @@ where fs.ent_type = 'deliverable';</sql>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -2992,6 +3033,7 @@ where fs.ent_type = 'deliverable';</sql>
         <type>Integer</type>
       </value>
     </lookup>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -3005,9 +3047,58 @@ where fs.ent_type = 'deliverable';</sql>
       <draw>Y</draw>
     </GUI>
   </step>
+  <step>
+    <name>CRP Owner lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>DES_DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>${DES_DBNAME}</schema>
+      <table>dim_crps</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>global_unit_id</name>
+        <field>id</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>pk_id_crp</name>
+        <rename>fk_id_crp</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>656</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step_error_handling>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
+  <attributes/>
 </transformation>
