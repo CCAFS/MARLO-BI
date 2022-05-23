@@ -578,7 +578,7 @@
     <hop>
       <from>Select values 7</from>
       <to>pre_summary_indicators_fact</to>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
     </hop>
   </order>
   <step>
@@ -1280,7 +1280,7 @@
     </partitioning>
     <connection>DES_DB</connection>
     <sql>SELECT
-  fk_id_intersect_group_crp fk_id_crp
+  fk_id_crp fk_id_crp
 , fk_id_year
 , fk_id_deliverable_info fk_indicator
 , 'deliverables' indicator_type
@@ -1294,8 +1294,8 @@
 , sum(0) indicator_value
 FROM fact_deliverables
 group by   
-fk_id_intersect_group_crp
-,fk_id_year
+fk_id_crp,
+fk_id_year
 , fk_id_deliverable_info 
 , fk_id_intersect_group_inst
 , fk_id_intersect_group_loc
