@@ -450,6 +450,22 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
+        <attribute>utf8</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -700,11 +716,16 @@
         <rename/>
       </field>
       <field>
+        <name>deliverable_url</name>
+        <rename/>
+      </field>
+      <field>
         <name>CRP</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -746,6 +767,7 @@
         <presorted>N</presorted>
       </field>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -813,6 +835,7 @@ ifnull(kout.key_output, if(pin.administrative = 1,'Not Applicable','Not Defined'
 ,if(pin.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) as 'coa_description'
 ,devi.status
 ,concat('https://marlo.cgiar.org/projects/',gu.acronym,'/deliverable.do?deliverableID=',dev.id,'&amp;edit=true&amp;phaseID=',ph.id) marlo_link
+,get_deliverable_url(devi.deliverable_id,devi.id_phase) deliverable_url
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
@@ -876,6 +899,7 @@ ifnull(kout.key_output, 'Not Defined') as 'key_output_name'
 ,ifnull(coa.description ,'Not Defined') as 'coa_description'
 ,devi.status
 ,concat('https://marlo.cgiar.org/publications/',gu.acronym,'/publication.do?deliverableID=',dev.id,'&amp;edit=true&amp;phaseID=',ph.id) marlo_link 
+,get_deliverable_url(devi.deliverable_id,devi.id_phase) deliverable_url
 FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active 
 inner join phases ph on ph.id = devi.id_phase
@@ -921,12 +945,16 @@ SELECT
 , 'Non Mandatory' as 'coa_id'
 , 'Non Mandatory' as 'coa_description'
 , -1 as status
-, 'Not Applicable' as marlo_link</sql>
+, 'Not Applicable' as marlo_link
+, 'Not Applicable' as deliverable_link</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
     <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta/>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -970,6 +998,7 @@ SELECT
     <return_field/>
     <fields>
     </fields>
+    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -988,4 +1017,5 @@ SELECT
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
+  <attributes/>
 </transformation>
