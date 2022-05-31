@@ -490,61 +490,6 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>DES_MBI</name>
-    <server>${DES_HOST}</server>
-    <type>MYSQL</type>
-    <access>Native</access>
-    <database>${DES_MBI_PROJECT}</database>
-    <port>3306</port>
-    <username>${DES_USR}</username>
-    <password>${DES_PSW}</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
       <from>pre_fact_info_relationship</from>
@@ -664,12 +609,12 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_MBI</connection>
+    <connection>DES_DB</connection>
     <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>${DES_MBI_PROJECT}</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_columns_info</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -717,12 +662,12 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_MBI</connection>
+    <connection>DES_DB</connection>
     <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>${DES_MBI_PROJECT}</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_referenced_columns</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -770,12 +715,12 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_MBI</connection>
+    <connection>DES_DB</connection>
     <cache>Y</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
-      <schema>${DES_MBI_PROJECT}</schema>
+      <schema>${DES_DBNAME}</schema>
       <table>dim_table_info</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
@@ -893,7 +838,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_MBI</connection>
+    <connection>DES_DB</connection>
     <sql>select 
 	table_name,
 	column_name,
