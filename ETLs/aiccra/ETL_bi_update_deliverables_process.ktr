@@ -705,9 +705,10 @@
         LEFT JOIN deliverable_types dt ON dt.id = di.type_id
         LEFT JOIN deliverable_types dtParent ON dtParent.id = dt.parent_id
         -- Indicators
-        LEFT JOIN deliverable_project_outcomes dpo on dpo.deliverable_id = di.deliverable_id and dpo.id_phase = di.id_phase 
-        LEFT JOIN project_outcomes prout on prout.id = dpo.project_outcome_id
-        LEFT JOIN crp_program_outcomes pout on pout.id = prout.outcome_id
+        -- LEFT JOIN deliverable_project_outcomes dpo on dpo.deliverable_id = di.deliverable_id and dpo.id_phase = di.id_phase 
+        -- LEFT JOIN project_outcomes prout on prout.id = dpo.project_outcome_id
+        left join deliverable_crp_outcomes dco on dco.deliverable_id = di.deliverable_id and dco.id_phase = di.id_phase 
+        LEFT JOIN crp_program_outcomes pout on pout.id = dco.crp_outcome_id 
         LEFT JOIN deliverable_geographic_scopes dgeo on dgeo.deliverable_id = di.deliverable_id and dgeo.id_phase = di.id_phase
         LEFT JOIN rep_ind_geographic_scopes geo on geo.id = dgeo.rep_ind_geographic_scope_id
         LEFT JOIN deliverable_locations dloc on dloc.deliverable_id = di.deliverable_id and dloc.id_phase = di.id_phase
@@ -743,7 +744,7 @@
         -- and ph.name = 'APWB'
         -- and ph.year = 2022
         -- and ph.global_unit_id=45
-        -- and d.id =24809
+        and d.id =24949
         order by 2
         -- group by d.id,par.deliverable_partner_type_id,ins.id
         ;
