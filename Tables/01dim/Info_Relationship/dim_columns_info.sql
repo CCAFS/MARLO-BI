@@ -8,6 +8,7 @@ CREATE TABLE dim_columns_info
 , date_to DATETIME
 , column_name VARCHAR(64)
 , table_name VARCHAR(64)
+, cube_name VARCHAR(64)
 , column_type MEDIUMTEXT
 , column_comment TEXT,
 PRIMARY KEY (`pk_id_column_info`),
