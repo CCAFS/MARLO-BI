@@ -502,7 +502,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>stg_cube_structure_info</from>
+      <from>stg_cube_dim_identifier</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
@@ -544,6 +544,10 @@
       <key>
         <name>table_name</name>
         <lookup>table_name</lookup>
+      </key>
+      <key>
+        <name>dimension_identifier</name>
+        <lookup>dimension_identifier</lookup>
       </key>
       <date>
         <name/>
@@ -732,7 +736,7 @@
     </GUI>
   </step>
   <step>
-    <name>stg_cube_structure_info</name>
+    <name>stg_cube_dim_identifier</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -745,11 +749,10 @@
     <connection>DES_DB</connection>
     <sql>
 select 
- table_name, src_table, src_column, des_table, des_column, cube_name,
+ table_name, src_table, src_column, des_table, des_column, cube_name,dimension_identifier,
  if(src_table like 'fact%', 'fact',(if(src_table like 'br%', 'br', (if(src_table like '%intersect%', 'dim_intersect', (if(src_table like 'dim%', 'dim', src_table))))))) as color_src,
  if(des_table like 'fact%', 'fact',(if(des_table like 'br%', 'br', (if(des_table like '%intersect%', 'dim_intersect', (if(des_table like 'dim%', 'dim', des_table))))))) as color_des	
- from marlobi.stg_cube_structure_info 
-    
+ from marlobi.stg_cube_dim_identifier
 
 
 </sql>

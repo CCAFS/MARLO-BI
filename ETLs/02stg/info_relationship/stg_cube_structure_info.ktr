@@ -548,28 +548,28 @@
   </connection>
   <order>
     <hop>
-      <from>Merge Join</from>
-      <to>Merge Join 2</to>
+      <from>Merge Join facts -br</from>
+      <to>merge (br - intersects) - (br - dimensions)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows</from>
-      <to>Merge Join</to>
+      <to>Merge Join facts -br</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows 2</from>
-      <to>Merge Join</to>
+      <to>Merge Join facts -br</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows 2 2</from>
-      <to>Merge Join 2</to>
+      <to>merge (br - intersects) - (br - dimensions)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>get_name_facts_table</from>
-      <to>Merge Join 3</to>
+      <to>Merge indicator facts</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -588,8 +588,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge Join 3</from>
-      <to>Add constants</to>
+      <from>Merge indicator facts</from>
+      <to>Add table aux</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -598,13 +598,13 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge Join 2</from>
+      <from>merge (br - intersects) - (br - dimensions)</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Sort rows 3</from>
-      <to>Merge Join 3</to>
+      <to>Merge indicator facts</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -623,7 +623,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Add constants</from>
+      <from>Add table aux</from>
       <to>union_table_key</to>
       <enabled>Y</enabled>
     </hop>
@@ -752,7 +752,7 @@
     </GUI>
   </step>
   <step>
-    <name>Add constants</name>
+    <name>Add table aux</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
@@ -911,7 +911,7 @@
     </GUI>
   </step>
   <step>
-    <name>Merge Join</name>
+    <name>Merge Join facts -br</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>N</distribute>
@@ -944,40 +944,7 @@
     </GUI>
   </step>
   <step>
-    <name>Merge Join 2</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>Merge Join</step1>
-    <step2>Sort rows 2 2</step2>
-    <keys_1>
-      <key>table_name_1</key>
-    </keys_1>
-    <keys_2>
-      <key>table_name</key>
-    </keys_2>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>400</xloc>
-      <yloc>400</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge Join 3</name>
+    <name>Merge indicator facts</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -1013,7 +980,7 @@
     <name>Replace in string</name>
     <type>ReplaceString</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -1526,6 +1493,39 @@ from information_schema.KEY_COLUMN_USAGE
     <GUI>
       <xloc>80</xloc>
       <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>merge (br - intersects) - (br - dimensions)</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Merge Join facts -br</step1>
+    <step2>Sort rows 2 2</step2>
+    <keys_1>
+      <key>table_name_1</key>
+    </keys_1>
+    <keys_2>
+      <key>table_name</key>
+    </keys_2>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

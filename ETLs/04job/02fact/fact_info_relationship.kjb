@@ -376,7 +376,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>352</xloc>
+      <xloc>512</xloc>
       <yloc>304</yloc>
     </entry>
     <entry>
@@ -386,7 +386,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>832</xloc>
+      <xloc>1024</xloc>
       <yloc>112</yloc>
     </entry>
     <entry>
@@ -423,7 +423,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>512</xloc>
-      <yloc>304</yloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>dim_referenced_columns</name>
@@ -458,7 +458,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>512</xloc>
+      <xloc>688</xloc>
       <yloc>112</yloc>
     </entry>
     <entry>
@@ -494,7 +494,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>688</xloc>
+      <xloc>864</xloc>
       <yloc>304</yloc>
     </entry>
     <entry>
@@ -530,8 +530,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>832</xloc>
-      <yloc>304</yloc>
+      <xloc>864</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>dim_cube_structure_info</name>
@@ -567,7 +567,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>688</xloc>
-      <yloc>112</yloc>
+      <yloc>304</yloc>
     </entry>
     <entry>
       <name>stg_cube_structure_info</name>
@@ -677,6 +677,42 @@
       <xloc>208</xloc>
       <yloc>112</yloc>
     </entry>
+    <entry>
+      <name>stg_cube_dim_identifier</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Entry.Current.Directory}/../../02stg/info_relationship/stg_cube_dim_identifier.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>352</xloc>
+      <yloc>304</yloc>
+    </entry>
   </entries>
   <hops>
     <hop>
@@ -734,15 +770,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>stg_cube_structure_info</from>
-      <to>dim_table_info</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>dim_referenced_columns</from>
       <to>dim_cube_structure_info</to>
       <from_nr>0</from_nr>
@@ -772,6 +799,24 @@
     <hop>
       <from>stg_columns_info</from>
       <to>stg_cube_structure_info</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>stg_cube_structure_info</from>
+      <to>stg_cube_dim_identifier</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>stg_cube_dim_identifier</from>
+      <to>dim_table_info</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
