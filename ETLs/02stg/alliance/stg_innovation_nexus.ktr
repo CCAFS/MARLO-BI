@@ -461,15 +461,7 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -531,18 +523,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -669,19 +649,15 @@
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>nexus_id</name>
-        <rename/>
       </field>
       <field>
         <name>nexus_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_innovation_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -920,8 +896,8 @@ from marloBI.dim_innovations_info doic;
     <sql>select sle.project_innovation_id, sle.id_phase, sle.nexus_id, nx.name nexus_name
 from project_innovation_nexus sle
 join nexus nx on nx.id = sle.nexus_id
-join bi_phase_by_cubes pbc on cube_name = 'innovations'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_innovations','innovations')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year;</sql>
     <limit>0</limit>
@@ -937,7 +913,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>project_innovation_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_nexus</origin>
+        <origin>input_innovation_nexus</origin>
         <comments>project_innovation_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -960,7 +936,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_nexus</origin>
+        <origin>input_innovation_nexus</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -983,7 +959,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>nexus_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_nexus</origin>
+        <origin>input_innovation_nexus</origin>
         <comments>nexus_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1006,7 +982,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>nexus_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_policy_nexus</origin>
+        <origin>input_innovation_nexus</origin>
         <comments>nexus_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

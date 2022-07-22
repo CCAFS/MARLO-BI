@@ -643,22 +643,28 @@ acording to the Excel file that Allison Pollous mapped
     </partitioning>
     <fields>
       <field>
-        <name>oicr_id</name>
+        <name>expected_id</name>
+        <rename>oicr_id</rename>
       </field>
       <field>
         <name>id_phase</name>
+        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
+        <rename/>
       </field>
       <field>
         <name>institution_id</name>
+        <rename/>
       </field>
       <field>
         <name>institution_name</name>
+        <rename/>
       </field>
       <field>
         <name>pk_id_oicr_info</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -703,14 +709,6 @@ acording to the Excel file that Allison Pollous mapped
         <collator_strength>0</collator_strength>
         <presorted>N</presorted>
       </field>
-      <field>
-        <name>id_phase</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -747,14 +745,6 @@ acording to the Excel file that Allison Pollous mapped
     <fields>
       <field>
         <name>expected_id</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>id_phase</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -899,28 +889,14 @@ from marloBI.dim_oicrs_info doic;
     from project_expected_study_manual_centers sle
     join global_units gu on gu.id = sle.global_unit_id
     join institutions ins on ins.id = gu.institution_id
-    join bi_phase_by_cubes pbc on cube_name = 'oicrs'
     join phases ph on ph.id = sle.id_phase
+    join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
     join project_expected_study_info pein on pein.project_expected_study_id = sle.expected_id and pein.id_phase = ph.id 
     where ph.name = pbc.phase_name 
     and ph.year = pbc.phase_year
     and sle.global_unit_id = 45 -- Alliance
     and pein.study_type_id = 1 -- oicrs
-    and ph.global_unit_id &lt;&gt; 45
-    union all
-    -- Alliance info    
-    select sle.expected_id, sle.id_phase, sle.global_unit_id,  gu.name global_unit_name, ins.id institution_id, ins.name institution_name
-    from project_expected_study_manual_centers sle
-    join global_units gu on gu.id = sle.global_unit_id
-    join institutions ins on ins.id = gu.institution_id
-    join bi_phase_by_cubes pbc on cube_name = 'alliance_oicrs'
-    join phases ph on ph.id = sle.id_phase
-    join project_expected_study_info pein on pein.project_expected_study_id = sle.expected_id and pein.id_phase = ph.id 
-    where ph.global_unit_id = 45
-    and ph.name = pbc.phase_name 
-    and ph.year = pbc.phase_year
-    and sle.global_unit_id = 45 -- Alliance
-    and pein.study_type_id = 1 -- oicrs
+    
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -1002,7 +978,7 @@ from marloBI.dim_oicrs_info doic;
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>global_unit_name</name>
-        <length>65535</length>
+        <length>21845</length>
         <precision>-1</precision>
         <origin>input_oicr_manual_centers</origin>
         <comments>global_unit_name</comments>
@@ -1048,7 +1024,7 @@ from marloBI.dim_oicrs_info doic;
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>institution_name</name>
-        <length>65535</length>
+        <length>21845</length>
         <precision>-1</precision>
         <origin>input_oicr_manual_centers</origin>
         <comments>institution_name</comments>
@@ -1077,7 +1053,7 @@ from marloBI.dim_oicrs_info doic;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>64</xloc>
       <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>

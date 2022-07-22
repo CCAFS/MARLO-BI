@@ -461,15 +461,7 @@ Alliance related Innovations
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -531,18 +523,6 @@ Alliance related Innovations
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -923,8 +903,8 @@ from marloBI.dim_innovations_info doic;
 from project_innovation_lever_outcomes sle
 join alliance_lever_outcomes lo on lo.id = sle.lever_outcome_id
 join alliance_levers le on le.id = lo.parent_id
-join bi_phase_by_cubes pbc on cube_name = 'innovations'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_innovations','innovations')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year;</sql>
     <limit>0</limit>
@@ -940,7 +920,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>project_innovation_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>project_innovation_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -963,7 +943,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -986,7 +966,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>lever_outcome_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>lever_outcome_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1009,7 +989,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>lever_outcome_name</name>
         <length>131073</length>
         <precision>-1</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>lever_outcome_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1032,7 +1012,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>lever_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>lever_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1055,7 +1035,7 @@ and ph.year = pbc.phase_year;</sql>
         <name>lever_name</name>
         <length>131073</length>
         <precision>-1</precision>
-        <origin>input_policy_lever_outcomes</origin>
+        <origin>input_innovation_lever_outcomes</origin>
         <comments>lever_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

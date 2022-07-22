@@ -986,13 +986,13 @@ from project_expected_studies pes
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(gu.id =45,'alliance_oicrs','oicrs')
 where ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
 and pesi.title is not null
 and pes.is_active
 and pesi.study_type_id = 1 -- solo oicrs
--- and gu.id =45
+-- and 
 union all
 -- OICR dimension row for not provided oicrs
 select 0 id_phase,

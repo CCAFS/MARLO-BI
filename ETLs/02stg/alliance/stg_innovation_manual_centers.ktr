@@ -460,15 +460,7 @@ acording to the Excel file that Allison Pollous mapped
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -531,18 +523,6 @@ acording to the Excel file that Allison Pollous mapped
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -586,11 +566,6 @@ acording to the Excel file that Allison Pollous mapped
   </connection>
   <order>
     <hop>
-      <from>Select values</from>
-      <to>stg_innovation_manual_centers</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>input_innovation_manual_centers</from>
       <to>Sort input_innovation_manual_centers</to>
       <enabled>Y</enabled>
@@ -613,6 +588,11 @@ acording to the Excel file that Allison Pollous mapped
     <hop>
       <from>Merge join</from>
       <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>stg_innovation_manual_centers</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -668,23 +648,18 @@ acording to the Excel file that Allison Pollous mapped
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>institution_id</name>
-        <rename/>
       </field>
       <field>
         <name>institution_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_innovation_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -903,7 +878,7 @@ from marloBI.dim_innovations_info doic;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>64</xloc>
       <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
@@ -924,11 +899,12 @@ from marloBI.dim_innovations_info doic;
 from project_innovation_manual_centers sle
 join global_units gu on gu.id = sle.global_unit_id
 join institutions ins on ins.id = gu.institution_id
-join bi_phase_by_cubes pbc on cube_name = 'innovations'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_innovations','innovations')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year
 and sle.global_unit_id = 45 -- Alliance
+-- and sle.project_innovation_id = 2877
 ;</sql>
     <limit>0</limit>
     <lookup/>
@@ -943,7 +919,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>project_innovation_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>project_innovation_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -966,7 +942,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -989,7 +965,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>global_unit_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>global_unit_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1012,7 +988,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>global_unit_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>global_unit_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1035,7 +1011,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>institution_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>institution_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1058,7 +1034,7 @@ and sle.global_unit_id = 45 -- Alliance
         <name>institution_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_melia_manual_centers</origin>
+        <origin>input_innovation_manual_centers</origin>
         <comments>institution_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1085,8 +1061,8 @@ and sle.global_unit_id = 45 -- Alliance
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>144</yloc>
+      <xloc>80</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1129,7 +1105,7 @@ and sle.global_unit_id = 45 -- Alliance
       </output>
     </remotesteps>
     <GUI>
-      <xloc>832</xloc>
+      <xloc>848</xloc>
       <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
