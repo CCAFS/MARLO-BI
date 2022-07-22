@@ -542,8 +542,8 @@
         <lookup>cube_name</lookup>
       </key>
       <key>
-        <name>table_name</name>
-        <lookup>table_name</lookup>
+        <name>fact_table</name>
+        <lookup>fact_table</lookup>
       </key>
       <key>
         <name>dimension_identifier</name>
@@ -749,7 +749,7 @@
     <connection>DES_DB</connection>
     <sql>
 select 
- table_name, src_table, src_column, des_table, des_column, cube_name,dimension_identifier,
+ fact_table, src_table, src_column, des_table, des_column, cube_name,dimension_identifier,
  if(src_table like 'fact%', 'fact',(if(src_table like 'br%', 'br', (if(src_table like '%intersect%', 'dim_intersect', (if(src_table like 'dim%', 'dim', src_table))))))) as color_src,
  if(des_table like 'fact%', 'fact',(if(des_table like 'br%', 'br', (if(des_table like '%intersect%', 'dim_intersect', (if(des_table like 'dim%', 'dim', des_table))))))) as color_des	
  from marlobi.stg_cube_dim_identifier

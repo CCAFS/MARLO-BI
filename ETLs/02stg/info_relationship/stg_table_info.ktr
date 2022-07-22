@@ -553,6 +553,11 @@
     </hop>
     <hop>
       <from>Filter rows</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
       <to>stg_table_info</to>
       <enabled>Y</enabled>
     </hop>
@@ -568,7 +573,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>stg_table_info</send_true_to>
+    <send_true_to>Select values</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -656,11 +661,16 @@
     <connection>ORI_DB</connection>
     <sql>select 
  table_name, 
- IF(table_comment IS NULL or table_comment = '', 'This field contains the information related to the indicated table. Soon you will be able to see this information', table_comment) as table_comment,
- UPDATE_TIME
+ --IF(table_comment IS NULL or table_comment  = '', 'This field contains the information related to the indicated table. Soon you will be able to see this information', table_comment) as table_comment,
+ IF(table_name like 'fact%' and (table_comment IS NULL or table_comment = ''), 'fact comment', 
+  IF(table_name like '%intersect%' and (table_comment IS NULL or table_comment = ''), 'Intesect comment', 
+    IF((table_name like 'dim%' and table_name not like '%intersect%') and (table_comment IS NULL or table_comment = ''), 'Dimension comment', 
+      IF(table_name like 'br%' and (table_comment IS NULL or table_comment = ''), 'Bridge comment', table_comment ) ))) as table_comment,
+UPDATE_TIME 
  from information_schema.tables
     where table_schema ='marloBI'
-   </sql>
+ 
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -717,7 +727,46 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
+      <xloc>592</xloc>
+      <yloc>160</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>TABLE_NAME</name>
+        <rename/>
+      </field>
+      <field>
+        <name>table_comment_1</name>
+        <rename>table_comment</rename>
+      </field>
+      <field>
+        <name>UPDATE_TIME</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>432</xloc>
       <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>

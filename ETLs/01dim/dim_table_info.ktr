@@ -664,7 +664,7 @@
     </partitioning>
     <fields>
       <field>
-        <name>table_name_1</name>
+        <name>table_name</name>
         <rename>table_name</rename>
       </field>
       <field>
@@ -796,7 +796,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>table_name_1</name>
+        <name>fact_table</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -947,7 +947,7 @@
     </remotesteps>
     <GUI>
       <xloc>96</xloc>
-      <yloc>160</yloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
