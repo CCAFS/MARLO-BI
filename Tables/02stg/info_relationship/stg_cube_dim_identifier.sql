@@ -3,7 +3,7 @@ drop table if exists  `stg_cube_dim_identifier`;
 CREATE TABLE marlobi.stg_cube_dim_identifier
 (
   id BIGINT NOT NULL 	
-, table_name VARCHAR(64)
+, fact_table VARCHAR(64)
 , src_table VARCHAR(64)
 , des_table VARCHAR(64)
 , src_column VARCHAR(64)

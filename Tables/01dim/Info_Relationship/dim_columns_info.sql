@@ -12,6 +12,6 @@ CREATE TABLE dim_columns_info
 , column_type MEDIUMTEXT
 , column_comment TEXT,
 PRIMARY KEY (`pk_id_column_info`),
-KEY `idx_dim_columns_info_lookup` (`column_name`, `table_name`) USING BTREE,
+KEY `idx_dim_columns_info_lookup` (`column_name`, `table_name`, `cube_name`) USING BTREE,
 KEY `idx_dim_columns_info_tk` (`pk_id_column_info`) USING BTREE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
