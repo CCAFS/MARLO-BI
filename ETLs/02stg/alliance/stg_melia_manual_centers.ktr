@@ -460,15 +460,7 @@ acording to the Excel file that Allison Pollous mapped
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -530,18 +522,6 @@ acording to the Excel file that Allison Pollous mapped
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -664,27 +644,21 @@ acording to the Excel file that Allison Pollous mapped
     <fields>
       <field>
         <name>melia_id</name>
-        <rename/>
       </field>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>institution_id</name>
-        <rename/>
       </field>
       <field>
         <name>institution_name</name>
-        <rename/>
       </field>
       <field>
         <name>pk_id_melia_info</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -924,9 +898,9 @@ from marloBI.dim_melias_info doic;
 from project_expected_study_manual_centers sle
 join global_units gu on gu.id = sle.global_unit_id
 join institutions ins on ins.id = gu.institution_id
-join bi_phase_by_cubes pbc on cube_name = 'oicrs' -- oicrs and melia information is with the same bi_phase_by_cubes data 
 join phases ph on ph.id = sle.id_phase
 join project_expected_study_info pein on pein.project_expected_study_id = sle.expected_id and pein.id_phase = ph.id 
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year
 and sle.global_unit_id = 45 -- Alliance
@@ -945,7 +919,7 @@ and pein.study_type_id != 1 -- melias
         <name>expected_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>expected_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -968,7 +942,7 @@ and pein.study_type_id != 1 -- melias
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -991,7 +965,7 @@ and pein.study_type_id != 1 -- melias
         <name>global_unit_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>global_unit_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1014,7 +988,7 @@ and pein.study_type_id != 1 -- melias
         <name>global_unit_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>global_unit_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1037,7 +1011,7 @@ and pein.study_type_id != 1 -- melias
         <name>institution_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>institution_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1060,7 +1034,7 @@ and pein.study_type_id != 1 -- melias
         <name>institution_name</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_oicr_manual_centers</origin>
+        <origin>input_melia_manual_centers</origin>
         <comments>institution_name</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

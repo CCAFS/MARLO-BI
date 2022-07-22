@@ -593,135 +593,102 @@
     <fields>
       <field>
         <name>id_phase</name>
-        <rename/>
       </field>
       <field>
         <name>global_unit_id</name>
-        <rename/>
       </field>
       <field>
         <name>deliverable_id</name>
-        <rename/>
       </field>
       <field>
         <name>project_id</name>
-        <rename/>
       </field>
       <field>
         <name>subcategory_type_id</name>
-        <rename/>
       </field>
       <field>
         <name>subcategory_type_name</name>
-        <rename/>
       </field>
       <field>
         <name>category_type_id</name>
-        <rename/>
       </field>
       <field>
         <name>category_type_name</name>
-        <rename/>
       </field>
       <field>
         <name>title</name>
-        <rename/>
       </field>
       <field>
         <name>description</name>
-        <rename/>
       </field>
       <field>
         <name>dissemination_URL</name>
-        <rename/>
       </field>
       <field>
         <name>deliverable_group</name>
-        <rename/>
       </field>
       <field>
         <name>journal</name>
-        <rename/>
       </field>
       <field>
         <name>volume</name>
-        <rename/>
       </field>
       <field>
         <name>issue</name>
-        <rename/>
       </field>
       <field>
         <name>pages</name>
-        <rename/>
       </field>
       <field>
         <name>is_ISI_journal</name>
-        <rename/>
       </field>
       <field>
         <name>is_open_access</name>
-        <rename/>
       </field>
       <field>
         <name>metadata_title</name>
-        <rename/>
       </field>
       <field>
         <name>DOI</name>
-        <rename/>
       </field>
       <field>
         <name>Handle</name>
-        <rename/>
       </field>
       <field>
         <name>Citation</name>
-        <rename/>
       </field>
       <field>
         <name>key_output_name</name>
-        <rename/>
       </field>
       <field>
         <name>coa_key_output_name</name>
-        <rename/>
       </field>
       <field>
         <name>coa_id</name>
-        <rename/>
       </field>
       <field>
         <name>coa_description</name>
-        <rename/>
       </field>
       <field>
         <name>status</name>
-        <rename/>
       </field>
       <field>
         <name>delivery_year</name>
-        <rename/>
       </field>
       <field>
         <name>dissemination_channel</name>
-        <rename/>
       </field>
       <field>
         <name>adopted_license</name>
-        <rename/>
       </field>
       <field>
         <name>marlo_link</name>
-        <rename/>
       </field>
       <field>
         <name>deliverable_link</name>
-        <rename/>
       </field>
       <field>
         <name>CRP</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -840,7 +807,7 @@ FROM  deliverables dev
 inner join deliverables_info devi on devi.deliverable_id = dev.id and devi.is_active
 inner join phases ph on ph.id = devi.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'deliverables'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(gu.id =45,'alliance_deliverables','deliverables')
 inner join projects pr on pr.id = dev.project_id
 inner join projects_info pin on pin.project_id = dev.project_id and pin.id_phase = devi.id_phase
 left JOIN deliverable_types dt ON dt.id = devi.type_id

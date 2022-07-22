@@ -458,15 +458,7 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -528,18 +520,6 @@
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -921,8 +901,8 @@ select sle.expected_id, sle.id_phase, sle.lever_outcome_id, concat(lo.indicator,
 from project_expected_study_lever_outcomes sle
 join alliance_lever_outcomes lo on lo.id = sle.lever_outcome_id
 join alliance_levers le on le.id = lo.parent_id
-join bi_phase_by_cubes pbc on cube_name = 'oicrs'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year;</sql>
     <limit>0</limit>

@@ -459,6 +459,10 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
         <code>EXTRA_OPTION_MYSQL.useUnicode</code>
         <attribute>true</attribute>
       </attribute>
@@ -889,8 +893,8 @@ from marloBI.dim_policies_info doic;
     <sql>select sle.project_policy_id, sle.id_phase, sle.lever_id, al.name lever_name
 from project_policy_levers sle
 join alliance_levers al on al.id = sle.lever_id
-join bi_phase_by_cubes pbc on cube_name = 'policies'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_policies','policies')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year
 

@@ -460,15 +460,7 @@ acording to the Excel file that Allison Pollous mapped
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -530,18 +522,6 @@ acording to the Excel file that Allison Pollous mapped
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.characterSetResult</code>
-        <attribute>utf8</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useUnicode</code>
-        <attribute>true</attribute>
-      </attribute>
       <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
@@ -918,8 +898,8 @@ from marloBI.dim_policies_info doic;
 from project_policy_manual_centers sle
 join global_units gu on gu.id = sle.global_unit_id
 join institutions ins on ins.id = gu.institution_id
-join bi_phase_by_cubes pbc on cube_name = 'policies'
 join phases ph on ph.id = sle.id_phase
+join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_policies','policies')
 where ph.name = pbc.phase_name 
 and ph.year = pbc.phase_year
 and sle.global_unit_id = 45 -- Alliance
@@ -1079,7 +1059,7 @@ and sle.global_unit_id = 45 -- Alliance
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
+      <xloc>80</xloc>
       <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
