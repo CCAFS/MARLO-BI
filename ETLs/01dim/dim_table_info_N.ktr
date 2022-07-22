@@ -525,11 +525,9 @@
       </field>
       <field>
         <name>table_comment</name>
-        <rename/>
       </field>
       <field>
         <name>UPDATE_TIME</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -541,7 +539,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
+      <xloc>384</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
@@ -582,7 +580,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
+      <xloc>592</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>

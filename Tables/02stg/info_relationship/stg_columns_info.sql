@@ -2,7 +2,7 @@ drop table if exists  `stg_columns_info`;
 
 CREATE TABLE stg_columns_info
 (
-  id BIGINT NOT NULL auto_increment
+  pk_id_column_info BIGINT NOT NULL auto_increment
 , version INT
 , date_from DATETIME
 , date_to DATETIME

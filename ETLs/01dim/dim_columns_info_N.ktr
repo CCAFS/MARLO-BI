@@ -498,7 +498,7 @@
     </hop>
     <hop>
       <from>Select values</from>
-      <to>dim_columns_info_N</to>
+      <to>dim_columns_info</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -533,7 +533,6 @@
       </field>
       <field>
         <name>column_comment</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -592,7 +591,7 @@
     </GUI>
   </step>
   <step>
-    <name>dim_columns_info_N</name>
+    <name>dim_columns_info</name>
     <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -603,7 +602,7 @@
       <schema_name/>
     </partitioning>
     <schema>${DES_DBNAME}</schema>
-    <table>dim_columns_info_N</table>
+    <table>dim_columns_info</table>
     <connection>DES_DB</connection>
     <commit>100</commit>
     <update>Y</update>
@@ -632,7 +631,7 @@
         <update>Update</update>
       </field>
       <return>
-        <name>pk_id_column_info_N</name>
+        <name>pk_id_column_info</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>

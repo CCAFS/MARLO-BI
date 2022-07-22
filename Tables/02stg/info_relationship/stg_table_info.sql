@@ -1,7 +1,7 @@
 drop table if exists  `stg_table_info`;
 
 CREATE TABLE `stg_table_info` (
-   `pk_id_table_info` bigint NOT NULL,
+   `pk_id_table_info` bigint NOT NULL auto_increment,
    `version` int DEFAULT NULL,
    `date_from` datetime DEFAULT NULL,
    `date_to` datetime DEFAULT NULL,
