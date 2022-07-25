@@ -1124,27 +1124,21 @@
     <fields>
       <field>
         <name>fk_id_table_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_column_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_cube_structure_info</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_cubes</name>
-        <rename/>
       </field>
       <field>
         <name>fk_id_dimension_identifier</name>
-        <rename/>
       </field>
       <field>
         <name>updated_date</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -2015,7 +2009,7 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N WHERE src_table like 'br%'</sql>
+    <sql>SELECT * FROM stg_cube_structure_info WHERE src_table like 'br%'</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -2046,7 +2040,7 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N WHERE src_table like 'br%'</sql>
+    <sql>SELECT * FROM stg_cube_structure_info WHERE src_table like 'br%'</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -2077,7 +2071,7 @@
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N 
+    <sql>SELECT * FROM stg_cube_structure_info
 WHERE 
   src_table like 'dim%' and 
   src_table not like 'dim_intersect%'</sql>
@@ -2111,7 +2105,7 @@ WHERE
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N 
+    <sql>SELECT * FROM stg_cube_structure_info
 WHERE 
   src_table like 'fact%' and 
   des_table not like 'dim_intersect%'</sql>
@@ -2145,7 +2139,7 @@ WHERE
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N 
+    <sql>SELECT * FROM stg_cube_structure_info 
 WHERE 
   src_table like 'fact%' and 
   des_table like 'dim_intersect%'</sql>
@@ -2179,7 +2173,7 @@ WHERE
       <schema_name/>
     </partitioning>
     <connection>DES_DB</connection>
-    <sql>SELECT * FROM stg_cube_structure_info_N 
+    <sql>SELECT * FROM stg_cube_structure_info
 WHERE 
   src_table like 'dim_intersect%' and
   des_table like 'br%'</sql>
