@@ -1,6 +1,6 @@
 drop table if exists  `stg_cubes_name`;
 
-CREATE TABLE marlobi.stg_cubes_name
+CREATE TABLE stg_cubes_name
 (
   id BIGINT NOT NULL auto_increment	
 , table_name VARCHAR(64)

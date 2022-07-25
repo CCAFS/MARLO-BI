@@ -661,13 +661,15 @@
     <fields>
       <field>
         <name>TABLE_NAME</name>
+        <rename/>
       </field>
       <field>
-        <name>table_comment_1</name>
-        <rename>table_comment</rename>
+        <name>table_comment</name>
+        <rename/>
       </field>
       <field>
         <name>UPDATE_TIME</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

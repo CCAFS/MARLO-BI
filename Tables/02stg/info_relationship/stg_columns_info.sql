@@ -10,5 +10,5 @@ CREATE TABLE stg_columns_info
 , table_name VARCHAR(64)
 , column_type MEDIUMTEXT
 , column_comment TEXT,
-PRIMARY KEY (`id`)
+PRIMARY KEY (`pk_id_column_info`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
