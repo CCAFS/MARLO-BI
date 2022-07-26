@@ -1,7 +1,7 @@
 drop table if exists  `stg_cube_structure_info`;
 
 CREATE TABLE stg_cube_structure_info
-(
+
   id BIGINT NOT NULL AUTO_INCREMENT	
 , fact_table VARCHAR(64)
 , src_table VARCHAR(64)

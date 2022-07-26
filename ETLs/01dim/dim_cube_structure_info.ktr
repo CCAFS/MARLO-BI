@@ -523,7 +523,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <schema>marlobi</schema>
+    <schema>${DES_DBNAME}</schema>
     <table>dim_cube_structure_info</table>
     <connection>DES_DB</connection>
     <commit>100</commit>
@@ -744,7 +744,7 @@ select
  fact_table, src_table, src_column, des_table, des_column,
  if(src_table like 'fact%', 'fact',(if(src_table like 'br%', 'br', (if(src_table like '%intersect%', 'dim_intersect', (if(src_table like 'dim%', 'dim', src_table))))))) as color_src,
  if(des_table like 'fact%', 'fact',(if(des_table like 'br%', 'br', (if(des_table like '%intersect%', 'dim_intersect', (if(des_table like 'dim%', 'dim', des_table))))))) as color_des	
- from marlobi.stg_cube_structure_info
+ from stg_cube_structure_info
 
 
 </sql>
