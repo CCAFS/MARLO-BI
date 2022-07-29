@@ -10,7 +10,7 @@ CREATE TABLE dim_cubes
 , `fact_name_table` VARCHAR(64)
 , `application_name` VARCHAR(64)
 , `UPDATE_TIME` datetime DEFAULT NULL,
-   PRIMARY KEY (`pk_id_cubes`),
+,  PRIMARY KEY (`pk_id_cubes`),
    KEY `idx_dim_cubes_lookup` ( cube_name, fact_name_table, application_name) USING BTREE,
    KEY `idx_dim_cubes_tk` (`pk_id_cubes`)USING BTREE
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
