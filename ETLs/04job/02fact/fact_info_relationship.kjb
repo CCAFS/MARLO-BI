@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>fact_info_relationship_N</name>
+  <name>fact_info_relationship</name>
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
   <created_date>2022/07/18 08:11:34.359</created_date>
@@ -556,7 +557,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>976</xloc>
-      <yloc>256</yloc>
+      <yloc>240</yloc>
     </entry>
     <entry>
       <name>Success</name>
@@ -638,7 +639,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>816</xloc>
-      <yloc>256</yloc>
+      <yloc>240</yloc>
     </entry>
     <entry>
       <name>stg_column_info</name>
