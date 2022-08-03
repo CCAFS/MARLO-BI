@@ -675,7 +675,7 @@
         ,get_deliverable_url(di.deliverable_id,di.id_phase)as doi -- 42s
 		,dai.score altmetric_score
         ,concat('https://www.altmetric.com/details/',dai.altmetric_id) almetric_details
-        ,dai.image_small 
+        ,if_null(dai.image_small,'https://drive.google.com/uc?export=view&amp;id=1csawoXLhBp0hDcA3NdnMVIwXUqhZvkuP') image_small
         -- ,'' doi -- 11S
         ,sysdate() updated_date
         -- #,'##############################',di.*
