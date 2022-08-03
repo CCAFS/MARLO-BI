@@ -460,15 +460,7 @@
         <attribute>utf8</attribute>
       </attribute>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.rewriteBatchedStatements</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useCompresion</code>
-        <attribute>true</attribute>
-      </attribute>
-      <attribute>
-        <code>EXTRA_OPTION_MYSQL.useServerPrepStmts</code>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
         <attribute>false</attribute>
       </attribute>
       <attribute>
@@ -613,6 +605,10 @@
         <name>total_indicators_number</name>
         <rename/>
       </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
@@ -704,6 +700,7 @@
 , sum(if(indicator_type='funding source', indicator_value,0)) fs_budget  -- OJO que hay que traer el dato de budget del fs
 , sum(if(indicator_type='pr budget', indicator_value,0)) fs_budget_allocated
 , sum(if(indicator_type='funding source', 0, indicator_quantity)) total_indicators_number
+,CRP
 FROM marloBI.pre_summary_indicators_fact
 group by  fk_id_crp
 , fk_id_year

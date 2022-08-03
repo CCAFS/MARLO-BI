@@ -18,7 +18,8 @@ CREATE TABLE `fact_summary_indicators` (
 , `melias_number` DECIMAL(41)  
 , `fs_budget` DECIMAL(41)  
 , `fs_budget_allocated` DECIMAL(41)  
-, `total_indicators_number` DECIMAL(41)  
+, `total_indicators_number` DECIMAL(41) 
+, CRP VARCHAR(20) 
 , primary key (`fk_id_crp`, `fk_id_year`,  `fk_id_intersect_group_milestone`, `fk_id_intersect_group_inst`, 
 `fk_id_intersect_group_loc`, `fk_id_intersect_group_geo`, `fk_id_intersect_group_ccm`, `fk_id_general_status` ),
   KEY `idx_fact_summary_indicators_tk` (`fk_id_crp`, `fk_id_year`, `fk_id_intersect_group_milestone`, `fk_id_intersect_group_inst`, 

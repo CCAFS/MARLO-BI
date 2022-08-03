@@ -12,6 +12,7 @@ CREATE TABLE `pre_summary_indicators_fact` (
 , `fk_id_intersect_group_ccm` BIGINT not null
 , `fk_id_general_status` BIGINT not null
 , `indicator_quantity` DECIMAL(41)  
-, `indicator_value` DECIMAL(41)  
+, `indicator_value` DECIMAL(41) 
+, CRP VARCHAR(20)
 ) ENGINE=InnoDB CHARSET=utf8;
 

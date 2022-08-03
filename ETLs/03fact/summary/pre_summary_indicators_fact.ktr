@@ -595,39 +595,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -693,39 +709,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -791,39 +823,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -889,39 +937,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -987,39 +1051,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1085,39 +1165,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1183,39 +1279,55 @@
     <fields>
       <field>
         <name>fk_id_crp</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_year</name>
+        <rename/>
       </field>
       <field>
         <name>fk_indicator</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_type</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_milestone</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_inst</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_loc</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_geo</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_intersect_group_ccm</name>
+        <rename/>
       </field>
       <field>
         <name>fk_id_general_status</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_quantity</name>
+        <rename/>
       </field>
       <field>
         <name>indicator_value</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CRP</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1292,6 +1404,7 @@
 , fk_id_general_status
 , 1 indicator_quantity
 , sum(0) indicator_value
+,CRP
 FROM fact_deliverables
 group by   
 fk_id_crp,
@@ -1627,6 +1740,7 @@ fk_id_year
 , fk_id_general_status
 , count(distinct fk_id_fs_info) indicator_quantity
 , sum(budget_amount) indicator_value
+,CRP
 FROM marloBI.fact_fs
 group by   fk_id_crp
 , fk_id_year
@@ -1963,6 +2077,7 @@ group by   fk_id_crp
 , pk_id_general_status fk_id_general_status
 , sum(inno.number_of_innovations) indicator_quantity
 , sum(0) indicator_value
+,CRP
 FROM marloBI.fact_innovations inno
 join marloBI.dim_intersect_group_ccm ccm on ids_group = '-1;-1'
 join marloBI.dim_general_statuses gs on gs.status_id = -2
@@ -2260,6 +2375,29 @@ group by   fk_id_crp
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>CRP</name>
+        <length>20</length>
+        <precision>-1</precision>
+        <origin>input_fact_innovations</origin>
+        <comments>CRP</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -2302,6 +2440,7 @@ group by   fk_id_crp
 , fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
+,CRP
 FROM marloBI.fact_melias mel
 left join marloBI.dim_intersect_group_milestones mile on mile.ids_group = '-2;-2;-2'
 left join marloBI.dim_intersect_group_institutions inst on inst.ids_group = '-1;1'
@@ -2643,6 +2782,7 @@ group by   fk_id_crp
 , fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
+,CRP
 FROM marloBI.fact_oicrs
 group by   fk_id_crp
 , fk_id_year
@@ -2939,6 +3079,29 @@ group by   fk_id_crp
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>CRP</name>
+        <length>20</length>
+        <precision>-1</precision>
+        <origin>input_fact_oicrs</origin>
+        <comments>CRP</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -2981,6 +3144,7 @@ group by   fk_id_crp
 , pk_id_general_status fk_id_general_status
 , sum(quantity) indicator_quantity
 , sum(0) indicator_value
+,CRP
 FROM marloBI.fact_policies fp
 join marloBI.dim_general_statuses gs on gs.status_id = -2
 group by   fk_id_crp
@@ -3277,6 +3441,29 @@ group by   fk_id_crp
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>CRP</name>
+        <length>20</length>
+        <precision>-1</precision>
+        <origin>input_fact_policies</origin>
+        <comments>CRP</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
     </row-meta>
     <attributes/>
     <cluster_schema/>
@@ -3317,6 +3504,7 @@ group by   fk_id_crp
 , pk_id_general_status fk_id_general_status
 , 0 indicator_quantity
 , sum(amount) indicator_value
+,prb.CRP
 FROM marloBI.fact_project_budgets prb
 join marloBI.fact_fs ffs on ffs.fk_id_fs_info = prb.fk_id_fs_info and ffs.fk_id_year = prb.fk_id_year and ffs.fk_id_crp = prb.fk_id_crp
 join marloBI.dim_general_statuses gs on gs.status_id = -2
@@ -3590,16 +3778,39 @@ group by   prb.fk_id_crp
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>BigNumber</type>
+        <type>Number</type>
         <storagetype>normal</storagetype>
         <name>indicator_value</name>
-        <length>19</length>
-        <precision>2</precision>
+        <length>-1</length>
+        <precision>-1</precision>
         <origin>input_fact_project_budgets</origin>
         <comments>indicator_value</comments>
-        <conversion_Mask>######0.0###################;-######0.0###################</conversion_Mask>
+        <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
-        <grouping_symbol/>
+        <grouping_symbol>,</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>en_US</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>CRP</name>
+        <length>20</length>
+        <precision>-1</precision>
+        <origin>input_fact_project_budgets</origin>
+        <comments>CRP</comments>
+        <conversion_Mask/>
+        <decimal_symbol>.</decimal_symbol>
+        <grouping_symbol>,</grouping_symbol>
         <currency_symbol/>
         <trim_type>none</trim_type>
         <case_insensitive>N</case_insensitive>
