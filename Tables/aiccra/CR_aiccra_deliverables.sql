@@ -42,5 +42,8 @@ CREATE TABLE `marlobi.aiccra_deliverables` (
    `activity_leader` varchar(2000) DEFAULT NULL,
    `Link` varchar(179) DEFAULT NULL,
    `doi` varchar(500) DEFAULT NULL,
+   altmetric_score varchar(500) DEFAULT NULL,
+   almetric_details varchar(500) DEFAULT NULL,
+   image_small varchar(500) DEFAULT NULL,
    `updated_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8
