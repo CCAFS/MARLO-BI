@@ -293,6 +293,7 @@
       <name>init_variables</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../config/var_ini_MarloBI.ktr</filename>
@@ -316,6 +317,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -324,11 +326,13 @@
       <nr>0</nr>
       <xloc>144</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>START</name>
       <description/>
       <type>SPECIAL</type>
+      <attributes/>
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
@@ -344,11 +348,13 @@
       <nr>0</nr>
       <xloc>16</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>fact_summary_indicators</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../03fact/summary/fact_summary_indicators.ktr</filename>
@@ -372,6 +378,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -380,11 +387,13 @@
       <nr>0</nr>
       <xloc>480</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>pre_summary_indicators_fact</name>
       <description/>
       <type>TRANS</type>
+      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>${Internal.Entry.Current.Directory}/../../03fact/summary/pre_summary_indicators_fact.ktr</filename>
@@ -408,6 +417,7 @@
       <create_parent_folder>N</create_parent_folder>
       <logging_remote_work>N</logging_remote_work>
       <run_configuration>Pentaho local</run_configuration>
+      <suppress_result_data>N</suppress_result_data>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
@@ -416,16 +426,19 @@
       <nr>0</nr>
       <xloc>304</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
     <entry>
       <name>Success</name>
       <description/>
       <type>SUCCESS</type>
+      <attributes/>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>608</xloc>
       <yloc>48</yloc>
+      <attributes_kjc/>
     </entry>
   </entries>
   <hops>

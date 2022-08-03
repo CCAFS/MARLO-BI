@@ -584,7 +584,7 @@
 	ph.id "Phase ID", ph.`name` "Phase name", ph.`year` "Phase year",
 	gu.acronym CRP,gu.name "CRP name",
 	cp.acronym Component, cp.name "Component name",
-	cpo.composed_id "Outcome ID", cpo.description Outcome, cpo.`year` "Outcome Target Year", otu.`name` "Outcome Target Unit", cpo.`value` "Outcome Target Value",
+	cpo.composed_id "Outcome ID",cpo.acronym 'Outcome acronym' , cpo.description Outcome, cpo.`year` "Outcome Target Year", otu.`name` "Outcome Target Unit", cpo.`value` "Outcome Target Value",
 	concat(cpo.composed_id,'_',cm.year) indicator_pk,
 	cm.composed_id "Milestone ID", cm.title Milestone, cm.year "Milestone Year", if(cm.extended_year =-1,null,cm.extended_year) "Milestone extended year",
 	mtu.`name` "Milestone Target Unit", cm.`value` "Milestone Target Value",  

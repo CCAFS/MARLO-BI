@@ -1,6 +1,6 @@
-drop table if EXISTS marlobi.aiccra_indicators;
+drop table if EXISTS aiccra_indicators;
 
-CREATE TABLE `marlobi.aiccra_indicators` (
+CREATE TABLE `aiccra_indicators` (
    `Phase ID` bigint(20) NOT NULL DEFAULT '0',
    `Phase name` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
    `Phase year` int(11) NOT NULL,
@@ -10,6 +10,7 @@ CREATE TABLE `marlobi.aiccra_indicators` (
    `Component name` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
    `Outcome ID` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
    `Outcome` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+   `Outcome acronym` text CHARACTER SET utf8 COLLATE utf8_general_ci,
    `Outcome Target Year` int(11) DEFAULT NULL,
    `Outcome Target Unit` text CHARACTER SET utf8 COLLATE utf8_general_ci,
    `Outcome Target Value` decimal(20,2) DEFAULT NULL,

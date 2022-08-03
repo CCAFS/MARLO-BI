@@ -664,7 +664,8 @@
         -- ,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.doi') as 'DOI'
         -- ,get_deliverable_metadata (di.deliverable_id,di.id_phase,'marlo.handle') as 'Handle'
         -- ,pmet.journal
-        -- ,if (pmet.isi_publication=1,'Yes','No') isi_publication
+        ,if (pmet.isi_publication=1,'Yes','No') isi_publication
+        ,if(dis.is_open_access=1,'Yes', 'No') as 'DLV_isOpenAcces'
         ,if(d.id_phase=di.id_phase,'New','Planned') DLV_planned
         -- ,if(ss.missing_fields is null or ss.missing_fields ='','Complete','With missing fields') is_complete
         , ifnull(trim(SUBSTRING_INDEX( act.title,' ',1)),'ND') "activity_id",ifnull(act.title,'Not linked') activity_title, ifnull(concat(ausr.first_name, ' ', ausr.last_name, '&lt;',ausr.email,'>'),'Not defined') activity_leader
