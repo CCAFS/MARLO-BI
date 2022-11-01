@@ -632,15 +632,15 @@
         fs.title as 'FS_title',
         ifnull(fst.`name`,'Not Defined') as 'FS_type'
         ,concat(li.acronym,'-', li.name) Management_liason
-        ,CASE
+        /*,CASE
                 WHEN pi.administrative = 1 THEN
                     "Not Applicable"
                 WHEN pi.no_regional = 1 THEN
                     "No regional programmatic focus"
                 else 
                     ifnull(reg.reg_name,'Not Defined')
-        END reg_name
-        ,if(pi.administrative = 1,'Not Applicable',if(prg_acronym is null,'Not Defined', concat(prg_acronym,'-',prg.prg_name))) prg_name
+        END */ ,'' reg_name
+        /*,if(pi.administrative = 1,'Not Applicable',if(prg_acronym is null,'Not Defined', concat(prg_acronym,'-',prg.prg_name)))*/ ,'' prg_name
         ,'' CoA_id -- ,if(pi.administrative = 1,'Not Applicable',ifnull(coa.identifier,'Not Defined')) CoA_id
         ,'' CoA_DESC-- ,if(pi.administrative = 1,'Not Applicable',ifnull(coa.description ,'Not Defined')) CoA_DESC
 --      ,if(pi.administrative = 1,'Not Applicable',ifnull(kout.key_output ,'Not Defined')) Indicator
@@ -675,7 +675,7 @@
         ,get_deliverable_url(di.deliverable_id,di.id_phase)as doi -- 42s
 		,dai.score altmetric_score
         ,concat('https://www.altmetric.com/details/',dai.altmetric_id) almetric_details
-        ,if_null(dai.image_small,'https://drive.google.com/uc?export=view&amp;id=1csawoXLhBp0hDcA3NdnMVIwXUqhZvkuP') image_small
+        ,ifnull(dai.image_small,'https://drive.google.com/uc?export=view&amp;id=1csawoXLhBp0hDcA3NdnMVIwXUqhZvkuP') image_small
         -- ,'' doi -- 11S
         ,sysdate() updated_date
         -- #,'##############################',di.*
@@ -693,19 +693,19 @@
         LEFT JOIN projects p ON pi.project_id = p.id AND p.is_active        
         left join liaison_institutions li on li.id = pi.liaison_institution_id
         #Regions
-        left join 
+       /* left join 
             (select prgr.id, pfr.project_id, pfr.program_id, prgr.name reg_name, prgr.acronym, prgr.global_unit_id, pfr.id_phase 
             from project_focuses pfr #on pfr.project_id = pr.id and pfr.id_phase = ph.id and pfr.is_active
             join crp_programs prgr on prgr.id = pfr.program_id and  prgr.program_type =2 #and prgr.global_unit_id =gu.id and
-            where pfr.is_active ) reg on reg.project_id = pi.project_id and  reg.global_unit_id =gu.id and reg.id_phase = ph.id
+            where pfr.is_active ) reg on reg.project_id = pi.project_id and  reg.global_unit_id =gu.id and reg.id_phase = ph.id*/
         #Programs/flagships
-        left join
+       /* left join
             (select  prgp.id, pfp.project_id, pfp.program_id prg_id, pfp.id_phase,prgp.name prg_name, prgp.acronym prg_acronym, prgp.global_unit_id, ca.id area_id,ca.name area_name, ca.acronym area_acronym   
             from project_focuses pfp #on pfp.project_id = pr.id and pfp.id_phase = ph.id and pfp.is_active
             join crp_programs prgp on prgp.id = pfp.program_id and prgp.program_type =1 #and prgp.global_unit_id =gu.id
             left join center_areas ca on ca.id = prgp.area_id and ca.is_active 
             where pfp.is_active )prg on prg.project_id = pi.project_id and prg.id_phase = ph.id and prg.global_unit_id =gu.id
-        -- LEFT JOIN section_statuses ss ON ss.deliverable_id = di.deliverable_id and ss.`year` = ph.year and ss.cycle = ph.description
+        -- LEFT JOIN section_statuses ss ON ss.deliverable_id = di.deliverable_id and ss.`year` = ph.year and ss.cycle = ph.description*/
         LEFT JOIN deliverable_types dt ON dt.id = di.type_id
         LEFT JOIN deliverable_types dtParent ON dtParent.id = dt.parent_id
         -- Indicators
@@ -750,7 +750,6 @@
         -- and ph.year = 2022
         -- and ph.global_unit_id=45
         -- and d.id =24949
-        order by 2
         -- group by d.id,par.deliverable_partner_type_id,ins.id
         ;
 
@@ -1807,7 +1806,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>96</xloc>
+      <xloc>80</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
