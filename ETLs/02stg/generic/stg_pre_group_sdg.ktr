@@ -1206,7 +1206,7 @@ FROM phases ph
 JOIN global_units gu ON gu.id = ph.global_unit_id AND gu.is_active
 JOIN project_expected_studies pes ON pes.is_active
 JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id AND pesi.id_phase = ph.id
-JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+JOIN bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 left JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
 left JOIN
 ( select sdg.id sdg_id, concat(sdgt.sdg_target_code, ' - ', sdgt.sdg_target) sdg_target, sdgt.id sdg_target_id, idoxsdg.sub_ido_id,
@@ -1243,7 +1243,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1266,7 +1266,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>ent_type</name>
         <length>5</length>
         <precision>-1</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1289,7 +1289,7 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1310,9 +1310,9 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sdg_short_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>sdg_short_name_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1333,9 +1333,9 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sdg_target_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>sdg_target_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1356,9 +1356,9 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>sdg_indicators_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>sdg_indicators_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1379,9 +1379,9 @@ group by ssdg.id_phase, ssdg.ent_type, ssdg.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>input_oicr_group_sdg</origin>
+        <origin>input_oicr_melia_group_sdg</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

@@ -1684,7 +1684,7 @@ srfcci.ido_description, srfcci.ido_smo_code, srfcci.ido_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 left JOIN project_expected_study_sub_ido pess ON pess.expected_id = pes.id AND pess.id_phase = pesi.id_phase
 left  join (SELECT slo.id slo_cci_id,sido.smo_code slo_cci_smo_code, slo.title slo_cci_title,
 			ido.smo_code ido_smo_code, ido.id ido_id, ido.description ido_description,
@@ -1727,7 +1727,7 @@ group by sc.id_phase, sc.ent_id;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1750,7 +1750,7 @@ group by sc.id_phase, sc.ent_id;</sql>
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1773,7 +1773,7 @@ group by sc.id_phase, sc.ent_id;</sql>
         <name>ent_type</name>
         <length>5</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1794,9 +1794,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_cci_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_cci_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1817,9 +1817,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_cci_smo_code_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_cci_smo_code_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1840,9 +1840,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cci_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>cci_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1863,9 +1863,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cci_smo_code_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>cci_smo_code_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1886,9 +1886,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1909,9 +1909,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_smo_code_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_smo_code_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1932,9 +1932,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_cci_ido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_cci_ido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1955,9 +1955,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cci_ido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>cci_ido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1978,9 +1978,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_ido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_ido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2001,9 +2001,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_cci_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_cci_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2024,9 +2024,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cci_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>cci_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2047,9 +2047,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2070,9 +2070,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_cci_ido_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_cci_ido_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2093,9 +2093,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>cci_ido_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>cci_ido_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2116,9 +2116,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>slo_ido_sido_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>slo_ido_sido_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -2139,9 +2139,9 @@ group by sc.id_phase, sc.ent_id;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>stg_cci_oicr</origin>
+        <origin>stg_cci_oicr_melia</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

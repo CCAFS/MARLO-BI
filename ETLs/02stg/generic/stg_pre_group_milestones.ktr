@@ -1039,7 +1039,7 @@ join global_units gu on gu.id = ph.global_unit_id
 join project_expected_study_milestones omil on omil.expected_id = pesi.project_expected_study_id and omil.id_phase = pesi.id_phase
 join crp_milestones mil on mil.id = omil.crp_milestone_id and mil.is_active
 join crp_program_outcomes outc on outc.id = mil.crp_program_outcome_id and outc.is_active
-join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 where 
 -- AND ph.year between ${START_YEAR} and ${END_YEAR} 
 ph. YEAR = pbc.phase_year
@@ -1081,7 +1081,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1104,7 +1104,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1127,7 +1127,7 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <name>ent_type</name>
         <length>6</length>
         <precision>-1</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1148,9 +1148,9 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>milestone_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>milestone_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1171,9 +1171,9 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>outcome_description_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>outcome_description_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1194,9 +1194,9 @@ group by mm.id_phase, mm.ent_id, mm.ent_type;</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>milestones</origin>
+        <origin>oicrs_policies_milestones</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

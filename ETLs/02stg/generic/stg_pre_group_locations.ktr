@@ -1357,7 +1357,7 @@ ifnull(group_concat(distinct stg2.id_loc
 from project_expected_studies pes1 
 INNER JOIN project_expected_study_info pesi1 ON pesi1.project_expected_study_id = pes1.id 
 INNER JOIN phases ph1 on ph1.id = pesi1.id_phase
-INNER JOIN bi_phase_by_cubes pbc1 on pbc1.cube_name='oicrs'
+INNER JOIN bi_phase_by_cubes pbc1 on pbc1.cube_name=if(ph1.global_unit_id =45,'alliance_oicrs','oicrs')
 left join
 (
 -- BRIDGE 
@@ -1366,7 +1366,7 @@ select  pesi.id_phase ,pes.id id_oics,le.id id_loc, le.name, le.iso_alpha_2 # pe
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER JOIN phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name=if(ph.global_unit_id =45,'alliance_oicrs','oicrs') -- phase for oircs
 -- LEFT JOIN projects_info prj ON prj.project_id = pes.project_id and pesi.id_phase = prj.id_phase 
 INNER JOIN project_expected_study_countries pesc ON pesc.expected_id = pes.id AND pesc.id_phase = ph.id
 LEFT JOIN loc_elements le ON le.id = pesc.loc_element_id AND le.is_active 
@@ -1385,7 +1385,7 @@ from project_expected_studies pes
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER JOIN phases ph on ph.id = pesi.id_phase
 inner join project_expected_study_regions reg on reg.expected_id=pesi.project_expected_study_id and reg.id_phase = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name=if(ph.global_unit_id =45,'alliance_oicrs','oicrs') -- phase for oircs
 left join project_expected_study_geographic_scopes sco on sco.expected_id=pesi.project_expected_study_id and sco.id_phase = pesi.id_phase
 LEFT JOIN loc_elements le ON le.id = reg.id_region AND le.is_active 
 where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) in (2)
@@ -1401,7 +1401,7 @@ select  pesi.id_phase ,pes.id id_oics, -5 id_loc, "Global" name, null iso_alpha_
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER JOIN phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name='oicrs' -- phase for oircs
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name=if(ph.global_unit_id =45,'alliance_oicrs','oicrs') -- phase for oircs
 left join project_expected_study_geographic_scopes sco on sco.expected_id=pesi.project_expected_study_id and sco.id_phase = pesi.id_phase
 -- LEFT JOIN projects_info prj ON prj.project_id = pes.project_id and pesi.id_phase = prj.id_phase 
 where ifnull(pesi.rep_ind_geographic_scope_id,sco.rep_ind_geographic_scope_id) in (1)
@@ -1499,7 +1499,7 @@ group by pesi1.id_phase, pes1.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>location_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_oicr_melia_location_groups</origin>
         <comments>location_name_group</comments>
@@ -1522,7 +1522,7 @@ group by pesi1.id_phase, pes1.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>iso_alpha_2_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_oicr_melia_location_groups</origin>
         <comments>iso_alpha_2_group</comments>
@@ -1545,7 +1545,7 @@ group by pesi1.id_phase, pes1.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_oicr_melia_location_groups</origin>
         <comments>ids_group</comments>

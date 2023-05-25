@@ -1411,7 +1411,7 @@ from project_expected_studies  pes
 join project_expected_study_info pesi on pesi.project_expected_study_id = pes.id
 join phases ph on ph.id = pesi.id_phase
 join global_units pgs on ph.global_unit_id = pgs.id
-join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+join bi_phase_by_cubes pbc on pbc.cube_name = if(pgs.id =45,'alliance_oicrs','oicrs')
 left join project_expected_study_crp g on g.expected_id = pesi.project_expected_study_id and g.id_phase = pesi.id_phase
 left join global_units gs on gs.id =  g.global_unit_id
 where ph.year = pbc.phase_year 
@@ -1500,7 +1500,7 @@ group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>crp_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_crps_groups_oicrs_melia</origin>
         <comments>crp_name_group</comments>
@@ -1523,7 +1523,7 @@ group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>crp_acr_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_crps_groups_oicrs_melia</origin>
         <comments>crp_acr_name_group</comments>
@@ -1546,7 +1546,7 @@ group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>crp_acronym_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_crps_groups_oicrs_melia</origin>
         <comments>crp_acronym_group</comments>
@@ -1569,7 +1569,7 @@ group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>crp_role_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_crps_groups_oicrs_melia</origin>
         <comments>crp_role_name_group</comments>
@@ -1592,7 +1592,7 @@ group by pesi.id_phase, pesi.project_expected_study_id, pesi.study_type_id</sql>
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_crps_groups_oicrs_melia</origin>
         <comments>ids_group</comments>

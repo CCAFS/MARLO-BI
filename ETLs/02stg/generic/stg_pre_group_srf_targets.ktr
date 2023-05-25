@@ -595,7 +595,7 @@ ifnull(group_concat(ssin.id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER join phases ph on ph.id = pesi.id_phase
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 -- LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 left JOIN project_expected_study_srf_targets pesst ON pesst.expected_id = pes.id AND pesst.id_phase = ph.id
 left JOIN srf_slo_indicators ssin ON ssin.id = pesst.srf_target_id AND ssin.is_active
@@ -620,7 +620,7 @@ group by pesi.id_phase , pes.id
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -643,7 +643,7 @@ group by pesi.id_phase , pes.id
         <name>ent_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>ent_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -666,7 +666,7 @@ group by pesi.id_phase , pes.id
         <name>ent_type</name>
         <length>5</length>
         <precision>-1</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>ent_type</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -687,9 +687,9 @@ group by pesi.id_phase , pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>srf_target_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>srf_target_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -710,9 +710,9 @@ group by pesi.id_phase , pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>srf_target_slo_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>srf_target_slo_title_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -733,9 +733,9 @@ group by pesi.id_phase , pes.id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
-        <origin>Load_srf_target_groups</origin>
+        <origin>Load_srf_target_groups_oicr_melia</origin>
         <comments>ids_group</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>

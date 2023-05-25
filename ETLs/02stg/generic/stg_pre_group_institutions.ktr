@@ -2397,7 +2397,7 @@ ins.name, ins.acronym, ins.id institution_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER join phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name =if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 left JOIN project_expected_study_institutions pesins ON pesins.expected_id = pes.id AND pesins.id_phase = ph.id 
 left JOIN institutions ins ON ins.id = pesins.institution_id
 where  ph.name = pbc.phase_name and ph.year = pbc.phase_year
@@ -2411,7 +2411,7 @@ ins.name, ins.acronym, ins.id institution_id
 from project_expected_studies pes 
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 INNER join phases ph on ph.id = pesi.id_phase
-INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+INNER JOIN bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 left JOIN project_expected_study_centers pecen ON pecen.expected_id = pes.id AND pecen.id_phase = ph.id 
 left JOIN institutions ins ON ins.id = pecen.institution_id
 where  ph.name = pbc.phase_name and ph.year = pbc.phase_year
@@ -2502,7 +2502,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>institution_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>institution_name_group</comments>
@@ -2525,7 +2525,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>institution_acr_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>institution_acr_name_group</comments>
@@ -2548,7 +2548,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>acronym_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>acronym_group</comments>
@@ -2571,7 +2571,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>ids_group</comments>
@@ -2594,7 +2594,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>role_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>role_name_group</comments>
@@ -2617,7 +2617,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_institution_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>partner_institution_name_group</comments>
@@ -2640,7 +2640,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_institution_acr_name_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>partner_institution_acr_name_group</comments>
@@ -2663,7 +2663,7 @@ order by sg.id_phase, sg.ent_id, sg.name
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>partner_acronym_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>Load_institution_oicr_groups</origin>
         <comments>partner_acronym_group</comments>

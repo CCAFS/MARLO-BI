@@ -1566,7 +1566,7 @@ from project_expected_studies pes
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 -- LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 LEFT JOIN rep_ind_gender_youth_focus_levels rigender ON rigender.id = pesi.gender_focus_level_id
 LEFT JOIN rep_ind_gender_youth_focus_levels riyouth ON riyouth.id = pesi.youth_focus_level_id

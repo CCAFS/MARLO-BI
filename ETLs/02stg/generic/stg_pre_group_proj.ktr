@@ -1776,7 +1776,7 @@ from project_expected_studies pes
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 LEFT join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 where ph. YEAR = pbc.phase_year
 AND ph. NAME = pbc.phase_name
@@ -1789,7 +1789,7 @@ from project_expected_studies pes
 INNER JOIN project_expected_study_info pesi ON pesi.project_expected_study_id = pes.id 
 inner join phases ph on ph.id = pesi.id_phase
 inner join global_units gu on gu.id = ph.global_unit_id
-inner join bi_phase_by_cubes pbc on pbc.cube_name = 'oicrs'
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 inner join expected_study_projects esp on esp.expected_id = pes.id and esp.id_phase = ph.id
 join projects_info pinf on pinf.project_id = pes.project_id and pinf.id_phase = pesi.id_phase
 where ph. YEAR = pbc.phase_year
@@ -1881,7 +1881,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>owner_project_id_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>owner_project_id_group</comments>
@@ -1904,7 +1904,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>shared_project_id_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>shared_project_id_group</comments>
@@ -1927,7 +1927,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>owner_composed_project_id_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>owner_composed_project_id_group</comments>
@@ -1950,7 +1950,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>shared_composed_project_id_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>shared_composed_project_id_group</comments>
@@ -1973,7 +1973,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>project_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>project_title_group</comments>
@@ -1996,7 +1996,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>owner_project_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>owner_project_title_group</comments>
@@ -2019,7 +2019,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>shared_project_title_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>shared_project_title_group</comments>
@@ -2042,7 +2042,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>project_id_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>project_id_group</comments>
@@ -2065,7 +2065,7 @@ group by ppp.id_phase, ppp.ent_type, ppp.ent_id
         <type>String</type>
         <storagetype>normal</storagetype>
         <name>ids_group</name>
-        <length>10000</length>
+        <length>1000000</length>
         <precision>-1</precision>
         <origin>proj_oicrs_melias</origin>
         <comments>ids_group</comments>
