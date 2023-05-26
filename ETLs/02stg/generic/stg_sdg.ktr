@@ -738,7 +738,7 @@ select -2 sdg_id,'Not Applicable' sdg_short_name, 'Not Applicable' sdg_name,
 -2 sdg_indicator_id, 'NAP' sdg_indicator_unsd_code, 'NAP' sdg_indicator_codes, 'Not Applicable' sdg_indicator_name,
 -2 sub_ido_id,'NAP' sub_ido_code,'Not Applicable' sub_ido_description, null sdg_icon
 from dual
-union all
+union
 select distinct sdg.id sdg_id,sdg.short_name sdg_short_name,sdg.full_name sdg_name,
 sdgt.id sdg_target_id,sdgt.sdg_target_code,sdg_target sdg_target_name,
 -1 sdg_indicator_id, 'NP' sdg_indicator_unsd_code, 'NP' sdg_indicator_codes, 'Not Provided' sdg_indicator_name,
@@ -746,12 +746,11 @@ sdgt.id sdg_target_id,sdgt.sdg_target_code,sdg_target sdg_target_name,
 from sustainable_development_goals sdg
 join sdg_targets sdgt on sdgt.sdg_id = sdg.id
 -- join sdg_indicators sdgi on sdgi.sdg_target_id = sdgt.id
-join sub_ido_sdg_target idoxsdg on idoxsdg.sdg_target_id =  sdgt.id
-join srf_sub_idos sido on sido.id = idoxsdg.sub_ido_id
+-- join sub_ido_sdg_target idoxsdg on idoxsdg.sdg_target_id =  sdgt.id
+-- join srf_sub_idos sido on sido.id = idoxsdg.sub_ido_id
 join bi_parameters bp on bp.parameter_name = 'sdg_icon_url'
 -- group by sub_ido_id,sdg_indicator_id
-;
-</sql>
+;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
