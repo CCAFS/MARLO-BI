@@ -579,7 +579,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort input_stg_current_phases</from>
+      <from>Sort input_pdf_phase</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
     </hop>
@@ -599,8 +599,8 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>input_stg_current_phases</from>
-      <to>Sort input_stg_current_phases</to>
+      <from>input_stg_pdf_phase</from>
+      <to>Sort input_pdf_phase</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -727,7 +727,7 @@
     </partitioning>
     <join_type>LEFT OUTER</join_type>
     <step1>Sort rows</step1>
-    <step2>Sort input_stg_current_phases</step2>
+    <step2>Sort input_pdf_phase</step2>
     <keys_1>
       <key>global_unit_id</key>
     </keys_1>
@@ -819,7 +819,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort input_stg_current_phases</name>
+    <name>Sort input_pdf_phase</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1417,7 +1417,7 @@ select 0 id_phase,
     </GUI>
   </step>
   <step>
-    <name>input_stg_current_phases</name>
+    <name>input_stg_pdf_phase</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1427,13 +1427,24 @@ select 0 id_phase,
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>DES_DB</connection>
+    <connection>ORI_DB</connection>
     <sql>SELECT
-  global_unit_id
-, phase_description
-, phase_year
-FROM marloBI.stg_current_phases
--- where global_unit_id=45</sql>
+ ph.global_unit_id
+, ph.description phase_description
+, ph.year phase_year
+from phases ph 
+inner join bi_phase_by_cubes pbc on pbc.cube_name = if(ph.global_unit_id=45,'alliance_oicrs','oicrs')
+where ph. YEAR = pbc.phase_year
+AND ph. NAME = pbc.phase_name;
+-- Before 2023-06-02, it was necessary to obtain the curent phase for pdf
+-- SELECT
+--   global_unit_id
+-- , phase_description
+-- , phase_year
+-- FROM marloBI.stg_current_phases
+-- where global_unit_id=45
+
+</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1447,7 +1458,7 @@ FROM marloBI.stg_current_phases
         <name>global_unit_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_stg_pdf_phase</origin>
         <comments>global_unit_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -1470,7 +1481,7 @@ FROM marloBI.stg_current_phases
         <name>phase_description</name>
         <length>21845</length>
         <precision>-1</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_stg_pdf_phase</origin>
         <comments>phase_description</comments>
         <conversion_Mask/>
         <decimal_symbol>.</decimal_symbol>
@@ -1493,7 +1504,7 @@ FROM marloBI.stg_current_phases
         <name>phase_year</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_stg_pdf_phase</origin>
         <comments>phase_year</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
