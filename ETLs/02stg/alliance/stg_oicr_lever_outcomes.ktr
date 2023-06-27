@@ -791,7 +791,8 @@
     </partitioning>
     <connection>DES_DB</connection>
     <sql>select doic.pk_id_oicr_info, doic.oicr_id, doic.id_phase
-from marloBI.dim_oicrs_info doic;
+from marloBI.dim_oicrs_info doic
+order by doic.oicr_id, doic.id_phase;
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -806,7 +807,7 @@ from marloBI.dim_oicrs_info doic;
         <name>pk_id_oicr_info</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_dim_oicrs</origin>
         <comments>pk_id_oicr_info</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -829,7 +830,7 @@ from marloBI.dim_oicrs_info doic;
         <name>oicr_id</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_dim_oicrs</origin>
         <comments>oicr_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -852,7 +853,7 @@ from marloBI.dim_oicrs_info doic;
         <name>id_phase</name>
         <length>15</length>
         <precision>0</precision>
-        <origin>input_stg_current_phases</origin>
+        <origin>input_dim_oicrs</origin>
         <comments>id_phase</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>.</decimal_symbol>
@@ -903,7 +904,8 @@ join alliance_levers le on le.id = lo.parent_id
 join phases ph on ph.id = sle.id_phase
 join bi_phase_by_cubes pbc on cube_name = if(ph.global_unit_id =45,'alliance_oicrs','oicrs')
 where ph.name = pbc.phase_name 
-and ph.year = pbc.phase_year;</sql>
+and ph.year = pbc.phase_year
+order by sle.expected_id, sle.id_phase;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
